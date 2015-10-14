@@ -20,11 +20,15 @@ reactive/bin/template/ReactiveW.class
 .metadata/.log
 
 *.xmi
+<<<<<<< HEAD
 *.index
 
 *.xml
+=======
 
-*.xml
+*.index
+>>>>>>> origin/master
+
 
 *.xmi
 
@@ -32,16 +36,22 @@ reactive/bin/template/ReactiveW.class
 
 *.png
 
-*.xml
+*.png
+<<<<<<< HEAD
 
-*.xml
+*.snap
 
-*.xml
+=======
+
+.metadata/.plugins/org.eclipse.core.resources/.history/46/a00ae20fb47200151e6a8aa90902e7d2
+
+*.snap
 
 *.png
 
 *.snap
 
+>>>>>>> origin/master
 *.resources
 
 *.xmi
@@ -50,6 +60,10 @@ reactive/bin/template/ReactiveW.class
 
 *.dat
 
+<<<<<<< HEAD
+=======
+*.xmi
+>>>>>>> origin/master
 
 *.resources
 
@@ -63,4 +77,14 @@ reactive/bin/template/ReactiveW.class
 
 *.xmi
 
+<<<<<<< HEAD
 *.snap
+=======
+*.xmi
+
+.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
+
+.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
+>>>>>>> origin/master
+
+reactive/history.xml

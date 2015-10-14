@@ -7,19 +7,19 @@
 	<agent name="reactiveW">
 		<set class-path="bin/"/>
 		<set class-name="template.ReactiveW"/>
-		<set discount-factor=".98"/>
+		<set discount-factor=".9999"/>
 	</agent>
 	
 	<agent name="reactive">
 		<set class-path="bin/"/>
 		<set class-name="template.Reactive"/>
-		<set discount-factor=".98"/>
+		<set discount-factor=".995"/>
 	</agent>
 	
 	<agent name="reactiveRandom">
 		<set class-path="bin/"/>
 		<set class-name="template.ReactiveRandom"/>
-		<set discount-factor=".98"/>
+		<set discount-factor=".995"/>
 	</agent>
 	
 </agents>
