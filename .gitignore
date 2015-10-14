@@ -2,3 +2,13 @@
 reactive/.classpath
 
 deliberative/.classpath
+
+*.class
+
+*.class
+
+*.class
+
+reactive/bin/template/ReactiveW.class
+
+*.class
