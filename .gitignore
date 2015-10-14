@@ -12,3 +12,13 @@ deliberative/.classpath
 reactive/bin/template/ReactiveW.class
 
 *.class
+
+*.snap
+
+*.zip
+
+.metadata/.log
+
+*.xmi
+
+*.xml
