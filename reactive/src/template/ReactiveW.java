@@ -21,7 +21,7 @@ public class ReactiveW implements ReactiveBehavior {
 
 	/**
 	 * TODO:
-	 * initial value of V?  V
+	 * initial value of V?  
 	 * proba : voir si correspond  V
 	 * un agent = plusieurs voitures !!! : rajouter un state par costPerKm  V
 	 * 
@@ -246,7 +246,7 @@ public class ReactiveW implements ReactiveBehavior {
 		int count = 0;
 		while(again) {
 			count++;
-			//System.out.println(count);
+			System.out.println(count);
 			again = false;
 			for(int s = 0; s<S.length; s++) {
 				double Q, maxQ=Integer.MIN_VALUE;
@@ -261,7 +261,7 @@ public class ReactiveW implements ReactiveBehavior {
 						bestAction = a;
 					}
 				}
-				if(Math.abs(V[s]-maxQ)>1) again = true;
+				if(Math.abs(V[s]-maxQ)>0.001) again = true;
 				V[s] = maxQ;
 				Best[s] = bestAction;
 			}
