@@ -261,7 +261,7 @@ public class ReactiveW implements ReactiveBehavior {
 						bestAction = a;
 					}
 				}
-				if(Math.abs(V[s]-maxQ)>10) again = true;
+				if(Math.abs(V[s]-maxQ)>1) again = true;
 				V[s] = maxQ;
 				Best[s] = bestAction;
 			}
