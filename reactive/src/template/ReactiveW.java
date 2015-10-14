@@ -3,7 +3,6 @@ package template;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 import logist.agent.Agent;
 import logist.behavior.ReactiveBehavior;
@@ -17,24 +16,6 @@ import logist.topology.Topology;
 import logist.topology.Topology.City;
 
 public class ReactiveW implements ReactiveBehavior {
-
-
-	/**
-	 * TODO:
-	 * initial value of V?  V
-	 * proba : voir si correspond  V
-	 * un agent = plusieurs voitures !!! : rajouter un state par costPerKm  V
-	 * 
-	 * peut pas prendre tache si sup a weight V
-	 * tenir compte de capacity-weight V
-	 * changer noms classes, run config etc V
-	 * lancer contest X
-	 * cleaner code + commentaires 
-	 * optimiser T
-	 * rapport
-	 * 
-	 * verif github marche
-	 */
 
 	////////////////////////////////////////////////////////
 	//													  //
@@ -172,7 +153,13 @@ public class ReactiveW implements ReactiveBehavior {
 
 	/**
 	 * Initialize the State Table.
-	 * 
+	 * The state table is a array of n*n states (where n is the number of cities)
+	 * An agent in state "i" is an agent whose vehicle is in city i%n and where 
+	 * there's an available task with city i/n as destination
+	 * For each state, we keep an Arraylist of possible actions
+	 * An action is a number ranging from 0 to n.
+	 * The action "i" means moving on city i when i < n
+	 * The action "i" means taking the task of the current city when i = n
 	 */
 	private void initS(TaskDistribution td, Agent agent) {
 		S = (ArrayList<Integer>[]) new ArrayList[numberOfStates];
@@ -194,6 +181,14 @@ public class ReactiveW implements ReactiveBehavior {
 		}
 	}
 
+	/**
+	 * Initialize the Reward Table.
+	 * The reward table maintains the reward corresponding to each possible pair of state-action.
+	 * It has the same size as the State table computed above.
+	 * It's a list of Hashmaps, where each entry of the list corresponds to a state (from 0 to (n*n)-1)
+	 * and each state maintains an Hashmap which contains (key,value) pairs. The key corresponds to the action 
+	 * number and the value to the corresponding reward.
+	 */
 	private void initR(TaskDistribution td, Agent agent) {
 		R = (HashMap<Integer,Double>[]) new HashMap[numberOfStates];
 
@@ -216,6 +211,10 @@ public class ReactiveW implements ReactiveBehavior {
 		}
 	}
 
+	/**
+	 * Initialization of the probability transition table
+	 * This probability transition table is exactly the same as the one described in the project statement
+	 */
 	private void initT(TaskDistribution td) {
 		T = new double[numberOfStates][numberOfActions][numberOfStates]; // all init to zeros
 		for(int s = 0; s<numberOfStates; s++) {
@@ -231,7 +230,10 @@ public class ReactiveW implements ReactiveBehavior {
 			}
 		}
 	}
-
+	
+	/**
+	 * Initialization of the best policy table (Best) and its corresponding best expected reward table (V).
+	 */
 	private void initV() {
 		V = new double[numberOfStates];
 		Best = new int[numberOfStates];
@@ -240,20 +242,21 @@ public class ReactiveW implements ReactiveBehavior {
 			V[v] = 1.0;
 		}
 	}
-
+	
+	
+	/**
+	 * Compute the best policy table using the Value Iteration algorithm.
+	 */
 	private void valueIteration() {
 		boolean again = true;
-		int count = 0;
 		while(again) {
-			count++;
-			//System.out.println(count);
 			again = false;
 			for(int s = 0; s<S.length; s++) {
 				double Q, maxQ=Integer.MIN_VALUE;
 				int bestAction = 0;
 				for(int a : S[s]) {
 					Q = R[s].get(a);
-					for(int sp = 0; sp<numberOfStates; sp++) { // optimiser
+					for(int sp = 0; sp<numberOfStates; sp++) {
 						Q += discount*T[s][a][sp]*V[sp];
 					}
 					if(Q>maxQ) {

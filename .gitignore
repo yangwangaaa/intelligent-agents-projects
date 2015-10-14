@@ -13,7 +13,6 @@ reactive/bin/template/ReactiveW.class
 
 *.class
 
-<<<<<<< HEAD
 *.snap
 
 *.zip
@@ -21,15 +20,12 @@ reactive/bin/template/ReactiveW.class
 .metadata/.log
 
 *.xmi
-=======
 *.index
 
 *.xml
->>>>>>> origin/master
 
 *.xml
 
-<<<<<<< Updated upstream
 *.xmi
 
 *.txt
@@ -43,17 +39,7 @@ reactive/bin/template/ReactiveW.class
 *.xml
 
 *.png
-<<<<<<< HEAD
 
-.metadata/.plugins/org.eclipse.core.resources/.history/46/a00ae20fb47200151e6a8aa90902e7d2
-
-*.snap
-
-*.png
-
-*.xml
-=======
-=======
 *.snap
 
 *.resources
@@ -63,10 +49,7 @@ reactive/bin/template/ReactiveW.class
 .metadata/.plugins/org.eclipse.jdt.core/externalLibsTimeStamps
 
 *.dat
->>>>>>> Stashed changes
 
-*.xmi
->>>>>>> origin/master
 
 *.resources
 
@@ -79,3 +62,5 @@ reactive/bin/template/ReactiveW.class
 *.dat
 
 *.xmi
+
+*.snap
