@@ -17,27 +17,6 @@ import logist.topology.Topology.City;
 
 public class ReactiveW implements ReactiveBehavior {
 
-<<<<<<< HEAD
-=======
-
-	/**
-	 * TODO:
-	 * initial value of V?  
-	 * proba : voir si correspond  V
-	 * un agent = plusieurs voitures !!! : rajouter un state par costPerKm  V
-	 * 
-	 * peut pas prendre tache si sup a weight V
-	 * tenir compte de capacity-weight V
-	 * changer noms classes, run config etc V
-	 * lancer contest X
-	 * cleaner code + commentaires 
-	 * optimiser T
-	 * rapport
-	 * 
-	 * verif github marche
-	 */
-
->>>>>>> origin/master
 	////////////////////////////////////////////////////////
 	//													  //
 	//					GLOBAL VARIABLES				  //
@@ -271,11 +250,6 @@ public class ReactiveW implements ReactiveBehavior {
 	private void valueIteration() {
 		boolean again = true;
 		while(again) {
-<<<<<<< HEAD
-=======
-			count++;
-			System.out.println(count);
->>>>>>> origin/master
 			again = false;
 			for(int s = 0; s<S.length; s++) {
 				double Q, maxQ=Integer.MIN_VALUE;
