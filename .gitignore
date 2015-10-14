@@ -29,6 +29,7 @@ reactive/bin/template/ReactiveW.class
 
 *.xml
 
+<<<<<<< Updated upstream
 *.xmi
 
 *.txt
@@ -42,3 +43,14 @@ reactive/bin/template/ReactiveW.class
 *.xml
 
 *.png
+=======
+*.snap
+
+*.resources
+
+*.xmi
+
+.metadata/.plugins/org.eclipse.jdt.core/externalLibsTimeStamps
+
+*.dat
+>>>>>>> Stashed changes
