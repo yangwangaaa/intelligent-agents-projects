@@ -13,6 +13,7 @@ reactive/bin/template/ReactiveW.class
 
 *.class
 
+<<<<<<< HEAD
 *.snap
 
 *.zip
@@ -20,5 +21,24 @@ reactive/bin/template/ReactiveW.class
 .metadata/.log
 
 *.xmi
+=======
+*.index
 
 *.xml
+>>>>>>> origin/master
+
+*.xml
+
+*.xmi
+
+*.txt
+
+*.png
+
+*.xml
+
+*.xml
+
+*.xml
+
+*.png
