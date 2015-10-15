@@ -3,6 +3,7 @@ package template;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import logist.agent.Agent;
 import logist.behavior.ReactiveBehavior;
@@ -15,7 +16,19 @@ import logist.task.TaskDistribution;
 import logist.topology.Topology;
 import logist.topology.Topology.City;
 
-public class ReactiveW implements ReactiveBehavior {
+public class Reactive implements ReactiveBehavior {
+
+
+	/**
+	 * TODO:
+	 * initial value of V?  V
+	 * proba : voir si correspond  V
+	 * un agent = plusieurs voitures !!! : rajouter un state par costPerKm  V
+	 * 
+	 * peut pas prendre tache si sup a weight V
+	 * tenir compte de capacity-weight 
+	 * optimiser T
+	 */
 
 	////////////////////////////////////////////////////////
 	//													  //
@@ -23,18 +36,22 @@ public class ReactiveW implements ReactiveBehavior {
 	//													  //
 	////////////////////////////////////////////////////////
 
+	private Random random;
+
 	private int numberOfCities;
 	private int numberOfStates;
 	private int numberOfActions;
 	private ArrayList<Integer>[] S;
 	private HashMap<Integer,Double>[] R;
-	private HashMap<Integer,HashMap<Integer,Double>>[] TP;
 	private double[][][] T;
 	private double[] V;
 	private int[] Best;
 	private Double discount;
 	private List<City> cities;
+	private Topology topology;
+	private TaskDistribution td;
 	private Agent agent;
+	private double val = 0.0;
 
 	// ADDED CODE - this variable counts how many actions have passed so far
 	int counterSteps = 0;
@@ -42,34 +59,54 @@ public class ReactiveW implements ReactiveBehavior {
 
 	////////////////////////////////////////////////////////
 	//													  //
+	//						SETUP						  //
+	//													  //
+	////////////////////////////////////////////////////////
+
+	@Override
+	public void setup(Topology topology, TaskDistribution td, Agent agent) {
+
+		System.out.println("!!!!!!!!!!! REACTIVE AGENT !!!!!!!!!!!!");
+
+		this.agent = agent;
+		this.td = td;
+		this.topology = topology;
+
+
+		initVars(topology, agent);
+
+		computeActionTable(topology, td, agent);
+
+	}
+
+	////////////////////////////////////////////////////////
+	//													  //
 	//						ACTIONS						  //
 	//													  //
 	////////////////////////////////////////////////////////
 
-	/**
-	 * We compute the current state from available informations :
-	 * - current city 
-	 * - deliver city of the available task if it exists
-	 * - available task weight
-	 * - vehicle capacity
-	 * After computing this state, we look for the best action to take in the best action table (= "Best")
-	 */
-	
 	@Override
 	public Action act(Vehicle vehicle, Task availableTask) {		
 
 
-		// This output gives information about the "goodness" of your agent (higher values are preferred)
+		// ADDED CODE - this output gives information about the "goodness" of your agent (higher values are preferred)
 		if ((counterSteps > 0)&&(counterSteps%100 == 0)) {
 			System.out.println("The total profit after "+counterSteps+" steps is "+agent.getTotalProfit()+".");
 			System.out.println("The profit per action after "+counterSteps+" steps is "+((double)agent.getTotalProfit() / counterSteps)+".");
 		}
 
+		/*
+		if ((counterSteps > 0)&&(counterSteps%200 == 0)) {
+			print("DISCOUNT = " + discount);
+			computeActionTable(topology, td, agent);
+		}
+		 */
+
 		counterSteps++;
-		
+		// END OF ADDED CODE
+
 		City from = vehicle.getCurrentCity();
 		City to = null;
-	
 		if(availableTask!=null && availableTask.weight<vehicle.capacity()) to = availableTask.deliveryCity;
 
 		int state = from.id*numberOfCities + from.id;
@@ -80,30 +117,6 @@ public class ReactiveW implements ReactiveBehavior {
 		if(bestAction == numberOfCities) return new Pickup(availableTask);
 		else return new Move(cities.get(bestAction));
 	}
-	
-	////////////////////////////////////////////////////////
-	//													  //
-	//						SETUP						  //
-	//													  //
-	////////////////////////////////////////////////////////
-	
-	/**
-	 * Initialize the structures used in order to compute the strategy table
-	 * by value iteration
-	 */
-
-	@Override
-	public void setup(Topology topology, TaskDistribution td, Agent agent) {
-
-		System.out.println("!!!!!!!!!!! FINAL REACTIVEW AGENT !!!!!!!!!!!!");
-
-		this.agent = agent;
-
-		initVars(topology, agent);
-
-		computeActionTable(topology, td, agent);
-
-	}
 
 	////////////////////////////////////////////////////////
 	//													  //
@@ -111,12 +124,10 @@ public class ReactiveW implements ReactiveBehavior {
 	//													  //
 	////////////////////////////////////////////////////////
 
-	/**
-	 * Initialize the structures and launch the value iteration algorithm
-	 * in order to build the strategy table used in the simulation to choose
-	 * the action maximizing the expected profit.
-	 */
 	private void computeActionTable(Topology topology, TaskDistribution td, Agent agent) {
+
+		//discount = Math.min(0.84+val, 1.0);
+		//val = val+0.01;
 
 		initS(td, agent);
 		//print(S);
@@ -130,40 +141,28 @@ public class ReactiveW implements ReactiveBehavior {
 		initV();
 		//print(V);
 
+
 		valueIteration();
 
 		print(V);
 		print(Best);
 	}
 
-	/**
-	 * Initialize principal variables
-	 */
 	private void initVars(Topology topology, Agent agent) {
 		// Reads the discount factor from the agents.xml file.
 		// If the property is not present it defaults to 0.95
 		discount = agent.readProperty("discount-factor", Double.class,
 				0.95);
-		
-		System.out.println("DISCOUNT = " + discount);
+
+		this.random = new Random();
 
 		numberOfCities = topology.size();
-		numberOfStates =  numberOfCities * numberOfCities;
+		numberOfStates =  numberOfCities * (numberOfCities);
 		numberOfActions = numberOfCities+1;
 
 		cities = topology.cities();
 	}
 
-	/**
-	 * Initialize the State Table.
-	 * The state table is a array of n*n states (where n is the number of cities)
-	 * An agent in state "i" is an agent whose vehicle is in city i%n and where 
-	 * there's an available task with city i/n as destination
-	 * For each state, we keep an Arraylist of possible actions
-	 * An action is a number ranging from 0 to n.
-	 * The action "i" means moving on city i when i < n
-	 * The action "i" means taking the task of the current city when i = n
-	 */
 	private void initS(TaskDistribution td, Agent agent) {
 		S = (ArrayList<Integer>[]) new ArrayList[numberOfStates];
 
@@ -178,20 +177,12 @@ public class ReactiveW implements ReactiveBehavior {
 			}
 
 			// if to==from, cannot do the 'pick up' action in this state
-			if(to!=from && td.weight(from, to) < agent.vehicles().get(0).capacity()) {  
+			if(to!=from) { 
 				S[s].add(numberOfCities); // id of the 'pick up' action
 			}
 		}
 	}
 
-	/**
-	 * Initialize the Reward Table.
-	 * The reward table maintains the reward corresponding to each possible pair of state-action.
-	 * It has the same size as the State table computed above.
-	 * It's a list of Hashmaps, where each entry of the list corresponds to a state (from 0 to (n*n)-1)
-	 * and each state maintains an Hashmap which contains (key,value) pairs. The key corresponds to the action 
-	 * number and the value to the corresponding reward.
-	 */
 	private void initR(TaskDistribution td, Agent agent) {
 		R = (HashMap<Integer,Double>[]) new HashMap[numberOfStates];
 
@@ -207,47 +198,29 @@ public class ReactiveW implements ReactiveBehavior {
 			}
 
 			// if to==from, cannot do the 'pick up' action in this state
-			if(to!=from && td.weight(from, to) < agent.vehicles().get(0).capacity()) { 
+			if(to!=from) { 
 				double reward = td.reward(from, to) - from.distanceTo(to)*agent.vehicles().get(0).costPerKm();
 				R[s].put(numberOfCities, reward);
 			}
 		}
 	}
 
-	/**
-	 * Initialization of the probability transition table
-	 * This probability transition table is exactly the same as the one described in the project statement
-	 */
 	private void initT(TaskDistribution td) {
 		T = new double[numberOfStates][numberOfActions][numberOfStates]; // all init to zeros
-		TP = (HashMap<Integer,HashMap<Integer,Double>>[]) new HashMap[numberOfStates];
-		
 		for(int s = 0; s<numberOfStates; s++) {
-			TP[s] = new HashMap<Integer,HashMap<Integer,Double>>();
 			City to = cities.get(indexCityTo(s));
 			for(int action : S[s]) {
-				HashMap<Integer,Double> states = new HashMap<Integer,Double>();
 				City dest = to;
 				if (action!=numberOfCities) dest = cities.get(action);
 				for(int c = 0; c<numberOfCities; c++) {
 					int newState = c*numberOfCities+dest.id;
-					if(c!=dest.id) {
-						states.put(newState, td.probability(dest, cities.get(c)));
-						T[s][action][newState] = td.probability(dest, cities.get(c));
-					}
-					else {
-						states.put(newState, td.probability(dest, null));
-						T[s][action][newState] = td.probability(dest, null);
-					}
+					if(c!=dest.id) T[s][action][newState] = td.probability(dest, cities.get(c));
+					else T[s][action][newState] = td.probability(dest, null);
 				}
-				TP[s].put(action, states);
 			}
 		}
 	}
-	
-	/**
-	 * Initialization of the best policy table (Best) and its corresponding best expected reward table (V).
-	 */
+
 	private void initV() {
 		V = new double[numberOfStates];
 		Best = new int[numberOfStates];
@@ -256,32 +229,28 @@ public class ReactiveW implements ReactiveBehavior {
 			V[v] = 1.0;
 		}
 	}
-	
-	
-	/**
-	 * Compute the best policy table using the Value Iteration algorithm.
-	 */
+
 	private void valueIteration() {
 		boolean again = true;
+		int count = 0;
 		while(again) {
+			count++;
+			//System.out.println(count);
 			again = false;
 			for(int s = 0; s<S.length; s++) {
 				double Q, maxQ=Integer.MIN_VALUE;
 				int bestAction = 0;
 				for(int a : S[s]) {
 					Q = R[s].get(a);
-					int to = a;
-					if(a==numberOfCities) to = indexCityTo(s);
-					for(int sp = to; sp<numberOfStates; sp+=numberOfCities) {
-						//Q += discount*T[s][a][sp]*V[sp];
-						Q += discount*TP[s].get(a).get(sp)*V[sp];
+					for(int sp = 0; sp<numberOfStates; sp++) { // optimiser
+						Q += discount*T[s][a][sp]*V[sp];
 					}
 					if(Q>maxQ) {
 						maxQ = Q;
 						bestAction = a;
 					}
 				}
-				if(Math.abs(V[s]-maxQ)>0.001) again = true;
+				if(Math.abs(V[s]-maxQ)>10) again = true;
 				V[s] = maxQ;
 				Best[s] = bestAction;
 			}
@@ -289,7 +258,6 @@ public class ReactiveW implements ReactiveBehavior {
 
 		print("Terminated");
 	}
-	
 
 
 	////////////////////////////////////////////////////////
@@ -369,5 +337,73 @@ public class ReactiveW implements ReactiveBehavior {
 
 	private int indexCityTo(int state) {
 		return state/numberOfCities;
+	}
+
+
+
+	////////////////////////////////////////////////////////
+	//													  //
+	//						  OLD 						  //
+	//													  //
+	////////////////////////////////////////////////////////
+
+	private void initStructures(Topology topology, Agent agent) {
+		// Reads the discount factor from the agents.xml file.
+		// If the property is not present it defaults to 0.95
+		discount = agent.readProperty("discount-factor", Double.class,
+				0.95);
+		this.random = new Random();
+
+		// Init structures :
+
+		numberOfCities = topology.size();
+		numberOfStates =  numberOfCities * (numberOfCities+1);
+		numberOfActions = numberOfCities+1;
+		S = (ArrayList<Integer>[]) new ArrayList[numberOfStates];
+		R = (HashMap<Integer,Double>[]) new HashMap[numberOfStates];
+		T = new double[numberOfStates][numberOfActions][numberOfStates]; // all init to zeros
+		V = new double[numberOfStates];
+		Best = new int[numberOfStates];
+
+		cities = topology.cities();
+	}
+
+	private void fillStructures(Topology topology, TaskDistribution td) {
+		for(int s = 0; s<numberOfStates; s++) {
+			S[s] = new ArrayList<Integer>();
+			R[s] = new HashMap<Integer,Double>();
+
+
+			List<City> cities = topology.cities();
+			City from = cities.get(indexCityFrom(s));
+			City to = null;
+			if(s<numberOfCities*numberOfCities) to = cities.get(indexCityTo(s));
+
+			for(City neighbor : from) {
+				S[s].add(neighbor.id); // id of the city on which to move
+				R[s].put(neighbor.id, -from.distanceTo(neighbor));
+
+				double probaNoTask = 1.0;
+				for(int sp = neighbor.id; sp<numberOfStates; sp+=numberOfCities) {
+					if(sp<numberOfCities*numberOfCities) { 
+						City toto = cities.get(indexCityTo(sp));
+						double proba = td.probability(neighbor, toto);
+						probaNoTask *= (1-proba);
+						T[s][neighbor.id][sp] = proba;
+					}
+					else {
+						T[s][neighbor.id][sp] = probaNoTask; // FALSE : mettre null
+					}
+				}
+			}
+
+			// if to==null, cannot do the 'pick up' action in this state
+			if(to!=null) { 
+				S[s].add(numberOfCities); // id of the 'pick up' action
+
+				double reward = td.reward(from, to); // ????
+				R[s].put(numberOfCities, reward);
+			}
+		}
 	}
 }
