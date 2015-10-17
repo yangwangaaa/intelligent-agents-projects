@@ -4,22 +4,22 @@
 	<!-- A list of agents and their behavior classes -->
 	
 	<!-- #### REACTIVE AGENTS ### -->
-	<agent name="reactiveW">
+	<agent name="reactive99">
 		<set class-path="bin/"/>
 		<set class-name="template.ReactiveW"/>
-		<set discount-factor="0.999"/>
+		<set discount-factor="0.99"/>
 	</agent>
 	
-	<agent name="reactive">
+	<agent name="reactiveZero">
 		<set class-path="bin/"/>
-		<set class-name="template.Reactive"/>
-		<set discount-factor=".995"/>
+		<set class-name="template.ReactiveW"/>
+		<set discount-factor="0.0"/>
 	</agent>
 	
 	<agent name="reactiveRandom">
 		<set class-path="bin/"/>
 		<set class-name="template.ReactiveRandom"/>
-		<set discount-factor=".995"/>
+		<set discount-factor=".99"/>
 	</agent>
 	
 </agents>

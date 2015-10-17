@@ -61,7 +61,7 @@ public class ReactiveW implements ReactiveBehavior {
 
 		// This output gives information about the "goodness" of your agent (higher values are preferred)
 		if ((counterSteps > 0)&&(counterSteps%100 == 0)) {
-			System.out.println("The total profit after "+counterSteps+" steps is "+agent.getTotalProfit()+".");
+			System.out.println("discount = " + discount + "  The total profit after "+counterSteps+" steps is "+agent.getTotalProfit()+".");
 			System.out.println("The profit per action after "+counterSteps+" steps is "+((double)agent.getTotalProfit() / counterSteps)+".");
 		}
 
@@ -219,7 +219,7 @@ public class ReactiveW implements ReactiveBehavior {
 	 * This probability transition table is exactly the same as the one described in the project statement
 	 */
 	private void initT(TaskDistribution td) {
-		T = new double[numberOfStates][numberOfActions][numberOfStates]; // all init to zeros
+		// T = new double[numberOfStates][numberOfActions][numberOfStates]; // all init to zeros
 		TP = (HashMap<Integer,HashMap<Integer,Double>>[]) new HashMap[numberOfStates];
 		
 		for(int s = 0; s<numberOfStates; s++) {
@@ -233,11 +233,11 @@ public class ReactiveW implements ReactiveBehavior {
 					int newState = c*numberOfCities+dest.id;
 					if(c!=dest.id) {
 						states.put(newState, td.probability(dest, cities.get(c)));
-						T[s][action][newState] = td.probability(dest, cities.get(c));
+						// T[s][action][newState] = td.probability(dest, cities.get(c));
 					}
 					else {
 						states.put(newState, td.probability(dest, null));
-						T[s][action][newState] = td.probability(dest, null);
+						// T[s][action][newState] = td.probability(dest, null);
 					}
 				}
 				TP[s].put(action, states);
@@ -265,24 +265,24 @@ public class ReactiveW implements ReactiveBehavior {
 		boolean again = true;
 		while(again) {
 			again = false;
-			for(int s = 0; s<S.length; s++) {
+			for(int s = 0; s<S.length; s++) { // Loop on all states
 				double Q, maxQ=Integer.MIN_VALUE;
 				int bestAction = 0;
-				for(int a : S[s]) {
+				for(int a : S[s]) { // Try to find best action
 					Q = R[s].get(a);
 					int to = a;
 					if(a==numberOfCities) to = indexCityTo(s);
-					for(int sp = to; sp<numberOfStates; sp+=numberOfCities) {
+					for(int sp = to; sp<numberOfStates; sp+=numberOfCities) { // Expected future reward
 						//Q += discount*T[s][a][sp]*V[sp];
 						Q += discount*TP[s].get(a).get(sp)*V[sp];
 					}
-					if(Q>maxQ) {
+					if(Q>maxQ) { 
 						maxQ = Q;
 						bestAction = a;
 					}
 				}
-				if(Math.abs(V[s]-maxQ)>0.001) again = true;
-				V[s] = maxQ;
+				if(Math.abs(V[s]-maxQ)>0.001) again = true; //Stopping criteria
+				V[s] = maxQ; //update V(S)
 				Best[s] = bestAction;
 			}
 		}

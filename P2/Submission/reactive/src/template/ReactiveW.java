@@ -144,6 +144,8 @@ public class ReactiveW implements ReactiveBehavior {
 		// If the property is not present it defaults to 0.95
 		discount = agent.readProperty("discount-factor", Double.class,
 				0.95);
+		
+		System.out.println("DISCOUNT = " + discount);
 
 		numberOfCities = topology.size();
 		numberOfStates =  numberOfCities * numberOfCities;
