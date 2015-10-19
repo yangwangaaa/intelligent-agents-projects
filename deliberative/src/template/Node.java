@@ -54,10 +54,7 @@ public class Node implements Comparator<Node>{
 		return (this.state.equals(n.state));
 	}
 
-	@Override
-	public int compareTo(Node o) {
-		return compare(this, o);
-	}
+
 	
 	
 }

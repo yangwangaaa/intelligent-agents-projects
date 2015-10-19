@@ -1,193 +1,48 @@
-.metadata/**
-.recommenders/**
-.DS_Store/**
+*.pydevproject
+.metadata
+.gradle
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
 
-/.metadata
-/.recommenders
-/.DS_Store
+# Eclipse Core
+.project
 
-*.tis
+# External tool builders
+.externalToolBuilders/
 
-*.tii
+# Locally stored "Eclipse launch configurations"
+*.launch
 
-*.prx
+# CDT-specific
+.cproject
 
-*.nrm
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
 
-*.frq
+# Java annotation processor (APT)
+.factorypath
 
-*.fnm
+# PDT-specific
+.buildpath
 
-*.fdx
+# sbteclipse plugin
+.target
 
-*.fdt
-
-*.dat
-
-*.txt
-
-*.index
-
-*.snap
-
-*.zip
-
-*.xmi
-
-*.resources
-
-*.class
-*.ini
-
-*.dat
-
-*.txt
-
-*.index
-
-*.prefs
-
-*.xmi
-
-*.properties
-
-
-*.xmi
-*.index
-
+# TeXlipse plugin
+.texlipse
 *.xml
 
-*.index
-
-
-*.xmi
-
 *.txt
-
-*.png
-
-*.png
-
-*.snap
-
-reactive/.classpath
-
-deliberative/.classpath
-
-
-*.class
-
-*.class
-
-reactive/bin/template/ReactiveW.class
-
-*.class
-
-
-.metadata/.log
-
-
-
-
-.metadata/.plugins/org.eclipse.core.resources/.history/46/a00ae20fb47200151e6a8aa90902e7d2
-
-*.snap
-
-*.png
-
-*.snap
-
-*.resources
-
-*.xmi
-
-.metadata/.plugins/org.eclipse.jdt.core/externalLibsTimeStamps
 
 *.dat
 
-*.xmi
-
-*.resources
-
-*.snap
-
-*.xmi
-
-.metadata/.plugins/org.eclipse.jdt.core/externalLibsTimeStamps
-
-*.dat
-
-*.xmi
-
-*.snap
-*.xmi
-
-.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
-
-.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
-
-reactive/history.xml
-
-
-.metadata/.plugins/org.eclipse.ui.ide/dialog_settings.xml
-
-.metadata/.plugins/org.eclipse.ui.workbench/dialog_settings.xml
-
-.metadata/.plugins/org.eclipse.debug.ui/launchConfigurationHistory.xml
-
-*.resources
-
-*.xmi
-
-.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
-
-.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
-
-.metadata/.plugins/org.eclipse.debug.core/.launches/Deliberative.launch
-
-*.properties
-
-*.gen
-
-*.gen
-
-.recommenders/index/http___download_eclipse_org_recommenders_models_luna_/segments_5
-
-*.tis
-
-*.tii
-
-*.prx
-
-*.nrm
-
-*.frq
-
-*.fnm
-
-*.fdx
-
-*.fdt
-
-*.dat
-
-*.txt
-
 *.index
 
 *.xmi
-
-*.resources
-
-*.txt
-
-*.index
-
-*.xmi
-
-*.resources
-
-.metadata/**
-.recommenders/**
-.DS_Store/**
-*.index
