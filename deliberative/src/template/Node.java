@@ -58,4 +58,6 @@ public class Node implements Comparator<Node>{
 	public int compareTo(Node o) {
 		return compare(this, o);
 	}
+	
+	
 }
