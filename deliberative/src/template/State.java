@@ -4,13 +4,24 @@ import logist.task.TaskSet;
 import logist.topology.Topology.City;
 
 public class State {
-	public City city;
-	public TaskSet carriedTasks;
-	public TaskSet deliveredTasks;
-	public State(City city, TaskSet carriedTasks, TaskSet deliveredTasks) {
+	private City city;
+	private TaskSet carriedTasks;
+	private TaskSet deliveredTasks;
+	private double availableCapacity;
+	
+	public double getAvailableCapacity() {
+		return availableCapacity;
+	}
+
+	public void setAvailableCapacity(double availableCapacity) {
+		this.availableCapacity = availableCapacity;
+	}
+
+	public State(City city, TaskSet carriedTasks, TaskSet deliveredTasks, double availableCapacity) {
 		this.city = city;
 		this.carriedTasks = carriedTasks;
 		this.deliveredTasks = deliveredTasks;
+		this.availableCapacity = availableCapacity;
 	}
 	
 	public City getCity() {

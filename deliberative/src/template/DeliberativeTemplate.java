@@ -138,11 +138,11 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 			if( !C.containsKey(currentState) || currentNode.getCost()<C.get(currentState)) {
 				C.put(currentState, currentNode.getCost());
-				
+
 				ArrayList<Node> S = getSuccessors(currentNode, tasks);
-				
+
 				Q.addAll(S);
-				
+
 				Collections.sort(Q);
 			}	
 		}
@@ -150,36 +150,61 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		return null;
 	}
 
-	private ArrayList<Node> getSuccessors(Node node, TaskSet tasks) {
+	private ArrayList<Node> getSuccessors(Node currentNode, TaskSet tasks) {
 		ArrayList<Node> successors = new ArrayList<Node>();
-		for(Task tast : tasks) {
-			if(task.)
+		State currentState = currentNode.getState();
+		
+		TaskSet availableTasks = TaskSet.noneOf(tasks);
+		TaskSet tasksToBeDelivered = TaskSet.noneOf(tasks);
+		for(Task task : tasks) {
+			if(task.pickupCity == currentState.getCity()) availableTasks.add(task);
+			if(task.deliveryCity == currentState.getCity()) tasksToBeDelivered.add(task);
 		}
-		Set<TaskSet> powerSet = 
+		Set<TaskSet> powerTaskSet = powerSet(availableTasks);
+
+		for (City neighbor : currentState.getCity().neighbors()) {
+			
+			TaskSet deliveredTasks = TaskSet.intersect(currentState.getCarriedTasks(), tasksToBeDelivered);
+			TaskSet carriedTasks = TaskSet.intersectComplement( currentState.getCarriedTasks(), deliveredTasks);
+			TaskSet allDeliveredTasks = TaskSet.union(currentState.getDeliveredTasks(), deliveredTasks);
+			
+			double availableCapacity = currentState.getAvailableCapacity() - deliveredTasks.weightSum();
+			State newState = new State(neighbor, carriedTasks, allDeliveredTasks, availableCapacity);
+			
+			double cost = currentNode.getCost() + currentState.getCity().distanceTo(neighbor);
+			Node newNode = new Node(newState, currentNode, cost);
+			
+			successors.add(newNode);
+			
+			for(TaskSet taskSet : powerTaskSet) {
+
+			}
+		}
+
 		return successors;
 	}
-	
-	
+
+
 	/**
 	 * http://stackoverflow.com/questions/1670862/obtaining-a-powerset-of-a-set-in-java
 	 */
-	public static <T> Set<Set<T>> powerSet(Set<T> originalSet) {
-	    Set<Set<T>> sets = new HashSet<Set<T>>();
-	    if (originalSet.isEmpty()) {
-	    	sets.add(new HashSet<T>());
-	    	return sets;
-	    }
-	    List<T> list = new ArrayList<T>(originalSet);
-	    T head = list.get(0);
-	    Set<T> rest = new HashSet<T>(list.subList(1, list.size())); 
-	    for (Set<T> set : powerSet(rest)) {
-	    	Set<T> newSet = new HashSet<T>();
-	    	newSet.add(head);
-	    	newSet.addAll(set);
-	    	sets.add(newSet);
-	    	sets.add(set);
-	    }		
-	    return sets;
+	public static <Task> Set<Set<Task>> powerSet(Set<Task> originalSet) {
+		Set<Set<Task>> sets = new HashSet<Set<Task>>();
+		if (originalSet.isEmpty()) {
+			sets.add(new HashSet<Task>());
+			return sets;
+		}
+		List<Task> list = new ArrayList<Task>(originalSet);
+		Task head = list.get(0);
+		Set<Task> rest = new HashSet<Task>(list.subList(1, list.size())); 
+		for (Set<Task> set : powerSet(rest)) {
+			Set<Task> newSet = new HashSet<Task>();
+			newSet.add(head);
+			newSet.addAll(set);
+			sets.add(newSet);
+			sets.add(set);
+		}		
+		return sets;
 	}
 
 	//TODO static?

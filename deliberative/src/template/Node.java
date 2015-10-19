@@ -2,12 +2,13 @@ package template;
 
 import java.util.Comparator;
 
-public class Node implements Comparator<Node>,  Comparable<Node>{
-	public State state;
-	public Node parent;
-	public double cost;
+
+public class Node implements Comparator<Node>{
+	private State state;
+	private Node parent;
+	private double cost;
 	
-	public Node(State state, Node parent, int cost){
+	public Node(State state, Node parent, double cost){
 		this.state = state;
 		this.parent = parent;
 		this.cost = cost;
