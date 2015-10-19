@@ -108,3 +108,7 @@ reactive/history.xml
 .metadata/.plugins/org.eclipse.ui.workbench/dialog_settings.xml
 
 .metadata/.plugins/org.eclipse.debug.ui/launchConfigurationHistory.xml
+
+*.resources
+
+*.xmi
