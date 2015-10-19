@@ -123,7 +123,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		Plan plan = new Plan(current);
 
 		State initialState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), tasks.noneOf(tasks));
-		Node root = new Node(initialState, ...);
+		Node root = new Node(initialState, null, 0);
 
 		HashMap<State, Integer> C = new HashMap<State, Integer>();
 		ArrayList<Node> Q = new ArrayList<Node>();
@@ -138,7 +138,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 			if( !C.containsKey(currentState) || currentNode.getCost()<C.get(currentState)) {
 				C.put(currentState, currentNode.getCost());
 				
-				ArrayList<Node> S = getSuccessors(currentState);
+				ArrayList<Node> S = getSuccessors(currentState, tasks);
 				
 				Q.add(S);
 				
@@ -149,9 +149,9 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		return null;
 	}
 
-	private ArrayList<Node> getSuccessors(Node node) {
+	private ArrayList<Node> getSuccessors(Node node, TaskSet tasks) {
 		ArrayList<Node> successors = new ArrayList<Node>();
-		Set<TaskSet>
+		Set<TaskSet> powerSet = 
 		return successors;
 	}
 	
