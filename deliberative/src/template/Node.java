@@ -48,7 +48,7 @@ public class Node implements Comparator<Node>, Comparable<Node>{
 	}
 
 	public double H(State s){
-		return 1;
+		return 0;
 	}
 	public boolean equals(Node n){
 		return (this.state.equals(n.state));
