@@ -179,4 +179,8 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 	    return sets;
 	}
 
+	//TODO static?
+	public static boolean isFinalState(State s, Vehicle v, TaskSet tasks){
+		return(s.deliveredTasks.containsAll( TaskSet.union(v.getCurrentTasks(), tasks)));
+	}
 }
