@@ -136,6 +136,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 			if(isFinal(currentState)) return computeFinalPlan(currentNode);
 
+			
 			if( !C.containsKey(currentState) || currentNode.getCost()<C.get(currentState)) {
 				C.put(currentState, currentNode.getCost());
 
