@@ -191,7 +191,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 	/**
 	 * http://stackoverflow.com/questions/1670862/obtaining-a-powerset-of-a-set-in-java
 	 */
-	public static <Task> Set<Set<Task>> powerSet(Set<Task> originalSet) {
+	public static Set<Set<Task>> powerSet(Set<Task> originalSet) {
 		Set<Set<Task>> sets = new HashSet<Set<Task>>();
 		if (originalSet.isEmpty()) {
 			sets.add(new HashSet<Task>());
@@ -211,7 +211,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 	}
 
 	//TODO static?
-	public static boolean isFinalState(State s, Vehicle v, TaskSet tasks){
-		return(s.deliveredTasks.containsAll( TaskSet.union(v.getCurrentTasks(), tasks)));
+	public static boolean isFinal(State s, Vehicle v, TaskSet tasks){
+		return(s.getDeliveredTasks().containsAll( TaskSet.union(v.getCurrentTasks(), tasks)));
 	}
 }
