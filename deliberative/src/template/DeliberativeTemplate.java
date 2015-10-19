@@ -49,9 +49,21 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 		// ...
 	}
+	public void Print(String s){
+		System.out.println(s);
+	}
+	public void PrintI(int i){
+		System.out.println(i);
+	}
+	public void PrintTaskSet(TaskSet tasks){
+		for( Task t : tasks){
+			System.out.println(t);
+		}
+	}
 
 	@Override
 	public Plan plan(Vehicle vehicle, TaskSet tasks) {
+		PrintTaskSet(tasks);
 		Plan plan;
 
 		// Compute the plan with the selected algorithm.
@@ -112,42 +124,42 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 			this.carriedTasks = carriedTasks;
 			this.deliveredTasks = deliveredTasks;
 		}
-		
+
 		public City getCity() {
 			return city;
 		}
-		
+
 		public TaskSet getCarriedTasks() {
 			return carriedTasks;
 		}
-		
+
 		public TaskSet getDeliveredTasks() {
 			return deliveredTasks;
 		}
-		
+
 		public void setCity(City city) {
 			this.city = city;
 		}
-		
+
 		public void setCarriedTasks(TaskSet carriedTasks) {
 			this.carriedTasks = carriedTasks;
 		}
-		
+
 		public void setDeliveredTasks(TaskSet deliveredTasks) {
 			this.deliveredTasks = deliveredTasks;
 		}
 	}
-	
-	private Plan AStar(Vehicle vehicle, TaskSet tasks) {
-		HashMap<State, Boolean> H = new HashMap<State, Boolean>();
-		City current = vehicle.getCurrentCity();
-		Plan plan = new Plan(current);
-		PriorityQueue<Node> Q = new PriorityQueue<Node>();
-		State currentState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), tasks.noneOf(tasks));
-		Node root = new Node(currentState, ...);
-		Q.add(root);
-		
-		return plan;
-	}
-	
+
+	//	private Plan AStar(Vehicle vehicle, TaskSet tasks) {
+	//		HashMap<State, Boolean> H = new HashMap<State, Boolean>();
+	//		City current = vehicle.getCurrentCity();
+	//		Plan plan = new Plan(current);
+	//		PriorityQueue<Node> Q = new PriorityQueue<Node>();
+	//		State currentState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), tasks.noneOf(tasks));
+	//		Node root = new Node(currentState, ...);
+	//		Q.add(root);
+	//		
+	//		return plan;
+	//	}
+
 }
