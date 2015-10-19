@@ -2,6 +2,8 @@ package template;
 
 /* import table */
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.PriorityQueue;
 
 import logist.agent.Agent;
 import logist.behavior.DeliberativeBehavior;
@@ -103,14 +105,49 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 	private class State {
 		public City city;
-		public ArrayList<Task> carriedTasks;
-		public ArrayList<Task> deliveredTasks;
-		public State(City city, ArrayList<Task> carriedTasks, ArrayList<Task> deliveredTasks) {
+		public TaskSet carriedTasks;
+		public TaskSet deliveredTasks;
+		public State(City city, TaskSet carriedTasks, TaskSet deliveredTasks) {
 			this.city = city;
 			this.carriedTasks = carriedTasks;
 			this.deliveredTasks = deliveredTasks;
 		}
 		
+		public City getCity() {
+			return city;
+		}
+		
+		public TaskSet getCarriedTasks() {
+			return carriedTasks;
+		}
+		
+		public TaskSet getDeliveredTasks() {
+			return deliveredTasks;
+		}
+		
+		public void setCity(City city) {
+			this.city = city;
+		}
+		
+		public void setCarriedTasks(TaskSet carriedTasks) {
+			this.carriedTasks = carriedTasks;
+		}
+		
+		public void setDeliveredTasks(TaskSet deliveredTasks) {
+			this.deliveredTasks = deliveredTasks;
+		}
+	}
+	
+	private Plan AStar(Vehicle vehicle, TaskSet tasks) {
+		HashMap<State, Boolean> H = new HashMap<State, Boolean>();
+		City current = vehicle.getCurrentCity();
+		Plan plan = new Plan(current);
+		PriorityQueue<Node> Q = new PriorityQueue<Node>();
+		State currentState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), tasks.noneOf(tasks));
+		Node root = new Node(currentState, ...);
+		Q.add(root);
+		
+		return plan;
 	}
 	
 }
