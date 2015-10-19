@@ -4,6 +4,9 @@ package template;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.List;
 
 import logist.agent.Agent;
 import logist.behavior.DeliberativeBehavior;
@@ -115,64 +118,65 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		}
 	}
 
-//	private Plan AStar(Vehicle vehicle, TaskSet tasks) {
-//		City current = vehicle.getCurrentCity();
-//		Plan plan = new Plan(current);
-//
-//		State initialState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), tasks.noneOf(tasks));
-//		Node root = new Node(initialState, ...);
-//
-//		HashMap<State, Integer> C = new HashMap<State, Integer>();
-//		ArrayList<Node> Q = new ArrayList<Node>();
-//		Q.add(root);
-//
-//		while(Q.isEmpty()>0) {
-//			Node currentNode = Q.get(0);
-//			State currentState = currentNode.getState();
-//
-//			if(isFinal(currentState)) return computeFinalPlan(currentNode);
-//
-//			if( !C.containsKey(currentState) || currentNode.getCost()<C.get(currentState)) {
-//				C.put(currentState, currentNode.getCost());
-//				
-//				ArrayList<Node> S = getSuccessors(currentState);
-//				
-//				Q.add(S);
-//				
-//				Collections.sort(Q);
-//			}	
-//		}
-//
-//		return null;
-//	}
-//
-//	private ArrayList<Node> getSuccessors(Node node) {
-//		ArrayList<Node> successors = new ArrayList<Node>();
-//		
-//		return successors;
-//	}
-//	
-//	
-//	/**
-//	 * http://stackoverflow.com/questions/1670862/obtaining-a-powerset-of-a-set-in-java
-//	 */
-//	public static <T> Set<Set<T>> powerSet(Set<T> originalSet) {
-//	    Set<Set<T>> sets = new HashSet<Set<T>>();
-//	    if (originalSet.isEmpty()) {
-//	    	sets.add(new HashSet<T>());
-//	    	return sets;
-//	    }
-//	    List<T> list = new ArrayList<T>(originalSet);
-//	    T head = list.get(0);
-//	    Set<T> rest = new HashSet<T>(list.subList(1, list.size())); 
-//	    for (Set<T> set : powerSet(rest)) {
-//	    	Set<T> newSet = new HashSet<T>();
-//	    	newSet.add(head);
-//	    	newSet.addAll(set);
-//	    	sets.add(newSet);
-//	    	sets.add(set);
-//	    }		
-//	    return sets;
-//	}
+
+	private Plan AStar(Vehicle vehicle, TaskSet tasks) {
+		City current = vehicle.getCurrentCity();
+		Plan plan = new Plan(current);
+
+		State initialState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), tasks.noneOf(tasks));
+		Node root = new Node(initialState, ...);
+
+		HashMap<State, Integer> C = new HashMap<State, Integer>();
+		ArrayList<Node> Q = new ArrayList<Node>();
+		Q.add(root);
+
+		while(Q.isEmpty()>0) {
+			Node currentNode = Q.get(0);
+			State currentState = currentNode.getState();
+
+			if(isFinal(currentState)) return computeFinalPlan(currentNode);
+
+			if( !C.containsKey(currentState) || currentNode.getCost()<C.get(currentState)) {
+				C.put(currentState, currentNode.getCost());
+				
+				ArrayList<Node> S = getSuccessors(currentState);
+				
+				Q.add(S);
+				
+				Collections.sort(Q);
+			}	
+		}
+
+		return null;
+	}
+
+	private ArrayList<Node> getSuccessors(Node node) {
+		ArrayList<Node> successors = new ArrayList<Node>();
+		Set<TaskSet>
+		return successors;
+	}
+	
+	
+	/**
+	 * http://stackoverflow.com/questions/1670862/obtaining-a-powerset-of-a-set-in-java
+	 */
+	public static <T> Set<Set<T>> powerSet(Set<T> originalSet) {
+	    Set<Set<T>> sets = new HashSet<Set<T>>();
+	    if (originalSet.isEmpty()) {
+	    	sets.add(new HashSet<T>());
+	    	return sets;
+	    }
+	    List<T> list = new ArrayList<T>(originalSet);
+	    T head = list.get(0);
+	    Set<T> rest = new HashSet<T>(list.subList(1, list.size())); 
+	    for (Set<T> set : powerSet(rest)) {
+	    	Set<T> newSet = new HashSet<T>();
+	    	newSet.add(head);
+	    	newSet.addAll(set);
+	    	sets.add(newSet);
+	    	sets.add(set);
+	    }		
+	    return sets;
+	}
 
 }
