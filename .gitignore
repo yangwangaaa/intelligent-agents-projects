@@ -88,3 +88,27 @@ reactive/bin/template/ReactiveW.class
 >>>>>>> origin/master
 
 reactive/history.xml
+
+*.ini
+
+*.dat
+
+*.txt
+
+*.index
+
+*.prefs
+
+*.xmi
+
+*.properties
+
+.metadata/.plugins/org.eclipse.ui.ide/dialog_settings.xml
+
+.metadata/.plugins/org.eclipse.ui.workbench/dialog_settings.xml
+
+.metadata/.plugins/org.eclipse.debug.ui/launchConfigurationHistory.xml
+
+*.resources
+
+*.xmi
