@@ -136,6 +136,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 			if(isFinal(currentState)) return computeFinalPlan(currentNode);
 
+			
 			if( !C.containsKey(currentState) || currentNode.getCost()<C.get(currentState)) {
 				C.put(currentState, currentNode.getCost());
 
@@ -162,6 +163,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		}
 		Set<TaskSet> powerTaskSet = powerSet(availableTasks);
 
+		
 		for (City neighbor : currentState.getCity().neighbors()) {
 			
 			TaskSet deliveredTasks = TaskSet.intersect(currentState.getCarriedTasks(), tasksToBeDelivered);
@@ -170,6 +172,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 			
 			double availableCapacity = currentState.getAvailableCapacity() - deliveredTasks.weightSum();
 			State newState = new State(neighbor, carriedTasks, allDeliveredTasks, availableCapacity);
+			
 			
 			double cost = currentNode.getCost() + currentState.getCity().distanceTo(neighbor);
 			Node newNode = new Node(newState, currentNode, cost);
