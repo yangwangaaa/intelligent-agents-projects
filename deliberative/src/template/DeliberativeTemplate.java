@@ -45,7 +45,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		
 		// ...
 	}
-	
+	//LOL
 	@Override
 	public Plan plan(Vehicle vehicle, TaskSet tasks) {
 		Plan plan;
