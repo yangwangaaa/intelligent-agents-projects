@@ -3,7 +3,7 @@ package template;
 import java.util.Comparator;
 
 
-public class Node implements Comparator<Node>{
+public class Node implements Comparator<Node>, Comparable<Node>{
 	private State state;
 	private Node parent;
 	private double cost;
@@ -56,8 +56,10 @@ public class Node implements Comparator<Node>{
 
 	@Override
 	public int compareTo(Node o) {
-		return compare(this, o);
+		return compare(this,o);
 	}
+
+
 	
 	
 }
