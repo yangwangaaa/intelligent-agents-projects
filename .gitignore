@@ -1,94 +1,34 @@
+*.tis
 
-reactive/.classpath
+*.tii
 
-deliberative/.classpath
+*.prx
 
-*.class
+*.nrm
 
-*.class
+*.frq
 
-*.class
+*.fnm
 
-reactive/bin/template/ReactiveW.class
+*.fdx
 
-*.class
+*.fdt
+
+*.dat
+
+*.txt
+
+*.index
 
 *.snap
 
 *.zip
 
-.metadata/.log
-
 *.xmi
-<<<<<<< HEAD
-*.index
-
-*.xml
-=======
-
-*.index
->>>>>>> origin/master
-
-
-*.xmi
-
-*.txt
-
-*.png
-
-*.png
-<<<<<<< HEAD
-
-*.snap
-
-=======
-
-.metadata/.plugins/org.eclipse.core.resources/.history/46/a00ae20fb47200151e6a8aa90902e7d2
-
-*.snap
-
-*.png
-
-*.snap
-
->>>>>>> origin/master
-*.resources
-
-*.xmi
-
-.metadata/.plugins/org.eclipse.jdt.core/externalLibsTimeStamps
-
-*.dat
-
-<<<<<<< HEAD
-=======
-*.xmi
->>>>>>> origin/master
 
 *.resources
 
-*.snap
-
-*.xmi
-
-.metadata/.plugins/org.eclipse.jdt.core/externalLibsTimeStamps
-
-*.dat
-
-*.xmi
-
-<<<<<<< HEAD
-*.snap
-=======
-*.xmi
-
-.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
-
-.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
->>>>>>> origin/master
-
-reactive/history.xml
-
+*.class
 *.ini
 
 *.dat
@@ -103,6 +43,84 @@ reactive/history.xml
 
 *.properties
 
+
+*.xmi
+*.index
+
+*.xml
+
+*.index
+
+
+*.xmi
+
+*.txt
+
+*.png
+
+*.png
+
+*.snap
+
+reactive/.classpath
+
+deliberative/.classpath
+
+
+*.class
+
+*.class
+
+reactive/bin/template/ReactiveW.class
+
+*.class
+
+
+.metadata/.log
+
+
+
+
+.metadata/.plugins/org.eclipse.core.resources/.history/46/a00ae20fb47200151e6a8aa90902e7d2
+
+*.snap
+
+*.png
+
+*.snap
+
+*.resources
+
+*.xmi
+
+.metadata/.plugins/org.eclipse.jdt.core/externalLibsTimeStamps
+
+*.dat
+
+*.xmi
+
+*.resources
+
+*.snap
+
+*.xmi
+
+.metadata/.plugins/org.eclipse.jdt.core/externalLibsTimeStamps
+
+*.dat
+
+*.xmi
+
+*.snap
+*.xmi
+
+.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
+
+.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
+
+reactive/history.xml
+
+
 .metadata/.plugins/org.eclipse.ui.ide/dialog_settings.xml
 
 .metadata/.plugins/org.eclipse.ui.workbench/dialog_settings.xml
@@ -112,3 +130,43 @@ reactive/history.xml
 *.resources
 
 *.xmi
+
+.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
+
+.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
+
+.metadata/.plugins/org.eclipse.debug.core/.launches/Deliberative.launch
+
+*.properties
+
+*.gen
+
+*.gen
+
+.recommenders/index/http___download_eclipse_org_recommenders_models_luna_/segments_5
+
+*.tis
+
+*.tii
+
+*.prx
+
+*.nrm
+
+*.frq
+
+*.fnm
+
+*.fdx
+
+*.fdt
+
+*.dat
+
+*.txt
+
+*.index
+
+*.xmi
+
+*.resources

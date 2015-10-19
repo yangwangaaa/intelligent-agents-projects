@@ -13,7 +13,6 @@ import logist.task.TaskDistribution;
 import logist.task.TaskSet;
 import logist.topology.Topology;
 import logist.topology.Topology.City;
-import src.template.State;
 
 /**
  * An optimal planner for one vehicle.
@@ -49,9 +48,21 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 		// ...
 	}
+	public void Print(String s){
+		System.out.println(s);
+	}
+	public void PrintI(int i){
+		System.out.println(i);
+	}
+	public void PrintTaskSet(TaskSet tasks){
+		for( Task t : tasks){
+			System.out.println(t);
+		}
+	}
 
 	@Override
 	public Plan plan(Vehicle vehicle, TaskSet tasks) {
+		PrintTaskSet(tasks);
 		Plan plan;
 
 		// Compute the plan with the selected algorithm.
@@ -106,7 +117,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 	private Plan AStar(Vehicle vehicle, TaskSet tasks) {
 		City current = vehicle.getCurrentCity();
 		Plan plan = new Plan(current);
-		
+		/*
 		State currentState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), tasks.noneOf(tasks));
 		Node root = new Node(currentState, ...);
 		
@@ -128,14 +139,14 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 			}
 			
 		}
-		
+		*/
 		return plan;
 	}
 	
-	private ArrayList<Node> getSuccessors(Node node) {
-		ArrayList<Node> successors = new ArrayList<Node>();
-		
-		return successors;
-	}
+//	private ArrayList<Node> getSuccessors(Node node) {
+//		ArrayList<Node> successors = new ArrayList<Node>();
+//		
+//		return successors;
+//	}
 	
 }
