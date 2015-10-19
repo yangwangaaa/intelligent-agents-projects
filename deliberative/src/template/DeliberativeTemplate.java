@@ -3,7 +3,6 @@ package template;
 /* import table */
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.PriorityQueue;
 
 import logist.agent.Agent;
 import logist.behavior.DeliberativeBehavior;
@@ -14,6 +13,7 @@ import logist.task.TaskDistribution;
 import logist.task.TaskSet;
 import logist.topology.Topology;
 import logist.topology.Topology.City;
+import src.template.State;
 
 /**
  * An optimal planner for one vehicle.
@@ -102,52 +102,40 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 			// plan is computed.
 		}
 	}
-
-	private class State {
-		public City city;
-		public TaskSet carriedTasks;
-		public TaskSet deliveredTasks;
-		public State(City city, TaskSet carriedTasks, TaskSet deliveredTasks) {
-			this.city = city;
-			this.carriedTasks = carriedTasks;
-			this.deliveredTasks = deliveredTasks;
-		}
-		
-		public City getCity() {
-			return city;
-		}
-		
-		public TaskSet getCarriedTasks() {
-			return carriedTasks;
-		}
-		
-		public TaskSet getDeliveredTasks() {
-			return deliveredTasks;
-		}
-		
-		public void setCity(City city) {
-			this.city = city;
-		}
-		
-		public void setCarriedTasks(TaskSet carriedTasks) {
-			this.carriedTasks = carriedTasks;
-		}
-		
-		public void setDeliveredTasks(TaskSet deliveredTasks) {
-			this.deliveredTasks = deliveredTasks;
-		}
-	}
 	
 	private Plan AStar(Vehicle vehicle, TaskSet tasks) {
-		HashMap<State, Boolean> H = new HashMap<State, Boolean>();
 		City current = vehicle.getCurrentCity();
 		Plan plan = new Plan(current);
-		PriorityQueue<Node> Q = new PriorityQueue<Node>();
+		
 		State currentState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), tasks.noneOf(tasks));
 		Node root = new Node(currentState, ...);
+		
+		HashMap<State, Integer> H = new HashMap<State, Boolean>();
+		ArrayList<Node> Q = new ArrayList<Node>();
 		Q.add(root);
 		
+		while(Q.isEmpty()>0) {
+			Node currentNode = Q.get(0);
+			State currentState = currentNode.getState()
+			if( !H.containsKey(currentState) || H.get(currentState)>currentNode.getCost()) {
+				if(isFinal(currentState)) {
+					return computeFinalPlan(currentNode);
+				}
+				else {
+					Q.add(getSuccessors(currentState));
+					H.put(currentState, currentNode.getCost());
+				}
+			}
+			
+		}
+		
 		return plan;
+	}
+	
+	private ArrayList<Node> getSuccessors(Node node) {
+		ArrayList<Node> successors = new ArrayList<Node>();
+		
+		return successors;
 	}
 	
 }
