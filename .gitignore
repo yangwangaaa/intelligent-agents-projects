@@ -112,3 +112,9 @@ reactive/history.xml
 *.resources
 
 *.xmi
+
+.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
+
+.metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
+
+.metadata/.plugins/org.eclipse.debug.core/.launches/Deliberative.launch
