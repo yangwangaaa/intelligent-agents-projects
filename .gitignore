@@ -1,3 +1,11 @@
+.metadata/**
+.recommenders/**
+.DS_Store/**
+
+/.metadata
+/.recommenders
+/.DS_Store
+
 *.tis
 
 *.tii
@@ -178,3 +186,7 @@ reactive/history.xml
 *.xmi
 
 *.resources
+
+.metadata/**
+.recommenders/**
+.DS_Store/**
