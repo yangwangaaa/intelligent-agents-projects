@@ -4,6 +4,9 @@ package template;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.List;
 
 import logist.agent.Agent;
 import logist.behavior.DeliberativeBehavior;
@@ -148,7 +151,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 	private ArrayList<Node> getSuccessors(Node node) {
 		ArrayList<Node> successors = new ArrayList<Node>();
-		
+		Set<TaskSet>
 		return successors;
 	}
 	
