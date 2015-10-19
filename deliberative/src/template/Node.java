@@ -2,7 +2,7 @@ package template;
 
 import java.util.Comparator;
 
-public class Node implements Comparator<Node>{
+public class Node implements Comparator<Node>,  Comparable<Node>{
 	public State state;
 	public Node parent;
 	public double cost;
@@ -49,7 +49,12 @@ public class Node implements Comparator<Node>{
 	public double H(State s){
 		return 1;
 	}
-//	public boolean equals(Node n){
-//		return (this.state.equals(n.state));
-//	}
+	public boolean equals(Node n){
+		return (this.state.equals(n.state));
+	}
+
+	@Override
+	public int compareTo(Node o) {
+		return compare(this, o);
+	}
 }
