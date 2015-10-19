@@ -190,3 +190,4 @@ reactive/history.xml
 .metadata/**
 .recommenders/**
 .DS_Store/**
+*.index
