@@ -118,6 +118,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		}
 	}
 
+
 	private Plan AStar(Vehicle vehicle, TaskSet tasks) {
 		City current = vehicle.getCurrentCity();
 		Plan plan = new Plan(current);
