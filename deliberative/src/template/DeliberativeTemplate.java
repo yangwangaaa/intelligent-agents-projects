@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 
 import com.sun.corba.se.spi.orbutil.fsm.Action;
 
@@ -139,7 +140,9 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		/////hash puis final
 		Node n = BFS_search(first, Q, C, tasks, vehicle);
 		
-		if(n == null) return null;//??re
+		if(n == null){
+			Print("pas de plan");
+			return null;}//TODO failure??re
 		else{
 			Plan plan = new Plan(current);
 			return computePlan(plan , n);
@@ -163,10 +166,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 	}
 	
 	
-	
-	
-	
-	
+		
 
 	private Plan AStar(Vehicle vehicle, TaskSet tasks) {
 		City current = vehicle.getCurrentCity();
@@ -216,10 +216,10 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		for (City neighbor : currentState.getCity().neighbors()) {
 			
 			TaskSet deliveredTasks = TaskSet.intersect(currentState.getCarriedTasks(), tasksToBeDelivered);
-			TaskSet carriedTasks = TaskSet.intersectComplement( currentState.getCarriedTasks(), deliveredTasks);
+			TaskSet carriedTasks = TaskSet.intersectComplement( currentState.getCarriedTasks(), deliveredTasks);//bof bof comme nom 
 			TaskSet allDeliveredTasks = TaskSet.union(currentState.getDeliveredTasks(), deliveredTasks);
 			
-			double availableCapacity = currentState.getAvailableCapacity() - deliveredTasks.weightSum();
+			double availableCapacity = currentState.getAvailableCapacity() - deliveredTasks.weightSum(); //TODO pour moi c'est plus
 			State newState = new State(neighbor, carriedTasks, allDeliveredTasks, availableCapacity);
 			
 			
@@ -228,7 +228,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 			
 			successors.add(newNode);
 			
-			for(TaskSet taskSet : powerTaskSet) {
+			for(TaskSet taskSet : powerTaskSet) {//TODO lecas ou taskSet est vide est deja pris en compte ci dessus
 
 			}
 		}
@@ -261,9 +261,14 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 	public Plan computePlan(Plan plan, Node n){
 		
-		City current = vehicle.getCurrentCity();
-		Plan plan = new Plan(current);
+		Stack<Node> stack = new Stack();
+		stack.push(n);
+		while(n.getParent() != null){
+			n = n.getParent();
+			stack.push(n);
+		}
 
+		
 		for (Task task : tasks) {
 			// move: current city => pickup location
 			for (City city : current.pathTo(task.pickupCity))
