@@ -199,7 +199,13 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 	//					   SUBMETHODS   	   			  //
 	//													  //
 	////////////////////////////////////////////////////////
+<<<<<<< HEAD
 
+
+=======
+	
+	
+>>>>>>> origin/master
 	private Node BFS_search(Node first, Queue<Node> Q,  HashSet<Node> C ,TaskSet tasks, Vehicle vehicle){
 		while(!Q.isEmpty()){
 			Node current = Q.remove();
@@ -214,7 +220,12 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		}
 		return null;
 	}
+<<<<<<< HEAD
 
+=======
+	
+	
+>>>>>>> origin/master
 	private ArrayList<Node> getSuccessors(Node currentNode, TaskSet tasks) {
 		ArrayList<Node> successors = new ArrayList<Node>();
 		State currentState = currentNode.getState();

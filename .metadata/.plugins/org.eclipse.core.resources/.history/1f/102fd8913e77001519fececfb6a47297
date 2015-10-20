@@ -214,7 +214,12 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		}
 		return null;
 	}
+<<<<<<< HEAD
 
+=======
+	
+	
+>>>>>>> origin/master
 	private ArrayList<Node> getSuccessors(Node currentNode, TaskSet tasks) {
 		ArrayList<Node> successors = new ArrayList<Node>();
 		State currentState = currentNode.getState();
