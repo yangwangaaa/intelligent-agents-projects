@@ -19,6 +19,7 @@ public class Node implements Comparator<Node>, Comparable<Node>{
 		if(n1.cost + h(n1.state) > n2.cost + h(n2.state)) return 1;
 		else if(n1.cost + h(n1.state) == n2.cost + h(n2.state)){// We trust more g than h
 			if(n1.cost>n2.cost) return 1;
+			else if(n1.cost==n2.cost) return 0;
 		}
 		return -1;
 	}

@@ -7,23 +7,23 @@ public class State {
 	private City city;
 	private TaskSet carriedTasks;
 	private TaskSet deliveredTasks;
-	private double availableCapacity;
+	private int availableCapacity;
 	
-	public double getAvailableCapacity() {
-		return availableCapacity;
-	}
-
-	public void setAvailableCapacity(double availableCapacity) {
-		this.availableCapacity = availableCapacity;
-	}
-
-	public State(City city, TaskSet carriedTasks, TaskSet deliveredTasks, double availableCapacity) {
+	public State(City city, TaskSet carriedTasks, TaskSet deliveredTasks, int availableCapacity) {
 		this.city = city;
 		this.carriedTasks = carriedTasks;
 		this.deliveredTasks = deliveredTasks;
 		this.availableCapacity = availableCapacity;
 	}
 	
+	public int getAvailableCapacity() {
+		return availableCapacity;
+	}
+
+	public void setAvailableCapacity(int availableCapacity) {
+		this.availableCapacity = availableCapacity;
+	}
+
 	public City getCity() {
 		return city;
 	}
