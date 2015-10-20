@@ -5,13 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
 import java.util.Set;
-import java.util.Stack;
-
-import com.sun.corba.se.spi.orbutil.fsm.Action;
+import java.util.List;
 
 import logist.agent.Agent;
 import logist.behavior.DeliberativeBehavior;
@@ -71,7 +66,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 	@Override
 	public Plan plan(Vehicle vehicle, TaskSet tasks) {
-		PrintTaskSet(tasks); //TODO assure toi que les task deja remplies et celle enlevé ne sont plus dedans
+		PrintTaskSet(tasks);
 		Plan plan;
 
 		// Compute the plan with the selected algorithm.
@@ -112,8 +107,6 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		}
 		return plan;
 	}
-	
-
 
 	@Override
 	public void planCancelled(TaskSet carriedTasks) {
@@ -125,58 +118,16 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		}
 	}
 
-	private Plan BFS(Vehicle vehicle, TaskSet tasks){
-		
-		//Create first node of the search
-		City current = vehicle.getCurrentCity();
-		//tasks.a
-		TaskSet delivered = TaskSet.noneOf(tasks);//sur et chez vlad? vehi . capa
-		State s = new State(current, vehicle.getCurrentTasks(), delivered, vehicle.capacity());
-		Node first = new Node(s, null, 0);
-		
-		// check bfs implem
-		Queue<Node> Q = new LinkedList(); //linded lest ou arrayList? linked mieux pour moi
-		HashSet<Node> C = new  HashSet();
-		/////hash puis final
-		Node n = BFS_search(first, Q, C, tasks, vehicle);
-		
-		if(n == null){
-			Print("pas de plan");
-			return null;}//TODO failure??re
-		else{
-			Plan plan = new Plan(current);
-			return computePlan(plan , n);
-		}
-	}
-	
-	
-	private Node BFS_search(Node first, Queue<Node> Q,  HashSet<Node> C ,TaskSet tasks, Vehicle vehicle){
-		while(!Q.isEmpty()){
-			Node current = Q.remove();
-			if(isFinal(current.getState(), tasks, vehicle)){
-				return current;
-			}
-			if(!C.contains(current)){
-				C.add(current);
-				ArrayList<Node> S = getSuccessors(current, tasks);
-				Q.addAll(S);
-			}
-		}
-		return null;
-	}
-	
-	
-		
 
 	private Plan AStar(Vehicle vehicle, TaskSet tasks) {
 		City current = vehicle.getCurrentCity();
 		Plan plan = new Plan(current);
 
-		State initialState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), tasks.noneOf(tasks),vehicle.capacity());
+		State initialState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), tasks.noneOf(tasks));
 		Node root = new Node(initialState, null, 0);
 
 		HashMap<State, Double> C = new HashMap<State, Double>();
-		ArrayList<Node> Q = new ArrayList<Node>(); //fais une priority queue!!!!
+		ArrayList<Node> Q = new ArrayList<Node>();
 		Q.add(root);
 
 		while(Q.isEmpty()) {
@@ -185,7 +136,6 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 			if(isFinal(currentState)) return computeFinalPlan(currentNode);
 
-			
 			if( !C.containsKey(currentState) || currentNode.getCost()<C.get(currentState)) {
 				C.put(currentState, currentNode.getCost());
 
@@ -212,26 +162,19 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		}
 		Set<TaskSet> powerTaskSet = powerSet(availableTasks);
 
-		
 		for (City neighbor : currentState.getCity().neighbors()) {
-			
 			TaskSet deliveredTasks = TaskSet.intersect(currentState.getCarriedTasks(), tasksToBeDelivered);
-			TaskSet carriedTasks = TaskSet.intersectComplement( currentState.getCarriedTasks(), deliveredTasks);//bof bof comme nom 
+			
+			TaskSet carriedTasks = TaskSet.intersectComplement( currentState.getCarriedTasks(), deliveredTasks);
+
 			TaskSet allDeliveredTasks = TaskSet.union(currentState.getDeliveredTasks(), deliveredTasks);
 			
-			double availableCapacity = currentState.getAvailableCapacity() - deliveredTasks.weightSum(); //TODO pour moi c'est plus
-			State newState = new State(neighbor, carriedTasks, allDeliveredTasks, availableCapacity);
+			State newState = new State();
+			Node newNode = new Node();
+			successors.add(noTaskNode);
 			
-			
-			double cost = currentNode.getCost() + currentState.getCity().distanceTo(neighbor);
-			Node newNode = new Node(newState, currentNode, cost);
-			
-			successors.add(newNode);
-			
-			for(TaskSet taskSet : powerTaskSet) {//TODO lecas ou taskSet est vide est deja pris en compte ci dessus
-				for(Task task : taskSet) {//TODO lecas ou taskSet est vide est deja pris en compte ci dessus
+			for(TaskSet taskSet : powerTaskSet) {
 
-				}
 			}
 		}
 
@@ -242,7 +185,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 	/**
 	 * http://stackoverflow.com/questions/1670862/obtaining-a-powerset-of-a-set-in-java
 	 */
-	public static Set<Set<Task>> powerSet(Set<Task> originalSet) {
+	public static <Task> Set<Set<Task>> powerSet(Set<Task> originalSet) {
 		Set<Set<Task>> sets = new HashSet<Set<Task>>();
 		if (originalSet.isEmpty()) {
 			sets.add(new HashSet<Task>());
@@ -261,37 +204,4 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		return sets;
 	}
 
-	public Plan computePlan(Plan plan, Node n){
-		
-		Stack<Node> stack = new Stack();
-		stack.push(n);
-		while(n.getParent() != null){
-			n = n.getParent();
-			stack.push(n);
-		}
-
-		
-		for (Task task : tasks) {
-			// move: current city => pickup location
-			for (City city : current.pathTo(task.pickupCity))
-				plan.appendMove(city);
-
-			plan.appendPickup(task);
-
-			// move: pickup location => delivery location
-			for (City city : task.path())
-				plan.appendMove(city);
-
-			plan.appendDelivery(task);
-
-			// set current city
-			current = task.deliveryCity;
-		}
-		return plan;
-	}
-	
-	//TODO static?
-	public static boolean isFinal(State s, TaskSet tasks, Vehicle v){
-		return(s.getDeliveredTasks().containsAll( TaskSet.union(v.getCurrentTasks(), tasks)));
-	}
 }
