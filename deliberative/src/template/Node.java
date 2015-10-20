@@ -16,8 +16,8 @@ public class Node implements Comparator<Node>, Comparable<Node>{
 
 	@Override
 	public int compare(Node n1, Node n2) {
-		if(n1.cost + H(n1.state) > n2.cost + H(n2.state)) return 1;
-		else if(n1.cost + H(n1.state) == n2.cost + H(n2.state)){// We trust more g than h
+		if(n1.cost + h(n1.state) > n2.cost + h(n2.state)) return 1;
+		else if(n1.cost + h(n1.state) == n2.cost + h(n2.state)){// We trust more g than h
 			if(n1.cost>n2.cost) return 1;
 		}
 		return -1;
@@ -47,7 +47,7 @@ public class Node implements Comparator<Node>, Comparable<Node>{
 		this.cost = cost;
 	}
 
-	public double H(State s){
+	public double h(State s){
 		return 0;
 	}
 	public boolean equals(Node n){
