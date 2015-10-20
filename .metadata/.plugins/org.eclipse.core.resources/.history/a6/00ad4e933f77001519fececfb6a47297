@@ -164,7 +164,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		State initialState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), TaskSet.noneOf(tasks),vehicle.capacity());
 		Node root = new Node(initialState, null, 0);
 
-		HashMap<String, Double> C = new HashMap<String, Double>();
+		HashMap<State, Double> C = new HashMap<State, Double>();
 		ArrayList<Node> Q = new ArrayList<Node>(); //fais une priority queue!!!!
 		Q.add(root);
 
@@ -176,13 +176,9 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		print(n1);
 		print(n2);
 		
-		print(n1.getState().toString());
-		print(n2.getState().toString());
+		C.put(n1.getState(), n1.getCost());
 		
-		C.put(n1.getState().toString(), n1.getCost());
-		
-		print("C contains n1 : " + C.containsKey(n1.getState().toString()));
-		print("C contains n2 : " + C.containsKey(n2.getState().toString()));
+		print("C contains n1 : " + C.containsKey(n1));
 
 		while(!Q.isEmpty()) {
 			Node currentNode = Q.remove(0);
@@ -192,8 +188,8 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 			if(isFinal(currentState, tasks, vehicle)) return computeFinalPlan(plan, currentNode);
 
 
-			if( !C.containsKey(currentState.toString()) || currentNode.getCost()<C.get(currentState)) {
-				C.put(currentState.toString(), currentNode.getCost());
+			if( !C.containsKey(currentState) || currentNode.getCost()<C.get(currentState)) {
+				C.put(currentState, currentNode.getCost());
 
 				ArrayList<Node> S = getSuccessors(currentNode, tasks);
 

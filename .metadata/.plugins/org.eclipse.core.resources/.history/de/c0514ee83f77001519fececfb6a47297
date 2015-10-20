@@ -164,7 +164,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		State initialState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), TaskSet.noneOf(tasks),vehicle.capacity());
 		Node root = new Node(initialState, null, 0);
 
-		HashMap<String, Double> C = new HashMap<String, Double>();
+		HashMap<State, Double> C = new HashMap<String, Double>();
 		ArrayList<Node> Q = new ArrayList<Node>(); //fais une priority queue!!!!
 		Q.add(root);
 
@@ -175,9 +175,6 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		Node n2 = Test2.get(0);
 		print(n1);
 		print(n2);
-		
-		print(n1.getState().toString());
-		print(n2.getState().toString());
 		
 		C.put(n1.getState().toString(), n1.getCost());
 		

@@ -176,8 +176,8 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		print(n1);
 		print(n2);
 		
-		print(n1.getState().toString());
-		print(n2.getState().toString());
+		print(n1.toString());
+		print(n2.toString())
 		
 		C.put(n1.getState().toString(), n1.getCost());
 		
