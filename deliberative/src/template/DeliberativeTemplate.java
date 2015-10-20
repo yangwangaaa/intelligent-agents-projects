@@ -5,8 +5,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.Set;
+
+import com.sun.corba.se.spi.orbutil.fsm.Action;
 
 import logist.agent.Agent;
 import logist.behavior.DeliberativeBehavior;
@@ -66,7 +70,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 	@Override
 	public Plan plan(Vehicle vehicle, TaskSet tasks) {
-		PrintTaskSet(tasks);
+		PrintTaskSet(tasks); //TODO assure toi que les task deja remplies et celle enlevé ne sont plus dedans
 		Plan plan;
 
 		// Compute the plan with the selected algorithm.
@@ -107,6 +111,8 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		}
 		return plan;
 	}
+	
+
 
 	@Override
 	public void planCancelled(TaskSet carriedTasks) {
@@ -118,6 +124,39 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		}
 	}
 
+	private Plan BFS(Vehicle vehicle, TaskSet tasks){
+		
+		//Create first node of the search
+		City current = vehicle.getCurrentCity();
+		//tasks.a
+		TaskSet delivered = TaskSet.noneOf(tasks);//sur et chez vlad? vehi . capa
+		State s = new State(current, vehicle.getCurrentTasks(), delivered, vehicle.capacity());
+		Node first = new Node();
+		
+		// check bfs implem
+		Queue<Node> Q = new LinkedList(); //linded lest ou arrayList? linked mieux pour moi
+		HashMap<State, Double> C = new HashMap<State, Double>();
+		/////hash puis final
+		Node n = BFS_search(first, Q, C, tasks);
+		
+		if(n == null) return null;//??re
+		else{
+			Plan plan = new Plan(current);
+			return computePlan(plan , n);
+		}
+	}
+	
+	
+	private Node BFS_search(Node first, Queue Q, HashMap<State, Double> C ,TaskSet tasks){
+		
+		return new Node();
+	}
+	
+	
+	
+	
+	
+	
 
 	private Plan AStar(Vehicle vehicle, TaskSet tasks) {
 		City current = vehicle.getCurrentCity();
@@ -127,7 +166,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		Node root = new Node(initialState, null, 0);
 
 		HashMap<State, Double> C = new HashMap<State, Double>();
-		ArrayList<Node> Q = new ArrayList<Node>();
+		ArrayList<Node> Q = new ArrayList<Node>(); //fais une priority queue!!!!
 		Q.add(root);
 
 		while(Q.isEmpty()) {
@@ -210,6 +249,30 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		return sets;
 	}
 
+	public Plan computePlan(Plan plan, Node n){
+		
+		City current = vehicle.getCurrentCity();
+		Plan plan = new Plan(current);
+
+		for (Task task : tasks) {
+			// move: current city => pickup location
+			for (City city : current.pathTo(task.pickupCity))
+				plan.appendMove(city);
+
+			plan.appendPickup(task);
+
+			// move: pickup location => delivery location
+			for (City city : task.path())
+				plan.appendMove(city);
+
+			plan.appendDelivery(task);
+
+			// set current city
+			current = task.deliveryCity;
+		}
+		return plan;
+	}
+	
 	//TODO static?
 	public static boolean isFinal(State s, Vehicle v, TaskSet tasks){
 		return(s.getDeliveredTasks().containsAll( TaskSet.union(v.getCurrentTasks(), tasks)));
