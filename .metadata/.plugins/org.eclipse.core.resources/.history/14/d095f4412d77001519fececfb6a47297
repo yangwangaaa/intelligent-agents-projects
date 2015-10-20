@@ -234,9 +234,8 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 					double capacity = availableCapacity - availableTasksSubset.weightSum(); 
 					State state = new State(neighbor, allCarriedTasks, allDeliveredTasks, capacity);
 					
-					Node node = new Node(state, currentNode, cost);
-					
-					successors.add(newNode);
+					double cost = currentNode.getCost() + currentState.getCity().distanceTo(neighbor);
+					Node newNode = new Node(newState, currentNode, cost);
 				}
 			}
 		}

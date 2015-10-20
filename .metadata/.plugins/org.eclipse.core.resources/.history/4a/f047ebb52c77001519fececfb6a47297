@@ -216,10 +216,10 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		for (City neighbor : currentState.getCity().neighbors()) {
 			
 			TaskSet deliveredTasks = TaskSet.intersect(currentState.getCarriedTasks(), tasksToBeDelivered);
-			TaskSet carriedTasks = TaskSet.intersectComplement( currentState.getCarriedTasks(), deliveredTasks);
+			TaskSet carriedTasks = TaskSet.intersectComplement( currentState.getCarriedTasks(), deliveredTasks);//bof bof comme nom 
 			TaskSet allDeliveredTasks = TaskSet.union(currentState.getDeliveredTasks(), deliveredTasks);
 			
-			double availableCapacity = currentState.getAvailableCapacity() + deliveredTasks.weightSum(); 
+			double availableCapacity = currentState.getAvailableCapacity() - deliveredTasks.weightSum(); //TODO pour moi c'est plus
 			State newState = new State(neighbor, carriedTasks, allDeliveredTasks, availableCapacity);
 					
 			double cost = currentNode.getCost() + currentState.getCity().distanceTo(neighbor);
@@ -231,12 +231,11 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 				if(availableTasksSubset.weightSum() < currentState.getAvailableCapacity()) {
 					TaskSet allCarriedTasks = TaskSet.union(availableTasks, availableTasksSubset);
 					
-					double capacity = availableCapacity - availableTasksSubset.weightSum(); 
-					State state = new State(neighbor, allCarriedTasks, allDeliveredTasks, capacity);
+					availableCapacity = currentState.getAvailableCapacity() - deliveredTasks.weightSum(); //TODO pour moi c'est plus
+					State newState = new State(neighbor, carriedTasks, allDeliveredTasks, availableCapacity);
 					
-					Node node = new Node(state, currentNode, cost);
-					
-					successors.add(newNode);
+					double cost = currentNode.getCost() + currentState.getCity().distanceTo(neighbor);
+					Node newNode = new Node(newState, currentNode, cost);
 				}
 			}
 		}
