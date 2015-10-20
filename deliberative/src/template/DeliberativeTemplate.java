@@ -229,7 +229,9 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 			successors.add(newNode);
 			
 			for(TaskSet taskSet : powerTaskSet) {//TODO lecas ou taskSet est vide est deja pris en compte ci dessus
+				for(Task task : taskSet) {//TODO lecas ou taskSet est vide est deja pris en compte ci dessus
 
+				}
 			}
 		}
 
