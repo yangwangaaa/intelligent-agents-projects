@@ -259,8 +259,10 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		return sets;
 	}
 
+	
 	public Plan computePlan(Plan plan, Node n){
 		
+		//reorder nodes
 		Stack<Node> stack = new Stack();
 		stack.push(n);
 		while(n.getParent() != null){
@@ -268,24 +270,30 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 			stack.push(n);
 		}
 
-		
-		for (Task task : tasks) {
-			// move: current city => pickup location
-			for (City city : current.pathTo(task.pickupCity))
-				plan.appendMove(city);
-
-			plan.appendPickup(task);
-
-			// move: pickup location => delivery location
-			for (City city : task.path())
-				plan.appendMove(city);
-
-			plan.appendDelivery(task);
-
-			// set current city
-			current = task.deliveryCity;
+		Node n1 = stack.pop();
+		Node n2 = n1;
+		while(!stack.isEmpty()){
+			n2 = stack.pop();
+			addActions(plan, n1, n2);
+			n1 = n2;
 		}
 		return plan;
+	}
+	
+	public void addActions(Plan plan, Node n1, Node n2){
+		
+		//Deliver tasks
+		TaskSet delivery = TaskSet.intersectComplement(n2.getState().getDeliveredTasks(), n1.getState().getDeliveredTasks());
+		for(Task task : delivery)
+			plan.appendDelivery(task);
+		
+		//Pickup tasks
+		TaskSet pickup = TaskSet.intersectComplement(n2.getState().getCarriedTasks(), n1.getState().getCarriedTasks());
+		for(Task task : pickup)
+			plan.appendPickup(task);
+		
+		//Move city
+		plan.appendMove(n2.getState().getCity());
 	}
 	
 	//TODO static?
