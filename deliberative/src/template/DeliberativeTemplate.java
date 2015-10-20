@@ -131,13 +131,13 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		//tasks.a
 		TaskSet delivered = TaskSet.noneOf(tasks);//sur et chez vlad? vehi . capa
 		State s = new State(current, vehicle.getCurrentTasks(), delivered, vehicle.capacity());
-		Node first = new Node();
+		Node first = new Node(s, null, 0);
 		
 		// check bfs implem
 		Queue<Node> Q = new LinkedList(); //linded lest ou arrayList? linked mieux pour moi
-		HashMap<State, Double> C = new HashMap<State, Double>();
+		HashSet<Node> C = new  HashSet();
 		/////hash puis final
-		Node n = BFS_search(first, Q, C, tasks);
+		Node n = BFS_search(first, Q, C, tasks, vehicle);
 		
 		if(n == null) return null;//??re
 		else{
@@ -147,9 +147,19 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 	}
 	
 	
-	private Node BFS_search(Node first, Queue Q, HashMap<State, Double> C ,TaskSet tasks){
-		
-		return new Node();
+	private Node BFS_search(Node first, Queue<Node> Q,  HashSet<Node> C ,TaskSet tasks, Vehicle vehicle){
+		while(!Q.isEmpty()){
+			Node current = Q.remove();
+			if(isFinal(current.getState(), tasks, vehicle)){
+				return current;
+			}
+			if(!C.contains(current)){
+				C.add(current);
+				ArrayList<Node> S = getSuccessors(current, tasks);
+				Q.addAll(S);
+			}
+		}
+		return null;
 	}
 	
 	
@@ -162,7 +172,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		City current = vehicle.getCurrentCity();
 		Plan plan = new Plan(current);
 
-		State initialState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), tasks.noneOf(tasks));
+		State initialState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), tasks.noneOf(tasks),vehicle.capacity());
 		Node root = new Node(initialState, null, 0);
 
 		HashMap<State, Double> C = new HashMap<State, Double>();
@@ -274,7 +284,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 	}
 	
 	//TODO static?
-	public static boolean isFinal(State s, Vehicle v, TaskSet tasks){
+	public static boolean isFinal(State s, TaskSet tasks, Vehicle v){
 		return(s.getDeliveredTasks().containsAll( TaskSet.union(v.getCurrentTasks(), tasks)));
 	}
 }
