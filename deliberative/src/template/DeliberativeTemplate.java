@@ -168,11 +168,16 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		ArrayList<Node> Q = new ArrayList<Node>(); //fais une priority queue!!!!
 		Q.add(root);
 
+		
+		/*
 		ArrayList<Node> Test1 = getSuccessors(root, tasks);
 		ArrayList<Node> Test2 = getSuccessors(root, tasks);
 		
+		
 		Node n1 = Test1.get(0);
 		Node n2 = Test2.get(0);
+		
+		
 		print(n1);
 		print(n2);
 		
@@ -181,18 +186,33 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		
 		C.put(n1.getState().toString(), n1.getCost());
 		
-		print("C contains n1 : " + C.containsKey(n1.getState().toString()));
-		print("C contains n2 : " + C.containsKey(n2.getState().toString()));
+		print(tasks.toString());
+		
+		Object t = tasks.toArray()[0];
+		tasks.remove(t);
+		
+		print(tasks.toString());
+		
+		tasks.add((Task) t);
+		
+		print(tasks.toString());
+		
+		
+		print("" + n1.getState().toString().equals(n2.getState().toString()));
+		print("C contains n1 : " + C.containsKey(n1.getState().toString()) + " / " + n1.getState().hashCode());
+		print("C contains n2 : " + C.containsKey(n2.getState().toString()) + " / " + n2.getState().hashCode());
 
+		*/
+		
+		
 		while(!Q.isEmpty()) {
 			Node currentNode = Q.remove(0);
 
 			State currentState = currentNode.getState();
 
 			if(isFinal(currentState, tasks, vehicle)) return computeFinalPlan(plan, currentNode);
-
-
-			if( !C.containsKey(currentState.toString()) || currentNode.getCost()<C.get(currentState)) {
+			
+			if( !C.containsKey(currentState.toString()) || currentNode.getCost()<C.get(currentState.toString())) {
 				C.put(currentState.toString(), currentNode.getCost());
 
 				ArrayList<Node> S = getSuccessors(currentNode, tasks);
@@ -200,11 +220,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 				Q.addAll(S);
 
 				Collections.sort(Q);
-			}
-			else {
-				print("ALREADY VISITED");
-			}
-			
+			}			
 		}
 
 		return null;
