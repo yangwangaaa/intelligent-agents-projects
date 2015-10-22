@@ -40,10 +40,10 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 	/* the planning class */
 	Algorithm algorithm;
-	
+
 	int count = 0;
-	
-	
+
+
 	////////////////////////////////////////////////////////
 	//													  //
 	//						MAINS						  //
@@ -69,13 +69,13 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 	@Override
 	public Plan plan(Vehicle vehicle, TaskSet tasks) {
-		PrintTaskSet(tasks); //TODO assure toi que les task deja remplies et celle enlevé ne sont plus dedans
+		print(tasks); //TODO assure toi que les task deja remplies et celle enlevé ne sont plus dedans
 		Plan plan;
 
 		// Compute the plan with the selected algorithm.
 		switch (algorithm) {
 		case ASTAR:
-			// ...
+			print("Start A*");
 			plan = AStar(vehicle, tasks);
 			break;
 		case BFS:
@@ -91,7 +91,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		}		
 		return plan;
 	}
-	
+
 
 	@Override
 	public void planCancelled(TaskSet carriedTasks) {
@@ -102,7 +102,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 			// plan is computed.
 		}
 	}
-	
+
 	////////////////////////////////////////////////////////
 	//													  //
 	//					    STRATEGIES  	   			  //
@@ -131,32 +131,32 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		}
 		return plan;
 	}
-	
+
 
 	private Plan BFS(Vehicle vehicle, TaskSet tasks){
-		
+
 		//Create first node of the search
 		City current = vehicle.getCurrentCity();
 		//tasks.a
 		TaskSet delivered = TaskSet.noneOf(tasks);//sur et chez vlad? vehi . capa
 		State s = new State(current, vehicle.getCurrentTasks(), delivered, vehicle.capacity());
 		Node first = new Node(s, null, 0);
-		
+
 		// check bfs implem
 		Queue<Node> Q = new LinkedList(); //linded lest ou arrayList? linked mieux pour moi
 		HashSet<Node> C = new  HashSet();
 		/////hash puis final
 		Node n = BFS_search(first, Q, C, tasks, vehicle);
-		
+
 		if(n == null){
-			Print("pas de plan");
+			print("pas de plan");
 			return null;}//TODO failure??re
 		else{
 			Plan plan = new Plan(current);
 			return computeFinalPlan(plan , n);
 		}
 	}
-	
+
 	private Plan AStar(Vehicle vehicle, TaskSet tasks) {
 		City current = vehicle.getCurrentCity();
 		Plan plan = new Plan(current);
@@ -164,42 +164,74 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		State initialState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), TaskSet.noneOf(tasks),vehicle.capacity());
 		Node root = new Node(initialState, null, 0);
 
-		HashMap<State, Double> C = new HashMap<State, Double>();
+		HashMap<String, Double> C = new HashMap<String, Double>();
 		ArrayList<Node> Q = new ArrayList<Node>(); //fais une priority queue!!!!
 		Q.add(root);
 
-		while(Q.isEmpty()) {
-			Node currentNode = Q.get(0);
-			
-			print(currentNode);
-			
+		
+		/*
+		ArrayList<Node> Test1 = getSuccessors(root, tasks);
+		ArrayList<Node> Test2 = getSuccessors(root, tasks);
+		
+		
+		Node n1 = Test1.get(0);
+		Node n2 = Test2.get(0);
+		
+		
+		print(n1);
+		print(n2);
+		
+		print(n1.getState().toString());
+		print(n2.getState().toString());
+		
+		C.put(n1.getState().toString(), n1.getCost());
+		
+		print(tasks.toString());
+		
+		Object t = tasks.toArray()[0];
+		tasks.remove(t);
+		
+		print(tasks.toString());
+		
+		tasks.add((Task) t);
+		
+		print(tasks.toString());
+		
+		
+		print("" + n1.getState().toString().equals(n2.getState().toString()));
+		print("C contains n1 : " + C.containsKey(n1.getState().toString()) + " / " + n1.getState().hashCode());
+		print("C contains n2 : " + C.containsKey(n2.getState().toString()) + " / " + n2.getState().hashCode());
+
+		*/
+		
+		
+		while(!Q.isEmpty()) {
+			Node currentNode = Q.remove(0);
+
 			State currentState = currentNode.getState();
 
 			if(isFinal(currentState, tasks, vehicle)) return computeFinalPlan(plan, currentNode);
-
 			
-			if( !C.containsKey(currentState) || currentNode.getCost()<C.get(currentState)) {
-				C.put(currentState, currentNode.getCost());
+			if( !C.containsKey(currentState.toString()) || currentNode.getCost()<C.get(currentState.toString())) {
+				C.put(currentState.toString(), currentNode.getCost());
 
 				ArrayList<Node> S = getSuccessors(currentNode, tasks);
 
 				Q.addAll(S);
 
 				Collections.sort(Q);
-			}	
+			}			
 		}
 
 		return null;
 	}
 
-	
 	////////////////////////////////////////////////////////
 	//													  //
 	//					   SUBMETHODS   	   			  //
 	//													  //
 	////////////////////////////////////////////////////////
-	
-	
+
 	private Node BFS_search(Node first, Queue<Node> Q,  HashSet<Node> C ,TaskSet tasks, Vehicle vehicle){
 		while(!Q.isEmpty()){
 			Node current = Q.remove();
@@ -214,12 +246,11 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		}
 		return null;
 	}
-	
-	
+
 	private ArrayList<Node> getSuccessors(Node currentNode, TaskSet tasks) {
 		ArrayList<Node> successors = new ArrayList<Node>();
 		State currentState = currentNode.getState();
-		
+
 		TaskSet availableTasks = TaskSet.noneOf(tasks);
 		TaskSet tasksToBeDelivered = TaskSet.noneOf(tasks);
 		for(Task task : tasks) {
@@ -228,35 +259,31 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		}
 		Set<Set<Task>> powerTaskSet = powerSet(availableTasks);
 
-		
+
 		for (City neighbor : currentState.getCity().neighbors()) {
-			
+
+
 			TaskSet deliveredTasks = TaskSet.intersect(currentState.getCarriedTasks(), tasksToBeDelivered);
 			TaskSet carriedTasks = TaskSet.intersectComplement( currentState.getCarriedTasks(), deliveredTasks);
 			TaskSet allDeliveredTasks = TaskSet.union(currentState.getDeliveredTasks(), deliveredTasks);
-			
-			double availableCapacity = currentState.getAvailableCapacity() + deliveredTasks.weightSum(); 
-			State newState = new State(neighbor, carriedTasks, allDeliveredTasks, availableCapacity);
-					
+
+			int availableCapacity = currentState.getAvailableCapacity() + deliveredTasks.weightSum(); 
 			double cost = currentNode.getCost() + currentState.getCity().distanceTo(neighbor);
-			Node newNode = new Node(newState, currentNode, cost);
-			
-			successors.add(newNode);
-			
+
 			for(Set<Task> tasksSubset : powerTaskSet) {
 				TaskSet availableTasksSubset = TaskSet.noneOf(tasks);
 				for (Task task : tasksSubset) {
 					availableTasksSubset.add(task);
 				}
+
 				if(availableTasksSubset.weightSum() < currentState.getAvailableCapacity()) {
-					TaskSet allCarriedTasks = TaskSet.union(availableTasks, availableTasksSubset);
-					
-					double capacity = availableCapacity - availableTasksSubset.weightSum(); 
+					TaskSet allCarriedTasks = TaskSet.union(carriedTasks, availableTasksSubset);
+
+					int capacity = availableCapacity - availableTasksSubset.weightSum(); 
 					State state = new State(neighbor, allCarriedTasks, allDeliveredTasks, capacity);
-					
+
 					Node node = new Node(state, currentNode, cost);
-					
-					successors.add(newNode);
+					successors.add(node);
 				}
 			}
 		}
@@ -264,9 +291,9 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		return successors;
 	}
 
-	
+
 	public Plan computeFinalPlan(Plan plan, Node n){
-		
+
 		//reorder nodes
 		Stack<Node> stack = new Stack();
 		stack.push(n);
@@ -284,35 +311,35 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		}
 		return plan;
 	}
-	
+
 	public void addActions(Plan plan, Node n1, Node n2){
-		
+
 		//Deliver tasks
 		TaskSet delivery = TaskSet.intersectComplement(n2.getState().getDeliveredTasks(), n1.getState().getDeliveredTasks());
 		for(Task task : delivery)
 			plan.appendDelivery(task);
-		
+
 		//Pickup tasks
 		TaskSet pickup = TaskSet.intersectComplement(n2.getState().getCarriedTasks(), n1.getState().getCarriedTasks());
 		for(Task task : pickup)
 			plan.appendPickup(task);
-		
+
 		//Move city
 		plan.appendMove(n2.getState().getCity());
 	}
-	
+
 	//TODO static?
 	public static boolean isFinal(State s, TaskSet tasks, Vehicle v){
 		return(s.getDeliveredTasks().containsAll( TaskSet.union(v.getCurrentTasks(), tasks)));
 	}
-	
-	
+
+
 	////////////////////////////////////////////////////////
 	//													  //
 	//						UTILS						  //
 	//													  //
 	////////////////////////////////////////////////////////
-	
+
 
 	/**
 	 * http://stackoverflow.com/questions/1670862/obtaining-a-powerset-of-a-set-in-java
@@ -337,14 +364,14 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 	}
 
 	public void print(Node n){
-		
+
 		State s = n.getState();
 		System.out.print("Node " + count + " : cost=" + n.getCost());
-		System.out.print(", State : city=" + s.getCity().name + ", carriedTasks=" + s.getCarriedTasks().toString() + ", deliveredTasks=" + s.getDeliveredTasks().toString());
-		
+		System.out.println(", State : city=" + s.getCity().name + ", capa=" + s.getAvailableCapacity() +", carriedTasks=" + s.getCarriedTasks().toString() + ", deliveredTasks=" + s.getDeliveredTasks().toString());
+
 		count++;
 	}
-	
+
 	public void print(String s){
 		System.out.println(s);
 	}
