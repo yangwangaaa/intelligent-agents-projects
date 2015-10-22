@@ -37,8 +37,6 @@ import org.springframework.util.StopWatch;
  * errors : 
  * <> dans déclaration
  * Node dans hashmap au lieu de state
- * Vérifie pas que task dispo est deja dans delivered task
- * noeud correspond à l'état suivant : décaler
  */
 @SuppressWarnings("unused")
 public class DeliberativeTemplate implements DeliberativeBehavior {
@@ -88,34 +86,12 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		Plan plan;
 		StopWatch stopWatch = new StopWatch("My Stop Watch");
 
-		
+		stopWatch.start("initializing");
 		// Compute the plan with the selected algorithm.
 		switch (algorithm) {
 		case ASTAR:
 			print("Start A*");
-			stopWatch.start("ASTAR  1");
 			plan = AStar(vehicle, tasks);
-			stopWatch.stop();
-			for(int i = 2; i<17 ; i++){
-				stopWatch.start(Integer.toString(i));
-				Plan plan2 = AStar(vehicle, tasks);
-				stopWatch.stop();
-				if(!plan.toString().equals(plan2.toString())){
-					print("DEUX PLANS DIFFERENTS");
-					print("iteration =");
-					print(Integer.toString(i-2));
-					print("PLAN1");
-					print(plan.toString());
-					print("PLAN2");
-
-					print(plan2.toString());
-				}
-				else{
-					print("ok TOUT BON");
-				}
-			}
-			
-			print(stopWatch.prettyPrint());
 			break;
 		case BFS:
 			// ...
@@ -256,7 +232,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		TaskSet availableTasks = TaskSet.noneOf(tasks);
 		TaskSet tasksToBeDelivered = TaskSet.noneOf(tasks);
 		for(Task task : tasks) {
-			if(task.pickupCity == currentState.getCity() && !currentState.getDeliveredTasks().contains(task) && !currentState.getCarriedTasks().contains(task)) availableTasks.add(task);
+			if(task.pickupCity == currentState.getCity()) availableTasks.add(task);
 			if(task.deliveryCity == currentState.getCity()) tasksToBeDelivered.add(task);
 		}
 		Set<Set<Task>> powerTaskSet = powerSet(availableTasks);
@@ -301,7 +277,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		stack.push(n);
 		while(n.getParent() != null){
 			n = n.getParent();
-			stack.push(n);
+			stack.push(current);
 		}
 
 		Node n1 = stack.pop();
@@ -325,9 +301,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 			plan.appendDelivery(task);
 
 		//Pickup tasks
-		print("ici");
 		TaskSet pickup = TaskSet.intersectComplement(n2.getState().getCarriedTasks(), n1.getState().getCarriedTasks());
-		print("la");
 		for(Task task : pickup)
 			plan.appendPickup(task);
 

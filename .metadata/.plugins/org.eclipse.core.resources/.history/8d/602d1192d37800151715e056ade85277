@@ -32,13 +32,6 @@ import org.springframework.util.StopWatch;
  * quoi si meme noeud mais meilleur et l'autre moins bon encore dans la liste
  * * costPerKm
  * doit pas revenir ville initiale
- * 
- * 
- * errors : 
- * <> dans déclaration
- * Node dans hashmap au lieu de state
- * Vérifie pas que task dispo est deja dans delivered task
- * noeud correspond à l'état suivant : décaler
  */
 @SuppressWarnings("unused")
 public class DeliberativeTemplate implements DeliberativeBehavior {
@@ -88,34 +81,12 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		Plan plan;
 		StopWatch stopWatch = new StopWatch("My Stop Watch");
 
-		
+		stopWatch.start("initializing");
 		// Compute the plan with the selected algorithm.
 		switch (algorithm) {
 		case ASTAR:
 			print("Start A*");
-			stopWatch.start("ASTAR  1");
 			plan = AStar(vehicle, tasks);
-			stopWatch.stop();
-			for(int i = 2; i<17 ; i++){
-				stopWatch.start(Integer.toString(i));
-				Plan plan2 = AStar(vehicle, tasks);
-				stopWatch.stop();
-				if(!plan.toString().equals(plan2.toString())){
-					print("DEUX PLANS DIFFERENTS");
-					print("iteration =");
-					print(Integer.toString(i-2));
-					print("PLAN1");
-					print(plan.toString());
-					print("PLAN2");
-
-					print(plan2.toString());
-				}
-				else{
-					print("ok TOUT BON");
-				}
-			}
-			
-			print(stopWatch.prettyPrint());
 			break;
 		case BFS:
 			// ...
@@ -182,10 +153,9 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		Node first = new Node(s, null, 0);
 		// check bfs implem
 		Queue<Node> Q = new LinkedList<Node>(); //linded lest ou arrayList? linked mieux pour moi
-		HashSet<State> C = new  HashSet<State>();
+		HashSet<Node> C = new  HashSet<Node>();
 		/////hash puis final
 		Node n = BFS_search(first, Q, C, tasks, vehicle);
-		print("END COMPUTATION BFS");
 		if(n == null){
 			print("pas de plan");
 			return null;}//TODO failure??re
@@ -233,19 +203,20 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 	//													  //
 	////////////////////////////////////////////////////////
 
-	private Node BFS_search(Node first, Queue<Node> Q,  HashSet<State> C ,TaskSet tasks, Vehicle vehicle){
+	private Node BFS_search(Node first, Queue<Node> Q,  HashSet<Node> C ,TaskSet tasks, Vehicle vehicle){
 		Q.add(first);
 		while(!Q.isEmpty()){ 
 			Node current = Q.remove();
 			if(isFinal(current.getState(), tasks, vehicle)){
 				return current;
 			}
-			if(!C.contains(current.getState())){
-				C.add(current.getState());
+			if(!C.contains(current)){
+				C.add(current);
 				ArrayList<Node> S = getSuccessors(current, tasks);
 				Q.addAll(S);
 			}
 		}
+		print("fini");
 		return null;
 	}
 
@@ -256,7 +227,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		TaskSet availableTasks = TaskSet.noneOf(tasks);
 		TaskSet tasksToBeDelivered = TaskSet.noneOf(tasks);
 		for(Task task : tasks) {
-			if(task.pickupCity == currentState.getCity() && !currentState.getDeliveredTasks().contains(task) && !currentState.getCarriedTasks().contains(task)) availableTasks.add(task);
+			if(task.pickupCity == currentState.getCity()) availableTasks.add(task);
 			if(task.deliveryCity == currentState.getCity()) tasksToBeDelivered.add(task);
 		}
 		Set<Set<Task>> powerTaskSet = powerSet(availableTasks);
@@ -297,7 +268,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 	public Plan computeFinalPlan(Plan plan, Node n){
 
 		//reorder nodes
-		Stack<Node> stack = new Stack<Node>();
+		Stack<Node> stack = new Stack();
 		stack.push(n);
 		while(n.getParent() != null){
 			n = n.getParent();
@@ -306,14 +277,11 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 		Node n1 = stack.pop();
 		Node n2 = n1;
-		print("THE PLAN IS :");
 		while(!stack.isEmpty()){
-			print(n1);
 			n2 = stack.pop();
 			addActions(plan, n1, n2);
 			n1 = n2;
 		}
-		print(n2);
 		return plan;
 	}
 
@@ -325,9 +293,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 			plan.appendDelivery(task);
 
 		//Pickup tasks
-		print("ici");
 		TaskSet pickup = TaskSet.intersectComplement(n2.getState().getCarriedTasks(), n1.getState().getCarriedTasks());
-		print("la");
 		for(Task task : pickup)
 			plan.appendPickup(task);
 
