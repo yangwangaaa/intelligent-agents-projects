@@ -84,18 +84,15 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 				stopWatch.start(Integer.toString(i));
 				Plan plan2 = AStar(vehicle, tasks);
 				stopWatch.stop();
-				if(!plan.toString().equals(plan2.toString())){
+				if(!plan.equals(plan2)){
 					print("DEUX PLANS DIFFERENTS");
 					print("iteration =");
-					print(Integer.toString(i-2));
+					print(Integer.toString(i));
 					print("PLAN1");
 					print(plan.toString());
 					print("PLAN2");
 
 					print(plan2.toString());
-				}
-				else{
-					print("ok TOUT BON");
 				}
 			}
 			

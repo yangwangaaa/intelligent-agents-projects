@@ -77,28 +77,9 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		switch (algorithm) {
 		case ASTAR:
 			print("Start A*");
-			stopWatch.start("ASTAR  1");
+			stopWatch.start("ASTAR");
 			plan = AStar(vehicle, tasks);
 			stopWatch.stop();
-			for(int i = 2; i<17 ; i++){
-				stopWatch.start(Integer.toString(i));
-				Plan plan2 = AStar(vehicle, tasks);
-				stopWatch.stop();
-				if(!plan.toString().equals(plan2.toString())){
-					print("DEUX PLANS DIFFERENTS");
-					print("iteration =");
-					print(Integer.toString(i-2));
-					print("PLAN1");
-					print(plan.toString());
-					print("PLAN2");
-
-					print(plan2.toString());
-				}
-				else{
-					print("ok TOUT BON");
-				}
-			}
-			
 			print(stopWatch.prettyPrint());
 			break;
 		case BFS:

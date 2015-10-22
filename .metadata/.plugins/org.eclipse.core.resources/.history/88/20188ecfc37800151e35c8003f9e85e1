@@ -94,9 +94,6 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 					print(plan2.toString());
 				}
-				else{
-					print("ok TOUT BON");
-				}
 			}
 			
 			print(stopWatch.prettyPrint());
