@@ -14,15 +14,74 @@ public class Node implements Comparator<Node>, Comparable<Node>{
 		this.cost = cost;
 	}
 
+	
+	////////////////////////////////////////////////////////
+	//													  //
+	//						   UTILS   	  	 			  //
+	//													  //
+	////////////////////////////////////////////////////////
+	
+	public boolean equals(Node n){
+		return (this.state.equals(n.state));
+	}
+
+	@Override
+	public int compareTo(Node o) {
+		return compare(this,o);
+	}
+	
 	@Override
 	public int compare(Node n1, Node n2) {
-		if(n1.cost + h(n1.state) > n2.cost + h(n2.state)) return 1;
-		else if(n1.cost + h(n1.state) == n2.cost + h(n2.state)){// We trust more g than h
-			if(n1.cost>n2.cost) return 1;
-			else if(n1.cost==n2.cost) return 0;
-		}
-		return -1;
+		return naiveTie(n1, n2);
 	}
+	
+	////////////////////////////////////////////////////////
+	//													  //
+	//					   HEURISTICS   	   			  //
+	//													  //
+	////////////////////////////////////////////////////////
+	
+	public int naiveTie(Node n1, Node n2) {
+		double f1 = f(n1);
+		double f2 = f(n2);
+		if(f1 > f2) return 1;
+		if(f1 < f2) return -1;
+		return 0;
+	}
+	
+	public int bestGTie(Node n1, Node n2) {
+		double f1 = f(n1);
+		double f2 = f(n2);
+		if(f1 > f2) return 1;
+		if(f1 < f2) return -1;
+		if(g(n1) > g(n2)) return 1;
+		if(g(n1) < g(n2)) return -1;
+		// compare on delivered task size puis carried task size ? pas besoin si on en prend compte dans h
+		return 0;
+	}
+	
+	public double f(Node n) {
+		return g(n) + naiveH(n);
+	}
+	
+	public double g(Node n) {
+		return n.getCost();
+	}
+	
+	public double naiveH(Node n) {
+		return 0.0;
+	}
+	
+	public double h1(Node n) {
+		return 0.0;
+	}
+	
+	
+	////////////////////////////////////////////////////////
+	//													  //
+	//					   	GETSET       	   			  //
+	//													  //
+	////////////////////////////////////////////////////////
 	
 	public State getState() {
 		return state;
@@ -46,22 +105,5 @@ public class Node implements Comparator<Node>, Comparable<Node>{
 
 	public void setCost(double cost) {
 		this.cost = cost;
-	}
-
-	public double h(State s){
-		return 0;
-	}
-	public boolean equals(Node n){
-		return (this.state.equals(n.state));
-	}
-
-	@Override
-	public int compareTo(Node o) {
-		return compare(this,o);
-	}
-
-
-
-	
-	
+	}	
 }
