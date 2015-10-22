@@ -33,7 +33,7 @@ public class Node implements Comparator<Node>, Comparable<Node>{
 	@Override
 	public int compare(Node n1, Node n2) {
 
-		return naiveTie(n1, n2);
+		return bfs(n1, n2);
 	}
 	
 	////////////////////////////////////////////////////////
@@ -42,6 +42,9 @@ public class Node implements Comparator<Node>, Comparable<Node>{
 	//													  //
 	////////////////////////////////////////////////////////
 	
+	public int bfs(Node n1, Node n2) {
+		return 0;
+	}
 	public int naiveTie(Node n1, Node n2) {
 		double f1 = f(n1);
 		double f2 = f(n2);
