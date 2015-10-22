@@ -22,6 +22,18 @@ public class State {
     }
 	
 	@Override
+	public boolean equals(Object o) {
+		if (o == this) {
+            return true;
+        }
+        if (o == null || o.getClass() != this.getClass()) {
+            return false;
+        }
+        State s = (State) o;
+	    return this.toString().equals(s.toString());
+	}
+	
+	@Override
     public String toString() {
 		return city.toString() + carriedTasks.toString() + deliveredTasks.toString() + availableCapacity;
     }
