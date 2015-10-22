@@ -24,22 +24,6 @@ import org.springframework.util.StopWatch;
 /**
  * An optimal planner for one vehicle.
  */
-
-/**
- * TODO
- * @author Vladar
- * don't add successor to the list Q if already in it?
- * quoi si meme noeud mais meilleur et l'autre moins bon encore dans la liste
- * * costPerKm
- * doit pas revenir ville initiale
- * 
- * 
- * errors : 
- * <> dans déclaration
- * Node dans hashmap au lieu de state
- * Vérifie pas que task dispo est deja dans delivered task
- * noeud correspond à l'état suivant : décaler
- */
 @SuppressWarnings("unused")
 public class DeliberativeTemplate implements DeliberativeBehavior {
 
@@ -93,28 +77,10 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		switch (algorithm) {
 		case ASTAR:
 			print("Start A*");
-			stopWatch.start("ASTAR  1");
+			stopWatch.start("ASTAR");
 			plan = AStar(vehicle, tasks);
+			print(plan.toString());
 			stopWatch.stop();
-			for(int i = 2; i<17 ; i++){
-				stopWatch.start(Integer.toString(i));
-				Plan plan2 = AStar(vehicle, tasks);
-				stopWatch.stop();
-				if(!plan.toString().equals(plan2.toString())){
-					print("DEUX PLANS DIFFERENTS");
-					print("iteration =");
-					print(Integer.toString(i-2));
-					print("PLAN1");
-					print(plan.toString());
-					print("PLAN2");
-
-					print(plan2.toString());
-				}
-				else{
-					print("ok TOUT BON");
-				}
-			}
-			
 			print(stopWatch.prettyPrint());
 			break;
 		case BFS:
@@ -181,11 +147,10 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		State s = new State(current, vehicle.getCurrentTasks(), delivered, vehicle.capacity());
 		Node first = new Node(s, null, 0);
 		// check bfs implem
-		Queue<Node> Q = new LinkedList<Node>(); //linded lest ou arrayList? linked mieux pour moi
-		HashSet<State> C = new  HashSet<State>();
+		Queue<Node> Q = new LinkedList(); //linded lest ou arrayList? linked mieux pour moi
+		HashSet<Node> C = new  HashSet();
 		/////hash puis final
 		Node n = BFS_search(first, Q, C, tasks, vehicle);
-		print("END COMPUTATION BFS");
 		if(n == null){
 			print("pas de plan");
 			return null;}//TODO failure??re
@@ -201,10 +166,47 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 		State initialState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), TaskSet.noneOf(tasks),vehicle.capacity());
 		Node root = new Node(initialState, null, 0);
-		
-		HashMap<State, Double> C = new HashMap<State, Double>();
+
+		HashMap<String, Double> C = new HashMap<String, Double>();
 		ArrayList<Node> Q = new ArrayList<Node>(); //fais une priority queue!!!!
 		Q.add(root);
+
+		
+		/*
+		ArrayList<Node> Test1 = getSuccessors(root, tasks);
+		ArrayList<Node> Test2 = getSuccessors(root, tasks);
+		
+		
+		Node n1 = Test1.get(0);
+		Node n2 = Test2.get(0);
+		
+		
+		print(n1);
+		print(n2);
+		
+		print(n1.getState().toString());
+		print(n2.getState().toString());
+		
+		C.put(n1.getState().toString(), n1.getCost());
+		
+		print(tasks.toString());
+		
+		Object t = tasks.toArray()[0];
+		tasks.remove(t);
+		
+		print(tasks.toString());
+		
+		tasks.add((Task) t);
+		
+		print(tasks.toString());
+		
+		
+		print("" + n1.getState().toString().equals(n2.getState().toString()));
+		print("C contains n1 : " + C.containsKey(n1.getState().toString()) + " / " + n1.getState().hashCode());
+		print("C contains n2 : " + C.containsKey(n2.getState().toString()) + " / " + n2.getState().hashCode());
+
+		*/
+		
 		
 		while(!Q.isEmpty()) {
 			Node currentNode = Q.remove(0);
@@ -213,8 +215,8 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 			if(isFinal(currentState, tasks, vehicle)) return computeFinalPlan(plan, currentNode);
 			
-			if( !C.containsKey(currentState) || currentNode.getCost()<C.get(currentState)) {
-				C.put(currentState, currentNode.getCost());
+			if( !C.containsKey(currentState.toString()) || currentNode.getCost()<C.get(currentState.toString())) {
+				C.put(currentState.toString(), currentNode.getCost());
 
 				ArrayList<Node> S = getSuccessors(currentNode, tasks);
 
@@ -233,19 +235,20 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 	//													  //
 	////////////////////////////////////////////////////////
 
-	private Node BFS_search(Node first, Queue<Node> Q,  HashSet<State> C ,TaskSet tasks, Vehicle vehicle){
+	private Node BFS_search(Node first, Queue<Node> Q,  HashSet<Node> C ,TaskSet tasks, Vehicle vehicle){
 		Q.add(first);
 		while(!Q.isEmpty()){ 
 			Node current = Q.remove();
 			if(isFinal(current.getState(), tasks, vehicle)){
 				return current;
 			}
-			if(!C.contains(current.getState())){
-				C.add(current.getState());
+			if(!C.contains(current)){
+				C.add(current);
 				ArrayList<Node> S = getSuccessors(current, tasks);
 				Q.addAll(S);
 			}
 		}
+		print("fini");
 		return null;
 	}
 
@@ -256,7 +259,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		TaskSet availableTasks = TaskSet.noneOf(tasks);
 		TaskSet tasksToBeDelivered = TaskSet.noneOf(tasks);
 		for(Task task : tasks) {
-			if(task.pickupCity == currentState.getCity() && !currentState.getDeliveredTasks().contains(task) && !currentState.getCarriedTasks().contains(task)) availableTasks.add(task);
+			if(task.pickupCity == currentState.getCity()) availableTasks.add(task);
 			if(task.deliveryCity == currentState.getCity()) tasksToBeDelivered.add(task);
 		}
 		Set<Set<Task>> powerTaskSet = powerSet(availableTasks);
@@ -297,7 +300,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 	public Plan computeFinalPlan(Plan plan, Node n){
 
 		//reorder nodes
-		Stack<Node> stack = new Stack<Node>();
+		Stack<Node> stack = new Stack();
 		stack.push(n);
 		while(n.getParent() != null){
 			n = n.getParent();
@@ -306,14 +309,11 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 		Node n1 = stack.pop();
 		Node n2 = n1;
-		print("THE PLAN IS :");
 		while(!stack.isEmpty()){
-			print(n1);
 			n2 = stack.pop();
 			addActions(plan, n1, n2);
 			n1 = n2;
 		}
-		print(n2);
 		return plan;
 	}
 
