@@ -234,7 +234,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		TaskSet availableTasks = TaskSet.noneOf(tasks);
 		TaskSet tasksToBeDelivered = TaskSet.noneOf(tasks);
 		for(Task task : tasks) {
-			if(task.pickupCity == currentState.getCity() && !currentState.getDeliveredTasks().contains(task) && !currentState.getCarriedTasks().contains(task)) availableTasks.add(task);
+			if(task.pickupCity == currentState.getCity() && !currentState.getDeliveredTasks().contains(task)) availableTasks.add(task);
 			if(task.deliveryCity == currentState.getCity()) tasksToBeDelivered.add(task);
 		}
 		Set<Set<Task>> powerTaskSet = powerSet(availableTasks);
