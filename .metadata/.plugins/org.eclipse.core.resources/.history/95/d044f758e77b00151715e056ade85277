@@ -196,7 +196,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		City current = vehicle.getCurrentCity();
 		Plan plan = new Plan(current);
 
-		State initialState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), TaskSet.noneOf(tasks), tasks, vehicle.capacity());
+		State initialState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), tasks, TaskSet.noneOf(tasks),vehicle.capacity());
 		Node root = new Node(initialState, null, 0);
 
 		HashMap<State, Double> C = new HashMap<State, Double>();
