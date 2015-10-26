@@ -179,7 +179,7 @@ public class DeliberativeTemplate2 implements DeliberativeBehavior {
 		City current = vehicle.getCurrentCity();
 		//tasks.a
 		TaskSet delivered = TaskSet.noneOf(tasks);//sur et chez vlad? vehi . capa
-		State s = new State(current, vehicle.getCurrentTasks(), delivered, vehicle.capacity());
+		State s = new State(current, vehicle.getCurrentTasks(), delivered, tasks, vehicle.capacity());
 		Node first = new Node(s, null, 0);
 		// check bfs implem
 		Queue<Node> Q = new LinkedList<Node>(); //linded lest ou arrayList? linked mieux pour moi
@@ -200,7 +200,7 @@ public class DeliberativeTemplate2 implements DeliberativeBehavior {
 		City current = vehicle.getCurrentCity();
 		Plan plan = new Plan(current);
 
-		State initialState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), TaskSet.noneOf(tasks),vehicle.capacity());
+		State initialState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), tasks, TaskSet.noneOf(tasks),vehicle.capacity());
 		Node root = new Node(initialState, null, 0);
 
 		HashMap<State, Double> C = new HashMap<State, Double>();
@@ -291,7 +291,7 @@ public class DeliberativeTemplate2 implements DeliberativeBehavior {
 						}
 					}
 					
-					State state = new State(neighbor, allCarriedTasks2, allDeliveredTasks2, allCarriedTasks2.weightSum());
+					State state = new State(neighbor, allCarriedTasks2, allDeliveredTasks2, tasks, allCarriedTasks2.weightSum());
 
 					Node node = new Node(state, currentNode, cost);
 					successors.add(node);

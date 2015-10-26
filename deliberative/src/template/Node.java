@@ -8,6 +8,9 @@ public class Node implements Comparator<Node>, Comparable<Node>{
 	private Node parent;
 	private double cost;
 	
+	
+	
+	
 	public Node(State state, Node parent, double cost){
 		this.state = state;
 		this.parent = parent;
@@ -33,7 +36,7 @@ public class Node implements Comparator<Node>, Comparable<Node>{
 	@Override
 	public int compare(Node n1, Node n2) {
 
-		return bfs(n1, n2);
+		return naiveTie(n1, n2);
 	}
 	
 	////////////////////////////////////////////////////////
@@ -42,9 +45,10 @@ public class Node implements Comparator<Node>, Comparable<Node>{
 	//													  //
 	////////////////////////////////////////////////////////
 	
-	public int bfs(Node n1, Node n2) {
-		return 0;
+	public int zeroH(Node n1, Node n2) {
+		return 0; // quel ordre cela provoque? pas BFS en tous cas
 	}
+	
 	public int naiveTie(Node n1, Node n2) {
 		double f1 = f(n1);
 		double f2 = f(n2);
@@ -77,6 +81,9 @@ public class Node implements Comparator<Node>, Comparable<Node>{
 	}
 	
 	public double h1(Node n) {
+		
+		
+		
 		return 0.0;
 	}
 	
