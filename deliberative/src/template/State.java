@@ -7,13 +7,15 @@ public class State {
 	private City city;
 	private TaskSet carriedTasks;
 	private TaskSet deliveredTasks;
+	private TaskSet tasks;
 	private int availableCapacity;
 	
-	public State(City city, TaskSet carriedTasks, TaskSet deliveredTasks, int availableCapacity) {
+	public State(City city, TaskSet carriedTasks, TaskSet deliveredTasks, TaskSet tasks, int availableCapacity) {
 		this.city = city;
 		this.carriedTasks = carriedTasks;
 		this.deliveredTasks = deliveredTasks;
 		this.availableCapacity = availableCapacity;
+		this.tasks = tasks;
 	}
 	
 	@Override
@@ -37,7 +39,15 @@ public class State {
     public String toString() {
 		return city.toString() + carriedTasks.toString() + deliveredTasks.toString() + availableCapacity;
     }
-	
+		
+	public TaskSet getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(TaskSet tasks) {
+		this.tasks = tasks;
+	}
+
 	public int getAvailableCapacity() {
 		return availableCapacity;
 	}
