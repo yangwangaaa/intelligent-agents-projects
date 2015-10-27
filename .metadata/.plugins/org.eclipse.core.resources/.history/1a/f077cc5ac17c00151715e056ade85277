@@ -203,15 +203,38 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 	
 	private Node BFS_search(Node first, Queue<Node> Q,  HashSet<State> C ,TaskSet tasks, Vehicle vehicle){
 		Q.add(first);
+		while(!Q.isEmpty()){ 
+			Node current = Q.remove();
+			if(isFinal(current.getState(), tasks, vehicle)){
+				return current;
+			}
+			if(!C.contains(current.getState())){
+				C.add(current.getState());
+				ArrayList<Node> S = getSuccessors(current, tasks, vehicle);
+				Q.addAll(S);
+			}
+		}
+		return null;
+	}
+	
+	private Node BFS_search(Node first, Queue<Node> Q,  HashSet<State> C ,TaskSet tasks, Vehicle vehicle){
+		Q.add(first);
 		while(!Q.isEmpty()){ //While the queue is not empty
 
 			Node current = Q.remove();
-			if(isFinal(current.getState(), tasks, vehicle)){ //If node is final, return it.
+			if(isFinal(current.getState(), tasks, vehicle)){//If node is final, return it.
 				return current;
 			}
 			if(!C.contains(current.getState())){ //If there is no cycle.
 				C.add(current.getState());
 				ArrayList<Node> S = getSuccessors(current, tasks, vehicle);
+				if (count<10) { //TODO to remove non?
+					print("BFS SUCC " + S.size());
+					for(Node n : S) {
+						print(n);
+					}
+					print("BFS SUCC END");
+				}
 				Q.addAll(S);
 			}
 		}
@@ -413,8 +436,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 					carriedNew.remove(task);
 				}
 			}
-			
-			if (carriedNew.weightSum() <= vehicle.capacity()) {
+			if(carriedNew.weightSum() <= vehicle.capacity()) {
 				for (City neighbor : currentState.getCity().neighbors()) {
 					double cost = currentNode.getCost() + currentState.getCity().distanceTo(neighbor)*vehicle.costPerKm();
 					State state = new State(neighbor, carriedNew, deliveredNew, tasks);

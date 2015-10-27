@@ -188,6 +188,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 		TaskSet delivered = TaskSet.noneOf(tasks);
 		State s = new State(current, vehicle.getCurrentTasks(), delivered, tasks);
+
 		Node first = new Node(s, null, 0);
 
 		//TODO d'autres data structures		
@@ -195,21 +196,31 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		HashSet<State> C = new  HashSet<State>();
 		//Search a plan.
 		Node n = BFS_search(first, Q, C, tasks, vehicle);
-
+<<<<<<< HEAD
+		if(n == null){
+			print("pas de plan");
+			return null;}//TODO failure??re
+		else{
+			Plan plan = new Plan(current);
+			return computeFinalPlan(plan , n);
+		}
+=======
 		// Compute the plan.
 		Plan plan = new Plan(current);
 		return computeFinalPlan(plan , n);
+>>>>>>> origin/master
 	}
 	
 	private Node BFS_search(Node first, Queue<Node> Q,  HashSet<State> C ,TaskSet tasks, Vehicle vehicle){
 		Q.add(first);
-		while(!Q.isEmpty()){ //While the queue is not empty
-
+		while(!Q.isEmpty()){ 
 			Node current = Q.remove();
-			if(isFinal(current.getState(), tasks, vehicle)){ //If node is final, return it.
+
+<<<<<<< HEAD
+			if(isFinal(current.getState(), tasks, vehicle)){
 				return current;
 			}
-			if(!C.contains(current.getState())){ //If there is no cycle.
+			if(!C.contains(current.getState())){
 				C.add(current.getState());
 				ArrayList<Node> S = getSuccessors(current, tasks, vehicle);
 				Q.addAll(S);
@@ -227,11 +238,26 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 		HashMap<State, Double> C = new HashMap<State, Double>();		
 		PriorityQueue<Node> Q = new PriorityQueue<Node>();
+=======
+	private Plan AStar(Vehicle vehicle, TaskSet tasks) {//TODO ça serait pas mal que tu split en deux fonctions comme moi et que tu fasses du return failure
+
+		//Create first node of the search.
+		City current = vehicle.getCurrentCity();
+		Plan plan = new Plan(current);
+		State initialState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), TaskSet.noneOf(tasks), tasks, vehicle.capacity());
+		Node root = new Node(initialState, null, 0);
+
+		HashMap<State, Double> C = new HashMap<State, Double>();		
+		//ArrayList<Node> Q = new ArrayList<Node>(); //fais une priority queue!!!!
+		PriorityQueue<Node> Q = new PriorityQueue<Node>();
+		//Queue<Node> Q = new LinkedList<Node>();
+>>>>>>> origin/master
+
 		Q.add(root);
 
 		while(!Q.isEmpty()){ //While the queue is not empty
 			
-			Node currentNode = Q.poll();
+			Node currentNode = Q.poll(); //TODO  moi j'ai Q.remove() c'est quoi la différence?
 			State currentState = currentNode.getState();
 
 			//If node is final, return it.
@@ -241,6 +267,18 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 			if( !C.containsKey(currentState) || currentNode.getCost()<C.get(currentState)){
 				C.put(currentState, currentNode.getCost());
 				ArrayList<Node> S = getSuccessors(currentNode, tasks, vehicle);
+<<<<<<< HEAD
+=======
+				//TODO quid?
+				if (count<10) {
+					print("ASTAR SUCC " + S.size());
+					for(Node n : S) {
+						print(n);
+					}
+					print("ASTAR SUCC END");
+				}
+
+>>>>>>> origin/master
 				Q.addAll(S);
 			}			
 		}
@@ -273,7 +311,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 	//													  //
 	////////////////////////////////////////////////////////
 
-
+<<<<<<< HEAD
 //	private ArrayList<Node> getSuccessors(Node currentNode, TaskSet tasks, Vehicle vehicle) {
 //		ArrayList<Node> successors = new ArrayList<Node>();
 //		State currentState = currentNode.getState();
@@ -326,7 +364,31 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 //
 //		return successors;
 //	}
+=======
+	private Node BFS_search(Node first, Queue<Node> Q,  HashSet<State> C ,TaskSet tasks, Vehicle vehicle){
+		Q.add(first);
+		while(!Q.isEmpty()){ //While the queue is not empty
 
+			Node current = Q.remove();
+			if(isFinal(current.getState(), tasks, vehicle)){//If node is final, return it.
+				return current;
+			}
+			if(!C.contains(current.getState())){ //If there is no cycle.
+				C.add(current.getState());
+				ArrayList<Node> S = getSuccessors(current, tasks, vehicle);
+				if (count<10) { //TODO to remove non?
+					print("BFS SUCC " + S.size());
+					for(Node n : S) {
+						print(n);
+					}
+					print("BFS SUCC END");
+				}
+				Q.addAll(S);
+			}
+		}
+		return null;
+	}
+>>>>>>> origin/master
 
 //	private ArrayList<Node> getSuccessors(Node currentNode, TaskSet tasks, Vehicle vehicle) {
 //		ArrayList<Node> successors = new ArrayList<Node>();
@@ -382,6 +444,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 	private ArrayList<Node> getSuccessors(Node currentNode, TaskSet tasks, Vehicle vehicle) {
 		ArrayList<Node> successors = new ArrayList<Node>();
 		State currentState = currentNode.getState();
+<<<<<<< HEAD
 		TaskSet deliveredOld = currentState.getDeliveredTasks();
 		TaskSet carriedOld = currentState.getCarriedTasks();
 		TaskSet availableTasks = TaskSet.noneOf(tasks);
@@ -391,6 +454,20 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 				availableTasks.add(task);
 			}
 		}
+=======
+
+		//Set of tasks present on the current city that has never been picked up.
+		TaskSet availableTasks = TaskSet.noneOf(tasks); 
+		//TODO pour moi c'est sensé être: Tasks to be 
+		TaskSet tasksToBeDelivered = TaskSet.noneOf(tasks);
+		for(Task task : tasks) {
+			if(task.pickupCity == currentState.getCity() && !currentState.getDeliveredTasks().contains(task) && !currentState.getCarriedTasks().contains(task)) availableTasks.add(task);
+			if(task.deliveryCity == currentState.getCity()) tasksToBeDelivered.add(task);
+		}
+		Set<Set<Task>> powerTaskSet = powerSet(availableTasks);
+
+		for (City neighbor : currentState.getCity().neighbors()) { //For all neighbor.
+>>>>>>> origin/master
 
 		// TODO?
 		Set<Set<Task>> powerTaskSet = powerSet(availableTasks);	
@@ -402,8 +479,14 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 				pickedUp.add(task);
 			}
 
+<<<<<<< HEAD
 			TaskSet deliveredNew = TaskSet.copyOf(deliveredOld);
 			TaskSet carriedNew = TaskSet.union(carriedOld, pickedUp);
+=======
+			for(Set<Task> tasksSubset : powerTaskSet) { //For all possible PickUp.
+				TaskSet availableTasksSubset = TaskSet.noneOf(tasks);
+				TaskSet alreadyDeliveredTasksSubset = TaskSet.noneOf(tasks);
+>>>>>>> origin/master
 
 			for (Task task : carriedOld) {
 				if (task.deliveryCity.equals(currentState.getCity())) {
@@ -413,11 +496,27 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 					carriedNew.remove(task);
 				}
 			}
-			
-			if (carriedNew.weightSum() <= vehicle.capacity()) {
+
+<<<<<<< HEAD
+			if(carriedNew.weightSum() <= vehicle.capacity()) {
 				for (City neighbor : currentState.getCity().neighbors()) {
 					double cost = currentNode.getCost() + currentState.getCity().distanceTo(neighbor)*vehicle.costPerKm();
 					State state = new State(neighbor, carriedNew, deliveredNew, tasks);
+=======
+				TaskSet allCarriedTasks = TaskSet.union(carriedTasks, availableTasksSubset);
+				if(allCarriedTasks.weightSum() <= vehicle.capacity()){//TODO t'es sur?
+					TaskSet allDeliveredTasks2 = TaskSet.copyOf(allDeliveredTasks);
+					TaskSet allCarriedTasks2 = TaskSet.copyOf(allCarriedTasks); // obligé? (on parcoure en meme temps qu'on remove)
+					for (Task task : allCarriedTasks) {
+						if(task.deliveryCity==neighbor) {
+							allCarriedTasks2.remove(task);
+							allDeliveredTasks2.add(task);
+						}
+					}
+
+					State state = new State(neighbor, allCarriedTasks2, allDeliveredTasks2, tasks, allCarriedTasks2.weightSum());
+
+>>>>>>> origin/master
 					Node node = new Node(state, currentNode, cost);
 					
 					successors.add(node);
