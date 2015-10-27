@@ -174,7 +174,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 		//Create first node of the search.
 		City current = vehicle.getCurrentCity();
-		TaskSet delivered = TaskSet.noneOf(tasks); //TODO tjs comme ca?
+		TaskSet delivered = TaskSet.noneOf(tasks);
 		State s = new State(current, vehicle.getCurrentTasks(), delivered, tasks, vehicle.capacity());
 		Node first = new Node(s, null, 0);
 
@@ -264,64 +264,11 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		return null;
 	}
 
-//	private ArrayList<Node> getSuccessors(Node currentNode, TaskSet tasks, Vehicle vehicle) {
-//		ArrayList<Node> successors = new ArrayList<Node>();
-//		State currentState = currentNode.getState();
-//
-//		TaskSet availableTasks = TaskSet.noneOf(tasks);
-//		TaskSet tasksToBeDelivered = TaskSet.noneOf(tasks);
-//		for(Task task : tasks) {
-//			if(task.pickupCity == currentState.getCity() && !currentState.getDeliveredTasks().contains(task) && !currentState.getCarriedTasks().contains(task)) availableTasks.add(task);
-//			if(task.deliveryCity == currentState.getCity()) tasksToBeDelivered.add(task);
-//		}
-//		Set<Set<Task>> powerTaskSet = powerSet(availableTasks);
-//
-//		for (City neighbor : currentState.getCity().neighbors()) {
-//
-//
-//			TaskSet deliveredTasks = TaskSet.intersect(currentState.getCarriedTasks(), tasksToBeDelivered);
-//			TaskSet carriedTasks = TaskSet.intersectComplement( currentState.getCarriedTasks(), deliveredTasks);
-//			TaskSet allDeliveredTasks = TaskSet.union(currentState.getDeliveredTasks(), deliveredTasks);
-//
-//			double cost = currentNode.getCost() + currentState.getCity().distanceTo(neighbor)*vehicle.costPerKm();
-//
-//			for(Set<Task> tasksSubset : powerTaskSet) { //For all possible PickUp.
-//				TaskSet availableTasksSubset = TaskSet.noneOf(tasks);
-//				TaskSet alreadyDeliveredTasksSubset = TaskSet.noneOf(tasks);
-//
-//				for (Task task : tasksSubset) {
-//					availableTasksSubset.add(task);
-//				}
-//
-//				TaskSet allCarriedTasks = TaskSet.union(carriedTasks, availableTasksSubset);
-//				if(allCarriedTasks.weightSum() <= vehicle.capacity()){
-//					TaskSet allDeliveredTasks2 = TaskSet.copyOf(allDeliveredTasks);
-//					TaskSet allCarriedTasks2 = TaskSet.copyOf(allCarriedTasks); // obligé? (on parcoure en meme temps qu'on remove)
-//					for (Task task : allCarriedTasks) {
-//						if(task.deliveryCity==neighbor) {
-//							allCarriedTasks2.remove(task);
-//							allDeliveredTasks2.add(task);
-//						}
-//					}
-//
-//					State state = new State(neighbor, allCarriedTasks2, allDeliveredTasks2, tasks, allCarriedTasks2.weightSum());
-//
-//					Node node = new Node(state, currentNode, cost);
-//					successors.add(node);
-//				}
-//			}
-//		}
-//
-//		return successors;
-//	}
-	
 	private ArrayList<Node> getSuccessors(Node currentNode, TaskSet tasks, Vehicle vehicle) {
 		ArrayList<Node> successors = new ArrayList<Node>();
 		State currentState = currentNode.getState();
 
-		//Set of tasks present on the current city that has never been picked up.
-		TaskSet availableTasks = TaskSet.noneOf(tasks); 
-		//TODO pour moi c'est sensé être: Tasks to be 
+		TaskSet availableTasks = TaskSet.noneOf(tasks);
 		TaskSet tasksToBeDelivered = TaskSet.noneOf(tasks);
 		for(Task task : tasks) {
 			if(task.pickupCity == currentState.getCity() && !currentState.getDeliveredTasks().contains(task) && !currentState.getCarriedTasks().contains(task)) availableTasks.add(task);
@@ -329,7 +276,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		}
 		Set<Set<Task>> powerTaskSet = powerSet(availableTasks);
 
-		for (City neighbor : currentState.getCity().neighbors()) { //For all neighbor.
+		for (City neighbor : currentState.getCity().neighbors()) {
 
 
 			TaskSet deliveredTasks = TaskSet.intersect(currentState.getCarriedTasks(), tasksToBeDelivered);
@@ -338,7 +285,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 			double cost = currentNode.getCost() + currentState.getCity().distanceTo(neighbor)*vehicle.costPerKm();
 
-			for(Set<Task> tasksSubset : powerTaskSet) { //For all possible PickUp.
+			for(Set<Task> tasksSubset : powerTaskSet) {
 				TaskSet availableTasksSubset = TaskSet.noneOf(tasks);
 				TaskSet alreadyDeliveredTasksSubset = TaskSet.noneOf(tasks);
 
@@ -347,7 +294,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 				}
 
 				TaskSet allCarriedTasks = TaskSet.union(carriedTasks, availableTasksSubset);
-				if(allCarriedTasks.weightSum() <= vehicle.capacity()){//TODO t'es sur?
+				if(allCarriedTasks.weightSum() <= vehicle.capacity()) {
 					TaskSet allDeliveredTasks2 = TaskSet.copyOf(allDeliveredTasks);
 					TaskSet allCarriedTasks2 = TaskSet.copyOf(allCarriedTasks); // obligé? (on parcoure en meme temps qu'on remove)
 					for (Task task : allCarriedTasks) {
@@ -397,7 +344,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 	}
 
 	public void addActions(Plan plan, Node n1, Node n2){
-		
+
 		//Deliver tasks
 		TaskSet delivery = TaskSet.intersectComplement(n2.getState().getDeliveredTasks(), n1.getState().getDeliveredTasks());
 		for(Task task : delivery)
@@ -453,7 +400,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		System.out.print("Node " + count + " : cost=" + n.getCost());
 		System.out.println(", State : city=" + s.getCity().name + ", carriedTasks=" + s.getCarriedTasks().toString() + ", deliveredTasks=" + s.getDeliveredTasks().toString());
 
-		count++; 
+		count++;
 	}
 
 	public void print(String s){
