@@ -8,13 +8,11 @@ public class State {
 	private TaskSet carriedTasks;
 	private TaskSet deliveredTasks;
 	private TaskSet tasks;
-	private int availableCapacity;
 	
-	public State(City city, TaskSet carriedTasks, TaskSet deliveredTasks, TaskSet tasks, int availableCapacity) {
+	public State(City city, TaskSet carriedTasks, TaskSet deliveredTasks, TaskSet tasks) {
 		this.city = city;
 		this.carriedTasks = carriedTasks;
 		this.deliveredTasks = deliveredTasks;
-		this.availableCapacity = availableCapacity;
 		this.tasks = tasks;
 	}
 	
@@ -37,7 +35,7 @@ public class State {
 	
 	@Override
     public String toString() {
-		return city.toString() + carriedTasks.toString() + deliveredTasks.toString() + availableCapacity;
+		return city.toString() + carriedTasks.toString() + deliveredTasks.toString();
     }
 		
 	public TaskSet getTasks() {
@@ -47,15 +45,7 @@ public class State {
 	public void setTasks(TaskSet tasks) {
 		this.tasks = tasks;
 	}
-
-	public int getAvailableCapacity() {
-		return availableCapacity;
-	}
-
-	public void setAvailableCapacity(int availableCapacity) {
-		this.availableCapacity = availableCapacity;
-	}
-
+	
 	public City getCity() {
 		return city;
 	}
