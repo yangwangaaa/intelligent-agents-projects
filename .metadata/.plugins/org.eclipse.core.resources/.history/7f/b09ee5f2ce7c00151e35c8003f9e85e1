@@ -5,14 +5,14 @@ import logist.topology.Topology.City;
 
 public class State {
 	private City city;
-	private TaskSet carried;
-	private TaskSet delivered;
+	private TaskSet carriedTasks;
+	private TaskSet deliveredTasks;
 	private TaskSet tasks;
 	
-	public State(City city, TaskSet carried, TaskSet delivered, TaskSet tasks) {
+	public State(City city, TaskSet carriedTasks, TaskSet deliveredTasks, TaskSet tasks) {
 		this.city = city;
-		this.carried = carried;
-		this.delivered = delivered;
+		this.carriedTasks = carriedTasks;
+		this.deliveredTasks = deliveredTasks;
 		this.tasks = tasks;
 	}
 	
@@ -35,7 +35,7 @@ public class State {
 	
 	@Override
     public String toString() {
-		return city.toString() + carried.toString() + delivered.toString();
+		return city.toString() + carriedTasks.toString() + deliveredTasks.toString();
     }
 		
 	public TaskSet getTasks() {
@@ -50,23 +50,23 @@ public class State {
 		return city;
 	}
 	
-	public TaskSet getCarried() {
-		return carried;
+	public TaskSet getCarriedTasks() {
+		return carriedTasks;
 	}
 	
-	public TaskSet getDelivered() {
-		return delivered;
+	public TaskSet getDeliveredTasks() {
+		return deliveredTasks;
 	}
 	
 	public void setCity(City city) {
 		this.city = city;
 	}
 	
-	public void setCarried(TaskSet carried) {
-		this.carried = carried;
+	public void setCarriedTasks(TaskSet carriedTasks) {
+		this.carriedTasks = carriedTasks;
 	}
 	
-	public void setDelivered(TaskSet delivered) {
-		this.delivered = delivered;
+	public void setDeliveredTasks(TaskSet deliveredTasks) {
+		this.deliveredTasks = deliveredTasks;
 	}
 }

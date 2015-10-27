@@ -473,14 +473,9 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		plan.appendMove(n2.getState().getCity());
 	}
 
-	//TODO size
-	public boolean isFinal(State s, TaskSet tasks, Vehicle v){
-		for(Task task : s.getCarried()){ // For all task in carried
-			if(!task.deliveryCity.equals(s.getCity())) // If task.deliveryCity != city
-				return false;
-		}
-		//return carried U delivered == vehicle.getCurrentTasks U tasks
-		return(TaskSet.union(s.getDelivered(),s.getCarried()).containsAll( TaskSet.union(v.getCurrentTasks(), tasks)));
+	//TODO static?
+	public static boolean isFinal(State s, TaskSet tasks, Vehicle v){
+		return(s.getDelivered().containsAll( TaskSet.union(v.getCurrentTasks(), tasks)));
 	}
 
 

@@ -142,11 +142,11 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 
 	@Override
-	public void planCancelled(TaskSet carried) {
+	public void planCancelled(TaskSet carriedTasks) {
 
-		if (!carried.isEmpty()) {
+		if (!carriedTasks.isEmpty()) {
 			// This cannot happen for this simple agent, but typically
-			// you will need to consider the carried when the next
+			// you will need to consider the carriedTasks when the next
 			// plan is computed.
 		}
 	}
@@ -281,7 +281,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 //		TaskSet availableTasks = TaskSet.noneOf(tasks);
 //		TaskSet tasksToBeDelivered = TaskSet.noneOf(tasks);
 //		for(Task task : tasks) {
-//			if(task.pickupCity == currentState.getCity() && !currentState.getDelivered().contains(task) && !currentState.getCarried().contains(task)) availableTasks.add(task);
+//			if(task.pickupCity == currentState.getCity() && !currentState.getDeliveredTasks().contains(task) && !currentState.getCarriedTasks().contains(task)) availableTasks.add(task);
 //			if(task.deliveryCity == currentState.getCity()) tasksToBeDelivered.add(task);
 //		}
 //
@@ -291,32 +291,32 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 //		for (City neighbor : currentState.getCity().neighbors()) {
 //
 //
-//			TaskSet delivered = TaskSet.intersect(currentState.getCarried(), tasksToBeDelivered);
-//			TaskSet carried = TaskSet.intersectComplement( currentState.getCarried(), delivered);
-//			TaskSet allDelivered = TaskSet.union(currentState.getDelivered(), delivered);
+//			TaskSet deliveredTasks = TaskSet.intersect(currentState.getCarriedTasks(), tasksToBeDelivered);
+//			TaskSet carriedTasks = TaskSet.intersectComplement( currentState.getCarriedTasks(), deliveredTasks);
+//			TaskSet allDeliveredTasks = TaskSet.union(currentState.getDeliveredTasks(), deliveredTasks);
 //
 //			double cost = currentNode.getCost() + currentState.getCity().distanceTo(neighbor)*vehicle.costPerKm();
 //
 //			for(Set<Task> tasksSubset : powerTaskSet) {	
 //				TaskSet availableTasksSubset = TaskSet.noneOf(tasks);
-//				TaskSet alreadyDeliveredSubset = TaskSet.noneOf(tasks);
+//				TaskSet alreadyDeliveredTasksSubset = TaskSet.noneOf(tasks);
 //
 //				for (Task task : tasksSubset) {
 //					availableTasksSubset.add(task);
 //				}
 //
-//				TaskSet allCarried = TaskSet.union(carried, availableTasksSubset);
-//				if(allCarried.weightSum() <= vehicle.capacity()) {
-//					TaskSet allDelivered2 = TaskSet.copyOf(allDelivered);
-//					TaskSet allCarried2 = TaskSet.copyOf(allCarried); // obligé? (on parcoure en meme temps qu'on remove)
-//					for (Task task : allCarried) {
+//				TaskSet allCarriedTasks = TaskSet.union(carriedTasks, availableTasksSubset);
+//				if(allCarriedTasks.weightSum() <= vehicle.capacity()) {
+//					TaskSet allDeliveredTasks2 = TaskSet.copyOf(allDeliveredTasks);
+//					TaskSet allCarriedTasks2 = TaskSet.copyOf(allCarriedTasks); // obligé? (on parcoure en meme temps qu'on remove)
+//					for (Task task : allCarriedTasks) {
 //						if(task.deliveryCity==neighbor) {
-//							allCarried2.remove(task);
-//							allDelivered2.add(task);
+//							allCarriedTasks2.remove(task);
+//							allDeliveredTasks2.add(task);
 //						}
 //					}
 //
-//					State state = new State(neighbor, allCarried2, allDelivered2, tasks);
+//					State state = new State(neighbor, allCarriedTasks2, allDeliveredTasks2, tasks);
 //
 //					Node node = new Node(state, currentNode, cost);
 //					successors.add(node);
@@ -335,7 +335,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 //		TaskSet availableTasks = TaskSet.noneOf(tasks);
 //		TaskSet tasksToBeDelivered = TaskSet.noneOf(tasks);
 //		for(Task task : tasks) {
-//			if(task.pickupCity == currentState.getCity() && !currentState.getDelivered().contains(task) && !currentState.getCarried().contains(task)) availableTasks.add(task);
+//			if(task.pickupCity == currentState.getCity() && !currentState.getDeliveredTasks().contains(task) && !currentState.getCarriedTasks().contains(task)) availableTasks.add(task);
 //			if(task.deliveryCity == currentState.getCity()) tasksToBeDelivered.add(task);
 //		}
 //		Set<Set<Task>> powerTaskSet = powerSet(availableTasks);
@@ -343,32 +343,32 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 //		for (City neighbor : currentState.getCity().neighbors()) {
 //
 //
-//			TaskSet delivered = TaskSet.intersect(currentState.getCarried(), tasksToBeDelivered);
-//			TaskSet carried = TaskSet.intersectComplement( currentState.getCarried(), delivered);
-//			TaskSet allDelivered = TaskSet.union(currentState.getDelivered(), delivered);
+//			TaskSet deliveredTasks = TaskSet.intersect(currentState.getCarriedTasks(), tasksToBeDelivered);
+//			TaskSet carriedTasks = TaskSet.intersectComplement( currentState.getCarriedTasks(), deliveredTasks);
+//			TaskSet allDeliveredTasks = TaskSet.union(currentState.getDeliveredTasks(), deliveredTasks);
 //
 //			double cost = currentNode.getCost() + currentState.getCity().distanceTo(neighbor)*vehicle.costPerKm();
 //
 //			for(Set<Task> tasksSubset : powerTaskSet) { //For all possible PickUp.
 //				TaskSet availableTasksSubset = TaskSet.noneOf(tasks);
-//				TaskSet alreadyDeliveredSubset = TaskSet.noneOf(tasks);
+//				TaskSet alreadyDeliveredTasksSubset = TaskSet.noneOf(tasks);
 //
 //				for (Task task : tasksSubset) {
 //					availableTasksSubset.add(task);
 //				}
 //
-//				TaskSet allCarried = TaskSet.union(carried, availableTasksSubset);
-//				if(allCarried.weightSum() <= vehicle.capacity()){
-//					TaskSet allDelivered2 = TaskSet.copyOf(allDelivered);
-//					TaskSet allCarried2 = TaskSet.copyOf(allCarried); // obligé? (on parcoure en meme temps qu'on remove)
-//					for (Task task : allCarried) {
+//				TaskSet allCarriedTasks = TaskSet.union(carriedTasks, availableTasksSubset);
+//				if(allCarriedTasks.weightSum() <= vehicle.capacity()){
+//					TaskSet allDeliveredTasks2 = TaskSet.copyOf(allDeliveredTasks);
+//					TaskSet allCarriedTasks2 = TaskSet.copyOf(allCarriedTasks); // obligé? (on parcoure en meme temps qu'on remove)
+//					for (Task task : allCarriedTasks) {
 //						if(task.deliveryCity==neighbor) {
-//							allCarried2.remove(task);
-//							allDelivered2.add(task);
+//							allCarriedTasks2.remove(task);
+//							allDeliveredTasks2.add(task);
 //						}
 //					}
 //
-//					State state = new State(neighbor, allCarried2, allDelivered2, tasks, allCarried2.weightSum());
+//					State state = new State(neighbor, allCarriedTasks2, allDeliveredTasks2, tasks, allCarriedTasks2.weightSum());
 //
 //					Node node = new Node(state, currentNode, cost);
 //					successors.add(node);
@@ -382,8 +382,8 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 	private ArrayList<Node> getSuccessors(Node currentNode, TaskSet tasks, Vehicle vehicle) {
 		ArrayList<Node> successors = new ArrayList<Node>();
 		State currentState = currentNode.getState();
-		TaskSet deliveredOld = currentState.getDelivered();
-		TaskSet carriedOld = currentState.getCarried();
+		TaskSet deliveredOld = currentState.getDeliveredTasks();
+		TaskSet carriedOld = currentState.getCarriedTasks();
 		TaskSet availableTasks = TaskSet.noneOf(tasks);
 		
 		for (Task task : tasks) {
@@ -412,10 +412,10 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 				}
 			}
 			
-			if (carriedNew.weightSum() <= vehicle.capacity()) {//Abort if carried > capacity //TODO remonter la condi
-				for (City neighbor : currentState.getCity().neighbors()) {//For all neighbors
-					double cost = currentNode.getCost() + currentState.getCity().distanceTo(neighbor)*vehicle.costPerKm();//TODO pourquoi tu fais *costPerkm c'est couteux 
-					State state = new State(neighbor, carriedNew, deliveredNew, tasks); //Create new state
+			if (carriedNew.weightSum() <= vehicle.capacity()) {//TODO remonter la condi
+				for (City neighbor : currentState.getCity().neighbors()) {
+					double cost = currentNode.getCost() + currentState.getCity().distanceTo(neighbor)*vehicle.costPerKm();
+					State state = new State(neighbor, carriedNew, deliveredNew, tasks);
 					Node node = new Node(state, currentNode, cost);
 					
 					successors.add(node);
@@ -446,26 +446,22 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		while(!stack.isEmpty()){
 			//print(n1);
 			n2 = stack.pop();
-			//deliver in city_old, pick up in city_old, move to city_new
 			addActions(plan, n1, n2);
 			n1 = n2;
 		}
-		//deliver the tasks on the last city.
-		TaskSet lastDelivery = n1.getState().getCarried();
-		for(Task task : lastDelivery)
-			plan.appendDelivery(task);
+		//print(n2);
 		return plan;
 	}
 
 	public void addActions(Plan plan, Node n1, Node n2){
 		
 		//Deliver tasks
-		TaskSet delivery = TaskSet.intersectComplement(n2.getState().getDelivered(), n1.getState().getDelivered());
+		TaskSet delivery = TaskSet.intersectComplement(n2.getState().getDeliveredTasks(), n1.getState().getDeliveredTasks());
 		for(Task task : delivery)
 			plan.appendDelivery(task);
 
 		//Pickup tasks
-		TaskSet pickup = TaskSet.intersectComplement(n2.getState().getCarried(), n1.getState().getCarried());
+		TaskSet pickup = TaskSet.intersectComplement(n2.getState().getCarriedTasks(), n1.getState().getCarriedTasks());
 		for(Task task : pickup)
 			plan.appendPickup(task);
 
@@ -473,14 +469,9 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		plan.appendMove(n2.getState().getCity());
 	}
 
-	//TODO size
-	public boolean isFinal(State s, TaskSet tasks, Vehicle v){
-		for(Task task : s.getCarried()){ // For all task in carried
-			if(!task.deliveryCity.equals(s.getCity())) // If task.deliveryCity != city
-				return false;
-		}
-		//return carried U delivered == vehicle.getCurrentTasks U tasks
-		return(TaskSet.union(s.getDelivered(),s.getCarried()).containsAll( TaskSet.union(v.getCurrentTasks(), tasks)));
+	//TODO static?
+	public static boolean isFinal(State s, TaskSet tasks, Vehicle v){
+		return(s.getDeliveredTasks().containsAll( TaskSet.union(v.getCurrentTasks(), tasks)));
 	}
 
 
@@ -517,7 +508,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 		State s = n.getState();
 		System.out.print("Node " + count + " : cost=" + n.getCost());
-		System.out.println(", State : city=" + s.getCity().name + ", carried=" + s.getCarried().toString() + ", delivered=" + s.getDelivered().toString());
+		System.out.println(", State : city=" + s.getCity().name + ", carriedTasks=" + s.getCarriedTasks().toString() + ", deliveredTasks=" + s.getDeliveredTasks().toString());
 
 		count++; 
 	}

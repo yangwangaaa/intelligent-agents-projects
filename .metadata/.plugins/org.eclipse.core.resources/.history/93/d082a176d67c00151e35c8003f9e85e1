@@ -412,10 +412,10 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 				}
 			}
 			
-			if (carriedNew.weightSum() <= vehicle.capacity()) {//Abort if carried > capacity //TODO remonter la condi
-				for (City neighbor : currentState.getCity().neighbors()) {//For all neighbors
-					double cost = currentNode.getCost() + currentState.getCity().distanceTo(neighbor)*vehicle.costPerKm();//TODO pourquoi tu fais *costPerkm c'est couteux 
-					State state = new State(neighbor, carriedNew, deliveredNew, tasks); //Create new state
+			if (carriedNew.weightSum() <= vehicle.capacity()) {//TODO remonter la condi
+				for (City neighbor : currentState.getCity().neighbors()) {
+					double cost = currentNode.getCost() + currentState.getCity().distanceTo(neighbor)*vehicle.costPerKm();
+					State state = new State(neighbor, carriedNew, deliveredNew, tasks);
 					Node node = new Node(state, currentNode, cost);
 					
 					successors.add(node);
@@ -446,14 +446,10 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		while(!stack.isEmpty()){
 			//print(n1);
 			n2 = stack.pop();
-			//deliver in city_old, pick up in city_old, move to city_new
 			addActions(plan, n1, n2);
 			n1 = n2;
 		}
-		//deliver the tasks on the last city.
-		TaskSet lastDelivery = n1.getState().getCarried();
-		for(Task task : lastDelivery)
-			plan.appendDelivery(task);
+		//print(n2);
 		return plan;
 	}
 
@@ -473,14 +469,9 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		plan.appendMove(n2.getState().getCity());
 	}
 
-	//TODO size
-	public boolean isFinal(State s, TaskSet tasks, Vehicle v){
-		for(Task task : s.getCarried()){ // For all task in carried
-			if(!task.deliveryCity.equals(s.getCity())) // If task.deliveryCity != city
-				return false;
-		}
-		//return carried U delivered == vehicle.getCurrentTasks U tasks
-		return(TaskSet.union(s.getDelivered(),s.getCarried()).containsAll( TaskSet.union(v.getCurrentTasks(), tasks)));
+	//TODO static?
+	public static boolean isFinal(State s, TaskSet tasks, Vehicle v){
+		return(s.getDelivered().containsAll( TaskSet.union(v.getCurrentTasks(), tasks)));
 	}
 
 
