@@ -50,11 +50,11 @@ public class State {
 		return city;
 	}
 	
-	public TaskSet getCarried() {
+	public TaskSet getCarriedTasks() {
 		return carried;
 	}
 	
-	public TaskSet getDelivered() {
+	public TaskSet getDeliveredTasks() {
 		return delivered;
 	}
 	
@@ -62,11 +62,11 @@ public class State {
 		this.city = city;
 	}
 	
-	public void setCarried(TaskSet carried) {
+	public void setCarriedTasks(TaskSet carried) {
 		this.carried = carried;
 	}
 	
-	public void setDelivered(TaskSet delivered) {
+	public void setDeliveredTasks(TaskSet delivered) {
 		this.delivered = delivered;
 	}
 }
