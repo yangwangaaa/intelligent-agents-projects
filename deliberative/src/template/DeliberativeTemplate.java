@@ -31,19 +31,22 @@ import org.springframework.util.StopWatch;
  * @author Vladar
  * costPerKm V
  * priority queue V
- * tester plusieurs agents
- * what if recompute path : possible que carried tasks pour city actuelle?
- * virer capacity
- * powerset in reverse order!
+ * tester plusieurs agents V
+ * what if recompute path : possible que carried tasks pour city actuelle? V
+ * virer capacity V
+ * powerset in reverse order! X
  * 
  * Astar plus lent que BFS car : 
  * 1) collections.sort 
  * 2) mauvaise data structure (queue + rapide) 
  * 3) reexpand si cost plus petit 
  * 
- * optimiser successors + power set
  * don't add successor to the list Q if already in it?
  * quoi si meme noeud mais meilleur et l'autre moins bon encore dans la liste
+ * 
+ * virer debut successors
+ * optimiser successors + power set
+ * 
  * repenser states + verifier data structures
  */
 
@@ -52,6 +55,14 @@ import org.springframework.util.StopWatch;
  * @author Vladar
  * check delivered apres : 18-19sec sur 10tasks
  * check delivered directement : 14sec sur 10 tasks
+ * 
+ * old add successor :
+ * BFS : 15.9
+ * STAR : 24.0
+ * 
+ * new old successor :
+ * BFS
+ * ASTAR
  */
 @SuppressWarnings("unused")
 public class DeliberativeTemplate implements DeliberativeBehavior {
@@ -99,7 +110,11 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		print(tasks); //TODO assure toi que les task deja remplies et celle enlevé ne sont plus dedans
 		Plan plan;
 		StopWatch stopWatch = new StopWatch("My Stop Watch");
-		
+
+		print("RECOMPUTE PLAN FROM " + vehicle.getCurrentCity());
+		print(vehicle.getCurrentTasks());
+		print("END RECOMPUTE");
+
 		// Compute the plan with the selected algorithm.
 		switch (algorithm) {
 		case ASTAR:
@@ -120,11 +135,11 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		default:
 			throw new AssertionError("Should not happen.");
 		}		
-		
+
 		stopWatch.stop();
 
 		print(stopWatch.prettyPrint());
-		
+
 		return plan;
 	}
 
@@ -175,14 +190,13 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		City current = vehicle.getCurrentCity();
 		//tasks.a
 		TaskSet delivered = TaskSet.noneOf(tasks);//sur et chez vlad? vehi . capa
-		State s = new State(current, vehicle.getCurrentTasks(), delivered, tasks, vehicle.capacity());
+		State s = new State(current, vehicle.getCurrentTasks(), delivered, tasks);
 		Node first = new Node(s, null, 0);
 		// check bfs implem
 		Queue<Node> Q = new LinkedList<Node>(); //linded lest ou arrayList? linked mieux pour moi
 		HashSet<State> C = new  HashSet<State>();
 		/////hash puis final
 		Node n = BFS_search(first, Q, C, tasks, vehicle);
-		print("END COMPUTATION BFS");
 		if(n == null){
 			print("pas de plan");
 			return null;}//TODO failure??re
@@ -191,53 +205,73 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 			return computeFinalPlan(plan , n);
 		}
 	}
+	
+	private Node BFS_search(Node first, Queue<Node> Q,  HashSet<State> C ,TaskSet tasks, Vehicle vehicle){
+		Q.add(first);
+		while(!Q.isEmpty()){ 
+			Node current = Q.remove();
 
-	private Plan AStar(Vehicle vehicle, TaskSet tasks) {
-		City current = vehicle.getCurrentCity();
-		Plan plan = new Plan(current);
+			if(isFinal(current.getState(), tasks, vehicle)){
+				return current;
+			}
+			if(!C.contains(current.getState())){
+				C.add(current.getState());
+				ArrayList<Node> S = getSuccessors(current, tasks, vehicle);
+				Q.addAll(S);
+			}
+		}
+		return null;
+	}
+	
+	private Plan AStar(Vehicle vehicle, TaskSet tasks) {//TODO ça serait pas mal que tu split en deux fonctions comme moi et que tu fasses du return failure
 
-		State initialState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), TaskSet.noneOf(tasks), tasks, vehicle.capacity());
+		//Create first node of the search.
+		Plan plan = new Plan(vehicle.getCurrentCity());
+		State initialState = new State(vehicle.getCurrentCity(), vehicle.getCurrentTasks(), TaskSet.noneOf(tasks), tasks);
 		Node root = new Node(initialState, null, 0);
 
-		HashMap<State, Double> C = new HashMap<State, Double>();
-		
-		//ArrayList<Node> Q = new ArrayList<Node>(); //fais une priority queue!!!!
+		HashMap<State, Double> C = new HashMap<State, Double>();		
 		PriorityQueue<Node> Q = new PriorityQueue<Node>();
-		//Queue<Node> Q = new LinkedList<Node>();
-		
+
 		Q.add(root);
 
-		while(!Q.isEmpty()) {
-			//Node currentNode = Q.remove(0);
-			Node currentNode = Q.poll();
+		while(!Q.isEmpty()){ //While the queue is not empty
 			
-			//if (count<10) print(currentNode);
-			
+			Node currentNode = Q.poll(); //TODO  moi j'ai Q.remove() c'est quoi la différence?
 			State currentState = currentNode.getState();
 
+			//If node is final, return it.
 			if(isFinal(currentState, tasks, vehicle)) return computeFinalPlan(plan, currentNode);
 
-			if( !C.containsKey(currentState) || currentNode.getCost()<C.get(currentState)) {
+			//If there is no cycle or the cost to arrive in equivalent state is smaller.
+			if( !C.containsKey(currentState) || currentNode.getCost()<C.get(currentState)){
 				C.put(currentState, currentNode.getCost());
-
 				ArrayList<Node> S = getSuccessors(currentNode, tasks, vehicle);
-
-				if (count<10) {
-					print("ASTAR SUCC " + S.size());
-					for(Node n : S) {
-						print(n);
-					}
-					print("ASTAR SUCC END");
-				}
-				
 				Q.addAll(S);
-
-				//Collections.sort(Q);
 			}			
 		}
 
 		return null;
 	}
+	
+	
+	//			if( !C.containsKey(currentState) || currentNode.getCost()<C.get(currentState)) {
+	//				C.put(currentState, currentNode.getCost());
+	//
+	//				ArrayList<Node> S = getSuccessors(currentNode, tasks, vehicle);
+	//
+	//				//				if (count<10) {
+	//				//					print("ASTAR SUCC " + S.size());
+	//				//					for(Node n : S) {
+	//				//						print(n);
+	//				//					}
+	//				//					print("ASTAR SUCC END");
+	//				//				}
+	//
+	//				Q.addAll(S);
+	//
+	//				//Collections.sort(Q);
+	//			}
 
 	////////////////////////////////////////////////////////
 	//													  //
@@ -245,78 +279,104 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 	//													  //
 	////////////////////////////////////////////////////////
 
-	private Node BFS_search(Node first, Queue<Node> Q,  HashSet<State> C ,TaskSet tasks, Vehicle vehicle){
-		Q.add(first);
-		while(!Q.isEmpty()){ 
-			Node current = Q.remove();
-			//if (count<10) print(current);
-			if(isFinal(current.getState(), tasks, vehicle)){
-				return current;
-			}
-			if(!C.contains(current.getState())){
-				C.add(current.getState());
-				ArrayList<Node> S = getSuccessors(current, tasks, vehicle);
-				if (count<10) {
-					print("BFS SUCC " + S.size());
-					for(Node n : S) {
-						print(n);
-					}
-					print("BFS SUCC END");
-				}
-				Q.addAll(S);
-			}
-		}
-		return null;
-	}
+//	private ArrayList<Node> getSuccessors(Node currentNode, TaskSet tasks, Vehicle vehicle) {
+//		ArrayList<Node> successors = new ArrayList<Node>();
+//		State currentState = currentNode.getState();
+//
+//		TaskSet availableTasks = TaskSet.noneOf(tasks);
+//		TaskSet tasksToBeDelivered = TaskSet.noneOf(tasks);
+//		for(Task task : tasks) {
+//			if(task.pickupCity == currentState.getCity() && !currentState.getDeliveredTasks().contains(task) && !currentState.getCarriedTasks().contains(task)) availableTasks.add(task);
+//			if(task.deliveryCity == currentState.getCity()) tasksToBeDelivered.add(task);
+//		}
+//
+//
+//		Set<Set<Task>> powerTaskSet = powerSet(availableTasks);		
+//
+//		for (City neighbor : currentState.getCity().neighbors()) {
+//
+//
+//			TaskSet deliveredTasks = TaskSet.intersect(currentState.getCarriedTasks(), tasksToBeDelivered);
+//			TaskSet carriedTasks = TaskSet.intersectComplement( currentState.getCarriedTasks(), deliveredTasks);
+//			TaskSet allDeliveredTasks = TaskSet.union(currentState.getDeliveredTasks(), deliveredTasks);
+//
+//			double cost = currentNode.getCost() + currentState.getCity().distanceTo(neighbor)*vehicle.costPerKm();
+//
+//			for(Set<Task> tasksSubset : powerTaskSet) {	
+//				TaskSet availableTasksSubset = TaskSet.noneOf(tasks);
+//				TaskSet alreadyDeliveredTasksSubset = TaskSet.noneOf(tasks);
+//
+//				for (Task task : tasksSubset) {
+//					availableTasksSubset.add(task);
+//				}
+//
+//				TaskSet allCarriedTasks = TaskSet.union(carriedTasks, availableTasksSubset);
+//				if(allCarriedTasks.weightSum() <= vehicle.capacity()) {
+//					TaskSet allDeliveredTasks2 = TaskSet.copyOf(allDeliveredTasks);
+//					TaskSet allCarriedTasks2 = TaskSet.copyOf(allCarriedTasks); // obligé? (on parcoure en meme temps qu'on remove)
+//					for (Task task : allCarriedTasks) {
+//						if(task.deliveryCity==neighbor) {
+//							allCarriedTasks2.remove(task);
+//							allDeliveredTasks2.add(task);
+//						}
+//					}
+//
+//					State state = new State(neighbor, allCarriedTasks2, allDeliveredTasks2, tasks);
+//
+//					Node node = new Node(state, currentNode, cost);
+//					successors.add(node);
+//				}
+//			}
+//		}
+//
+//		return successors;
+//	}
 
 	private ArrayList<Node> getSuccessors(Node currentNode, TaskSet tasks, Vehicle vehicle) {
 		ArrayList<Node> successors = new ArrayList<Node>();
 		State currentState = currentNode.getState();
-
+		TaskSet deliveredOld = currentState.getDeliveredTasks();
+		TaskSet carriedOld = currentState.getCarriedTasks();
 		TaskSet availableTasks = TaskSet.noneOf(tasks);
-		TaskSet tasksToBeDelivered = TaskSet.noneOf(tasks);
-		for(Task task : tasks) {
-			if(task.pickupCity == currentState.getCity() && !currentState.getDeliveredTasks().contains(task) && !currentState.getCarriedTasks().contains(task)) availableTasks.add(task);
-			if(task.deliveryCity == currentState.getCity()) tasksToBeDelivered.add(task);
+		
+		for (Task task : tasks) {
+			if(task.pickupCity == currentState.getCity() && !deliveredOld.contains(task) && !carriedOld.contains(task)) {
+				availableTasks.add(task);
+			}
 		}
-		Set<Set<Task>> powerTaskSet = powerSet(availableTasks);
 
-		for (City neighbor : currentState.getCity().neighbors()) {
+		// TODO?
+		Set<Set<Task>> powerTaskSet = powerSet(availableTasks);	
 
+		for (Set<Task> tasksSubset : powerTaskSet) {
 
-			TaskSet deliveredTasks = TaskSet.intersect(currentState.getCarriedTasks(), tasksToBeDelivered);
-			TaskSet carriedTasks = TaskSet.intersectComplement( currentState.getCarriedTasks(), deliveredTasks);
-			TaskSet allDeliveredTasks = TaskSet.union(currentState.getDeliveredTasks(), deliveredTasks);
+			TaskSet pickedUp = TaskSet.noneOf(tasks);
+			for (Task task : tasksSubset) {
+				pickedUp.add(task);
+			}
 
-			double cost = currentNode.getCost() + currentState.getCity().distanceTo(neighbor)*vehicle.costPerKm();
+			TaskSet deliveredNew = TaskSet.copyOf(deliveredOld);
+			TaskSet carriedNew = TaskSet.union(carriedOld, pickedUp);
 
-			for(Set<Task> tasksSubset : powerTaskSet) {
-				TaskSet availableTasksSubset = TaskSet.noneOf(tasks);
-				TaskSet alreadyDeliveredTasksSubset = TaskSet.noneOf(tasks);
-
-				for (Task task : tasksSubset) {
-					availableTasksSubset.add(task);
+			for (Task task : carriedOld) {
+				if (task.deliveryCity.equals(currentState.getCity())) {
+					deliveredNew.add(task);
 				}
+				else {
+					carriedNew.remove(task);
+				}
+			}
 
-				TaskSet allCarriedTasks = TaskSet.union(carriedTasks, availableTasksSubset);
-				if(allCarriedTasks.weightSum() <= vehicle.capacity()) {
-					TaskSet allDeliveredTasks2 = TaskSet.copyOf(allDeliveredTasks);
-					TaskSet allCarriedTasks2 = TaskSet.copyOf(allCarriedTasks); // obligé? (on parcoure en meme temps qu'on remove)
-					for (Task task : allCarriedTasks) {
-						if(task.deliveryCity==neighbor) {
-							allCarriedTasks2.remove(task);
-							allDeliveredTasks2.add(task);
-						}
-					}
-
-					State state = new State(neighbor, allCarriedTasks2, allDeliveredTasks2, tasks, allCarriedTasks2.weightSum());
-
+			if(carriedNew.weightSum() <= vehicle.capacity()) {
+				for (City neighbor : currentState.getCity().neighbors()) {
+					double cost = currentNode.getCost() + currentState.getCity().distanceTo(neighbor)*vehicle.costPerKm();
+					State state = new State(neighbor, carriedNew, deliveredNew, tasks);
 					Node node = new Node(state, currentNode, cost);
+					
 					successors.add(node);
 				}
 			}
 		}
-
 		return successors;
 	}
 
@@ -333,14 +393,14 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 		Node n1 = stack.pop();
 		Node n2 = n1;
-		print("THE PLAN IS :");
+		//print("THE PLAN IS :");
 		while(!stack.isEmpty()){
-			print(n1);
+			//print(n1);
 			n2 = stack.pop();
 			addActions(plan, n1, n2);
 			n1 = n2;
 		}
-		print(n2);
+		//print(n2);
 		return plan;
 	}
 
