@@ -82,6 +82,8 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 	Algorithm algorithm;
 
 	int count = 0;
+	int numNodesVisited = 0;
+	int numNodesCreated = 1;
 
 
 	////////////////////////////////////////////////////////
@@ -137,6 +139,10 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 		print(stopWatch.prettyPrint());
 
+		
+		print("numNodesVisited = " + numNodesVisited);
+		print("numNodesCreated = " + numNodesCreated);
+		
 		return plan;
 	}
 
@@ -205,6 +211,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		Q.add(first);
 		while(!Q.isEmpty()){ //While the queue is not empty
 
+			numNodesVisited++;
 			Node current = Q.remove();
 			if(isFinal(current.getState(), tasks, vehicle)){ //If node is final, return it.
 				return current;
@@ -231,6 +238,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 
 		while(!Q.isEmpty()){ //While the queue is not empty
 			
+			numNodesVisited++;
 			Node currentNode = Q.poll();
 			State currentState = currentNode.getState();
 
@@ -414,10 +422,11 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 			
 			if (carriedNew.weightSum() <= vehicle.capacity()) {//Abort if carried > capacity //TODO remonter la condi
 				for (City neighbor : currentState.getCity().neighbors()) {//For all neighbors
-					double cost = currentNode.getCost() + currentState.getCity().distanceTo(neighbor)*vehicle.costPerKm();//TODO pourquoi tu fais *costPerkm c'est couteux 
+					double cost = currentNode.getCost() + currentState.getCity().distanceTo(neighbor);
 					State state = new State(neighbor, carriedNew, deliveredNew, tasks); //Create new state
 					Node node = new Node(state, currentNode, cost);
 					
+					numNodesCreated++;
 					successors.add(node);
 				}
 			}
