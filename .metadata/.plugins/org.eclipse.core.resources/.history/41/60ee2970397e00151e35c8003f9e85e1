@@ -196,6 +196,7 @@ public class DeliberativeTemplate implements DeliberativeBehavior {
 		State s = new State(current, vehicle.getCurrentTasks(), delivered, tasks);
 		Node first = new Node(s, null, 0);
 
+		//TODO d'autres data structures		
 		Queue<Node> Q = new LinkedList<Node>(); 
 		HashSet<State> C = new  HashSet<State>();
 		//Search a plan.
