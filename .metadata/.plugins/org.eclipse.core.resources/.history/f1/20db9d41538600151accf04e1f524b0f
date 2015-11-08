@@ -66,10 +66,13 @@ public class CentralizedOneTask implements CentralizedBehavior {
         long time_start = System.currentTimeMillis();
         
 //		System.out.println("Agent " + agent.id() + " has tasks " + tasks);
-        Node bestSolution = SLS();
+        Plan planVehicle1 = naivePlan(vehicles.get(0), tasks);
 
-        List<Plan> plans = computeFinalPlan(bestSolution);
-
+        List<Plan> plans = new ArrayList<Plan>();
+        plans.add(planVehicle1);
+        while (plans.size() < vehicles.size()) {
+            plans.add(Plan.EMPTY);
+        }
         
         long time_end = System.currentTimeMillis();
         long duration = time_end - time_start;
@@ -108,44 +111,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
         return plan;
     }
     
-    private Node SLS(X, D, C) {
-    	
-    }
-    
     //////////////////////////////////////
-    //            SUBMETHODS            //
-    //////////////////////////////////////
-    
-    private Node selectInitialSolution(X, D, C) {
-    	
-    	
-    }
-    
-    private Node[] chooseNeighbours(Node Aold, X, D, C) {
-    	
-    }
-    
-    private Node localChoice(Node A) {
-    	
-    }
-    
-    private Node changingVehicle(Node A, v1, v2) {
-    	
-    }
-    
-    private Node changingTaskOrder(Node A, v, aI1, aI2) {
-    	
-    }
-    
-    private void updateTime(A, v) {
-    	
-    }
-    
-    private Node computeFinalPlan(Node n) {
-    	
-    }
-    
-    //////////////////////////////////////
-    //              UTILS               //
+    //           SUBMETHODS             //
     //////////////////////////////////////
 }
