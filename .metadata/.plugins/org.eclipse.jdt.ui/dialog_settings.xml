@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
-	<item value="/Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects/logist" key="org.eclipse.jdt.ui.lastextjar"/>
+	<item value="/Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects" key="org.eclipse.jdt.ui.lastextjar"/>
 	<section name="org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart">
 		<item value="2" key="layout"/>
 		<item value="true" key="group_libraries"/>
@@ -14,6 +14,7 @@
 	</section>
 	<section name="OptionalMessageDialog.hide.">
 		<item value="true" key="org.eclipse.jdt.ui.typecomment.deprecated"/>
+		<item value="true" key="RunnableJar.export.ipwarning"/>
 	</section>
 	<section name="org.eclipse.jdt.internal.ui.typehierarchy.QuickHierarchy">
 		<item value="true" key="org.eclipse.jdt.internal.ui.typehierarchy.HierarchyInformationControlDIALOG_USE_PERSISTED_SIZE"/>
@@ -34,6 +35,19 @@
 		<item value="300" key="org.eclipse.jdt.internal.ui.text.JavaOutlineInformationControlDIALOG_HEIGHT"/>
 		<item value="false" key="GoIntoTopLevelTypeAction.isChecked"/>
 		<item value="false" key="org.eclipse.jdt.internal.ui.text.JavaOutlineInformationControlDIALOG_USE_PERSISTED_LOCATION"/>
+	</section>
+	<section name="FatJarPackageWizard">
+		<item value="/Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects" key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION"/>
+		<item value="deliberativeASTAR - deliberative" key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME"/>
+		<item value="/Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects/P3/deliberative.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>
+		<item value="false" key="FatJarPackageWizardPage.ANTSCRIPT_SAVE"/>
+		<item value="1" key="FatJarPackageWizardPage.LIBRARY_HANDLING"/>
+		<list key="FatJarPackageWizardPage.DESTINATION_NAMES_ID">
+			<item value="/Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects/P3/deliberative.jar"/>
+		</list>
+		<list key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION_HISTORY">
+			<item value=".xml"/>
+		</list>
 	</section>
 	<section name="SourceActionDialog.methods">
 		<item value="false" key="SynchronizedModifier"/>
