@@ -81,17 +81,14 @@ public class NodeT {
 
 
 		for (int v = 0; v<Nv; v++) {
-			if (this.nextTask(v+Nt)!=-1) {
-				Task firstTask = tasks[this.nextTask(v+Nt)];
-				Vehicle vehicle = vehicles.get(v);
-				City vCity = vehicle.getCurrentCity();
-				City pickUp = firstTask.pickupCity;
-				City delivery = firstTask.deliveryCity;
-				C += ( vCity.distanceTo(pickUp) + pickUp.distanceTo(delivery) )*vehicle.costPerKm();
-			}
+			Task firstTask = tasks[this.nextTask(v+Nt)];
+			Vehicle vehicle = vehicles.get(v);
+			City vCity = vehicle.getCurrentCity();
+			City pickUp = firstTask.pickupCity;
+			City delivery = firstTask.deliveryCity;
+			C += ( vCity.distanceTo(pickUp) + pickUp.distanceTo(delivery) )*vehicle.costPerKm();
 		}
 
-		this.OValue = C;
 		return C;
 	}
 
@@ -124,7 +121,7 @@ public class NodeT {
 
 	public void print() {
 		int max = 27;
-
+		
 		System.out.println("Objective function value = " + OValue);
 		System.out.println("- Nt = " + Nt);
 

@@ -91,7 +91,6 @@ public class NodeT {
 			}
 		}
 
-		this.OValue = C;
 		return C;
 	}
 

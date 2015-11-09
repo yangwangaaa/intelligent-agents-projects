@@ -117,9 +117,6 @@ public class CentralizedOneTask implements CentralizedBehavior {
     		i++;
     	}
     	
-    	bestNodeT.getOValue(tasks, vehiclesList);
-    	bestNodeT.print();
-    	
     	return bestNodeT;
     }
     

@@ -81,7 +81,7 @@ public class NodeT {
 
 
 		for (int v = 0; v<Nv; v++) {
-			if (this.nextTask(v+Nt)!=-1) {
+			if (this.nextTask(t)!=-1) {
 				Task firstTask = tasks[this.nextTask(v+Nt)];
 				Vehicle vehicle = vehicles.get(v);
 				City vCity = vehicle.getCurrentCity();
@@ -91,7 +91,6 @@ public class NodeT {
 			}
 		}
 
-		this.OValue = C;
 		return C;
 	}
 

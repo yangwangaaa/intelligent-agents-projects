@@ -81,9 +81,6 @@ public class CentralizedOneTask implements CentralizedBehavior {
         
 //		System.out.println("Agent " + agent.id() + " has tasks " + tasks);
         NodeT bestSolution = SLS();
-        System.out.println("FINAL SOLUTION:");
-        bestSolution.print();
-        
         List<Plan> plans = computeFinalPlan(bestSolution);
         
         
@@ -102,10 +99,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
     
     private NodeT SLS() {
     	NodeT A = selectInitialSolution();
-    	NodeT bestNodeT = A;
-    	
-    	A.getOValue(tasks, vehiclesList);
-    	A.print();
+    	NodeT bestNodeT = null;
     	
     	int numIt = 5000;
     	int i = 0;
@@ -116,9 +110,6 @@ public class CentralizedOneTask implements CentralizedBehavior {
     		if(A.getOValue(tasks, vehiclesList) < bestNodeT.getOValue(tasks, vehiclesList)) bestNodeT = A;
     		i++;
     	}
-    	
-    	bestNodeT.getOValue(tasks, vehiclesList);
-    	bestNodeT.print();
     	
     	return bestNodeT;
     }
@@ -270,7 +261,8 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	for(int i=0; i<Nt; i++) {
     		initial.setVehicle(i, index);
     	}
-    
+    	
+    	initial.print();
     	return initial;
     }
     

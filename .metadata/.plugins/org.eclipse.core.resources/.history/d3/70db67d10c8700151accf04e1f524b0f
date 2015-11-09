@@ -104,9 +104,6 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	NodeT A = selectInitialSolution();
     	NodeT bestNodeT = A;
     	
-    	A.getOValue(tasks, vehiclesList);
-    	A.print();
-    	
     	int numIt = 5000;
     	int i = 0;
     	while(i < numIt) { // TODO
@@ -116,9 +113,6 @@ public class CentralizedOneTask implements CentralizedBehavior {
     		if(A.getOValue(tasks, vehiclesList) < bestNodeT.getOValue(tasks, vehiclesList)) bestNodeT = A;
     		i++;
     	}
-    	
-    	bestNodeT.getOValue(tasks, vehiclesList);
-    	bestNodeT.print();
     	
     	return bestNodeT;
     }
@@ -270,7 +264,8 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	for(int i=0; i<Nt; i++) {
     		initial.setVehicle(i, index);
     	}
-    
+    	
+    	initial.print();
     	return initial;
     }
     
