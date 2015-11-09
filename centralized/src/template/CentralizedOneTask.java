@@ -3,21 +3,16 @@ package template;
 //the list of imports
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import logist.LogistSettings;
 
-import logist.Measures;
-import logist.behavior.AuctionBehavior;
-import logist.behavior.CentralizedBehavior;
+import logist.LogistSettings;
 import logist.agent.Agent;
+import logist.behavior.CentralizedBehavior;
 import logist.config.Parsers;
-import logist.simulation.Vehicle;
 import logist.plan.Plan;
-import logist.task.Task;
+import logist.simulation.Vehicle;
 import logist.task.TaskDistribution;
 import logist.task.TaskSet;
 import logist.topology.Topology;
-import logist.topology.Topology.City;
 
 /**
  * A very simple auction agent that assigns all tasks to its first vehicle and
@@ -32,6 +27,9 @@ public class CentralizedOneTask implements CentralizedBehavior {
     private Agent agent;
     private long timeout_setup;
     private long timeout_plan;
+    
+    private List<Vehicle> vehicles; 
+    private TaskSet tasks;
     
     
     //////////////////////////////////////
@@ -64,6 +62,8 @@ public class CentralizedOneTask implements CentralizedBehavior {
     @Override
     public List<Plan> plan(List<Vehicle> vehicles, TaskSet tasks) {
         long time_start = System.currentTimeMillis();
+        this.vehicles = vehicles;
+        this.tasks = tasks;
         
 //		System.out.println("Agent " + agent.id() + " has tasks " + tasks);
         Node bestSolution = SLS();
@@ -82,67 +82,64 @@ public class CentralizedOneTask implements CentralizedBehavior {
     //////////////////////////////////////
     //               SLS                //
     //////////////////////////////////////
-
-    private Plan naivePlan(Vehicle vehicle, TaskSet tasks) {
-        City current = vehicle.getCurrentCity();
-        Plan plan = new Plan(current);
-
-        for (Task task : tasks) {
-            // move: current city => pickup location
-            for (City city : current.pathTo(task.pickupCity)) {
-                plan.appendMove(city);
-            }
-
-            plan.appendPickup(task);
-
-            // move: pickup location => delivery location
-            for (City city : task.path()) {
-                plan.appendMove(city);
-            }
-
-            plan.appendDelivery(task);
-
-            // set current city
-            current = task.deliveryCity;
-        }
-        return plan;
-    }
     
-    private Node SLS(X, D, C) {
+    private Node SLS() {
+    	Node A = selectInitialSolution();
+    	Node bestNode = null;
     	
+    	int numIt = 5000;
+    	int i = 0;
+    	while(i < numIt) { // TODO
+    		Node Aold = A;
+    		ArrayList<Node> N = chooseNeighbours(A);
+    		A = localChoice(N); // only keep bestNode in chooseNeighbours : more efficient?
+    		i++;
+    		
+    		if(A.getOValue() < bestNode.getOValue()) bestNode = A;
+    	}
+    	
+    	return bestNode;
     }
     
     //////////////////////////////////////
     //            SUBMETHODS            //
     //////////////////////////////////////
     
-    private Node selectInitialSolution(X, D, C) {
+    private Node selectInitialSolution() {
+    	Node initial =null;
     	
-    	
-    }
-    
-    private Node[] chooseNeighbours(Node Aold, X, D, C) {
+    	return initial;
     	
     }
     
-    private Node localChoice(Node A) {
+    private ArrayList<Node> chooseNeighbours(Node Aold) {
+    	ArrayList<Node> neighbours = new ArrayList<Node>();
+    	
+    	return neighbours;
+    }
+    
+    private Node localChoice(ArrayList<Node> N) {
+    	Node bestNode = null;
+    	
+    	return bestNode;
+    }
+    
+    private void changingVehicle(Node A, int v1, int v2, ArrayList<Node> neighbours) {
     	
     }
     
-    private Node changingVehicle(Node A, v1, v2) {
+    private void changingTaskOrder(Node A, int v, int aI1, int aI2, ArrayList<Node> neighbours) {
     	
     }
     
-    private Node changingTaskOrder(Node A, v, aI1, aI2) {
+    private void updateTime(Node A, int v) {
     	
     }
     
-    private void updateTime(A, v) {
+    private List<Plan> computeFinalPlan(Node n) {
+    	List<Plan> plans = new ArrayList<Plan>();
     	
-    }
-    
-    private Node computeFinalPlan(Node n) {
-    	
+    	return plans;
     }
     
     //////////////////////////////////////
