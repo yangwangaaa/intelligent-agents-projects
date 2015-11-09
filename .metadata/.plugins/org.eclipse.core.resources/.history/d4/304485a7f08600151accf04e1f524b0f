@@ -1,12 +1,5 @@
 package template;
 
-import java.util.Arrays;
-import java.util.List;
-
-import logist.simulation.Vehicle;
-import logist.task.Task;
-import logist.task.TaskSet;
-
 public class NodeT {
 	private int[] nextTask;
 	private int[] times;
@@ -19,16 +12,6 @@ public class NodeT {
 	///////////////////////////////
 	//        CONSTRUCTORS       //
 	///////////////////////////////
-	
-	public NodeT(List<Vehicle> vehiclesList, Task[] tasks) {
-		this.Nt = tasks.length;
-		this.Nv = vehiclesList.size();
-		this.nextTask = new int[Nv+Nt];
-		this.times = new int[Nt];
-		this.vehicles = new int[Nt];
-		Arrays.fill(this.nextTask, -1);
-	}
-	
 	
 	public NodeT(int[] nextTask, int[] times, int[] vehicles, int Nt, int Nv) {
 		this.nextTask = nextTask;

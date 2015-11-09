@@ -163,6 +163,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	initial.setTaskT(Nt-1, -1);
     	
     	return initial;
+    	
     }
     
     // mouche
