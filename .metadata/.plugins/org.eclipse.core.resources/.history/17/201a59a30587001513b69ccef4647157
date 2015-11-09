@@ -271,7 +271,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
 		}else{
 			NodeT bestNodeT = N.get(0);
 			for(NodeT n : N){
-				if(n.getOValue())
+				if(n.)
 			}
 			return bestNodeT;
 		}

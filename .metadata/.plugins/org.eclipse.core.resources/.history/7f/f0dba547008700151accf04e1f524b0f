@@ -24,57 +24,58 @@ import logist.topology.Topology;
 @SuppressWarnings("unused")
 public class CentralizedOneTask implements CentralizedBehavior {
 
-	private Topology topology;
-	private TaskDistribution distribution;
-	private Agent agent;
-	private long timeout_setup;
-	private long timeout_plan;
+    private Topology topology;
+    private TaskDistribution distribution;
+    private Agent agent;
+    private long timeout_setup;
+    private long timeout_plan;
+    
+    private List<Vehicle> vehiclesList; 
+    private Task[] tasks;
+    
+    private int Nt;
+    private int Nv;
+    
+    private Random random;
 
-	private List<Vehicle> vehiclesList; 
-	private Task[] tasks;
+    //////////////////////////////////////
+    //              MAIN                //
+    //////////////////////////////////////
+    
+    @Override
+    public void setup(Topology topology, TaskDistribution distribution,
+            Agent agent) {
+        
+        // this code is used to get the timeouts
+        LogistSettings ls = null;
+        try {
+            ls = Parsers.parseSettings("config/settings_default.xml");
+        }
+        catch (Exception exc) {
+            System.out.println("There was a problem loading the configuration file.");
+        }
+        
+        // the setup method cannot last more than timeout_setup milliseconds
+        timeout_setup = ls.get(LogistSettings.TimeoutKey.SETUP);
+        // the plan method cannot execute more than timeout_plan milliseconds
+        timeout_plan = ls.get(LogistSettings.TimeoutKey.PLAN);
+        
+        this.topology = topology;
+        this.distribution = distribution;
+        this.agent = agent;
+        
+        
+        random = new Random();
+    }
 
-	private int Nt;
-	private int Nv;
-
-	private Random random;
-
-	//////////////////////////////////////
-	//              MAIN                //
-	//////////////////////////////////////
-
-	@Override
-	public void setup(Topology topology, TaskDistribution distribution,
-			Agent agent) {
-
-		// this code is used to get the timeouts
-		LogistSettings ls = null;
-		try {
-			ls = Parsers.parseSettings("config/settings_default.xml");
-		}
-		catch (Exception exc) {
-			System.out.println("There was a problem loading the configuration file.");
-		}
-
-		// the setup method cannot last more than timeout_setup milliseconds
-		timeout_setup = ls.get(LogistSettings.TimeoutKey.SETUP);
-		// the plan method cannot execute more than timeout_plan milliseconds
-		timeout_plan = ls.get(LogistSettings.TimeoutKey.PLAN);
-
-		this.topology = topology;
-		this.distribution = distribution;
-		this.agent = agent;
-
-
-		random = new Random();
-	}
-
-	@Override
-	public List<Plan> plan(List<Vehicle> vehicles, TaskSet tasks) {
-		long time_start = System.currentTimeMillis();
-		this.vehiclesList = vehicles;
-		this.tasks = tasks.toArray(new Task[tasks.size()]);
-		this.Nt = this.tasks.length;
+    @Override
+    public List<Plan> plan(List<Vehicle> vehicles, TaskSet tasks) {
+        long time_start = System.currentTimeMillis();
+        this.vehiclesList = vehicles;
+        this.tasks = tasks.toArray(new Task[tasks.size()]);
+        this.Nt = this.tasks.length;
 		this.Nv = vehiclesList.size();
+        
         
         
 //		System.out.println("Agent " + agent.id() + " has tasks " + tasks);
@@ -105,7 +106,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
     		NodeT Aold = A;
     		ArrayList<NodeT> N = chooseNeighbours(A);
     		A = localChoice(N, Aold); // only keep bestNodeT in chooseNeighbours : more efficient? = rename "chooseBestNeigbours"
-    		if(A.getOValue(topology) < bestNodeT.getOValue(topology)) bestNodeT = A;
+    		if(A.getOValue() < bestNodeT.getOValue()) bestNodeT = A;
     		i++;
     	}
     	
@@ -125,7 +126,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	for (int vj=0; vj<Nv; vj++) {
     		if(vj!=vi) {
     			int t = Aold.nextTask(vi+Nv);
-    			if(tasks[t].weight <= vehiclesList.get(vi).capacity()) { // no vehicle change if first task too heavy for all other vehicles
+    			if(tasks[t].weight <= vehiclesList.get(vi).capacity()) {
     				NodeT A = changingVehicle(Aold, vi, vj);
     				N.add(A);	
     			}
@@ -155,70 +156,28 @@ public class CentralizedOneTask implements CentralizedBehavior {
     // vladman
     private NodeT changingVehicle(NodeT A, int v1, int v2) {
     	NodeT A1 = A.clone();
-    	int t = A.nextTask(v1+Nt);
-    	
-    	A1.nextTask(v1+Nt, A1.nextTask(t));
-    	A1.nextTask(t, A1.nextTask(v2+Nt));
-    	A1.nextTask(v2+Nt, t);
-    	
-    	updateTime(A1, v1);
-    	updateTime(A1, v2);
-    	
-    	A1.setVehicle(t, v2);
     	
     	return A1;
     }
     
- // mouche
- 	private NodeT changingTaskOrder(NodeT A, int v, int aI1, int aI2) {
- 		NodeT A1 = A.clone();
- 		int tPre1 = v + Nt; // getNextTask(tPre1) = aI1
- 		int t1 = A1.nextTask(tPre1); // task1
- 		int count = 0;
- 		while(count < aI1){
- 			tPre1 = t1;
- 			t1 = A1.nextTask(t1);
- 			count++;
- 		}
- 		int tPost1 = A1.nextTask(t1); // the task delivered after t1
- 		int tPre2 = t1; // previous task of task2
- 		int t2 = A1.nextTask(tPre2); // task2
- 		count++;
-
- 		while(count < aI2){
- 			tPre2 = t2;
- 			t2 = A1.nextTask(t2);
- 			count++;
- 		}
- 		int tPost2 = A1.nextTask(t2);
- 		if(tPost1 == t2){
- 			// the task t2 is delivered immediately after t1
- 			A1.nextTask(tPre1, t2);
- 			A1.nextTask(t2, t1);
- 			A1.nextTask(t1, tPost2);
- 		}else{
- 			A1.nextTask(tPre1, t2);
- 			A1.nextTask(tPre2, t1);
- 			A1.nextTask(t2, tPost1);
- 			A1.nextTask(t1, tPost2);
- 		}
- 		updateTime(A1,v);
- 		return A1;
- 	}
-
- 	// mouche
- 	private void updateTime(NodeT A, int v) {
- 		int ti = A.nextTask(v+Nt);
- 		if(ti != -1){
- 			A.setTime(ti, 0); //Time starts at 0
- 			int tj = A.nextTask(ti);
- 			while(tj != -1){
- 				A.setTime(tj, A.getTime(ti) + 1);
- 				ti = tj;
- 				tj = A.nextTask(ti);
- 			}
- 		}
- 	}
+    // mouche
+    private NodeT changingTaskOrder(NodeT A, int v, int aI1, int aI2) {
+    	NodeT A1 = A.clone();
+    	int tPre1 = v + Nt; // getNextTask(tPre1) = aI1
+    	int t1 = A1.nextTask(tPre1); // task1
+    	int count = 0;
+    	while(count < aI1){
+    		tPre1 = t1;
+    		t1 = A1.nextTask(t1);
+    		count++;
+    	}
+    	return A1;
+    }
+    
+    // mouche
+    private void updateTime(NodeT A, int v) {
+    	
+    }
     
     //////////////////////////////////////
     //           SLS : OTHERS           //
@@ -264,26 +223,19 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	return initial;
     }
     
-	// mouche
-	private NodeT localChoice(ArrayList<NodeT> N, NodeT Aold) {
-		if(N == null){
-			return Aold;
-		}else{
-			NodeT bestNodeT = N.get(0);
-			for(NodeT n : N){
-				if(n.getOValue())
-			}
-			return bestNodeT;
-		}
-		
-	}
-
-	// mouche
-	private List<Plan> computeFinalPlan(NodeT n) {
-		List<Plan> plans = new ArrayList<Plan>();
-
-		return plans;
-	}
+    // mouche
+    private NodeT localChoice(ArrayList<NodeT> N, NodeT Aold) {
+    	NodeT bestNodeT = null;
+    	
+    	return bestNodeT;
+    }
+    
+    // mouche
+    private List<Plan> computeFinalPlan(NodeT n) {
+    	List<Plan> plans = new ArrayList<Plan>();
+    	
+    	return plans;
+    }
     
     //////////////////////////////////////
     //              UTILS               //

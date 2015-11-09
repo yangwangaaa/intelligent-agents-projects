@@ -75,6 +75,217 @@ public class CentralizedOneTask implements CentralizedBehavior {
 		this.tasks = tasks.toArray(new Task[tasks.size()]);
 		this.Nt = this.tasks.length;
 		this.Nv = vehiclesList.size();
+<<<<<<< HEAD
+
+
+
+		//		System.out.println("Agent " + agent.id() + " has tasks " + tasks);
+		NodeT bestSolution = SLS();
+		List<Plan> plans = computeFinalPlan(bestSolution);
+
+
+
+		long time_end = System.currentTimeMillis();
+		long duration = time_end - time_start;
+		System.out.println("The plan was generated in "+duration+" milliseconds.");
+
+		return plans;
+	}
+
+
+	//////////////////////////////////////
+	//               SLS                //
+	//////////////////////////////////////
+
+	private NodeT SLS() {
+		NodeT A = selectInitialSolution();
+		NodeT bestNodeT = null;
+
+		int numIt = 5000;
+		int i = 0;
+		while(i < numIt) { // TODO
+			NodeT Aold = A;
+			ArrayList<NodeT> N = chooseNeighbours(A);
+			A = localChoice(N, Aold); // only keep bestNodeT in chooseNeighbours : more efficient? = rename "chooseBestNeigbours"
+			if(A.getOValue() < bestNodeT.getOValue()) bestNodeT = A;
+			i++;
+		}
+
+		return bestNodeT;
+	}
+
+	//////////////////////////////////////
+	//         SLS : NEIGHBOURS         //
+	//////////////////////////////////////
+
+	// vladman
+	private ArrayList<NodeT> chooseNeighbours(NodeT Aold) {
+		ArrayList<NodeT> N = new ArrayList<NodeT>(); // TODO : ArrayList?
+		int vi = random(); // TODO
+
+		// Applying the changing vehicle operator :
+		for (int vj=0; vj<Nv; vj++) {
+			if(vj!=vi) {
+				int t = Aold.nextTask(vi+Nv);
+				if(tasks[t].weight <= vehiclesList.get(vi).capacity()) {
+					NodeT A = changingVehicle(Aold, vi, vj);
+					N.add(A);	
+				}
+			}
+		}
+
+		// Applying the changing task order operator :
+		// compute the number of tasks of the vehicle
+		int length = 0;
+		int t = Aold.nextTask(vi+Nt); // current task in the list
+		while(t!=-1) {
+			t = Aold.nextTask(t);
+			length++;
+		}
+		if(length>=2) {
+			for (int tIdx1=0; tIdx1<length-1; tIdx1++) {
+				for (int tIdx2=tIdx1+1; tIdx2<length; tIdx2++) {
+					NodeT A = changingTaskOrder(Aold, vi, tIdx1, tIdx2);
+					N.add(A);
+				}
+			}
+		}
+
+		return N;
+	}
+
+	// vladman
+	private NodeT changingVehicle(NodeT A, int v1, int v2) {
+		NodeT A1 = A.clone();
+
+		return A1;
+	}
+
+	// mouche
+	private NodeT changingTaskOrder(NodeT A, int v, int aI1, int aI2) {
+		NodeT A1 = A.clone();
+		int tPre1 = v + Nt; // getNextTask(tPre1) = aI1
+		int t1 = A1.nextTask(tPre1); // task1
+		int count = 0;
+		while(count < aI1){
+			tPre1 = t1;
+			t1 = A1.nextTask(t1);
+			count++;
+		}
+		int tPost1 = A1.nextTask(t1); // the task delivered after t1
+		int tPre2 = t1; // previous task of task2
+		int t2 = A1.nextTask(tPre2); // task2
+		count++;
+
+		while(count < aI2){
+			tPre2 = t2;
+			t2 = A1.nextTask(t2);
+			count++;
+		}
+		int tPost2 = A1.nextTask(t2);
+		if(tPost1 == t2){
+			// the task t2 is delivered immediately after t1
+			A1.nextTask(tPre1, t2);
+			A1.nextTask(t2, t1);
+			A1.nextTask(t1, tPost2);
+		}else{
+			A1.nextTask(tPre1, t2);
+			A1.nextTask(tPre2, t1);
+			A1.nextTask(t2, tPost1);
+			A1.nextTask(t1, tPost2);
+		}
+		updateTime(A1,v);
+		return A1;
+	}
+
+	// mouche
+	private void updateTime(NodeT A, int v) {
+		int ti = A.nextTask(v+Nt);
+		if(ti != -1){
+			A.setTime(ti, 0); //Time starts at 0
+			int tj = A.nextTask(ti);
+			while(tj != -1){
+				A.setTime(tj, A.getTime(ti) + 1);
+				ti = tj;
+				tj = A.nextTask(ti);
+			}
+		}
+	}
+
+	//////////////////////////////////////
+	//           SLS : OTHERS           //
+	//////////////////////////////////////
+
+	// vladman
+	private NodeT selectInitialSolution() {
+		// use global variables: vehicles, tasks, ...
+		NodeT initial = new NodeT(vehiclesList, tasks);
+		int Nt = tasks.length;
+		int Nv = vehiclesList.size();
+
+		Vehicle biggestV = vehiclesList.get(0);
+		for (Vehicle v : vehiclesList) {
+			if(biggestV.capacity()<v.capacity()) biggestV = v;
+		}
+
+		int index = biggestV.id();
+		initial.nextTask(index+Nt, 0);
+
+		for (int i = 0; i<Nt; i++) {
+			if(this.tasks[i].weight>biggestV.capacity()) {
+				System.out.println("ERROR : One task is too heavy for the vehicles");
+				return null;
+			}
+
+			int next;
+			if(i==Nt-1) next = -1;
+			else next = i+1;
+
+			initial.nextTask(i, next);
+		}
+
+		for(int i=0; i<Nv; i++) {
+			updateTime(initial, i);
+		}
+
+		for(int i=0; i<Nt; i++) {
+			initial.setVehicle(i, index);
+		}
+
+		initial.print();
+		return initial;
+	}
+
+	// mouche
+	private NodeT localChoice(ArrayList<NodeT> N, NodeT Aold) {
+		if(N == null){
+			return Aold;
+		}else{
+			NodeT bestNodeT = N.get(0);
+			for(NodeT n : N){
+				if(n.)
+			}
+			return bestNodeT;
+		}
+		
+	}
+
+	// mouche
+	private List<Plan> computeFinalPlan(NodeT n) {
+		List<Plan> plans = new ArrayList<Plan>();
+
+		return plans;
+	}
+
+	//////////////////////////////////////
+	//              UTILS               //
+	//////////////////////////////////////
+
+	private int random() {
+		return 0;
+	}
+=======
+        
         
         
 //		System.out.println("Agent " + agent.id() + " has tasks " + tasks);
@@ -169,56 +380,30 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	return A1;
     }
     
- // mouche
- 	private NodeT changingTaskOrder(NodeT A, int v, int aI1, int aI2) {
- 		NodeT A1 = A.clone();
- 		int tPre1 = v + Nt; // getNextTask(tPre1) = aI1
- 		int t1 = A1.nextTask(tPre1); // task1
- 		int count = 0;
- 		while(count < aI1){
- 			tPre1 = t1;
- 			t1 = A1.nextTask(t1);
- 			count++;
- 		}
- 		int tPost1 = A1.nextTask(t1); // the task delivered after t1
- 		int tPre2 = t1; // previous task of task2
- 		int t2 = A1.nextTask(tPre2); // task2
- 		count++;
-
- 		while(count < aI2){
- 			tPre2 = t2;
- 			t2 = A1.nextTask(t2);
- 			count++;
- 		}
- 		int tPost2 = A1.nextTask(t2);
- 		if(tPost1 == t2){
- 			// the task t2 is delivered immediately after t1
- 			A1.nextTask(tPre1, t2);
- 			A1.nextTask(t2, t1);
- 			A1.nextTask(t1, tPost2);
- 		}else{
- 			A1.nextTask(tPre1, t2);
- 			A1.nextTask(tPre2, t1);
- 			A1.nextTask(t2, tPost1);
- 			A1.nextTask(t1, tPost2);
- 		}
- 		updateTime(A1,v);
- 		return A1;
- 	}
-
- 	// mouche
- 	private void updateTime(NodeT A, int v) {
- 		int ti = A.nextTask(v+Nt);
- 		if(ti != -1){
- 			A.setTime(ti, 0); //Time starts at 0
- 			int tj = A.nextTask(ti);
- 			while(tj != -1){
- 				A.setTime(tj, A.getTime(ti) + 1);
- 				ti = tj;
- 				tj = A.nextTask(ti);
- 			}
- 		}
- 	}
+    // mouche
+    private NodeT changingTaskOrder(NodeT A, int v, int aI1, int aI2) {
+    	NodeT A1 = A.clone();
+    	int tPre1 = v + Nt; // getNextTask(tPre1) = aI1
+    	int t1 = A1.nextTask(tPre1); // task1
+    	int count = 0;
+    	while(count < aI1){
+    		tPre1 = t1;
+    		t1 = A1.nextTask(t1);
+    		count++;
+    	}
+    	int tPost1 = A1.nextTask(t1); // the task delivered after t1
+    	int tPre2 = t1; // previous task of task2
+    	int t2 = A1.nextTask(tPre2); // task2
+    	count++;
+    	
+    	
+    	return A1;
+    }
+    
+    // mouche
+    private void updateTime(NodeT A, int v) {
+    	
+    }
     
     //////////////////////////////////////
     //           SLS : OTHERS           //
@@ -264,26 +449,19 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	return initial;
     }
     
-	// mouche
-	private NodeT localChoice(ArrayList<NodeT> N, NodeT Aold) {
-		if(N == null){
-			return Aold;
-		}else{
-			NodeT bestNodeT = N.get(0);
-			for(NodeT n : N){
-				if(n.getOValue())
-			}
-			return bestNodeT;
-		}
-		
-	}
-
-	// mouche
-	private List<Plan> computeFinalPlan(NodeT n) {
-		List<Plan> plans = new ArrayList<Plan>();
-
-		return plans;
-	}
+    // mouche
+    private NodeT localChoice(ArrayList<NodeT> N, NodeT Aold) {
+    	NodeT bestNodeT = null;
+    	
+    	return bestNodeT;
+    }
+    
+    // mouche
+    private List<Plan> computeFinalPlan(NodeT n) {
+    	List<Plan> plans = new ArrayList<Plan>();
+    	
+    	return plans;
+    }
     
     //////////////////////////////////////
     //              UTILS               //
@@ -292,4 +470,5 @@ public class CentralizedOneTask implements CentralizedBehavior {
     private int random() {
     	return 0;
     }
+>>>>>>> origin/master
 }
