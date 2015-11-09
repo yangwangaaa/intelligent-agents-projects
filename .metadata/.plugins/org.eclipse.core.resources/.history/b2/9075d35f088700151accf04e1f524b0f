@@ -107,7 +107,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
     		NodeT Aold = A;
     		ArrayList<NodeT> N = chooseNeighbours(A);
     		A = localChoice(N, Aold); // only keep bestNodeT in chooseNeighbours : more efficient? = rename "chooseBestNeigbours"
-    		if(A.getOValue(tasks, vehiclesList) < bestNodeT.getOValue(tasks, vehiclesList)) bestNodeT = A;
+    		if(A.getOValue(topology) < bestNodeT.getOValue(topology)) bestNodeT = A;
     		i++;
     	}
     	
@@ -273,7 +273,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
 		}else{
 			NodeT bestNodeT = N.get(0);
 			for(NodeT n : N){
-				if(n.getOValue(tasks, vehiclesList)>=bestNodeT.getOValue(tasks, vehiclesList))
+				if(n.getOValue()>=bestNodeT.getOValue())
 					bestNodeT = n;
 			}
 			if(Math.random()<= p){
