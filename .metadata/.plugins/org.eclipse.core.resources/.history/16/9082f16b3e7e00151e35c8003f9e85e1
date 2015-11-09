@@ -7,7 +7,7 @@
 	<settings import="config/settings_default.xml" />
 	
 	<!-- load the topology -->
-	<topology import="config/topology/switzerland.xml" />
+	<topology import="config/topology/france.xml" />
 	
 	<!-- load agents -->
 	<agents import="config/agents.xml" />
@@ -30,7 +30,7 @@
 			<!-- the first vehicle (blue) -->
 			<vehicle name="Vehicle 1">
 				<set color="#0000ff" />
-				<set home="Lausanne" />
+				<set home="Brest" />
 				<set speed="90" />
 				<set capacity="30" />
 				<set cost-per-km="5" />
@@ -41,12 +41,13 @@
 			<!-- the second vehicle (red) -->
 			<vehicle name="Vehicle 2">
 				<set color="#ff0000" />
-				<set home="Luzern" />
+				<set home="Le Havre" />
 				<set speed="90" />
 				<set capacity="30" />
 				<set cost-per-km="5" />
 			</vehicle>
 		</company>
+		
 		<company name="Company C">
 			<!-- the third vehicle (green) -->
 			<vehicle name="Vehicle 3">
