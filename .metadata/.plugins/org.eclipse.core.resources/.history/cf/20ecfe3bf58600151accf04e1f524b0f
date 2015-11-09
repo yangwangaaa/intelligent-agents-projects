@@ -146,19 +146,17 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	}
     	
     	int index = biggestV.id();
-    	initial.setTask(index+Nt, 0);
+    	initial.setTask(index, 0);
     	
     	for (int i = 0; i<Nt; i++) {
     		if(this.tasks[i].weight>biggestV.capacity()) {
     			System.out.println("ERROR : One task is too heavy for the vehicles");
     			return null;
     		}
-    		
     		int next;
     		if(i==Nt-1) next = -1;
-    		else next = i+1;
-    		
-    		initial.setTask(i, next);
+    		else next = i+1
+    		initial.setTask(i, i+1);
     	}
     	
     	return initial;

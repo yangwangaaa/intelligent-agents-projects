@@ -137,7 +137,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
     private NodeT selectInitialSolution() {
     	// use global variables: vehicles, tasks, ...
     	NodeT initial = new NodeT(vehiclesList, tasks);
-    	int Nt = tasks.length;
+    	int Nt = tasks.size();
     	int Nv = vehiclesList.size();
     	
     	Vehicle biggestV = vehiclesList.get(0);
@@ -146,22 +146,17 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	}
     	
     	int index = biggestV.id();
-    	initial.setTask(index+Nt, 0);
+    	initial.setTaskV(index, 0);
     	
-    	for (int i = 0; i<Nt; i++) {
-    		if(this.tasks[i].weight>biggestV.capacity()) {
-    			System.out.println("ERROR : One task is too heavy for the vehicles");
-    			return null;
-    		}
-    		
-    		int next;
-    		if(i==Nt-1) next = -1;
-    		else next = i+1;
-    		
-    		initial.setTask(i, next);
+    	for (int i = 0; i<Nt-1; i++) {
+    		if(this.tasks)
+    		initial.setTaskT(i, i+1);
     	}
     	
+    	initial.setTaskT(Nt-1, -1);
+    	
     	return initial;
+    	
     }
     
     // mouche

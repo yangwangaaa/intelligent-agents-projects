@@ -1,11 +1,5 @@
 package template;
 
-import java.util.Arrays;
-import java.util.List;
-
-import logist.simulation.Vehicle;
-import logist.task.Task;
-
 public class NodeT {
 	private int[] nextTask;
 	private int[] times;
@@ -18,16 +12,6 @@ public class NodeT {
 	///////////////////////////////
 	//        CONSTRUCTORS       //
 	///////////////////////////////
-	
-	public NodeT(List<Vehicle> vehiclesList, Task[] tasks) {
-		this.Nt = tasks.length;
-		this.Nv = vehiclesList.size();
-		this.nextTask = new int[Nv+Nt];
-		this.times = new int[Nt];
-		this.vehicles = new int[Nt];
-		Arrays.fill(this.nextTask, -1);
-	}
-	
 	
 	public NodeT(int[] nextTask, int[] times, int[] vehicles, int Nt, int Nv) {
 		this.nextTask = nextTask;
@@ -68,12 +52,21 @@ public class NodeT {
 		return value;
 	}
 	
-	public void setTask(int index, int value) {
+	public void setTaskV(int index, int value) {
+		nextTask[index+Nt] = value;
+		this.OValue = -1;
+	}
+	
+	public int getTaskV(int index) {
+		return nextTask[index+Nt];
+	}
+	
+	public void setTaskT(int index, int value) {
 		nextTask[index] = value;
 		this.OValue = -1;
 	}
 	
-	public int getTask(int index) {
+	public int getTaskT(int index) {
 		return nextTask[index];
 	}
 	
@@ -93,12 +86,6 @@ public class NodeT {
 	
 	public int getVehicle(int index) {
 		return vehicles[index];
-	}
-	
-	public void print() {
-		System.out.println("- Nt = " + Nt);
-		System.out.println("- Nv = " + Nv);
-		System.out.println("- nextTask = " + Nt);
 	}
 	
 	///////////////////////////////
