@@ -171,13 +171,16 @@ public class CentralizedOneTask implements CentralizedBehavior {
     		t1 = A1.nextTask(t1);
     		count++;
     	}
+<<<<<<< HEAD
     	int tPost1 = A1.nextTask(t1); // the task delivered after t1
     	int tPre2 = t1; // previous task of task2
     	int t2 = A1.nextTask(tPre2); // task2
     	count++;
     	
     	
+=======
     	return A1;
+>>>>>>> origin/master
     }
     
     // mouche
