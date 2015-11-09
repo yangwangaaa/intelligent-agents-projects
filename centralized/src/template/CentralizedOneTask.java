@@ -36,8 +36,8 @@ public class CentralizedOneTask implements CentralizedBehavior {
 	private int Nt;
 	private int Nv;
 	
-	private int p; // probability used for localChoice
-
+	private double p = 0.3; // probability used for localChoice
+	private int numIt = 2;
 	private Random random;
 
 	//////////////////////////////////////
@@ -81,6 +81,9 @@ public class CentralizedOneTask implements CentralizedBehavior {
         
 //		System.out.println("Agent " + agent.id() + " has tasks " + tasks);
         NodeT bestSolution = SLS();
+        System.out.println("FINAL SOLUTION:");
+        bestSolution.print();
+        
         List<Plan> plans = computeFinalPlan(bestSolution);
         
         
@@ -99,17 +102,23 @@ public class CentralizedOneTask implements CentralizedBehavior {
     
     private NodeT SLS() {
     	NodeT A = selectInitialSolution();
-    	NodeT bestNodeT = null;
+    	NodeT bestNodeT = A;
     	
-    	int numIt = 5000;
+    	A.getOValue(tasks, vehiclesList);
+    	A.print();
+    
     	int i = 0;
     	while(i < numIt) { // TODO
+    		print("SLS iteration #" + i);
     		NodeT Aold = A;
     		ArrayList<NodeT> N = chooseNeighbours(A);
     		A = localChoice(N, Aold); // only keep bestNodeT in chooseNeighbours : more efficient? = rename "chooseBestNeigbours"
-    		if(A.getOValue(topology) < bestNodeT.getOValue(topology)) bestNodeT = A;
+    		if(A.getOValue(tasks, vehiclesList) < bestNodeT.getOValue(tasks, vehiclesList)) bestNodeT = A;
     		i++;
     	}
+    	
+    	bestNodeT.getOValue(tasks, vehiclesList);
+    	bestNodeT.print();
     	
     	return bestNodeT;
     }
@@ -121,7 +130,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
     // vladman
     private ArrayList<NodeT> chooseNeighbours(NodeT Aold) {
     	ArrayList<NodeT> N = new ArrayList<NodeT>(); // TODO : ArrayList?
-    	int vi = random(); // TODO
+    	int vi = random(Aold);
     	
     	// Applying the changing vehicle operator :
     	for (int vj=0; vj<Nv; vj++) {
@@ -129,7 +138,8 @@ public class CentralizedOneTask implements CentralizedBehavior {
     			int t = Aold.nextTask(vi+Nv);
     			if(tasks[t].weight <= vehiclesList.get(vi).capacity()) { // no vehicle change if first task too heavy for all other vehicles
     				NodeT A = changingVehicle(Aold, vi, vj);
-    				N.add(A);	
+    				N.add(A);
+    				A.print();
     			}
     		}
     	}
@@ -147,10 +157,11 @@ public class CentralizedOneTask implements CentralizedBehavior {
     			for (int tIdx2=tIdx1+1; tIdx2<length; tIdx2++) {
     				NodeT A = changingTaskOrder(Aold, vi, tIdx1, tIdx2);
     				N.add(A);
+    				A.print();
     			}
     		}
     	}
-    
+    	
     	return N;
     }
     
@@ -261,8 +272,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	for(int i=0; i<Nt; i++) {
     		initial.setVehicle(i, index);
     	}
-    	
-    	initial.print();
+    
     	return initial;
     }
     
@@ -273,7 +283,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
 		}else{
 			NodeT bestNodeT = N.get(0);
 			for(NodeT n : N){
-				if(n.getOValue()>=bestNodeT.getOValue())
+				if(n.getOValue(tasks, vehiclesList)<=bestNodeT.getOValue(tasks, vehiclesList))
 					bestNodeT = n;
 			}
 			if(Math.random()<= p){
@@ -294,7 +304,16 @@ public class CentralizedOneTask implements CentralizedBehavior {
     //              UTILS               //
     //////////////////////////////////////
     
-    private int random() {
-    	return 0;
+    private int random(NodeT Aold) {
+    	ArrayList<Integer> vehicles = new ArrayList<Integer>();
+    	for(int v=0; v<Nv; v++) {
+    		if(Aold.nextTask(v+Nt) != -1) vehicles.add(v);
+    	}
+    	int v = random.nextInt(vehicles.size());
+    	return vehicles.get(v);
     }
+    
+	public void print(String s){
+		System.out.println(s);
+	}
 }
