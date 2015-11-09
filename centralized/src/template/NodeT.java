@@ -68,12 +68,12 @@ public class NodeT {
 		return value;
 	}
 	
-	public void setTask(int index, int value) {
+	public void nextTask(int index, int value) {
 		nextTask[index] = value;
 		this.OValue = -1;
 	}
 	
-	public int getTask(int index) {
+	public int nextTask(int index) {
 		return nextTask[index];
 	}
 	
@@ -96,9 +96,57 @@ public class NodeT {
 	}
 	
 	public void print() {
+		int max = 27;
 		System.out.println("- Nt = " + Nt);
+		
 		System.out.println("- Nv = " + Nv);
-		System.out.println("- nextTask = " + Nt);
+		
+		int lineReturn = 0;
+		System.out.print("- nextTask = [");
+		for(int i=0; i<Nt; i++) {
+			System.out.print("T"+ i + ":" + nextTask[i] + ", ");
+			lineReturn++;
+			if(lineReturn%max==0) {
+				System.out.println("");
+				System.out.print("                       ");
+			}
+		}
+		for(int i=0; i<Nv; i++) {
+			if(i==Nv-1) System.out.print("V"+ i + ":" + nextTask[i+Nt]);
+			else System.out.print("V"+ i + ":" + nextTask[i+Nt] + ", ");
+			lineReturn++;
+			if(lineReturn%max==0) {
+				System.out.println("");
+				System.out.print("                       ");
+			}
+		}
+		System.out.println("]");
+		
+		lineReturn = 0;
+		System.out.print("- times = [");
+		for(int i=0; i<Nt; i++) {
+			if(i==Nt-1) System.out.print("T"+ i + ":" + times[i]);
+			else System.out.print("T"+ i + ":" + times[i] + ", ");
+			lineReturn++;
+			if(lineReturn%max==0) {
+				System.out.println("");
+				System.out.print("                   ");
+			}
+		}
+		System.out.println("]");
+		
+		lineReturn = 0;
+		System.out.print("- vehicles = [");
+		for(int i=0; i<Nt; i++) {
+			if(i==Nt-1) System.out.print("T"+ i + ":" + vehicles[i]);
+			else System.out.print("T"+ i + ":" + vehicles[i] + ", ");
+			lineReturn++;
+			if(lineReturn%max==0) {
+				System.out.println("");
+				System.out.print("                      ");
+			}
+		}
+		System.out.println("]");
 	}
 	
 	///////////////////////////////
