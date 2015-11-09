@@ -157,7 +157,6 @@ public class CentralizedOneTask implements CentralizedBehavior {
     			for (int tIdx2=tIdx1+1; tIdx2<length; tIdx2++) {
     				NodeT A = changingTaskOrder(Aold, vi, tIdx1, tIdx2);
     				N.add(A);
-    				A.print();
     			}
     		}
     	}
