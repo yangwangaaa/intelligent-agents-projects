@@ -107,8 +107,8 @@ public class NodeT {
 			System.out.print("T"+ i + ":" + nextTask[i] + ", ");
 			lineReturn++;
 			if(lineReturn%max==0) {
-				System.out.println("");
-				System.out.print("                       ");
+				System.out.print("");
+				System.out.print("              ");
 			}
 		}
 		for(int i=0; i<Nv; i++) {
@@ -116,8 +116,8 @@ public class NodeT {
 			else System.out.print("V"+ i + ":" + nextTask[i+Nt] + ", ");
 			lineReturn++;
 			if(lineReturn%max==0) {
-				System.out.println("");
-				System.out.print("                       ");
+				System.out.print("");
+				System.out.print("              ");
 			}
 		}
 		System.out.println("]");
@@ -129,8 +129,8 @@ public class NodeT {
 			else System.out.print("T"+ i + ":" + times[i] + ", ");
 			lineReturn++;
 			if(lineReturn%max==0) {
-				System.out.println("");
-				System.out.print("                   ");
+				System.out.print("");
+				System.out.print("              ");
 			}
 		}
 		System.out.println("]");
@@ -142,8 +142,8 @@ public class NodeT {
 			else System.out.print("T"+ i + ":" + vehicles[i] + ", ");
 			lineReturn++;
 			if(lineReturn%max==0) {
-				System.out.println("");
-				System.out.print("                      ");
+				System.out.print("");
+				System.out.print("              ");
 			}
 		}
 		System.out.println("]");
