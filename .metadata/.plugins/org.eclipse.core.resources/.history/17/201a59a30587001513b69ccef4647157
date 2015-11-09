@@ -35,8 +35,6 @@ public class CentralizedOneTask implements CentralizedBehavior {
 
 	private int Nt;
 	private int Nv;
-	
-	private int p; // probability used for localChoice
 
 	private Random random;
 
@@ -273,14 +271,11 @@ public class CentralizedOneTask implements CentralizedBehavior {
 		}else{
 			NodeT bestNodeT = N.get(0);
 			for(NodeT n : N){
-				if(n.getOValue()>=bestNodeT.getOValue())
-					bestNodeT = n;
+				if(n.)
 			}
-			if(Math.random()<= p){
-				return bestNodeT;
-			}
-			return Aold;
-		}	
+			return bestNodeT;
+		}
+		
 	}
 
 	// mouche
