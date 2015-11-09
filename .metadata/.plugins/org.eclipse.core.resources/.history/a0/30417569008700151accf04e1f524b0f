@@ -156,16 +156,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
     // vladman
     private NodeT changingVehicle(NodeT A, int v1, int v2) {
     	NodeT A1 = A.clone();
-    	int t = A.nextTask(v1+Nt);
-    	A1.nextTask(v1+Nt, A1.nextTask(t));
-    	A1.nextTask(t, A1.nextTask(v2+Nt));
-    	A1.nextTask(v2+Nt, t);
-    	
-    	updateTime(A1, v1);
-    	updateTime(A1, v2);
-    	
-    	A1.setVehicle(t, v2);
-    	
+    	int t = A.nextTask(v1+Nt)
     	return A1;
     }
     

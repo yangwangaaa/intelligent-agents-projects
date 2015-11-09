@@ -164,8 +164,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	updateTime(A1, v1);
     	updateTime(A1, v2);
     	
-    	A1.setVehicle(t, v2);
-    	
+    	A1.setVehicle(t, );
     	return A1;
     }
     
