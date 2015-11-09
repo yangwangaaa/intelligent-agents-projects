@@ -48,3 +48,5 @@ local.properties
 *.xmi
 
 *.snap
+
+centralized/.classpath
