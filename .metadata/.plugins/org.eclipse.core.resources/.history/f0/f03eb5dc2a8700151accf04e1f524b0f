@@ -77,7 +77,7 @@ public class NodePD {
 
 	// vladman
 	private double computeOValue(Task[] tasks, List<Vehicle> vehicles) {
-
+		// TODO
 		// objective function
 		double C = 0;
 
@@ -89,14 +89,14 @@ public class NodePD {
 				City c1 = t1.pickupCity;
 				if(t>=Nt) c1 = t1.deliveryCity;
 				City c2 = t2.pickupCity;
-				if(this.nextAction(t)>=Nt) c2 = t2.deliveryCity;
-				C += c1.distanceTo(c2)*vehicle.costPerKm();
+				if(t>=Nt) c2 = t2.deliveryCity;
+				C += ( delivery1.distanceTo(pickUp2) + pickUp2.distanceTo(delivery2) )*vehicle.costPerKm();
 			}
 		}
 
 
 		for (int v = 0; v<Nv; v++) {
-			if (this.nextAction(v+Na)!=-1) {
+			if (this.nextAction(v+Nt)!=-1) {
 				Task firstTask = tasks[this.nextAction(v+Na)];
 				Vehicle vehicle = vehicles.get(v);
 				City vCity = vehicle.getCurrentCity();
@@ -166,7 +166,7 @@ public class NodePD {
 
 		int lineReturn = 0;
 		System.out.print("- nextAction = [");
-		for(int i=0; i<Na; i++) {
+		for(int i=0; i<Nt; i++) {
 			System.out.print("T"+ i + ":" + nextAction[i] + ", ");
 			lineReturn++;
 			if(lineReturn%max==0) {
@@ -175,29 +175,8 @@ public class NodePD {
 			}
 		}
 		for(int i=0; i<Nv; i++) {
-			if(i==Nv-1) System.out.print("V"+ i + ":" + nextAction[i+Na]);
-			else System.out.print("V"+ i + ":" + nextAction[i+Na] + ", ");
-			lineReturn++;
-			if(lineReturn%max==0) {
-				System.out.println("");
-				System.out.print("                       ");
-			}
-		}
-		System.out.println("]");
-		
-		lineReturn = 0;
-		System.out.print("- previousAction = [");
-		for(int i=0; i<Na; i++) {
-			System.out.print("T"+ i + ":" + nextAction[i] + ", ");
-			lineReturn++;
-			if(lineReturn%max==0) {
-				System.out.println("");
-				System.out.print("                       ");
-			}
-		}
-		for(int i=0; i<Nv; i++) {
-			if(i==Nv-1) System.out.print("V"+ i + ":" + nextAction[i+Na]);
-			else System.out.print("V"+ i + ":" + nextAction[i+Na] + ", ");
+			if(i==Nv-1) System.out.print("V"+ i + ":" + nextAction[i+Nt]);
+			else System.out.print("V"+ i + ":" + nextAction[i+Nt] + ", ");
 			lineReturn++;
 			if(lineReturn%max==0) {
 				System.out.println("");
@@ -208,8 +187,8 @@ public class NodePD {
 
 		lineReturn = 0;
 		System.out.print("- times = [");
-		for(int i=0; i<Na; i++) {
-			if(i==Na-1) System.out.print("T"+ i + ":" + times[i]);
+		for(int i=0; i<Nt; i++) {
+			if(i==Nt-1) System.out.print("T"+ i + ":" + times[i]);
 			else System.out.print("T"+ i + ":" + times[i] + ", ");
 			lineReturn++;
 			if(lineReturn%max==0) {
@@ -221,8 +200,8 @@ public class NodePD {
 
 		lineReturn = 0;
 		System.out.print("- vehicles = [");
-		for(int i=0; i<Na; i++) {
-			if(i==Na-1) System.out.print("T"+ i + ":" + vehicles[i]);
+		for(int i=0; i<Nt; i++) {
+			if(i==Nt-1) System.out.print("T"+ i + ":" + vehicles[i]);
 			else System.out.print("T"+ i + ":" + vehicles[i] + ", ");
 			lineReturn++;
 			if(lineReturn%max==0) {
