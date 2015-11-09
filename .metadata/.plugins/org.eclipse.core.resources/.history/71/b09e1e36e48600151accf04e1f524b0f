@@ -106,6 +106,14 @@ public class CentralizedOneTask implements CentralizedBehavior {
     //         SLS : NEIGHBOURS         //
     //////////////////////////////////////
     
+    private Node selectInitialSolution() {
+    	// use global variables: vehicles, tasks, ...
+    	Node initial =null;
+    	
+    	return initial;
+    	
+    }
+    
     private ArrayList<Node> chooseNeighbours(Node Aold) {
     	ArrayList<Node> neighbours = new ArrayList<Node>();
     	
@@ -127,14 +135,6 @@ public class CentralizedOneTask implements CentralizedBehavior {
     //////////////////////////////////////
     //           SLS : OTHERS           //
     //////////////////////////////////////
-    
-    private Node selectInitialSolution() {
-    	// use global variables: vehicles, tasks, ...
-    	Node initial =null;
-    	
-    	return initial;
-    	
-    }
     
     private Node localChoice(ArrayList<Node> N, Node Aold) {
     	Node bestNode = null;

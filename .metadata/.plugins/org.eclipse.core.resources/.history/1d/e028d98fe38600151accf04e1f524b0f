@@ -65,13 +65,11 @@ public class CentralizedOneTask implements CentralizedBehavior {
         this.vehicles = vehicles;
         this.tasks = tasks;
         
-        
-        
 //		System.out.println("Agent " + agent.id() + " has tasks " + tasks);
         Node bestSolution = SLS();
+
         List<Plan> plans = computeFinalPlan(bestSolution);
-        
-        
+
         
         long time_end = System.currentTimeMillis();
         long duration = time_end - time_start;
@@ -94,22 +92,37 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	while(i < numIt) { // TODO
     		Node Aold = A;
     		ArrayList<Node> N = chooseNeighbours(A);
-    		A = localChoice(N, Aold); // only keep bestNode in chooseNeighbours : more efficient? = rename "chooseBestNeigbours"
-    		if(A.getOValue() < bestNode.getOValue()) bestNode = A;
+    		A = localChoice(N); // only keep bestNode in chooseNeighbours : more efficient?
     		i++;
+    		
+    		if(A.getOValue() < bestNode.getOValue()) bestNode = A;
     	}
     	
     	return bestNode;
     }
     
     //////////////////////////////////////
-    //         SLS : NEIGHBOURS         //
+    //            SUBMETHODS            //
     //////////////////////////////////////
+    
+    private Node selectInitialSolution() {
+    	// use global variables vehicles, tasks, ...
+    	Node initial =null;
+    	
+    	return initial;
+    	
+    }
     
     private ArrayList<Node> chooseNeighbours(Node Aold) {
     	ArrayList<Node> neighbours = new ArrayList<Node>();
     	
     	return neighbours;
+    }
+    
+    private Node localChoice(ArrayList<Node> N) {
+    	Node bestNode = null;
+    	
+    	return bestNode;
     }
     
     private void changingVehicle(Node A, int v1, int v2, ArrayList<Node> neighbours) {
@@ -122,24 +135,6 @@ public class CentralizedOneTask implements CentralizedBehavior {
     
     private void updateTime(Node A, int v) {
     	
-    }
-    
-    //////////////////////////////////////
-    //           SLS : OTHERS           //
-    //////////////////////////////////////
-    
-    private Node selectInitialSolution() {
-    	// use global variables: vehicles, tasks, ...
-    	Node initial =null;
-    	
-    	return initial;
-    	
-    }
-    
-    private Node localChoice(ArrayList<Node> N, Node Aold) {
-    	Node bestNode = null;
-    	
-    	return bestNode;
     }
     
     private List<Plan> computeFinalPlan(Node n) {
