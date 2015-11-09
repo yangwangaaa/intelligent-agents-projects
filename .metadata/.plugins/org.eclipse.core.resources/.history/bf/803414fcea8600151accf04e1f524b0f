@@ -68,7 +68,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
         
         
 //		System.out.println("Agent " + agent.id() + " has tasks " + tasks);
-        NodeT bestSolution = SLS();
+        Node bestSolution = SLS();
         List<Plan> plans = computeFinalPlan(bestSolution);
         
         
@@ -85,46 +85,42 @@ public class CentralizedOneTask implements CentralizedBehavior {
     //               SLS                //
     //////////////////////////////////////
     
-    private NodeT SLS() {
-    	NodeT A = selectInitialSolution();
-    	NodeT bestNodeT = null;
+    private Node SLS() {
+    	Node A = selectInitialSolution();
+    	Node bestNode = null;
     	
     	int numIt = 5000;
     	int i = 0;
     	while(i < numIt) { // TODO
-    		NodeT Aold = A;
-    		ArrayList<NodeT> N = chooseNeighbours(A);
-    		A = localChoice(N, Aold); // only keep bestNodeT in chooseNeighbours : more efficient? = rename "chooseBestNeigbours"
-    		if(A.getOValue() < bestNodeT.getOValue()) bestNodeT = A;
+    		Node Aold = A;
+    		ArrayList<Node> N = chooseNeighbours(A);
+    		A = localChoice(N, Aold); // only keep bestNode in chooseNeighbours : more efficient? = rename "chooseBestNeigbours"
+    		if(A.getOValue() < bestNode.getOValue()) bestNode = A;
     		i++;
     	}
     	
-    	return bestNodeT;
+    	return bestNode;
     }
     
     //////////////////////////////////////
     //         SLS : NEIGHBOURS         //
     //////////////////////////////////////
     
-    // vladman
-    private ArrayList<NodeT> chooseNeighbours(NodeT Aold) {
-    	ArrayList<NodeT> neighbours = new ArrayList<NodeT>();
+    private ArrayList<Node> chooseNeighbours(Node Aold) {
+    	ArrayList<Node> neighbours = new ArrayList<Node>();
     	
     	return neighbours;
     }
     
-    // vladman
-    private void changingVehicle(NodeT A, int v1, int v2, ArrayList<NodeT> neighbours) {
+    private void changingVehicle(Node A, int v1, int v2, ArrayList<Node> neighbours) {
     	
     }
     
-    // mouche
-    private void changingTaskOrder(NodeT A, int v, int aI1, int aI2, ArrayList<NodeT> neighbours) {
+    private void changingTaskOrder(Node A, int v, int aI1, int aI2, ArrayList<Node> neighbours) {
     	
     }
     
-    // mouche
-    private void updateTime(NodeT A, int v) {
+    private void updateTime(Node A, int v) {
     	
     }
     
@@ -132,24 +128,21 @@ public class CentralizedOneTask implements CentralizedBehavior {
     //           SLS : OTHERS           //
     //////////////////////////////////////
     
-    // vladman
-    private NodeT selectInitialSolution() {
+    private Node selectInitialSolution() {
     	// use global variables: vehicles, tasks, ...
-    	NodeT initial =null;
+    	Node initial =null;
     	
     	return initial;
     	
     }
     
-    // mouche
-    private NodeT localChoice(ArrayList<NodeT> N, NodeT Aold) {
-    	NodeT bestNodeT = null;
+    private Node localChoice(ArrayList<Node> N, Node Aold) {
+    	Node bestNode = null;
     	
-    	return bestNodeT;
+    	return bestNode;
     }
     
-    // mouche
-    private List<Plan> computeFinalPlan(NodeT n) {
+    private List<Plan> computeFinalPlan(Node n) {
     	List<Plan> plans = new ArrayList<Plan>();
     	
     	return plans;
