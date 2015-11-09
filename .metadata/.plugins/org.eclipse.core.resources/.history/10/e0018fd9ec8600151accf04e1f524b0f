@@ -28,7 +28,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
     private long timeout_setup;
     private long timeout_plan;
     
-    private List<Vehicle> vehiclesList; 
+    private List<Vehicle> vehicles; 
     private TaskSet tasks;
     
     
@@ -62,7 +62,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
     @Override
     public List<Plan> plan(List<Vehicle> vehicles, TaskSet tasks) {
         long time_start = System.currentTimeMillis();
-        this.vehiclesList = vehicles;
+        this.vehicles = vehicles;
         this.tasks = tasks;
         
         
@@ -136,16 +136,19 @@ public class CentralizedOneTask implements CentralizedBehavior {
     private NodeT selectInitialSolution() {
     	// use global variables: vehicles, tasks, ...
     	NodeT initial = null;
-    	int Nt = tasks.size();
-    	int Nv = vehiclesList.size();
-    	int[] nextTask = new int[Nv+Nt];
-    	int[] times = new int[Nt];
-    	int[] vehicles = new int[Nt];
     	
-    	Vehicle biggestV = vehiclesList.get(0);
-    	for (Vehicle v : vehiclesList) {
+    	Vehicle biggestV = vehicles.get(0);
+    	for (Vehicle v : vehicles) {
     		if(biggestV.capacity()<v.capacity()) biggestV = v;
     	}
+    	
+    	private int[] nextTask;
+    	private int[] times;
+    	private int[] vehicles;
+    	private double OValue;
+
+    	private int Nt;
+    	private int Nv;
     	
     	return initial;
     	
