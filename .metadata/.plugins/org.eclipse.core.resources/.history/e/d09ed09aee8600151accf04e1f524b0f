@@ -144,6 +144,8 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	int[] vehicles = new int[Nt];
     	
     	Arrays.fill(nextTask, -1);
+    	Arrays.fill(times, -1);
+    	Arrays.fill(vehicles, -1);
     	
     	Vehicle biggestV = vehiclesList.get(0);
     	for (Vehicle v : vehiclesList) {
@@ -151,11 +153,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	}
     	
     	int index = biggestV.id();
-    	nextTask[index] = 1;
-    	
-    	for (int i = Nv; i<Nv+Nt; i++) {
-    		
-    	}
+    	nextTask
     	
     	return initial;
     	

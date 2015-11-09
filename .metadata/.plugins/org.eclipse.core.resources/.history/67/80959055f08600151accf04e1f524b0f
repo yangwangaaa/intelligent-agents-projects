@@ -153,9 +153,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	int index = biggestV.id();
     	nextTask[index] = 1;
     	
-    	for (int i = Nv; i<Nv+Nt; i++) {
-    		
-    	}
+    	for (int i = Nv; i<Nv+Nt; i++) 
     	
     	return initial;
     	

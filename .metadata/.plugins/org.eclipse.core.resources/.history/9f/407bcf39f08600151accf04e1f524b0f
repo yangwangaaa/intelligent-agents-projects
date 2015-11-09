@@ -53,12 +53,12 @@ public class NodeT {
 	}
 	
 	public void setTaskV(int index, int value) {
-		nextTask[index+Nt] = value;
+		nextTask[index] = value;
 		this.OValue = -1;
 	}
 	
 	public int getTaskV(int index) {
-		return nextTask[index+Nt];
+		return nextTask[index];
 	}
 	
 	public void setTaskT(int index, int value) {
