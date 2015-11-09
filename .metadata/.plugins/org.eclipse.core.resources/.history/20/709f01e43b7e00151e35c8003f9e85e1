@@ -62,10 +62,8 @@ public class Node implements Comparator<Node>, Comparable<Node>{
 		double f2 = f(n2);
 		if(f1 > f2) return 1;
 		if(f1 < f2) return -1;
-		//System.out.println("SAME F");
 		if(g(n1) > g(n2)) return 1;
 		if(g(n1) < g(n2)) return -1;
-		//System.out.println("SAME G");
 		return 0;
 	}
 	
@@ -74,35 +72,28 @@ public class Node implements Comparator<Node>, Comparable<Node>{
 		double f2 = f(n2);
 		if(f1 > f2) return 1;
 		if(f1 < f2) return -1;
-		//System.out.println("SAME F");
 		if(g(n1) > g(n2)) return -1; // cela revient a regarder qui a le plus grand h, plutot que le plus grand g
 		if(g(n1) < g(n2)) return 1;
-		//System.out.println("SAME G");
 		return 0;
 	}
 	
-	// Tjrs meme results que betterTie
+	// Always same results as betterTie
 	public int bestTie(Node n1, Node n2) { // 40937 ; 59939
 		double f1 = f(n1);
 		double f2 = f(n2);
 		if(f1 > f2) return 1;
 		if(f1 < f2) return -1;
-		//System.out.println("SAME F");
 		if(g(n1) > g(n2)) return -1;
 		if(g(n1) < g(n2)) return 1;
-		//System.out.println("SAME G");
 		if(n1.getState().getDelivered().size() < n2.getState().getDelivered().size()) return 1;
 		if(n1.getState().getDelivered().size() > n2.getState().getDelivered().size()) return -1;
-		//System.out.println("SAME DELIVERED SIZE");
 		if(n1.getState().getCarried().size() < n2.getState().getCarried().size()) return 1;
 		if(n1.getState().getCarried().size() > n2.getState().getCarried().size()) return -1;
-		//System.out.println("SAME CARRIED SIZE");
-		// compare on delivered task size puis carried task size ? pas besoin si on en prend compte dans h
 		return 0;
 	}
 	
 	public double f(Node n) {
-		return g(n) + h5(n);
+		return g(n) + h1(n);
 	}
 	
 	public double g(Node n) {
@@ -116,7 +107,6 @@ public class Node implements Comparator<Node>, Comparable<Node>{
 	}
 	
 	public double h1(Node n) { // 40937 ; 59939
-		//TODO mauvaise explication
 		// maximal distance between the distances to travel for each carried tasks (= current city to delivery city) and
 		// the distances to travel for each not already picked up tasks (= current city to pickup city + pickup city to delivery city)
 		double max = 0.0;
@@ -212,7 +202,7 @@ public class Node implements Comparator<Node>, Comparable<Node>{
 	
 	////////////////////////////////////////////////////////
 	//													  //
-	//					   	GETSET       	   			  //
+	//					   	GET-SET       	   			  //
 	//													  //
 	////////////////////////////////////////////////////////
 	
