@@ -122,19 +122,13 @@ public class CentralizedOneTask implements CentralizedBehavior {
     private void changingTaskOrder(NodeT A, int v, int aI1, int aI2, ArrayList<NodeT> neighbours) {
     	NodeT A1 = A.clone();
     	int tPre1 = v + Nt; // getNextTask(tPre1) = aI1
-    	int t1 = A1.nextTask(tPre1); // task1
+    	int t1 = A1.getNextTask(tPre1); // task1
     	int count = 0;
     	while(count < aI1){
     		tPre1 = t1;
-    		t1 = A1.nextTask(t1);
+    		t1 = A1.getNextTask(t1);
     		count++;
     	}
-    	int tPost1 = A1.nextTask(t1); // the task delivered after t1
-    	int tPre2 = t1; // previous task of task2
-    	int t2 = A1.nextTask(tPre2); // task2
-    	count++;
-    	
-    	
     }
     
     // mouche
