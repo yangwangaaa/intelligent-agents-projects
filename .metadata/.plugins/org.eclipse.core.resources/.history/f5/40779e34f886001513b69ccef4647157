@@ -31,6 +31,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
     
     private List<Vehicle> vehiclesList; 
     private Task[] tasks;
+    private int T; 
     
     //////////////////////////////////////
     //              MAIN                //
@@ -64,6 +65,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
         long time_start = System.currentTimeMillis();
         this.vehiclesList = vehicles;
         this.tasks = (Task[])tasks.toArray();
+        this.T = tasks.length;
 
         
         
@@ -121,14 +123,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
     // mouche
     private void changingTaskOrder(NodeT A, int v, int aI1, int aI2, ArrayList<NodeT> neighbours) {
     	NodeT A1 = A.clone();
-    	int tPre1 = v + Nt; // getNextTask(tPre1) = aI1
-    	int t1 = A1.getNextTask(tPre1); // task1
-    	int count = 0;
-    	while(count < aI1){
-    		tPre1 = t1;
-    		t1 = A1.getNextTask(t1);
-    		count++;
-    	}
+    	tPre1 = v + N
     }
     
     // mouche
