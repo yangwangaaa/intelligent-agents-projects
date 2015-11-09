@@ -32,9 +32,13 @@ public class CentralizedOneTask implements CentralizedBehavior {
     private List<Vehicle> vehiclesList; 
     private Task[] tasks;
     
+<<<<<<< HEAD
     private int Nt;
     private int Nv;
-
+    
+    
+=======
+>>>>>>> origin/master
     //////////////////////////////////////
     //              MAIN                //
     //////////////////////////////////////
@@ -66,10 +70,15 @@ public class CentralizedOneTask implements CentralizedBehavior {
     public List<Plan> plan(List<Vehicle> vehicles, TaskSet tasks) {
         long time_start = System.currentTimeMillis();
         this.vehiclesList = vehicles;
+<<<<<<< HEAD
         this.tasks = tasks.toArray(new Task[tasks.size()]);
         this.Nt = this.tasks.length;
 		this.Nv = vehiclesList.size();
         
+=======
+        this.tasks = (Task[])tasks.toArray();
+
+>>>>>>> origin/master
         
         
 //		System.out.println("Agent " + agent.id() + " has tasks " + tasks);
@@ -127,11 +136,11 @@ public class CentralizedOneTask implements CentralizedBehavior {
     private void changingTaskOrder(NodeT A, int v, int aI1, int aI2, ArrayList<NodeT> neighbours) {
     	NodeT A1 = A.clone();
     	int tPre1 = v + Nt; // getNextTask(tPre1) = aI1
-    	int t1 = A1.nextTask(tPre1); // task1
+    	int t1 = A1.getNextTask(tPre1); // task1
     	int count = 0;
     	while(count < aI1){
     		tPre1 = t1;
-    		t1 = A1.nextTask(t1);
+    		t1 = A1.getNextTask(t1);
     		count++;
     	}
     }
@@ -174,11 +183,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	}
     	
     	for(int i=0; i<Nv; i++) {
-    		updateTime(initial, i);
-    	}
-    	
-    	for(int i=0; i<Nt; i++) {
-    		initial.setVehicle(i, index);
+    		updateTime(initial, i)
     	}
     	
     	initial.print();
