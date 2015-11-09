@@ -121,7 +121,6 @@ public class CentralizedOneTask implements CentralizedBehavior {
     private ArrayList<NodeT> chooseNeighbours(NodeT Aold) {
     	ArrayList<NodeT> N = new ArrayList<NodeT>(); // TODO : ArrayList?
     	int vi = random(); // TODO
-    	
     	// Applying the changing vehicle operator :
     	for (int vj=0; vj<Nv; vj++) {
     		if(vj!=vi) {
@@ -133,23 +132,9 @@ public class CentralizedOneTask implements CentralizedBehavior {
     		}
     	}
     	
-    	// Applying the changing task order operator :
-    	// compute the number of tasks of the vehicle
-    	int length = 0;
-    	int t = Aold.nextTask(vi+Nt); // current task in the list
-    	while(t!=-1) {
-    		t = Aold.nextTask(t);
-    		length++;
-    	}
-    	if(length>=2) {
-    		for (int tIdx1=0; tIdx1<length-1; tIdx1++) {
-    			for (int tIdx2=tIdx1+1; tIdx2<length; tIdx2++) {
-    				NodeT A = changingTaskOrder(Aold, vi, tIdx1, tIdx2);
-    				N.add(A);
-    			}
-    		}
-    	}
-    
+    	
+    	
+    	
     	return N;
     }
     

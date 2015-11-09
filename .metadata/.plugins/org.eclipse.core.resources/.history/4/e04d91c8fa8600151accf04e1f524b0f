@@ -3,7 +3,6 @@ package template;
 //the list of imports
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import logist.LogistSettings;
 import logist.agent.Agent;
@@ -35,8 +34,6 @@ public class CentralizedOneTask implements CentralizedBehavior {
     
     private int Nt;
     private int Nv;
-    
-    private Random random;
 
     //////////////////////////////////////
     //              MAIN                //
@@ -63,9 +60,6 @@ public class CentralizedOneTask implements CentralizedBehavior {
         this.topology = topology;
         this.distribution = distribution;
         this.agent = agent;
-        
-        
-        random = new Random();
     }
 
     @Override
@@ -119,49 +113,18 @@ public class CentralizedOneTask implements CentralizedBehavior {
     
     // vladman
     private ArrayList<NodeT> chooseNeighbours(NodeT Aold) {
-    	ArrayList<NodeT> N = new ArrayList<NodeT>(); // TODO : ArrayList?
-    	int vi = random(); // TODO
+    	ArrayList<NodeT> N = new ArrayList<NodeT>();
     	
-    	// Applying the changing vehicle operator :
-    	for (int vj=0; vj<Nv; vj++) {
-    		if(vj!=vi) {
-    			int t = Aold.nextTask(vi+Nv);
-    			if(tasks[t].weight <= vehiclesList.get(vi).capacity()) {
-    				NodeT A = changingVehicle(Aold, vi, vj);
-    				N.add(A);	
-    			}
-    		}
-    	}
-    	
-    	// Applying the changing task order operator :
-    	// compute the number of tasks of the vehicle
-    	int length = 0;
-    	int t = Aold.nextTask(vi+Nt); // current task in the list
-    	while(t!=-1) {
-    		t = Aold.nextTask(t);
-    		length++;
-    	}
-    	if(length>=2) {
-    		for (int tIdx1=0; tIdx1<length-1; tIdx1++) {
-    			for (int tIdx2=tIdx1+1; tIdx2<length; tIdx2++) {
-    				NodeT A = changingTaskOrder(Aold, vi, tIdx1, tIdx2);
-    				N.add(A);
-    			}
-    		}
-    	}
-    
     	return N;
     }
     
     // vladman
-    private NodeT changingVehicle(NodeT A, int v1, int v2) {
-    	NodeT A1 = A.clone();
+    private void changingVehicle(NodeT A, int v1, int v2, ArrayList<NodeT> neighbours) {
     	
-    	return A1;
     }
     
     // mouche
-    private NodeT changingTaskOrder(NodeT A, int v, int aI1, int aI2) {
+    private void changingTaskOrder(NodeT A, int v, int aI1, int aI2, ArrayList<NodeT> neighbours) {
     	NodeT A1 = A.clone();
     	int tPre1 = v + Nt; // getNextTask(tPre1) = aI1
     	int t1 = A1.nextTask(tPre1); // task1
@@ -171,7 +134,6 @@ public class CentralizedOneTask implements CentralizedBehavior {
     		t1 = A1.nextTask(t1);
     		count++;
     	}
-    	return A1;
     }
     
     // mouche
@@ -240,8 +202,4 @@ public class CentralizedOneTask implements CentralizedBehavior {
     //////////////////////////////////////
     //              UTILS               //
     //////////////////////////////////////
-    
-    private int random() {
-    	return 0;
-    }
 }
