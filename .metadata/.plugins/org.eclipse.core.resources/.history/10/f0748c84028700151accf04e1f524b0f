@@ -126,7 +126,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	for (int vj=0; vj<Nv; vj++) {
     		if(vj!=vi) {
     			int t = Aold.nextTask(vi+Nv);
-    			if(tasks[t].weight <= vehiclesList.get(vi).capacity()) { // no vehicle change if first task too heavy for all other vehicles
+    			if(tasks[t].weight <= vehiclesList.get(vi).capacity()) {
     				NodeT A = changingVehicle(Aold, vi, vj);
     				N.add(A);	
     			}
@@ -157,7 +157,6 @@ public class CentralizedOneTask implements CentralizedBehavior {
     private NodeT changingVehicle(NodeT A, int v1, int v2) {
     	NodeT A1 = A.clone();
     	int t = A.nextTask(v1+Nt);
-    	
     	A1.nextTask(v1+Nt, A1.nextTask(t));
     	A1.nextTask(t, A1.nextTask(v2+Nt));
     	A1.nextTask(v2+Nt, t);
