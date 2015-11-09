@@ -257,16 +257,9 @@ public class CentralizedOneTask implements CentralizedBehavior {
 
 	// mouche
 	private NodeT localChoice(ArrayList<NodeT> N, NodeT Aold) {
-		if(N == null){
-			return Aold;
-		}else{
-			NodeT bestNodeT = N.get(0);
-			for(NodeT n : N){
-				if(n.)
-			}
-			return bestNodeT;
-		}
-		
+		NodeT bestNodeT = null;
+
+		return bestNodeT;
 	}
 
 	// mouche
