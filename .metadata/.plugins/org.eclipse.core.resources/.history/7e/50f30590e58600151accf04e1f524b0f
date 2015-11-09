@@ -1,5 +1,7 @@
 package template;
 
+import java.util.ArrayList;
+
 public class Node {
 	private int[] nextAction;
 	private int[] times;
@@ -13,19 +15,19 @@ public class Node {
 	//        CONSTRUCTORS       //
 	///////////////////////////////
 	
-	public Node(int[] nextAction, int[] times, int[] vehicles, int Nt, int Nv) {
+	public Node(int[] nextAction, int[] time, int[] vehicle, int Nt, int Nv) {
 		this.nextAction = nextAction;
-		this.times = times;
-		this.vehicles = vehicles;
+		this.time = time;
+		this.vehicle = vehicle;
 		this.Nt = Nt;
 		this.Nv = Nv;
 		this.OValue = -1;
 	}
 	
-	private Node(int[] nextAction, int[] times, int[] vehicles, int Nt, int Nv, double v) {
+	private Node(int[] nextAction, int[] time, int[] vehicle, int Nt, int Nv, double v) {
 		this.nextAction = nextAction;
-		this.times = times;
-		this.vehicles = vehicles;
+		this.time = time;
+		this.vehicle = vehicle;
 		this.Nt = Nt;
 		this.Nv = Nv;
 		this.OValue = v;
@@ -36,7 +38,7 @@ public class Node {
 	///////////////////////////////
 	
 	public Node clone() {
-		return new Node((int[]) nextAction.clone(), (int[])times.clone(), (int[])vehicles.clone(), Nt, Nv, OValue);
+		return new Node((int[]) nextAction.clone(), (int[])time.clone(), (int[])vehicle.clone(), Nt, Nv, OValue);
 	}
 	
 	
@@ -63,19 +65,19 @@ public class Node {
 	}
 	
 	public void setTime(int index, int value) {
-		times[index] = value;
+		time[index] = value;
 	}
 	
 	public int getTime(int index) {
-		return times[index];
+		return time[index];
 	}
 	
 	public void setVehicle(int index, int value) {
-		vehicles[index] = value;
+		vehicle[index] = value;
 	}
 	
 	public int getVehicle(int index) {
-		return vehicles[index];
+		return vehicle[index];
 	}
 	
 	///////////////////////////////
@@ -87,31 +89,31 @@ public class Node {
 	}
 
 
-	public void setNextAction(int[] nextAction) {
+	public void setNextAction(ArrayList<Integer> nextAction) {
 		this.OValue = -1;
 		this.nextAction = nextAction;
 	}
 
 
 	public int[] getTimes() {
-		return times;
+		return time;
 	}
 
 
-	public void setTimes(int[] times) {
+	public void setTimes(ArrayList<Integer> time) {
 		this.OValue = -1;
-		this.times = times;
+		this.time = time;
 	}
 
 
 	public int[] getVehicles() {
-		return vehicles;
+		return vehicle;
 	}
 
 
-	public void setVehicles(int[] vehicles) {
+	public void setVehicles(int[] vehicle) {
 		this.OValue = -1;
-		this.vehicles = vehicles;
+		this.vehicle = vehicle;
 	}
 	
 	public int getNt() {
