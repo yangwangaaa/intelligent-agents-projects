@@ -36,8 +36,8 @@ public class CentralizedOneTask implements CentralizedBehavior {
 	private int Nt;
 	private int Nv;
 	
-	private double p = 0.3; // probability used for localChoice
-	private int numIt = 5000;
+	private int p; // probability used for localChoice
+
 	private Random random;
 
 	//////////////////////////////////////
@@ -106,10 +106,10 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	
     	A.getOValue(tasks, vehiclesList);
     	A.print();
-    
+    	
+    	int numIt = 5000;
     	int i = 0;
     	while(i < numIt) { // TODO
-    		print("SLS iteration #" + i);
     		NodeT Aold = A;
     		ArrayList<NodeT> N = chooseNeighbours(A);
     		A = localChoice(N, Aold); // only keep bestNodeT in chooseNeighbours : more efficient? = rename "chooseBestNeigbours"
@@ -159,7 +159,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
     			}
     		}
     	}
-    	
+    
     	return N;
     }
     
@@ -281,7 +281,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
 		}else{
 			NodeT bestNodeT = N.get(0);
 			for(NodeT n : N){
-				if(n.getOValue(tasks, vehiclesList)<=bestNodeT.getOValue(tasks, vehiclesList))
+				if(n.getOValue(tasks, vehiclesList)>=bestNodeT.getOValue(tasks, vehiclesList))
 					bestNodeT = n;
 			}
 			if(Math.random()<= p){
@@ -302,13 +302,8 @@ public class CentralizedOneTask implements CentralizedBehavior {
     //              UTILS               //
     //////////////////////////////////////
     
-    private int random(NodeT Aold) {
-    	ArrayList<Integer> vehicles = new ArrayList<Integer>();
-    	for(int v=0; v<Nv; v++) {
-    		if(Aold.nextTask(v+Nt) != -1) vehicles.add(v);
-    	}
-    	int v = random.nextInt(vehicles.size());
-    	return vehicles.get(v);
+    private int random() {
+    	return 0;
     }
     
 	public void print(String s){

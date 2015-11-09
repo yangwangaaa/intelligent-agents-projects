@@ -36,8 +36,8 @@ public class CentralizedOneTask implements CentralizedBehavior {
 	private int Nt;
 	private int Nv;
 	
-	private double p = 0.3; // probability used for localChoice
-	private int numIt = 5000;
+	private int p; // probability used for localChoice
+
 	private Random random;
 
 	//////////////////////////////////////
@@ -106,7 +106,8 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	
     	A.getOValue(tasks, vehiclesList);
     	A.print();
-    
+    	
+    	int numIt = 1;
     	int i = 0;
     	while(i < numIt) { // TODO
     		print("SLS iteration #" + i);
@@ -134,6 +135,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	
     	// Applying the changing vehicle operator :
     	for (int vj=0; vj<Nv; vj++) {
+    		print("chooseNeighbours vj = " + vj);
     		if(vj!=vi) {
     			int t = Aold.nextTask(vi+Nv);
     			if(tasks[t].weight <= vehiclesList.get(vi).capacity()) { // no vehicle change if first task too heavy for all other vehicles
@@ -154,12 +156,13 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	if(length>=2) {
     		for (int tIdx1=0; tIdx1<length-1; tIdx1++) {
     			for (int tIdx2=tIdx1+1; tIdx2<length; tIdx2++) {
+    				print("chooseNeighbours tIdx1=" + tIdx1 + ", tIdx2=" + tIdx2);
     				NodeT A = changingTaskOrder(Aold, vi, tIdx1, tIdx2);
     				N.add(A);
     			}
     		}
     	}
-    	
+    
     	return N;
     }
     
@@ -281,7 +284,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
 		}else{
 			NodeT bestNodeT = N.get(0);
 			for(NodeT n : N){
-				if(n.getOValue(tasks, vehiclesList)<=bestNodeT.getOValue(tasks, vehiclesList))
+				if(n.getOValue(tasks, vehiclesList)>=bestNodeT.getOValue(tasks, vehiclesList))
 					bestNodeT = n;
 			}
 			if(Math.random()<= p){

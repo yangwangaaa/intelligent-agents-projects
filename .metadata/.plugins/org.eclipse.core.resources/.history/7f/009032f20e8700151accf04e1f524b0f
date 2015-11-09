@@ -36,8 +36,8 @@ public class CentralizedOneTask implements CentralizedBehavior {
 	private int Nt;
 	private int Nv;
 	
-	private double p = 0.3; // probability used for localChoice
-	private int numIt = 5000;
+	private int p; // probability used for localChoice
+
 	private Random random;
 
 	//////////////////////////////////////
@@ -106,7 +106,8 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	
     	A.getOValue(tasks, vehiclesList);
     	A.print();
-    
+    	
+    	int numIt = 1;
     	int i = 0;
     	while(i < numIt) { // TODO
     		print("SLS iteration #" + i);
@@ -159,7 +160,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
     			}
     		}
     	}
-    	
+    
     	return N;
     }
     
@@ -281,7 +282,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
 		}else{
 			NodeT bestNodeT = N.get(0);
 			for(NodeT n : N){
-				if(n.getOValue(tasks, vehiclesList)<=bestNodeT.getOValue(tasks, vehiclesList))
+				if(n.getOValue(tasks, vehiclesList)>=bestNodeT.getOValue(tasks, vehiclesList))
 					bestNodeT = n;
 			}
 			if(Math.random()<= p){
