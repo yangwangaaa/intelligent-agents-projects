@@ -135,15 +135,15 @@ public class CentralizedOneTask implements CentralizedBehavior {
     	
     	// Applying the changing task order operator :
     	// compute the number of tasks of the vehicle
-    	int length = 0;
-    	int t = Aold.nextTask(vi+Nt); // current task in the list
+    	int length = -1; // -1 because the vehicle is counted
+    	int t = vi+Nt; // current task in the list
     	while(t!=-1) {
     		t = Aold.nextTask(t);
     		length++;
     	}
     	if(length>=2) {
     		for (int tIdx1=0; tIdx1<length-1; tIdx1++) {
-    			for (int tIdx2=tIdx1+1; tIdx2<length; tIdx2++) {
+    			for (int tIdx2=tIdx1; tIdx2<length; tIdx2++) {
     				NodeT A = changingTaskOrder(Aold, vi, tIdx1, tIdx2);
     				N.add(A);
     			}
@@ -171,16 +171,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
     		t1 = A1.nextTask(t1);
     		count++;
     	}
-<<<<<<< HEAD
-    	int tPost1 = A1.nextTask(t1); // the task delivered after t1
-    	int tPre2 = t1; // previous task of task2
-    	int t2 = A1.nextTask(tPre2); // task2
-    	count++;
-    	
-    	
-=======
     	return A1;
->>>>>>> origin/master
     }
     
     // mouche
