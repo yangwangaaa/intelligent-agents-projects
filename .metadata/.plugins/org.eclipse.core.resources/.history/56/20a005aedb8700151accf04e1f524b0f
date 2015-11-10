@@ -122,6 +122,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 		}
 
 		bestNodePD.getOValue(tasks, vehiclesList);
+		bestNodePD.print();
 
 		return bestNodePD;
 	}

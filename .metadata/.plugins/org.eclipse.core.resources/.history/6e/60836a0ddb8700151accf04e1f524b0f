@@ -39,7 +39,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 	private int Na;
 
 	private double p = 0.5; // probability used for localChoice
-	private int numIt = 3;
+	private int numIt = 5000;
 	private Random random;
 
 	//////////////////////////////////////
@@ -115,13 +115,12 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 			NodePD Aold = A;
 			ArrayList<NodePD> N = chooseNeighbours(A);
 			A = localChoice(N, Aold); // only keep bestNodePD in chooseNeighbours : more efficient? = rename "chooseBestNeigbours"
-			print("BEST CHOOSEN AT IT " + i);
-			A.print();
 			if(A.getOValue(tasks, vehiclesList) < bestNodePD.getOValue(tasks, vehiclesList)) bestNodePD = A;
 			i++;
 		}
 
 		bestNodePD.getOValue(tasks, vehiclesList);
+		bestNodePD.print();
 
 		return bestNodePD;
 	}
@@ -143,8 +142,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 				if(tasks[t].weight <= vehiclesList.get(vi).capacity()) { // no vehicle change if first task too heavy for all other vehicles
 					NodePD A = changingVehicle(Aold, vi, vj);
 					N.add(A);
-					A.getOValue(tasks, vehiclesList);
-					A.print();
+					//A.print();
 				}
 			}
 		}
@@ -164,8 +162,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 					NodePD A = changingTaskOrder(Aold, vi, tIdx1, tIdx2);
 					if(A!=null) {
 						N.add(A);
-						A.getOValue(tasks, vehiclesList);
-						A.print();
+						//A.print();
 					}
 				}
 			}
