@@ -298,13 +298,9 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 		}
 
 		// Exchange the order of a1 and a2.
-		boolean a2Last = A1.nextAction(a2)==-1;
 		if(A1.nextAction(a1) == a2){ // Action a1 is just before a2
-
 			A1.nextAction(A1.previousAction(a1),a2);
-			if(!a2Last){
-				A1.previousAction(A1.nextAction(a2), a1);
-			}
+			A1.previousAction(A1.nextAction(a2), a1);
 			int pre = A1.previousAction(a1);
 
 			//a1
@@ -324,9 +320,8 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 
 			//neighbor of a2
 			A1.nextAction(A1.previousAction(a2),a1);
-			if(!a2Last){
-				A1.previousAction(A1.nextAction(a2),a1);
-			}
+			A1.previousAction(A1.nextAction(a2),a1);
+
 			//a1
 			A1.previousAction(a1, A1.previousAction(a2));
 			A1.nextAction(a1, A1.nextAction(a2));
@@ -351,7 +346,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 			A1.setLoad(i, A1.getLoad(i) + delta);
 		}
 	}
-
+	
 	// mouche
 
 	private void updateTime(NodePD A, int v) {

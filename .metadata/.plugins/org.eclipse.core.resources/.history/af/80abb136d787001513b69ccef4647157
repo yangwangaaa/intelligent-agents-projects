@@ -283,21 +283,12 @@ public class CentralizedOneTaskSimulatedAnnealing implements CentralizedBehavior
 		if(N == null){
 			return Aold;
 		}else{
-			double ran = Math.random();
-			int ranIndex = (int) (ran*(N.size()-1));
-			if( ran > p-(iter/this.numIt)){
+			if(Math.random() > p-(iter/this.numIt)){
 				print("other");
 				print(N.size());
-				print(ran);
-				print((int) (ranIndex));
-				
-				double delta = Aold.getOValue(tasks, vehiclesList) - N.get(ranIndex).getOValue(tasks, vehiclesList);
-				if(delta < 0){ // new solution is worst
-					if(Math.random()<1+(delta/10)){
-						
-					}
-				}
-				return N.get((int) (ran*(N.size()-1)));
+				print((int) (Math.random()*(N.size()-1)));
+				if(N.get((int) (Math.random()*(N.size()-1))) <= )
+				return N.get((int) (Math.random()*(N.size()-1)));
 				}			
 			NodeT bestNodeT = N.get(0);
 			for(NodeT n : N){
@@ -357,9 +348,6 @@ public class CentralizedOneTaskSimulatedAnnealing implements CentralizedBehavior
 		System.out.println(s);
 	}
 	public void print(int i){
-		System.out.println(i);
-	}
-	public void print(double i){
 		System.out.println(i);
 	}
 }

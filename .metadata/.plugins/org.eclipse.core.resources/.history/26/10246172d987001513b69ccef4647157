@@ -324,9 +324,8 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 
 			//neighbor of a2
 			A1.nextAction(A1.previousAction(a2),a1);
-			if(!a2Last){
-				A1.previousAction(A1.nextAction(a2),a1);
-			}
+			A1.previousAction(A1.nextAction(a2),a1);
+
 			//a1
 			A1.previousAction(a1, A1.previousAction(a2));
 			A1.nextAction(a1, A1.nextAction(a2));

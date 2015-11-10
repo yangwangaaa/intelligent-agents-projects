@@ -293,7 +293,7 @@ public class CentralizedOneTaskSimulatedAnnealing implements CentralizedBehavior
 				
 				double delta = Aold.getOValue(tasks, vehiclesList) - N.get(ranIndex).getOValue(tasks, vehiclesList);
 				if(delta < 0){ // new solution is worst
-					if(Math.random()<1+(delta/10)){
+					if(){
 						
 					}
 				}
