@@ -38,7 +38,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
 	private int Nv;
 
 	private double p = 0.5; // probability used for localChoice
-	private int numIt = 5000;
+	private int numIt = 2;
 	private Random random;
 
 	//////////////////////////////////////
