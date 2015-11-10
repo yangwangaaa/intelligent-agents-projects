@@ -15,7 +15,6 @@ import logist.task.Task;
 import logist.task.TaskDistribution;
 import logist.task.TaskSet;
 import logist.topology.Topology;
-import logist.topology.Topology.City;
 
 /**
  * A very simple auction agent that assigns all tasks to its first vehicle and
@@ -36,7 +35,6 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 
 	private int Nt;
 	private int Nv;
-	private int Na;
 
 	private double p = 0.3; // probability used for localChoice
 	private int numIt = 2;
@@ -79,11 +77,10 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 		this.tasks = tasks.toArray(new Task[tasks.size()]);
 		this.Nt = this.tasks.length;
 		this.Nv = vehiclesList.size();
-		this.Na = this.Nt*2;
 
 
-				//		System.out.println("Agent " + agent.id() + " has tasks " + tasks);
-				NodePD bestSolution = SLS();
+		//		System.out.println("Agent " + agent.id() + " has tasks " + tasks);
+		NodePD bestSolution = SLS();
 		System.out.println("FINAL SOLUTION:");
 		bestSolution.print();
 
@@ -207,7 +204,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 				updateTimeAndLoad(A1, a1, a2, time1, delta);
 
 			}else{ //D1....P2 to P2....D1
-
+				
 				int delta = tasks[a1-Nt].weight + tasks[a2].weight;
 				for(int i = a1; i!= a2; i = A1.nextAction(i)){
 					if(A1.getLoad(i) + delta > capacity)
@@ -221,11 +218,11 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 			if(a2 >= Nt){ // P1....D2 to D2....P1
 
 				if(time1 <= A1.getTime(a2-Nt) ||        //D2 before P2 or
-						A1.getTime(a2) >= A1.getTime(a1+Nt) )//P1 after D1
+				   A1.getTime(a2) >= A1.getTime(a1+Nt) )//P1 after D1
 					return null;
 				int delta = -tasks[a1].weight - tasks[a2-Nt].weight; //delta is negative load is ok //TODO le -?
 				updateTimeAndLoad(A1, a1, a2, time1, delta);
-
+				
 			}else{ //P1....P2 to P2....P1
 
 				if(A1.getTime(a2) >= A1.getTime(a1+Nt)) //P1 after D1
@@ -273,11 +270,12 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 			A1.nextAction(t2, tPost1);
 			A1.nextAction(t1, tPost2);
 		}
+		updateTime(A1,v);
 		return A1;
 	}
 
 	// mouche
-	private void updateTime(NodePD A, int v) {//TODO c'est inefficace update les time par toi meme
+	private void updateTime(NodePD A, int v) {
 		int ti = A.nextAction(v+Nt);
 		if(ti != -1){
 			A.setTime(ti, 0); //Time starts at 0
@@ -353,35 +351,9 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 	// mouche
 	private List<Plan> computeFinalPlan(NodePD n) {
 		List<Plan> plans = new ArrayList<Plan>();
-		
-		for(int v = 0 ; v<Nv ; v++){ // for each vehicle
-			City current = vehiclesList.get(v).getCurrentCity();
-			Plan plan = new Plan(current);
-			
-			for(int t = Na + v; n.nextAction(t) != -1 ; t = n.nextAction(t)){ // for each task of the vehicle //TODO 2*Nt
-				Task task = tasks[n.nextAction(t) % Nt];				
 
-				if(n.nextAction(t) < Nt){ // action is Pickup
-					// move: current city => pickup location
-					for (City city : current.pathTo(task.pickupCity)) {
-						plan.appendMove(city);
-					}
-					plan.appendPickup(task);
-					current = task.pickupCity;
-				}else{ // action is Delivery
-					// move: current city => delivery location
-					for (City city : current.pathTo(task.deliveryCity)) {
-						plan.appendMove(city);
-					}
-					plan.appendDelivery(task);
-					current = task.deliveryCity;
-				}
-			}
-			plans.add(plan);
-		}
 		return plans;
 	}
-
 
 	//mouche
 	private void updateTimeAndLoad(NodePD A1, int a1, int a2, int time1, int delta ){

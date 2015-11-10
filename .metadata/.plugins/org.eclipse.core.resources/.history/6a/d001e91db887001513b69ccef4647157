@@ -79,7 +79,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 		this.tasks = tasks.toArray(new Task[tasks.size()]);
 		this.Nt = this.tasks.length;
 		this.Nv = vehiclesList.size();
-		this.Na = this.Nt*2;
+		this.Na = this.Nt*2
 
 
 				//		System.out.println("Agent " + agent.id() + " has tasks " + tasks);
