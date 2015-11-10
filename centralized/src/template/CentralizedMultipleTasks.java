@@ -35,6 +35,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 
 	private int Nt;
 	private int Nv;
+	private int Na;
 
 	private double p = 0.3; // probability used for localChoice
 	private int numIt = 2;
@@ -77,7 +78,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 		this.tasks = tasks.toArray(new Task[tasks.size()]);
 		this.Nt = this.tasks.length;
 		this.Nv = vehiclesList.size();
-
+		this.Na = 2*Nt;
 
 		//		System.out.println("Agent " + agent.id() + " has tasks " + tasks);
 		NodePD bestSolution = SLS();
@@ -135,7 +136,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 		// Applying the changing vehicle operator :
 		for (int vj=0; vj<Nv; vj++) {
 			if(vj!=vi) {
-				int t = Aold.nextAction(vi+Nv);
+				int t = Aold.nextAction(vi+Na);
 				if(tasks[t].weight <= vehiclesList.get(vi).capacity()) { // no vehicle change if first task too heavy for all other vehicles
 					NodePD A = changingVehicle(Aold, vi, vj);
 					N.add(A);
@@ -147,7 +148,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 		// Applying the changing task order operator :
 		// compute the number of tasks of the vehicle
 		int length = 0;
-		int t = Aold.nextAction(vi+Nt); // current task in the list
+		int t = Aold.nextAction(vi+Na); // current task in the list
 		while(t!=-1) {
 			t = Aold.nextAction(t);
 			length++;
@@ -168,16 +169,55 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 	// vladman
 	private NodePD changingVehicle(NodePD A, int v1, int v2) {
 		NodePD A1 = A.clone();
-		int t = A.nextAction(v1+Nt);
-
-		A1.nextAction(v1+Nt, A1.nextAction(t));
-		A1.nextAction(t, A1.nextAction(v2+Nt));
-		A1.nextAction(v2+Nt, t);
-
+		
+		int p = A.nextAction(v1+Na);
+		int d = p+Nt;
+		int dNext = A1.nextAction(d);
+		int v2Next = A1.nextAction(v2+Na);
+		
+		Boolean following = A1.nextAction(p)==d;
+		
+		// update nextAction and previousAction v1
+		if(!following) {
+			A1.nextAction(v1+Na, A1.nextAction(p));
+			A1.previousAction(A1.nextAction(v1+Na), v1+Na);
+			
+			A1.nextAction(A1.previousAction(d), A1.nextAction(d));
+			if(dNext!=-1) A1.previousAction(A1.nextAction(d), A1.previousAction(d));
+		}
+		else {
+			A1.nextAction(v1+Na, A1.nextAction(d));
+			if(dNext!=-1) A1.previousAction(A1.nextAction(d), v1+Na);
+		}
+		
+		// update nextAction and previousAction v2
+		A1.nextAction(d, A1.nextAction(v2+Na));
+		if(v2Next!=-1) A1.previousAction(v2Next, d);
+		
+		A1.nextAction(p, d);
+		A1.previousAction(d, p);
+		
+		A1.nextAction(v2+Na, p);
+		A1.previousAction(p, v2+Na);
+		
+		// update time v1 and v2
 		updateTime(A1, v1);
 		updateTime(A1, v2);
 
-		A1.setVehicle(t, v2);
+		// update vehicle of p and d
+		A1.setVehicle(p, v2);
+		A1.setVehicle(d, v2);
+		
+		// update load v1 and v2
+		A1.setLoad(d, 0);
+		
+		if(!following) { // remove weight of task pd for actions that were between p and d
+			int a = A1.nextAction(v1+Na);
+			while(a!=dNext) {
+				A1.setLoad(a, A1.getLoad(a)-tasks[p].weight);
+				a = A1.nextAction(a);
+			}
+		}
 
 		return A1;
 	}
@@ -276,7 +316,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 
 	// mouche
 	private void updateTime(NodePD A, int v) {
-		int ti = A.nextAction(v+Nt);
+		int ti = A.nextAction(v+Na);
 		if(ti != -1){
 			A.setTime(ti, 0); //Time starts at 0
 			int tj = A.nextAction(ti);
@@ -296,8 +336,6 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 	private NodePD selectInitialSolution() {
 		// use global variables: vehicles, tasks, ...
 		NodePD initial = new NodePD(vehiclesList, tasks);
-		int Nt = tasks.length;
-		int Nv = vehiclesList.size();
 
 		Vehicle biggestV = vehiclesList.get(0);
 		for (Vehicle v : vehiclesList) {
@@ -305,8 +343,8 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 		}
 
 		int index = biggestV.id();
-		initial.nextAction(index+Nt, 0);
-
+		initial.nextAction(index+Na, 0);
+		
 		for (int i = 0; i<Nt; i++) {
 			if(this.tasks[i].weight>biggestV.capacity()) {
 				System.out.println("ERROR : One task is too heavy for the vehicles");
@@ -317,14 +355,23 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 			if(i==Nt-1) next = -1;
 			else next = i+1;
 
-			initial.nextAction(i, next);
+			initial.nextAction(i, Nt+i);
+			initial.nextAction(Nt+i, next);
+			
+			// load :
+			initial.setLoad(i, tasks[i].weight);
+			initial.setLoad(Nt+i, 0);
 		}
 
+		updateTime(initial, index);
+		
+		/*
 		for(int i=0; i<Nv; i++) {
 			updateTime(initial, i);
 		}
-
-		for(int i=0; i<Nt; i++) {
+		*/
+		
+		for(int i=0; i<Na; i++) {
 			initial.setVehicle(i, index);
 		}
 
@@ -373,7 +420,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 	private int random(NodePD Aold) {
 		ArrayList<Integer> vehicles = new ArrayList<Integer>();
 		for(int v=0; v<Nv; v++) {
-			if(Aold.nextAction(v+Nt) != -1) vehicles.add(v);
+			if(Aold.nextAction(v+Na) != -1) vehicles.add(v);
 		}
 		int v = random.nextInt(vehicles.size());
 		return vehicles.get(v);
