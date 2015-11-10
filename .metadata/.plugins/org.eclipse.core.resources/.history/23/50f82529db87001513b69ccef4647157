@@ -19,10 +19,10 @@ import logist.topology.Topology;
 import logist.topology.Topology.City;
 
 /**
- * A very simple auction agent that assigns all tasks to its first vehicle and
- * handles them sequentially.
- *
- */
+* A very simple auction agent that assigns all tasks to its first vehicle and
+* handles them sequentially.
+*
+*/
 @SuppressWarnings("unused")
 public class CentralizedOneTaskSimulatedAnnealing implements CentralizedBehavior {
 
@@ -38,8 +38,8 @@ public class CentralizedOneTaskSimulatedAnnealing implements CentralizedBehavior
 	private int Nt;
 	private int Nv;
 
-	private double p = 0.5; // probability used for localChoice probability of peaking best neighbor
-	private int numIt = 30;
+	private double p = 0; // probability used for localChoice probability of peaking best neighbor
+	private int numIt = 150000;
 	private Random random;
 
 	//////////////////////////////////////
@@ -285,37 +285,25 @@ public class CentralizedOneTaskSimulatedAnnealing implements CentralizedBehavior
 		}else{
 			double ran = Math.random();
 			int ranIndex = (int) (ran*(N.size()-1));
-			if(iter< 0.8* this.numIt){ 
-				if( ran > p+(iter/this.numIt)){ print("truuuuuuuuuuue");
-				print(iter);
-				print(this.numIt);
-				print(p+(iter/this.numIt));
-					/*print("SIZE");
-					print(N.size());
-					print("ran");
-					print(ran);
-					print("index");
-					print((int) (ranIndex));*/
-
-					double delta = N.get(ranIndex).getOValue(tasks, vehiclesList) - Aold.getOValue(tasks, vehiclesList) ;
-					if(delta < 0){ // new solution is bether
-						print("SPEEEEEEEEEEEEEEEEEEEEEEECIAL");
-						return N.get(ranIndex);
-					}else{
-						if(Math.random()>(delta/5)){
-							print("TRRRRRRRRRRRRRRRRRRRRRRRS SPECIAL");
-							return N.get(ranIndex);
-						}
+			if( ran > p-(iter/this.numIt)){
+				print("other");
+				print(N.size());
+				print(ran);
+				print((int) (ranIndex));
+				
+				double delta = Aold.getOValue(tasks, vehiclesList) - N.get(ranIndex).getOValue(tasks, vehiclesList);
+				if(delta < 0){ // new solution is worst
+					if(Math.random()<1+(delta/10)){
+						
 					}
-
-				}		
-			}
+				}
+				return N.get((int) (ran*(N.size()-1)));
+				}			
 			NodeT bestNodeT = N.get(0);
 			for(NodeT n : N){
 				if(n.getOValue(tasks, vehiclesList)<=bestNodeT.getOValue(tasks, vehiclesList))
 					bestNodeT = n;
 			}
-			print("NNNNNNNNNNNNNNNNNNNNNNN");
 			return bestNodeT;
 		}	
 	}
@@ -345,7 +333,7 @@ public class CentralizedOneTaskSimulatedAnnealing implements CentralizedBehavior
 				// set current city
 				current = task.deliveryCity;
 			}
-			plans.add(plan);
+		plans.add(plan);
 		}
 		return plans;
 	}

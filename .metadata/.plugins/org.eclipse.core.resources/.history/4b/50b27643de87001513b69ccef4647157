@@ -332,8 +332,8 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 			A1.nextAction(a1, A1.nextAction(a2));
 
 			//a2
-			A1.previousAction(a2, pre);
-			A1.nextAction(a2, post);
+			A1.previousAction(a2, A1.previousAction(a1));
+			A1.nextAction(a2, A1.nextAction(a1));
 		}
 		return A1;
 	}

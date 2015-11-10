@@ -39,7 +39,7 @@ public class CentralizedOneTaskSimulatedAnnealing implements CentralizedBehavior
 	private int Nv;
 
 	private double p = 0.5; // probability used for localChoice probability of peaking best neighbor
-	private int numIt = 30;
+	private int numIt = 100000;
 	private Random random;
 
 	//////////////////////////////////////
@@ -286,10 +286,7 @@ public class CentralizedOneTaskSimulatedAnnealing implements CentralizedBehavior
 			double ran = Math.random();
 			int ranIndex = (int) (ran*(N.size()-1));
 			if(iter< 0.8* this.numIt){ 
-				if( ran > p+(iter/this.numIt)){ print("truuuuuuuuuuue");
-				print(iter);
-				print(this.numIt);
-				print(p+(iter/this.numIt));
+				if( ran > p-(iter/this.numIt)){ print("truuuuuuuuuuue");
 					/*print("SIZE");
 					print(N.size());
 					print("ran");

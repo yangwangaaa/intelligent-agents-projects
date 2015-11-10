@@ -38,8 +38,8 @@ public class CentralizedOneTaskSimulatedAnnealing implements CentralizedBehavior
 	private int Nt;
 	private int Nv;
 
-	private double p = 0.5; // probability used for localChoice probability of peaking best neighbor
-	private int numIt = 30;
+	private double p = 0; // probability used for localChoice probability of peaking best neighbor
+	private int numIt = 150000;
 	private Random random;
 
 	//////////////////////////////////////
@@ -285,25 +285,18 @@ public class CentralizedOneTaskSimulatedAnnealing implements CentralizedBehavior
 		}else{
 			double ran = Math.random();
 			int ranIndex = (int) (ran*(N.size()-1));
-			if(iter< 0.8* this.numIt){ 
-				if( ran > p+(iter/this.numIt)){ print("truuuuuuuuuuue");
-				print(iter);
-				print(this.numIt);
-				print(p+(iter/this.numIt));
-					/*print("SIZE");
+			if(iter< 0.9* this.numIt){
+				if( ran > p-(iter/this.numIt)){
+					print("other");
 					print(N.size());
-					print("ran");
 					print(ran);
-					print("index");
-					print((int) (ranIndex));*/
+					print((int) (ranIndex));
 
 					double delta = N.get(ranIndex).getOValue(tasks, vehiclesList) - Aold.getOValue(tasks, vehiclesList) ;
 					if(delta < 0){ // new solution is bether
-						print("SPEEEEEEEEEEEEEEEEEEEEEEECIAL");
 						return N.get(ranIndex);
 					}else{
-						if(Math.random()>(delta/5)){
-							print("TRRRRRRRRRRRRRRRRRRRRRRRS SPECIAL");
+						if(Math.random()>(delta/10)){
 							return N.get(ranIndex);
 						}
 					}
@@ -315,7 +308,6 @@ public class CentralizedOneTaskSimulatedAnnealing implements CentralizedBehavior
 				if(n.getOValue(tasks, vehiclesList)<=bestNodeT.getOValue(tasks, vehiclesList))
 					bestNodeT = n;
 			}
-			print("NNNNNNNNNNNNNNNNNNNNNNN");
 			return bestNodeT;
 		}	
 	}

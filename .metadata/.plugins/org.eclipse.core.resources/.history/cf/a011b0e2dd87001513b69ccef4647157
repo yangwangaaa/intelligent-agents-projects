@@ -287,8 +287,6 @@ public class CentralizedOneTaskSimulatedAnnealing implements CentralizedBehavior
 			int ranIndex = (int) (ran*(N.size()-1));
 			if(iter< 0.8* this.numIt){ 
 				if( ran > p+(iter/this.numIt)){ print("truuuuuuuuuuue");
-				print(iter);
-				print(this.numIt);
 				print(p+(iter/this.numIt));
 					/*print("SIZE");
 					print(N.size());
