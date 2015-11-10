@@ -22,13 +22,6 @@ import logist.topology.Topology.City;
  * handles them sequentially.
  *
  */
-
-/**
- * 
- * multiple start
- * neighbour changing vehicle pour chaque task
- *
- */
 @SuppressWarnings("unused")
 public class CentralizedMultipleTasks implements CentralizedBehavior {
 
@@ -46,7 +39,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 	private int Na;
 
 	private double p = 0.5; // probability used for localChoice
-	private int numIt = 5000;
+	private int numIt = 1000;
 	private Random random;
 
 	//////////////////////////////////////
