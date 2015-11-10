@@ -37,8 +37,8 @@ public class CentralizedOneTask implements CentralizedBehavior {
 	private int Nt;
 	private int Nv;
 
-	private double p = 0.3; // probability used for localChoice probability of peaking best neighbor
-	private int numIt = 50000;
+	private double p = 0.5; // probability used for localChoice
+	private int numIt = 5000;
 	private Random random;
 
 	//////////////////////////////////////
@@ -136,11 +136,11 @@ public class CentralizedOneTask implements CentralizedBehavior {
 		// Applying the changing vehicle operator :
 		for (int vj=0; vj<Nv; vj++) {
 			if(vj!=vi) {
-				int t = Aold.nextTask(vi+Nt);
+				int t = Aold.nextTask(vi+Nv);
 				if(tasks[t].weight <= vehiclesList.get(vi).capacity()) { // no vehicle change if first task too heavy for all other vehicles
 					NodeT A = changingVehicle(Aold, vi, vj);
 					N.add(A);
-					//A.print();
+					A.print();
 				}
 			}
 		}
@@ -158,7 +158,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
 				for (int tIdx2=tIdx1+1; tIdx2<length; tIdx2++) {
 					NodeT A = changingTaskOrder(Aold, vi, tIdx1, tIdx2);
 					N.add(A);
-					//A.print();
+					A.print();
 				}
 			}
 		}
@@ -282,15 +282,15 @@ public class CentralizedOneTask implements CentralizedBehavior {
 		if(N == null){
 			return Aold;
 		}else{
-			if(Math.random() > p){
-				return Aold;
-				}			
 			NodeT bestNodeT = N.get(0);
 			for(NodeT n : N){
 				if(n.getOValue(tasks, vehiclesList)<=bestNodeT.getOValue(tasks, vehiclesList))
 					bestNodeT = n;
 			}
-			return bestNodeT;
+			if(Math.random()<= p){
+				return bestNodeT;
+			}
+			return Aold;
 		}	
 	}
 

@@ -1,3 +1,4 @@
+
 package template;
 
 //the list of imports
@@ -18,12 +19,12 @@ import logist.topology.Topology;
 import logist.topology.Topology.City;
 
 /**
- * A very simple auction agent that assigns all tasks to its first vehicle and
- * handles them sequentially.
- *
- */
+* A very simple auction agent that assigns all tasks to its first vehicle and
+* handles them sequentially.
+*
+*/
 @SuppressWarnings("unused")
-public class CentralizedOneTask implements CentralizedBehavior {
+public class CentralizedOneTaskSimulatedAnnealing implements CentralizedBehavior {
 
 	private Topology topology;
 	private TaskDistribution distribution;
@@ -37,8 +38,8 @@ public class CentralizedOneTask implements CentralizedBehavior {
 	private int Nt;
 	private int Nv;
 
-	private double p = 0.3; // probability used for localChoice probability of peaking best neighbor
-	private int numIt = 50000;
+	private double p = 0.5; // probability used for localChoice probability of peaking best neighbor
+	private int numIt = 6;
 	private Random random;
 
 	//////////////////////////////////////
@@ -136,7 +137,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
 		// Applying the changing vehicle operator :
 		for (int vj=0; vj<Nv; vj++) {
 			if(vj!=vi) {
-				int t = Aold.nextTask(vi+Nt);
+				int t = Aold.nextTask(vi+Nv);
 				if(tasks[t].weight <= vehiclesList.get(vi).capacity()) { // no vehicle change if first task too heavy for all other vehicles
 					NodeT A = changingVehicle(Aold, vi, vj);
 					N.add(A);
@@ -283,7 +284,8 @@ public class CentralizedOneTask implements CentralizedBehavior {
 			return Aold;
 		}else{
 			if(Math.random() > p){
-				return Aold;
+				print("other");
+				return N.get((int) Math.random()*(N.size()-1));
 				}			
 			NodeT bestNodeT = N.get(0);
 			for(NodeT n : N){

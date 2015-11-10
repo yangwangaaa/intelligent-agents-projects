@@ -12,10 +12,6 @@
 		<set class-path="bin/" />
 		<set class-name="template.CentralizedOneTask" />
 	</agent>
-	<agent name="centralized-one-simulated-annealing">
-		<set class-path="bin/" />
-		<set class-name="template.CentralizedOneTaskSimulatedAnnealing" />
-	</agent>
 	<agent name="centralized-multiple">
 		<set class-path="bin/" />
 		<set class-name="template.CentralizedMultipleTasks" />
