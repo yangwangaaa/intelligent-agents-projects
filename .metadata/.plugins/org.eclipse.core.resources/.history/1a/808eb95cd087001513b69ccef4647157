@@ -1,3 +1,4 @@
+
 package template;
 
 //the list of imports
@@ -18,12 +19,12 @@ import logist.topology.Topology;
 import logist.topology.Topology.City;
 
 /**
- * A very simple auction agent that assigns all tasks to its first vehicle and
- * handles them sequentially.
- *
- */
+* A very simple auction agent that assigns all tasks to its first vehicle and
+* handles them sequentially.
+*
+*/
 @SuppressWarnings("unused")
-public class CentralizedOneTask implements CentralizedBehavior {
+public class CentralizedOneTaskSimulatedAnnealing implements CentralizedBehavior {
 
 	private Topology topology;
 	private TaskDistribution distribution;
@@ -37,8 +38,8 @@ public class CentralizedOneTask implements CentralizedBehavior {
 	private int Nt;
 	private int Nv;
 
-	private double p = 0.3; // probability used for localChoice probability of peaking best neighbor
-	private int numIt = 50000;
+	private double p = 0; // probability used for localChoice probability of peaking best neighbor
+	private int numIt = 150000;
 	private Random random;
 
 	//////////////////////////////////////
@@ -113,7 +114,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
 			print("SLS iteration #" + i);
 			NodeT Aold = A;
 			ArrayList<NodeT> N = chooseNeighbours(A);
-			A = localChoice(N, Aold); // only keep bestNodeT in chooseNeighbours : more efficient? = rename "chooseBestNeigbours"
+			A = localChoice(N, Aold, i); // only keep bestNodeT in chooseNeighbours : more efficient? = rename "chooseBestNeigbours"
 			if(A.getOValue(tasks, vehiclesList) < bestNodeT.getOValue(tasks, vehiclesList)) bestNodeT = A;
 			i++;
 		}
@@ -278,12 +279,15 @@ public class CentralizedOneTask implements CentralizedBehavior {
 	}
 
 	// mouche
-	private NodeT localChoice(ArrayList<NodeT> N, NodeT Aold) {
+	private NodeT localChoice(ArrayList<NodeT> N, NodeT Aold, int iter) {
 		if(N == null){
 			return Aold;
 		}else{
-			if(Math.random() > p){
-				return Aold;
+			if(Math.random() > p-(iter/this.numIt)){
+				print("other");
+				print(N.size());
+				print((int) (Math.random()*(N.size()-1)));
+				return N.get((int) (Math.random()*(N.size()-1)));
 				}			
 			NodeT bestNodeT = N.get(0);
 			for(NodeT n : N){
@@ -341,5 +345,8 @@ public class CentralizedOneTask implements CentralizedBehavior {
 
 	public void print(String s){
 		System.out.println(s);
+	}
+	public void print(int i){
+		System.out.println(i);
 	}
 }

@@ -1,3 +1,4 @@
+
 package template;
 
 //the list of imports
@@ -18,12 +19,12 @@ import logist.topology.Topology;
 import logist.topology.Topology.City;
 
 /**
- * A very simple auction agent that assigns all tasks to its first vehicle and
- * handles them sequentially.
- *
- */
+* A very simple auction agent that assigns all tasks to its first vehicle and
+* handles them sequentially.
+*
+*/
 @SuppressWarnings("unused")
-public class CentralizedOneTask implements CentralizedBehavior {
+public class CentralizedOneTaskSimulatedAnnealing implements CentralizedBehavior {
 
 	private Topology topology;
 	private TaskDistribution distribution;
@@ -282,15 +283,15 @@ public class CentralizedOneTask implements CentralizedBehavior {
 		if(N == null){
 			return Aold;
 		}else{
-			if(Math.random() > p){
-				return Aold;
-				}			
 			NodeT bestNodeT = N.get(0);
 			for(NodeT n : N){
 				if(n.getOValue(tasks, vehiclesList)<=bestNodeT.getOValue(tasks, vehiclesList))
 					bestNodeT = n;
 			}
-			return bestNodeT;
+			if(Math.random()<= p){
+				return bestNodeT;
+			}
+			return Aold;
 		}	
 	}
 
