@@ -231,7 +231,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 		int a1 = A1.nextAction(v + Na); // task1
 		int count = 0;
 		while(count < t1){
-			a1 = A1.nextAction(a1);
+			a1 = A1.nextAction(t1);
 			count++;
 		}
 		int a2 = A1.nextAction(a1); // task2

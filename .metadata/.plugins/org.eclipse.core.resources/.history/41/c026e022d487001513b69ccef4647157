@@ -227,11 +227,10 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 	private NodePD changingTaskOrder(NodePD A, int v, int t1, int t2) {
 		NodePD A1 = A.clone();
 
-		// find id a1 of the t1th action and find the id a2 of the t2th action.
 		int a1 = A1.nextAction(v + Na); // task1
 		int count = 0;
 		while(count < t1){
-			a1 = A1.nextAction(a1);
+			a1 = A1.nextAction(t1);
 			count++;
 		}
 		int a2 = A1.nextAction(a1); // task2
@@ -242,7 +241,6 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 			count++;
 		}
 
-		// Checks if we can exchange the order of a1 and a2 then update the time and load variables.
 		int time1 = A1.getTime(a1);
 		int capacity = vehiclesList.get(A1.getVehicle(a1)).capacity();
 		//D stands for delivery, P stands for pickup.
@@ -295,7 +293,12 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 			}
 		}
 
-		// Exchange the order of a1 and a2.
+
+
+
+
+
+
 		if(A1.nextAction(a1) == a2){ // Action a1 is just before a2
 			A1.nextAction(A1.previousAction(a1),a2);
 			A1.previousAction(A1.nextAction(a2), a1);
