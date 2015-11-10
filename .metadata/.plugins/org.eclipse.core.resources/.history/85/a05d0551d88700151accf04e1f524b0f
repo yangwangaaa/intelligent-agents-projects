@@ -299,7 +299,6 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 		// Exchange the order of a1 and a2.
 		if(A1.nextAction(a1) == a2){ // Action a1 is just before a2
 			A1.nextAction(A1.previousAction(a1),a2);
-			print("a1 = " + a1 + ", a2 = " + a2);
 			A1.previousAction(A1.nextAction(a2), a1);
 			int pre = A1.previousAction(a1);
 

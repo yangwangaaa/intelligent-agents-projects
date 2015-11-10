@@ -239,7 +239,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 		int a2 = A1.nextAction(a1); // task2
 		count++;
 
-		while(count < t2){
+		while(count < a2){
 			a2 = A1.nextAction(a2);
 			count++;
 		}
@@ -283,6 +283,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 				updateTimeAndLoad(A1, a1, a2, time1, delta);
 
 			}else{ //P1....P2 to P2....P1
+				print("a1 = " + a1 + ", a2 = " + a2);
 				if(A1.getTime(a2) >= A1.getTime(a1+Nt)) //P1 after D1
 					return null;
 				int delta = tasks[a2].weight - tasks[a1].weight;
@@ -299,7 +300,6 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 		// Exchange the order of a1 and a2.
 		if(A1.nextAction(a1) == a2){ // Action a1 is just before a2
 			A1.nextAction(A1.previousAction(a1),a2);
-			print("a1 = " + a1 + ", a2 = " + a2);
 			A1.previousAction(A1.nextAction(a2), a1);
 			int pre = A1.previousAction(a1);
 
