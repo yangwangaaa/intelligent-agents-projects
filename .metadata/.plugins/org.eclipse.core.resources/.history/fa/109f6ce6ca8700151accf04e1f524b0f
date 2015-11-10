@@ -395,7 +395,6 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 			initial.nextAction(Nt+i, next);
 			
 			initial.previousAction(Nt+i, i);
-			if(next!=-1) initial.previousAction(next, Nt+i);
 			
 			// load :
 			initial.setLoad(i, tasks[i].weight);

@@ -131,7 +131,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 
 	// vladman
 	private ArrayList<NodePD> chooseNeighbours(NodePD Aold) {
-		ArrayList<NodePD> N = new ArrayList<NodePD>();
+		ArrayList<NodePD> N = new ArrayList<NodePD>(); // TODO : ArrayList?
 		int vi = random(Aold);
 
 		// Applying the changing vehicle operator :
@@ -368,7 +368,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 	//////////////////////////////////////
 
 	// vladman
-	private NodePD selectInitialSolution() { // 
+	private NodePD selectInitialSolution() {
 		// use global variables: vehicles, tasks, ...
 		NodePD initial = new NodePD(vehiclesList, tasks);
 
@@ -379,7 +379,6 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 
 		int index = biggestV.id();
 		initial.nextAction(index+Na, 0);
-		initial.previousAction(0, index+Na);
 		
 		for (int i = 0; i<Nt; i++) {
 			if(this.tasks[i].weight>biggestV.capacity()) {
@@ -393,9 +392,6 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 
 			initial.nextAction(i, Nt+i);
 			initial.nextAction(Nt+i, next);
-			
-			initial.previousAction(Nt+i, i);
-			if(next!=-1) initial.previousAction(next, Nt+i);
 			
 			// load :
 			initial.setLoad(i, tasks[i].weight);

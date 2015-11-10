@@ -379,7 +379,6 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 
 		int index = biggestV.id();
 		initial.nextAction(index+Na, 0);
-		initial.previousAction(0, index+Na);
 		
 		for (int i = 0; i<Nt; i++) {
 			if(this.tasks[i].weight>biggestV.capacity()) {
@@ -395,7 +394,6 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 			initial.nextAction(Nt+i, next);
 			
 			initial.previousAction(Nt+i, i);
-			if(next!=-1) initial.previousAction(next, Nt+i);
 			
 			// load :
 			initial.setLoad(i, tasks[i].weight);
