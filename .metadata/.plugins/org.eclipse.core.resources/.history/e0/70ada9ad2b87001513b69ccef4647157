@@ -37,8 +37,8 @@ public class CentralizedOneTask implements CentralizedBehavior {
 	private int Nt;
 	private int Nv;
 
-	private double p = 0.5; // probability used for localChoice
-	private int numIt = 5000;
+	private double p = 0.3; // probability used for localChoice
+	private int numIt = 2;
 	private Random random;
 
 	//////////////////////////////////////
@@ -319,7 +319,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
 				// set current city
 				current = task.deliveryCity;
 			}
-		plans.add(plan);
+		plans.add(plan);//TODO ils se mettent dans le bon ordre?
 		}
 		return plans;
 	}

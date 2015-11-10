@@ -15,7 +15,6 @@ import logist.task.Task;
 import logist.task.TaskDistribution;
 import logist.task.TaskSet;
 import logist.topology.Topology;
-import logist.topology.Topology.City;
 
 /**
  * A very simple auction agent that assigns all tasks to its first vehicle and
@@ -23,7 +22,7 @@ import logist.topology.Topology.City;
  *
  */
 @SuppressWarnings("unused")
-public class CentralizedOneTask implements CentralizedBehavior {
+public class CentralizedMultipleTasks implements CentralizedBehavior {
 
 	private Topology topology;
 	private TaskDistribution distribution;
@@ -37,8 +36,8 @@ public class CentralizedOneTask implements CentralizedBehavior {
 	private int Nt;
 	private int Nv;
 
-	private double p = 0.5; // probability used for localChoice
-	private int numIt = 5000;
+	private double p = 0.3; // probability used for localChoice
+	private int numIt = 2;
 	private Random random;
 
 	//////////////////////////////////////
@@ -81,7 +80,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
 
 
 		//		System.out.println("Agent " + agent.id() + " has tasks " + tasks);
-		NodeT bestSolution = SLS();
+		NodePD bestSolution = SLS();
 		System.out.println("FINAL SOLUTION:");
 		bestSolution.print();
 
@@ -101,9 +100,9 @@ public class CentralizedOneTask implements CentralizedBehavior {
 	//               SLS                //
 	//////////////////////////////////////
 
-	private NodeT SLS() {
-		NodeT A = selectInitialSolution();
-		NodeT bestNodeT = A;
+	private NodePD SLS() {
+		NodePD A = selectInitialSolution();
+		NodePD bestNodePD = A;
 
 		A.getOValue(tasks, vehiclesList);
 		A.print();
@@ -111,17 +110,17 @@ public class CentralizedOneTask implements CentralizedBehavior {
 		int i = 0;
 		while(i < numIt) { // TODO
 			print("SLS iteration #" + i);
-			NodeT Aold = A;
-			ArrayList<NodeT> N = chooseNeighbours(A);
-			A = localChoice(N, Aold); // only keep bestNodeT in chooseNeighbours : more efficient? = rename "chooseBestNeigbours"
-			if(A.getOValue(tasks, vehiclesList) < bestNodeT.getOValue(tasks, vehiclesList)) bestNodeT = A;
+			NodePD Aold = A;
+			ArrayList<NodePD> N = chooseNeighbours(A);
+			A = localChoice(N, Aold); // only keep bestNodePD in chooseNeighbours : more efficient? = rename "chooseBestNeigbours"
+			if(A.getOValue(tasks, vehiclesList) < bestNodePD.getOValue(tasks, vehiclesList)) bestNodePD = A;
 			i++;
 		}
 
-		bestNodeT.getOValue(tasks, vehiclesList);
-		bestNodeT.print();
+		bestNodePD.getOValue(tasks, vehiclesList);
+		bestNodePD.print();
 
-		return bestNodeT;
+		return bestNodePD;
 	}
 
 	//////////////////////////////////////
@@ -129,16 +128,16 @@ public class CentralizedOneTask implements CentralizedBehavior {
 	//////////////////////////////////////
 
 	// vladman
-	private ArrayList<NodeT> chooseNeighbours(NodeT Aold) {
-		ArrayList<NodeT> N = new ArrayList<NodeT>(); // TODO : ArrayList?
+	private ArrayList<NodePD> chooseNeighbours(NodePD Aold) {
+		ArrayList<NodePD> N = new ArrayList<NodePD>(); // TODO : ArrayList?
 		int vi = random(Aold);
 
 		// Applying the changing vehicle operator :
 		for (int vj=0; vj<Nv; vj++) {
 			if(vj!=vi) {
-				int t = Aold.nextTask(vi+Nv);
+				int t = Aold.nextAction(vi+Nv);
 				if(tasks[t].weight <= vehiclesList.get(vi).capacity()) { // no vehicle change if first task too heavy for all other vehicles
-					NodeT A = changingVehicle(Aold, vi, vj);
+					NodePD A = changingVehicle(Aold, vi, vj);
 					N.add(A);
 					A.print();
 				}
@@ -148,15 +147,15 @@ public class CentralizedOneTask implements CentralizedBehavior {
 		// Applying the changing task order operator :
 		// compute the number of tasks of the vehicle
 		int length = 0;
-		int t = Aold.nextTask(vi+Nt); // current task in the list
+		int t = Aold.nextAction(vi+Nt); // current task in the list
 		while(t!=-1) {
-			t = Aold.nextTask(t);
+			t = Aold.nextAction(t);
 			length++;
 		}
 		if(length>=2) {
 			for (int tIdx1=0; tIdx1<length-1; tIdx1++) {
 				for (int tIdx2=tIdx1+1; tIdx2<length; tIdx2++) {
-					NodeT A = changingTaskOrder(Aold, vi, tIdx1, tIdx2);
+					NodePD A = changingTaskOrder(Aold, vi, tIdx1, tIdx2);
 					N.add(A);
 					A.print();
 				}
@@ -167,13 +166,13 @@ public class CentralizedOneTask implements CentralizedBehavior {
 	}
 
 	// vladman
-	private NodeT changingVehicle(NodeT A, int v1, int v2) {
-		NodeT A1 = A.clone();
-		int t = A.nextTask(v1+Nt);
+	private NodePD changingVehicle(NodePD A, int v1, int v2) {
+		NodePD A1 = A.clone();
+		int t = A.nextAction(v1+Nt);
 
-		A1.nextTask(v1+Nt, A1.nextTask(t));
-		A1.nextTask(t, A1.nextTask(v2+Nt));
-		A1.nextTask(v2+Nt, t);
+		A1.nextAction(v1+Nt, A1.nextAction(t));
+		A1.nextAction(t, A1.nextAction(v2+Nt));
+		A1.nextAction(v2+Nt, t);
 
 		updateTime(A1, v1);
 		updateTime(A1, v2);
@@ -184,52 +183,107 @@ public class CentralizedOneTask implements CentralizedBehavior {
 	}
 
 	// mouche
-	private NodeT changingTaskOrder(NodeT A, int v, int aI1, int aI2) {
-		NodeT A1 = A.clone();
-		int tPre1 = v + Nt; // getNextTask(tPre1) = aI1
-		int t1 = A1.nextTask(tPre1); // task1
+	private NodePD changingTaskOrder(NodePD A, int v, int a1, int a2) {
+		NodePD A1 = A.clone();
+
+		int time1 = A1.getTime(a1);
+		int capacity = vehiclesList.get(A1.getVehicle(a1)).capacity();
+		//D stands for delivery, P stands for pickup.
+		if(a1>=Nt){// a1 is delivery D
+			if(a2 >= Nt){ // D1....D2 to D2....D1
+
+				if(time1 <= A1.getTime(a2-Nt)) //D2 before P2
+					return null;
+				int delta = tasks[a1-Nt].weight - tasks[a2-Nt].weight;
+				if(delta>0){
+					for(int i = a1; i!= a2; i = A1.nextAction(i)){
+						if(A1.getLoad(i) + delta > capacity)
+							return null;
+					}
+				}
+				updateTimeAndLoad(A1, a1, a2, time1, delta);
+
+			}else{ //D1....P2 to P2....D1
+				
+				int delta = tasks[a1-Nt].weight + tasks[a2].weight;
+				for(int i = a1; i!= a2; i = A1.nextAction(i)){
+					if(A1.getLoad(i) + delta > capacity)
+						return null;
+				}
+				updateTimeAndLoad(A1, a1, a2, time1, delta);
+
+			}
+		}
+		else{// a1 is pick up
+			if(a2 >= Nt){ // P1....D2 to D2....P1
+
+				if(time1 <= A1.getTime(a2-Nt) ||        //D2 before P2 or
+				   A1.getTime(a2) >= A1.getTime(a1+Nt) )//P1 after D1
+					return null;
+				int delta = -tasks[a1].weight - tasks[a2-Nt].weight; //delta is negative load is ok //TODO le -?
+				updateTimeAndLoad(A1, a1, a2, time1, delta);
+				
+			}else{ //P1....P2 to P2....P1
+
+				if(A1.getTime(a2) >= A1.getTime(a1+Nt)) //P1 after D1
+					return null;
+				int delta = tasks[a2].weight - tasks[a1].weight;
+				if(delta>0){
+					for(int i = a1; i!= a2; i = A1.nextAction(i)){
+						if(A1.getLoad(i) + delta > capacity)
+							return null;
+					}
+				}
+				updateTimeAndLoad(A1, a1, a2, time1, delta);
+			}
+		}
+
+
+
+		int tPre1 = v + Nt; // getNextAction(tPre1) = aI1
+		int t1 = A1.nextAction(tPre1); // task1
 		int count = 0;
 		while(count < aI1){
 			tPre1 = t1;
-			t1 = A1.nextTask(t1);
+			t1 = A1.nextAction(t1);
 			count++;
 		}
-		int tPost1 = A1.nextTask(t1); // the task delivered after t1
+		int tPost1 = A1.nextAction(t1); // the task delivered after t1
 		int tPre2 = t1; // previous task of task2
-		int t2 = A1.nextTask(tPre2); // task2
+		int t2 = A1.nextAction(tPre2); // task2
 		count++;
 
 		while(count < aI2){
 			tPre2 = t2;
-			t2 = A1.nextTask(t2);
+			t2 = A1.nextAction(t2);
 			count++;
 		}
-		int tPost2 = A1.nextTask(t2);
+		int tPost2 = A1.nextAction(t2);
 		if(tPost1 == t2){
 			// the task t2 is delivered immediately after t1
-			A1.nextTask(tPre1, t2);
-			A1.nextTask(t2, t1);
-			A1.nextTask(t1, tPost2);
+			A1.nextAction(tPre1, t2);
+			A1.nextAction(t2, t1);
+			A1.nextAction(t1, tPost2);
 		}else{
-			A1.nextTask(tPre1, t2);
-			A1.nextTask(tPre2, t1);
-			A1.nextTask(t2, tPost1);
-			A1.nextTask(t1, tPost2);
+			A1.nextAction(tPre1, t2);
+			A1.nextAction(tPre2, t1);
+			A1.nextAction(t2, tPost1);
+			A1.nextAction(t1, tPost2);
 		}
 		updateTime(A1,v);
 		return A1;
 	}
 
 	// mouche
-	private void updateTime(NodeT A, int v) {
-		int ti = A.nextTask(v+Nt);
+	private void updateTime(NodePD A, int v) {
+		int ti = A.nextAction(v+Nt);
 		if(ti != -1){
 			A.setTime(ti, 0); //Time starts at 0
-			int tj = A.nextTask(ti);
+			int tj = A.nextAction(ti);
 			while(tj != -1){
 				A.setTime(tj, A.getTime(ti) + 1);
 				ti = tj;
-				tj = A.nextTask(ti);
+				tj = A.nextAction(ti);
 			}
 		}
 	}
@@ -239,9 +293,9 @@ public class CentralizedOneTask implements CentralizedBehavior {
 	//////////////////////////////////////
 
 	// vladman
-	private NodeT selectInitialSolution() {
+	private NodePD selectInitialSolution() {
 		// use global variables: vehicles, tasks, ...
-		NodeT initial = new NodeT(vehiclesList, tasks);
+		NodePD initial = new NodePD(vehiclesList, tasks);
 		int Nt = tasks.length;
 		int Nv = vehiclesList.size();
 
@@ -251,7 +305,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
 		}
 
 		int index = biggestV.id();
-		initial.nextTask(index+Nt, 0);
+		initial.nextAction(index+Nt, 0);
 
 		for (int i = 0; i<Nt; i++) {
 			if(this.tasks[i].weight>biggestV.capacity()) {
@@ -263,7 +317,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
 			if(i==Nt-1) next = -1;
 			else next = i+1;
 
-			initial.nextTask(i, next);
+			initial.nextAction(i, next);
 		}
 
 		for(int i=0; i<Nv; i++) {
@@ -278,62 +332,48 @@ public class CentralizedOneTask implements CentralizedBehavior {
 	}
 
 	// mouche
-	private NodeT localChoice(ArrayList<NodeT> N, NodeT Aold) {
+	private NodePD localChoice(ArrayList<NodePD> N, NodePD Aold) {
 		if(N == null){
 			return Aold;
 		}else{
-			NodeT bestNodeT = N.get(0);
-			for(NodeT n : N){
-				if(n.getOValue(tasks, vehiclesList)<=bestNodeT.getOValue(tasks, vehiclesList))
-					bestNodeT = n;
+			NodePD bestNodePD = N.get(0);
+			for(NodePD n : N){
+				if(n.getOValue(tasks, vehiclesList)<=bestNodePD.getOValue(tasks, vehiclesList))
+					bestNodePD = n;
 			}
 			if(Math.random()<= p){
-				return bestNodeT;
+				return bestNodePD;
 			}
 			return Aold;
 		}	
 	}
 
 	// mouche
-	private List<Plan> computeFinalPlan(NodeT n) {
+	private List<Plan> computeFinalPlan(NodePD n) {
 		List<Plan> plans = new ArrayList<Plan>();
-		for(int v = 0 ; v<Nv ; v++){ // for each vehicle
-			City current = vehiclesList.get(v).getCurrentCity();
-			Plan plan = new Plan(current);
-			for(int t = Nt + v; n.nextTask(t) != -1 ; t = n.nextTask(t)){ // for each task of the vehicle //TODO 2*Nt
-				Task task = tasks[n.nextTask(t)];				
-				// move: current city => pickup location
-				for (City city : current.pathTo(task.pickupCity)) {
-					plan.appendMove(city);
-				}
 
-				plan.appendPickup(task);
-
-				// move: pickup location => delivery location
-				for (City city : task.path()) {
-					plan.appendMove(city);
-				}
-
-				plan.appendDelivery(task);
-
-				// set current city
-				current = task.deliveryCity;
-			}
-		plans.add(plan);
-		}
 		return plans;
 	}
 
-
+	//mouche
+	private void updateTimeAndLoad(NodePD A1, int a1, int a2, int time1, int delta ){
+		//Update time
+		A1.setTime(a1, A1.getTime(a2));
+		A1.setTime(a2, time1);
+		//Update Load
+		for(int i = a1; i!= a2; i = A1.nextAction(i)){
+			A1.setLoad(i, A1.getLoad(i) + delta);
+		}
+	}
 
 	//////////////////////////////////////
 	//              UTILS               //
 	//////////////////////////////////////
 
-	private int random(NodeT Aold) {
+	private int random(NodePD Aold) {
 		ArrayList<Integer> vehicles = new ArrayList<Integer>();
 		for(int v=0; v<Nv; v++) {
-			if(Aold.nextTask(v+Nt) != -1) vehicles.add(v);
+			if(Aold.nextAction(v+Nt) != -1) vehicles.add(v);
 		}
 		int v = random.nextInt(vehicles.size());
 		return vehicles.get(v);
