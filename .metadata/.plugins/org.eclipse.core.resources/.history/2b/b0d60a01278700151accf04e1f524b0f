@@ -80,7 +80,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
         
         
 //		System.out.println("Agent " + agent.id() + " has tasks " + tasks);
-        NodeT bestSolution = SLS();
+        NodePD bestSolution = SLS();
         System.out.println("FINAL SOLUTION:");
         bestSolution.print();
         
@@ -100,9 +100,9 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
     //               SLS                //
     //////////////////////////////////////
     
-    private NodeT SLS() {
-    	NodeT A = selectInitialSolution();
-    	NodeT bestNodeT = A;
+    private NodePD SLS() {
+    	NodePD A = selectInitialSolution();
+    	NodePD bestNodePD = A;
     	
     	A.getOValue(tasks, vehiclesList);
     	A.print();
@@ -110,17 +110,17 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
     	int i = 0;
     	while(i < numIt) { // TODO
     		print("SLS iteration #" + i);
-    		NodeT Aold = A;
-    		ArrayList<NodeT> N = chooseNeighbours(A);
-    		A = localChoice(N, Aold); // only keep bestNodeT in chooseNeighbours : more efficient? = rename "chooseBestNeigbours"
-    		if(A.getOValue(tasks, vehiclesList) < bestNodeT.getOValue(tasks, vehiclesList)) bestNodeT = A;
+    		NodePD Aold = A;
+    		ArrayList<NodePD> N = chooseNeighbours(A);
+    		A = localChoice(N, Aold); // only keep bestNodePD in chooseNeighbours : more efficient? = rename "chooseBestNeigbours"
+    		if(A.getOValue(tasks, vehiclesList) < bestNodePD.getOValue(tasks, vehiclesList)) bestNodePD = A;
     		i++;
     	}
     	
-    	bestNodeT.getOValue(tasks, vehiclesList);
-    	bestNodeT.print();
+    	bestNodePD.getOValue(tasks, vehiclesList);
+    	bestNodePD.print();
     	
-    	return bestNodeT;
+    	return bestNodePD;
     }
     
     //////////////////////////////////////
@@ -128,8 +128,8 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
     //////////////////////////////////////
     
     // vladman
-    private ArrayList<NodeT> chooseNeighbours(NodeT Aold) {
-    	ArrayList<NodeT> N = new ArrayList<NodeT>(); // TODO : ArrayList?
+    private ArrayList<NodePD> chooseNeighbours(NodePD Aold) {
+    	ArrayList<NodePD> N = new ArrayList<NodePD>(); // TODO : ArrayList?
     	int vi = random(Aold);
     	
     	// Applying the changing vehicle operator :
@@ -137,7 +137,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
     		if(vj!=vi) {
     			int t = Aold.nextTask(vi+Nv);
     			if(tasks[t].weight <= vehiclesList.get(vi).capacity()) { // no vehicle change if first task too heavy for all other vehicles
-    				NodeT A = changingVehicle(Aold, vi, vj);
+    				NodePD A = changingVehicle(Aold, vi, vj);
     				N.add(A);
     				A.print();
     			}
@@ -155,7 +155,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
     	if(length>=2) {
     		for (int tIdx1=0; tIdx1<length-1; tIdx1++) {
     			for (int tIdx2=tIdx1+1; tIdx2<length; tIdx2++) {
-    				NodeT A = changingTaskOrder(Aold, vi, tIdx1, tIdx2);
+    				NodePD A = changingTaskOrder(Aold, vi, tIdx1, tIdx2);
     				N.add(A);
     				A.print();
     			}
@@ -166,8 +166,8 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
     }
     
     // vladman
-    private NodeT changingVehicle(NodeT A, int v1, int v2) {
-    	NodeT A1 = A.clone();
+    private NodePD changingVehicle(NodePD A, int v1, int v2) {
+    	NodePD A1 = A.clone();
     	int t = A.nextTask(v1+Nt);
     	
     	A1.nextTask(v1+Nt, A1.nextTask(t));
@@ -183,8 +183,8 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
     }
     
  // mouche
- 	private NodeT changingTaskOrder(NodeT A, int v, int aI1, int aI2) {
- 		NodeT A1 = A.clone();
+ 	private NodePD changingTaskOrder(NodePD A, int v, int aI1, int aI2) {
+ 		NodePD A1 = A.clone();
  		int tPre1 = v + Nt; // getNextTask(tPre1) = aI1
  		int t1 = A1.nextTask(tPre1); // task1
  		int count = 0;
@@ -220,7 +220,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
  	}
 
  	// mouche
- 	private void updateTime(NodeT A, int v) {
+ 	private void updateTime(NodePD A, int v) {
  		int ti = A.nextTask(v+Nt);
  		if(ti != -1){
  			A.setTime(ti, 0); //Time starts at 0
@@ -238,9 +238,9 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
     //////////////////////////////////////
     
     // vladman
-    private NodeT selectInitialSolution() {
+    private NodePD selectInitialSolution() {
     	// use global variables: vehicles, tasks, ...
-    	NodeT initial = new NodeT(vehiclesList, tasks);
+    	NodePD initial = new NodePD(vehiclesList, tasks);
     	int Nt = tasks.length;
     	int Nv = vehiclesList.size();
     	
@@ -277,24 +277,24 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
     }
     
 	// mouche
-	private NodeT localChoice(ArrayList<NodeT> N, NodeT Aold) {
+	private NodePD localChoice(ArrayList<NodePD> N, NodePD Aold) {
 		if(N == null){
 			return Aold;
 		}else{
-			NodeT bestNodeT = N.get(0);
-			for(NodeT n : N){
-				if(n.getOValue(tasks, vehiclesList)<=bestNodeT.getOValue(tasks, vehiclesList))
-					bestNodeT = n;
+			NodePD bestNodePD = N.get(0);
+			for(NodePD n : N){
+				if(n.getOValue(tasks, vehiclesList)<=bestNodePD.getOValue(tasks, vehiclesList))
+					bestNodePD = n;
 			}
 			if(Math.random()<= p){
-				return bestNodeT;
+				return bestNodePD;
 			}
 			return Aold;
 		}	
 	}
 
 	// mouche
-	private List<Plan> computeFinalPlan(NodeT n) {
+	private List<Plan> computeFinalPlan(NodePD n) {
 		List<Plan> plans = new ArrayList<Plan>();
 
 		return plans;
@@ -304,7 +304,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
     //              UTILS               //
     //////////////////////////////////////
     
-    private int random(NodeT Aold) {
+    private int random(NodePD Aold) {
     	ArrayList<Integer> vehicles = new ArrayList<Integer>();
     	for(int v=0; v<Nv; v++) {
     		if(Aold.nextTask(v+Nt) != -1) vehicles.add(v);
