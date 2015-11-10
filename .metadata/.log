@@ -3616,3 +3616,8 @@ java.lang.OutOfMemoryError: Requested array size exceeds VM limit
 	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.notifyIdle(IndexManager.java:644)
 	at org.eclipse.jdt.internal.core.search.processing.JobManager.run(JobManager.java:388)
 	at java.lang.Thread.run(Thread.java:745)
+
+!ENTRY org.eclipse.ui 4 0 2015-11-10 22:06:10.120
+!MESSAGE Unhandled event loop exception
+!STACK 0
+java.lang.NullPointerException

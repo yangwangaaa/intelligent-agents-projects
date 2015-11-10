@@ -2,6 +2,7 @@ package template;
 
 //the list of imports
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -24,10 +25,16 @@ import logist.topology.Topology.City;
  */
 
 /**
+ * TODO :
+ * multiple start : task dans bigger V
+ * SLS and localchoice
+ * stopping criterion : time
  * 
- * multiple start
  * neighbour changing vehicle pour chaque task
+ * si best neigh moins bien que parent, garder parent 2/3
  *
+ * benchmark
+ * report
  */
 @SuppressWarnings("unused")
 public class CentralizedBetterStart implements CentralizedBehavior {
@@ -46,7 +53,7 @@ public class CentralizedBetterStart implements CentralizedBehavior {
 	private int Na;
 
 	private double p = 1; // probability used for localChoice
-	private int numIt = 100;
+	private int numIt = 10000;
 	private Random random;
 
 	//////////////////////////////////////
@@ -111,26 +118,50 @@ public class CentralizedBetterStart implements CentralizedBehavior {
 
 	private NodePD SLS() {
 		NodePD bestNodePD = null;
-		for(int v = 0; v<vehiclesList.size(); v++) {
+		for(int v = 0; v<vehiclesList.size()*2; v++) {
+			print("SLS for #" + v);
 			NodePD A = selectInitialSolution(v);
 			if(bestNodePD==null) bestNodePD = A;
 			A.getOValue(tasks, vehiclesList);
 			A.print();
 
+			NodePD localBest = A;
 			int i = 0;
 			while(i < numIt) {
-				print("SLS iteration #" + i);
+				// if(i%100==0) print("SLS while #" + i);
 				NodePD Aold = A;
 				ArrayList<NodePD> N = chooseNeighbours(A);
 				A = localChoice(N, Aold); // only keep bestNodePD in chooseNeighbours : more efficient? = rename "chooseBestNeigbours"
 				//print("BEST CHOOSEN AT IT " + i);
 				//A.print();
-				if(A.getOValue(tasks, vehiclesList) < bestNodePD.getOValue(tasks, vehiclesList)) bestNodePD = A;
+				if(A.getOValue(tasks, vehiclesList) < localBest.getOValue(tasks, vehiclesList)) localBest = A;
 				i++;
 			}
+			
+			print("BEST CHOOSEN AT V = " + v);
+			localBest.print();
+			if(localBest.getOValue(tasks, vehiclesList) < bestNodePD.getOValue(tasks, vehiclesList)) bestNodePD = localBest;
 		}
 		return bestNodePD;
 	}
+	
+	// mouche
+	private NodePD localChoice(ArrayList<NodePD> N, NodePD Aold) {
+		if(N.size()==0){
+			return Aold;
+		}else{
+			NodePD bestNodePD = N.get(0);
+			for(NodePD n : N){
+				if(n.getOValue(tasks, vehiclesList)<=bestNodePD.getOValue(tasks, vehiclesList))
+					bestNodePD = n;
+			}
+			if(Math.random()<= p){
+				return bestNodePD;
+			}
+			return Aold;
+		}	
+	}
+
 
 	//////////////////////////////////////
 	//         SLS : NEIGHBOURS         //
@@ -148,9 +179,11 @@ public class CentralizedBetterStart implements CentralizedBehavior {
 				int t = Aold.nextAction(vi+Na);
 				if(tasks[t].weight <= vehiclesList.get(vi).capacity()) { // no vehicle change if first task too heavy for all other vehicles
 					NodePD A = changingVehicle(Aold, vi, vj);
-					N.add(A);
-					//A.getOValue(tasks, vehiclesList);
-					//A.print();
+					if(A!=null) {
+						N.add(A);
+						//A.getOValue(tasks, vehiclesList);
+						//A.print();
+					}
 				}
 			}
 		}
@@ -185,6 +218,9 @@ public class CentralizedBetterStart implements CentralizedBehavior {
 		NodePD A1 = A.clone();
 
 		int p = A.nextAction(v1+Na);
+		if(tasks[p].weight>vehiclesList.get(v2).capacity()) {
+			return null;
+		}
 		int d = p+Nt;
 		int dNext = A1.nextAction(d);
 		int v2Next = A1.nextAction(v2+Na);
@@ -384,66 +420,57 @@ public class CentralizedBetterStart implements CentralizedBehavior {
 		// use global variables: vehicles, tasks, ...
 		NodePD initial = new NodePD(vehiclesList, tasks);
 
+
 		Vehicle biggestV = vehiclesList.get(0);
 		for (Vehicle v : vehiclesList) {
 			if(biggestV.capacity()<v.capacity()) biggestV = v;
 		}
 
+		int[] lastAction = new int[Nv];
+		Arrays.fill(lastAction, -1);
+
 		int biggestI = biggestV.id();
-		initial.nextAction(index+Na, 0);
-		initial.previousAction(0, index+Na);
-		initial.previousAction(index+Na, -1);
 
 		for (int i = 0; i<Nt; i++) {
 			if(this.tasks[i].weight>biggestV.capacity()) {
 				System.out.println("ERROR : One task is too heavy for the vehicles");
 				return null;
 			}
-			int next;
-			if(i==Nt-1) next = -1;
-			else next = i+1;
-
+			
+			int v = index;
+			if(index>=vehiclesList.size()) v = random.nextInt(vehiclesList.size()); 
+			if(this.tasks[i].weight>vehiclesList.get(v).capacity()) v = biggestI;
+			
+			if(lastAction[v]==-1) {
+				initial.nextAction(v+Na, i);
+				initial.previousAction(i, v+Na);
+				initial.previousAction(v+Na, -1);
+			}
+			else {
+				initial.nextAction(lastAction[v], i);
+				initial.previousAction(i, lastAction[v]);
+			}
 			initial.nextAction(i, Nt+i);
-			initial.nextAction(Nt+i, next);
-
+			initial.nextAction(Nt+i, -1);
 			initial.previousAction(Nt+i, i);
-			if(next!=-1) initial.previousAction(next, Nt+i);
-
+			
+			lastAction[v] = Nt+i;
+			
 			// load :
 			initial.setLoad(i, tasks[i].weight);
 			initial.setLoad(Nt+i, 0);
+			
+			// vehicle
+			initial.setVehicle(i, v);
+			initial.setVehicle(Nt+i, v);
 		}
 
-		updateTime(initial, index);
-
-		/*
+		
 		for(int i=0; i<Nv; i++) {
 			updateTime(initial, i);
 		}
-		 */
-
-		for(int i=0; i<Na; i++) {
-			initial.setVehicle(i, index);
-		}
 
 		return initial;
-	}
-
-	// mouche
-	private NodePD localChoice(ArrayList<NodePD> N, NodePD Aold) {
-		if(N == null){
-			return Aold;
-		}else{
-			NodePD bestNodePD = N.get(0);
-			for(NodePD n : N){
-				if(n.getOValue(tasks, vehiclesList)<=bestNodePD.getOValue(tasks, vehiclesList))
-					bestNodePD = n;
-			}
-			if(Math.random()<= p){
-				return bestNodePD;
-			}
-			return Aold;
-		}	
 	}
 
 	// mouche
