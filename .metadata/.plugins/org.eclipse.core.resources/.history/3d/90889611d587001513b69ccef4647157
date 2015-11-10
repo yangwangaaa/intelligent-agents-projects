@@ -297,7 +297,44 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 			}
 		}
 
+<<<<<<< HEAD
 		// Exchange the order of a1 and a2.
+=======
+
+
+
+		/*	int tPre1 = v + 2*Nt; // getNextAction(tPre1) = aI1
+		int t1 = A1.nextAction(tPre1); // task1
+		int count = 0;
+		while(count < a1){
+			tPre1 = t1;
+			t1 = A1.nextAction(t1);
+			count++;
+		}
+		int tPost1 = A1.nextAction(t1); // the task delivered after t1
+		int tPre2 = t1; // previous task of task2
+		int t2 = A1.nextAction(tPre2); // task2
+		count++;
+
+		while(count < a2){
+			tPre2 = t2;
+			t2 = A1.nextAction(t2);
+			count++;
+		}
+		int tPost2 = A1.nextAction(t2);
+		if(tPost1 == t2){
+			// the task t2 is delivered immediately after t1
+			A1.nextAction(tPre1, t2);
+			A1.nextAction(t2, t1);
+			A1.nextAction(t1, tPost2);
+		}else{
+			A1.nextAction(tPre1, t2);
+			A1.nextAction(tPre2, t1);
+			A1.nextAction(t2, tPost1);
+			A1.nextAction(t1, tPost2);
+		}*/
+
+>>>>>>> origin/master
 		if(A1.nextAction(a1) == a2){ // Action a1 is just before a2
 			A1.nextAction(A1.previousAction(a1),a2);
 			A1.previousAction(A1.nextAction(a2), a1);
@@ -379,7 +416,10 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 		int index = biggestV.id();
 		initial.nextAction(index+Na, 0);
 		initial.previousAction(0, index+Na);
+<<<<<<< HEAD
+=======
 		initial.previousAction(index+Na, -1);
+>>>>>>> origin/master
 
 		for (int i = 0; i<Nt; i++) {
 			if(this.tasks[i].weight>biggestV.capacity()) {

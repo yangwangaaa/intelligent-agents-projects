@@ -166,16 +166,8 @@ public class NodePD {
 
 		int lineReturn = 0;
 		System.out.print("- nextAction = [");
-		for(int i=0; i<Nt; i++) {
-			System.out.print("P"+ i + ":" + nextAction[i] + ", ");
-			lineReturn++;
-			if(lineReturn%max==0) {
-				System.out.println("");
-				System.out.print("                       ");
-			}
-		}
-		for(int i=Nt; i<Na; i++) {
-			System.out.print("D"+ i + ":" + nextAction[i] + ", ");
+		for(int i=0; i<Na; i++) {
+			System.out.print("T"+ i + ":" + nextAction[i] + ", ");
 			lineReturn++;
 			if(lineReturn%max==0) {
 				System.out.println("");
@@ -195,16 +187,8 @@ public class NodePD {
 		
 		lineReturn = 0;
 		System.out.print("- previousAction = [");
-		for(int i=0; i<Nt; i++) {
-			System.out.print("P"+ i + ":" + previousAction[i] + ", ");
-			lineReturn++;
-			if(lineReturn%max==0) {
-				System.out.println("");
-				System.out.print("                       ");
-			}
-		}
-		for(int i=Nt; i<Na; i++) {
-			System.out.print("D"+ i + ":" + previousAction[i] + ", ");
+		for(int i=0; i<Na; i++) {
+			System.out.print("T"+ i + ":" + nextAction[i] + ", ");
 			lineReturn++;
 			if(lineReturn%max==0) {
 				System.out.println("");
@@ -212,8 +196,8 @@ public class NodePD {
 			}
 		}
 		for(int i=0; i<Nv; i++) {
-			if(i==Nv-1) System.out.print("V"+ i + ":" + previousAction[i+Na]);
-			else System.out.print("V"+ i + ":" + previousAction[i+Na] + ", ");
+			if(i==Nv-1) System.out.print("V"+ i + ":" + nextAction[i+Na]);
+			else System.out.print("V"+ i + ":" + nextAction[i+Na] + ", ");
 			lineReturn++;
 			if(lineReturn%max==0) {
 				System.out.println("");
@@ -244,19 +228,6 @@ public class NodePD {
 			if(lineReturn%max==0) {
 				System.out.println("");
 				System.out.print("                      ");
-			}
-		}
-		System.out.println("]");
-		
-		lineReturn = 0;
-		System.out.print("- loads = [");
-		for(int i=0; i<Na; i++) {
-			if(i==Na-1) System.out.print("T"+ i + ":" + load[i]);
-			else System.out.print("T"+ i + ":" + load[i] + ", ");
-			lineReturn++;
-			if(lineReturn%max==0) {
-				System.out.println("");
-				System.out.print("                   ");
 			}
 		}
 		System.out.println("]");

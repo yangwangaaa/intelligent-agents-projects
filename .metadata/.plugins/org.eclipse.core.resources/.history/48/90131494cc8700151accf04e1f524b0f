@@ -174,8 +174,8 @@ public class NodePD {
 				System.out.print("                       ");
 			}
 		}
-		for(int i=Nt; i<Na; i++) {
-			System.out.print("D"+ i + ":" + nextAction[i] + ", ");
+		for(int i=0; i<Nt; i++) {
+			System.out.print("D"+ i + ":" + nextAction[Nt+i] + ", ");
 			lineReturn++;
 			if(lineReturn%max==0) {
 				System.out.println("");
@@ -203,8 +203,8 @@ public class NodePD {
 				System.out.print("                       ");
 			}
 		}
-		for(int i=Nt; i<Na; i++) {
-			System.out.print("D"+ i + ":" + previousAction[i] + ", ");
+		for(int i=0; i<Nt; i++) {
+			System.out.print("D"+ i + ":" + previousAction[Nt+i] + ", ");
 			lineReturn++;
 			if(lineReturn%max==0) {
 				System.out.println("");
@@ -251,8 +251,8 @@ public class NodePD {
 		lineReturn = 0;
 		System.out.print("- loads = [");
 		for(int i=0; i<Na; i++) {
-			if(i==Na-1) System.out.print("T"+ i + ":" + load[i]);
-			else System.out.print("T"+ i + ":" + load[i] + ", ");
+			if(i==Na-1) System.out.print("T"+ i + ":" + times[i]);
+			else System.out.print("T"+ i + ":" + times[i] + ", ");
 			lineReturn++;
 			if(lineReturn%max==0) {
 				System.out.println("");
