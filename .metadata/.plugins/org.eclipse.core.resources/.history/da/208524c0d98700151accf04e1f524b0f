@@ -301,10 +301,14 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 		if(A1.nextAction(a1) == a2){ // Action a1 is just before a2
 
 			A1.nextAction(A1.previousAction(a1),a2);
-
+<<<<<<< HEAD
+			print("a1 = " + a1 + ", a2 = " + a2);
+			A1.previousAction(A1.nextAction(a2), a1);
+=======
 			if(!a2Last){
 				A1.previousAction(A1.nextAction(a2), a1);
 			}
+>>>>>>> origin/master
 			int pre = A1.previousAction(a1);
 
 			//a1

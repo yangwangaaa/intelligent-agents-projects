@@ -38,8 +38,8 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 	private int Nv;
 	private int Na;
 
-	private double p = 0.5; // probability used for localChoice
-	private int numIt = 5000;
+	private double p = 0.3; // probability used for localChoice
+	private int numIt = 2;
 	private Random random;
 
 	//////////////////////////////////////
@@ -141,7 +141,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 				if(tasks[t].weight <= vehiclesList.get(vi).capacity()) { // no vehicle change if first task too heavy for all other vehicles
 					NodePD A = changingVehicle(Aold, vi, vj);
 					N.add(A);
-					//A.print();
+					A.print();
 				}
 			}
 		}
@@ -160,7 +160,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 					NodePD A = changingTaskOrder(Aold, vi, tIdx1, tIdx2);
 					if(A!=null) {
 						N.add(A);
-						//A.print();
+						A.print();
 					}
 				}
 			}
@@ -239,7 +239,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 		int a2 = A1.nextAction(a1); // task2
 		count++;
 
-		while(count < t2){
+		while(count < a2){
 			a2 = A1.nextAction(a2);
 			count++;
 		}
@@ -283,6 +283,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 				updateTimeAndLoad(A1, a1, a2, time1, delta);
 
 			}else{ //P1....P2 to P2....P1
+
 				if(A1.getTime(a2) >= A1.getTime(a1+Nt)) //P1 after D1
 					return null;
 				int delta = tasks[a2].weight - tasks[a1].weight;
@@ -297,14 +298,9 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 		}
 
 		// Exchange the order of a1 and a2.
-		boolean a2Last = A1.nextAction(a2)==-1;
 		if(A1.nextAction(a1) == a2){ // Action a1 is just before a2
-
 			A1.nextAction(A1.previousAction(a1),a2);
-
-			if(!a2Last){
-				A1.previousAction(A1.nextAction(a2), a1);
-			}
+			A1.previousAction(A1.nextAction(a2), a1);
 			int pre = A1.previousAction(a1);
 
 			//a1
@@ -324,9 +320,8 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 
 			//neighbor of a2
 			A1.nextAction(A1.previousAction(a2),a1);
-			if(!a2Last){
-				A1.previousAction(A1.nextAction(a2),a1);
-			}
+			A1.previousAction(A1.nextAction(a2),a1);
+
 			//a1
 			A1.previousAction(a1, A1.previousAction(a2));
 			A1.nextAction(a1, A1.nextAction(a2));
@@ -351,7 +346,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 			A1.setLoad(i, A1.getLoad(i) + delta);
 		}
 	}
-
+	
 	// mouche
 
 	private void updateTime(NodePD A, int v) {
