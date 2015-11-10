@@ -96,7 +96,7 @@ public class CentralizedTemplate implements CentralizedBehavior {
             plan.appendDelivery(task);
 
             // set current city
-            current = task.deliveryCity;//TODO ???
+            current = task.deliveryCity;
         }
         return plan;
     }

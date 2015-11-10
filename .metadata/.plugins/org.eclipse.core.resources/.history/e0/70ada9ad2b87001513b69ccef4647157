@@ -319,7 +319,7 @@ public class CentralizedOneTask implements CentralizedBehavior {
 				// set current city
 				current = task.deliveryCity;
 			}
-		plans.add(plan);
+		plans.add(plan);//TODO ils se mettent dans le bon ordre?
 		}
 		return plans;
 	}
