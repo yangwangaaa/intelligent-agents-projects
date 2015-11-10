@@ -240,10 +240,10 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 
 
 
-		int tPre1 = v + 2*Nt; // getNextAction(tPre1) = aI1
+		int tPre1 = v + Nt; // getNextAction(tPre1) = aI1
 		int t1 = A1.nextAction(tPre1); // task1
 		int count = 0;
-		while(count < a1){
+		while(count < aI1){
 			tPre1 = t1;
 			t1 = A1.nextAction(t1);
 			count++;
@@ -253,7 +253,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 		int t2 = A1.nextAction(tPre2); // task2
 		count++;
 
-		while(count < a2){
+		while(count < aI2){
 			tPre2 = t2;
 			t2 = A1.nextAction(t2);
 			count++;
