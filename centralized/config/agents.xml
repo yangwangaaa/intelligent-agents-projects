@@ -32,8 +32,12 @@
 		<set class-path="bin/" />
 		<set class-name="template.CentralizedBetterNeigh" />
 	</agent>
-		<agent name="removed">
+	<agent name="removed">
 		<set class-path="bin/" />
 		<set class-name="template.Removed" />
+	</agent>
+	<agent name="centralized-best">
+		<set class-path="bin/" />
+		<set class-name="template.CentralizedBest" />
 	</agent>
 </agents>
