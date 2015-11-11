@@ -307,7 +307,7 @@ public class CentralizedBetterNeigh implements CentralizedBehavior {
 	private NodePD changingVehicle(NodePD A, int v1, int v2, int aIndex, int pIndex, int dIndex) {
 		NodePD A1 = A.clone();
 
-		int p = A1.nextAction(v1 + Na); // task1 P
+		int p = A1.nextAction(v1 + Na); // task1
 		int count = 0;
 		while(count < aIndex){
 			p = A1.nextAction(p);
@@ -320,7 +320,7 @@ public class CentralizedBetterNeigh implements CentralizedBehavior {
 			return null;
 		}
 
-		int d = p+Nt; // D
+		int d = p+Nt;
 
 		int dNext = A1.nextAction(d);
 		int dPrevious = A1.previousAction(d);
@@ -561,7 +561,6 @@ public class CentralizedBetterNeigh implements CentralizedBehavior {
 		NodePD initial = new NodePD(vehiclesList, tasks);
 
 
-		// find vehicle with biggest capacity
 		Vehicle biggestV = vehiclesList.get(0);
 		for (Vehicle v : vehiclesList) {
 			if(biggestV.capacity()<v.capacity()) biggestV = v;
@@ -571,16 +570,16 @@ public class CentralizedBetterNeigh implements CentralizedBehavior {
 		Arrays.fill(lastAction, -1);
 
 		int biggestI = biggestV.id();
-		
-		for (int i = 0; i<Nt; i++) { // for all task
-			if(this.tasks[i].weight>biggestV.capacity()) { // Checks if no task is too heavy
+
+		for (int i = 0; i<Nt; i++) {
+			if(this.tasks[i].weight>biggestV.capacity()) {
 				System.out.println("ERROR : One task is too heavy for the vehicles");
 				return null;
 			}
 
 			int v = index;
-			if(index>=vehiclesList.size()) v = random.nextInt(vehiclesList.size()); // In this case we pick a random vehicle
-			if(this.tasks[i].weight>vehiclesList.get(v).capacity()) v = biggestI; 
+			if(index>=vehiclesList.size()) v = random.nextInt(vehiclesList.size()); 
+			if(this.tasks[i].weight>vehiclesList.get(v).capacity()) v = biggestI;
 
 			if(lastAction[v]==-1) {
 				initial.nextAction(v+Na, i);
