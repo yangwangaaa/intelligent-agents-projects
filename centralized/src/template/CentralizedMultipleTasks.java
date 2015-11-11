@@ -22,6 +22,13 @@ import logist.topology.Topology.City;
  * handles them sequentially.
  *
  */
+
+/**
+ * 
+ * multiple start
+ * neighbour changing vehicle pour chaque task
+ *
+ */
 @SuppressWarnings("unused")
 public class CentralizedMultipleTasks implements CentralizedBehavior {
 
@@ -39,7 +46,7 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 	private int Na;
 
 	private double p = 0.5; // probability used for localChoice
-	private int numIt = 3;
+	private int numIt = 5000;
 	private Random random;
 
 	//////////////////////////////////////
@@ -115,8 +122,8 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 			NodePD Aold = A;
 			ArrayList<NodePD> N = chooseNeighbours(A);
 			A = localChoice(N, Aold); // only keep bestNodePD in chooseNeighbours : more efficient? = rename "chooseBestNeigbours"
-			print("BEST CHOOSEN AT IT " + i);
-			A.print();
+			//print("BEST CHOOSEN AT IT " + i);
+			//A.print();
 			if(A.getOValue(tasks, vehiclesList) < bestNodePD.getOValue(tasks, vehiclesList)) bestNodePD = A;
 			i++;
 		}
@@ -136,15 +143,15 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 		int vi = random(Aold);
 
 		// Applying the changing vehicle operator :
-		print("CHANGING VEHICLE");
+		//print("CHANGING VEHICLE");
 		for (int vj=0; vj<Nv; vj++) {
 			if(vj!=vi) {
 				int t = Aold.nextAction(vi+Na);
 				if(tasks[t].weight <= vehiclesList.get(vi).capacity()) { // no vehicle change if first task too heavy for all other vehicles
 					NodePD A = changingVehicle(Aold, vi, vj);
 					N.add(A);
-					A.getOValue(tasks, vehiclesList);
-					A.print();
+					//A.getOValue(tasks, vehiclesList);
+					//A.print();
 				}
 			}
 		}
@@ -157,15 +164,15 @@ public class CentralizedMultipleTasks implements CentralizedBehavior {
 			t = Aold.nextAction(t);
 			length++;
 		}
-		print("CHANGING TASK ORDER");
+		//print("CHANGING TASK ORDER");
 		if(length>=2) {
 			for (int tIdx1=0; tIdx1<length-1; tIdx1++) {
 				for (int tIdx2=tIdx1+1; tIdx2<length; tIdx2++) {
 					NodePD A = changingTaskOrder(Aold, vi, tIdx1, tIdx2);
 					if(A!=null) {
 						N.add(A);
-						A.getOValue(tasks, vehiclesList);
-						A.print();
+						//A.getOValue(tasks, vehiclesList);
+						//A.print();
 					}
 				}
 			}

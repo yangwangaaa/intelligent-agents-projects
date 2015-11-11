@@ -1,19 +1,22 @@
 package template;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import logist.simulation.Vehicle;
 import logist.task.Task;
 import logist.topology.Topology.City;
 
-public class NodePD {
+public class NodePD implements Comparator<NodePD>, Comparable<NodePD>{
 	private int[] nextAction;
 	private int[] previousAction;
 	private int[] times;
 	private int[] vehicles;
 	private int[] load;
 	private double OValue;
+	private List<Vehicle> vehiclesList;
+	private Task[] tasks;
 
 	private int Nt;
 	private int Nv;
@@ -24,6 +27,8 @@ public class NodePD {
 	///////////////////////////////
 
 	public NodePD(List<Vehicle> vehiclesList, Task[] tasks) {
+		this.tasks = tasks;
+		this.vehiclesList = vehiclesList;
 		this.Nt = tasks.length;
 		this.Nv = vehiclesList.size();
 		this.Na = 2*Nt;
@@ -37,7 +42,9 @@ public class NodePD {
 	}
 
 
-	public NodePD(int[] nextTask, int[] previousTask, int[] times, int[] vehicles, int[] load, int Nt, int Nv) {
+	public NodePD(int[] nextTask, int[] previousTask, int[] times, int[] vehicles, int[] load, int Nt, int Nv, List<Vehicle> vehiclesList, Task[] tasks) {
+		this.tasks = tasks;
+		this.vehiclesList = vehiclesList;
 		this.nextAction = nextTask;
 		this.previousAction = previousTask;
 		this.times = times;
@@ -49,7 +56,9 @@ public class NodePD {
 		this.OValue = -1;
 	}
 
-	private NodePD(int[] nextTask, int[] previousTask, int[] times, int[] vehicles, int[] load, int Nt, int Nv, double v) {
+	private NodePD(int[] nextTask, int[] previousTask, int[] times, int[] vehicles, int[] load, int Nt, int Nv, List<Vehicle> vehiclesList, Task[] tasks, double v) {
+		this.tasks = tasks;
+		this.vehiclesList = vehiclesList;
 		this.nextAction = nextTask;
 		this.previousAction = previousTask;
 		this.times = times;
@@ -65,13 +74,32 @@ public class NodePD {
 	//           UTILS           //
 	///////////////////////////////
 
+	public boolean equals(NodePD n){
+		return (this.getOValue() == n.getOValue());
+	}
+
+	@Override
+	public int compareTo(NodePD o) {
+		return compare(this,o);
+	}
+	
+	@Override
+	public int compare(NodePD n1, NodePD n2) {
+		return (int) -(n1.getOValue() - n2.getOValue());
+	}
+	
 	public NodePD clone() {
-		return new NodePD((int[]) nextAction.clone(), (int[]) previousAction.clone(), (int[])times.clone(), (int[])vehicles.clone(), (int[])load.clone(), Nt, Nv, OValue);
+		return new NodePD((int[]) nextAction.clone(), (int[]) previousAction.clone(), (int[])times.clone(), (int[])vehicles.clone(), (int[])load.clone(), Nt, Nv, vehiclesList, tasks, OValue);
 	}
 
 
 	public double getOValue(Task[] tasks, List<Vehicle> vehicles) {
 		if (OValue == -1) return this.computeOValue(tasks, vehicles);
+		else return OValue;
+	}
+	
+	public double getOValue() {
+		if (OValue == -1) return this.computeOValue(tasks, vehiclesList);
 		else return OValue;
 	}
 

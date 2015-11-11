@@ -20,5 +20,16 @@
 		<set class-path="bin/" />
 		<set class-name="template.CentralizedMultipleTasks" />
 	</agent>
-
+	<agent name="centralized-betterStart">
+		<set class-path="bin/" />
+		<set class-name="template.CentralizedBetterStart" />
+	</agent>
+	<agent name="centralized-betterSLS">
+		<set class-path="bin/" />
+		<set class-name="template.CentralizedBetterSLS" />
+	</agent>
+	<agent name="centralized-betterNeigh">
+		<set class-path="bin/" />
+		<set class-name="template.CentralizedBetterNeigh" />
+	</agent>
 </agents>
