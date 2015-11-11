@@ -2,7 +2,15 @@
 
 <history configuration="config/centralized.xml">
 	<agents>
+<<<<<<< HEAD
 		<agent name="removed">
+=======
+<<<<<<< HEAD
+		<agent name="centralized-one-simulated-annealing">
+=======
+		<agent name="centralized-betterNeigh">
+>>>>>>> origin/master
+>>>>>>> origin/master
 			<vehicle name="Vehicle 1"/>
 			<vehicle name="Vehicle 2"/>
 			<vehicle name="Vehicle 3"/>
