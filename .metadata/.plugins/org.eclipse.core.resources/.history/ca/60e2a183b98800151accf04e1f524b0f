@@ -347,13 +347,7 @@ public class CentralizedBetterNeigh implements CentralizedBehavior {
 
 		
 		
-//		// compute the number of tasks of the vehicle
-//		int length = 0;
-//		int t = Aold.nextAction(vi+Na); // current task in the list
-//		while(length!=pIndex) {
-//			t = Aold.nextAction(t);
-//			length++;
-//		}
+		
 		
 		// update nextAction and previousAction v2
 		A1.nextAction(d, A1.nextAction(v2+Na));

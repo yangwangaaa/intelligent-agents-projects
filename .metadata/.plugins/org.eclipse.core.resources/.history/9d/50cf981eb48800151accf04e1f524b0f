@@ -54,7 +54,7 @@ public class Removed implements CentralizedBehavior {
 		int count = 0;
 		
 		//We continue while we improve
-		while (count < 500) {
+		while (count < 10000 && A.cost < Aold.cost) {
 			Aold = new Solution(A);
 			
 			N = chooseNeighbours(Aold, tasks, vehicles);

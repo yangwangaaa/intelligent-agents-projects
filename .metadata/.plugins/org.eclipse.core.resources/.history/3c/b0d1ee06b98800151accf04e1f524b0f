@@ -274,7 +274,7 @@ public class CentralizedBetterNeigh implements CentralizedBehavior {
 				if(vj!=vi) {
 					int a = Aold.nextAction(vi+Na);
 					if(tasks[a].weight <= vehiclesList.get(vi).capacity()) { // no vehicle change if first task too heavy for all other vehicles
-						NodePD A = changingVehicle(Aold, vi, vj, tIdx1, 0, 0);
+						NodePD A = changingVehicle(Aold, vi, vj, tIdx1);
 						if(A!=null) {
 							if(A.getOValue(tasks, vehiclesList) < bestGlobal.getOValue(tasks, vehiclesList)) bestGlobal = A;
 							add(Pr, A);
@@ -304,7 +304,7 @@ public class CentralizedBetterNeigh implements CentralizedBehavior {
 	}
 
 	// vladman
-	private NodePD changingVehicle(NodePD A, int v1, int v2, int aIndex, int pIndex, int dIndex) {
+	private NodePD changingVehicle(NodePD A, int v1, int v2, int aIndex) {
 		NodePD A1 = A.clone();
 
 		int p = A1.nextAction(v1 + Na); // task1
@@ -345,16 +345,6 @@ public class CentralizedBetterNeigh implements CentralizedBehavior {
 			if(dNext!=-1) A1.previousAction(dNext, pPrevious);
 		}
 
-		
-		
-//		// compute the number of tasks of the vehicle
-//		int length = 0;
-//		int t = Aold.nextAction(vi+Na); // current task in the list
-//		while(length!=pIndex) {
-//			t = Aold.nextAction(t);
-//			length++;
-//		}
-		
 		// update nextAction and previousAction v2
 		A1.nextAction(d, A1.nextAction(v2+Na));
 		if(v2Next!=-1) A1.previousAction(v2Next, d);
@@ -364,13 +354,7 @@ public class CentralizedBetterNeigh implements CentralizedBehavior {
 
 		A1.nextAction(v2+Na, p);
 		A1.previousAction(p, v2+Na);
-		
-		
-		
-		
-		
-		
-		
+
 		// update time v1 and v2
 		updateTime(A1, v1);
 		updateTime(A1, v2);
