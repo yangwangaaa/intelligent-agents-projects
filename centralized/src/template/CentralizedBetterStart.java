@@ -32,7 +32,7 @@ import logist.topology.Topology.City;
  * 
  * neighbour changing vehicle pour chaque task
  * si best neigh moins bien que parent, garder parent 2/3
- *
+ * chooseN returns only best neigh
  * benchmark
  * report
  */
@@ -55,7 +55,8 @@ public class CentralizedBetterStart implements CentralizedBehavior {
 	private double p = 1; // probability used for localChoice
 	private int numIt = 10000;
 	private Random random;
-
+	private int n = 5;
+	
 	//////////////////////////////////////
 	//              MAIN                //
 	//////////////////////////////////////
@@ -131,7 +132,7 @@ public class CentralizedBetterStart implements CentralizedBehavior {
 				// if(i%100==0) print("SLS while #" + i);
 				NodePD Aold = A;
 				ArrayList<NodePD> N = chooseNeighbours(A);
-				A = localChoice(N, Aold); // only keep bestNodePD in chooseNeighbours : more efficient? = rename "chooseBestNeigbours"
+				A = localChoice(N, Aold); 
 				//print("BEST CHOOSEN AT IT " + i);
 				//A.print();
 				if(A.getOValue(tasks, vehiclesList) < localBest.getOValue(tasks, vehiclesList)) localBest = A;
