@@ -321,51 +321,10 @@ public class CentralizedOneTaskSimulatedAnnealing implements CentralizedBehavior
 		return initial;
 	}
 
-	// mouche
-<<<<<<< HEAD
-	private NodeT localChoice(ArrayList<NodeT> N, NodeT Aold, int iter) {
-		if(N == null){
-			return Aold;
-		}else{
 
-			double ran = Math.random();
-			int ranIndex = (int) (ran*(N.size()-1));
-			if(iter< 0.94* this.numIt){ 
-				if( ran > p+((double)iter/(double)this.numIt*5)){ print("truuuuuuuuuuue");
-
-					/*print("SIZE");
-					print(N.size());
-					print("ran");
-					print(ran);
-					print("index");
-					print((int) (ranIndex));*/
-
-					double delta = N.get(ranIndex).getOValue(tasks, vehiclesList) - Aold.getOValue(tasks, vehiclesList) ;
-					if(delta < 0){ // new solution is bether
-						//print("SPEEEEEEEEEEEEEEEEEEEEEEECIAL");
-						return N.get(ranIndex);
-					}else{
-						if(Math.random()>(delta/50)){
-							//print("TRRRRRRRRRRRRRRRRRRRRRRRS SPECIAL");
-							return N.get(ranIndex);
-						}
-					}
-
-				}		
-			}
-			NodeT bestNodeT = N.get(0);
-			for(NodeT n : N){
-				if(n.getOValue(tasks, vehiclesList)<=bestNodeT.getOValue(tasks, vehiclesList))
-					bestNodeT = n;
-			}
-			//print("NNNNNNNNNNNNNNNNNNNNNNN");
-			return bestNodeT;
-		}	
-	}
 
 	// mouche
-=======
->>>>>>> origin/master
+
 	private List<Plan> computeFinalPlan(NodeT n) {
 		List<Plan> plans = new ArrayList<Plan>();
 		for(int v = 0 ; v<Nv ; v++){ // for each vehicle
