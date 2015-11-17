@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="java.awt.List"/>
-<<<<<<< HEAD
-<fullyQualifiedTypeName name="java.util.Comparator"/>
-<fullyQualifiedTypeName name="java.util.Queue"/>
-<fullyQualifiedTypeName name="com.sun.corba.se.spi.orbutil.fsm.Action"/>
-<fullyQualifiedTypeName name="java.util.Stack"/>
-=======
 <fullyQualifiedTypeName name="java.util.Iterator"/>
 <fullyQualifiedTypeName name="logist.task.TaskSet"/>
 <fullyQualifiedTypeName name="logist.topology.Topology.City"/>
->>>>>>> origin/master
+<fullyQualifiedTypeName name="cern.colt.Arrays"/>
+<fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="java.util.Random"/>
 </qualifiedTypeNameHistroy>

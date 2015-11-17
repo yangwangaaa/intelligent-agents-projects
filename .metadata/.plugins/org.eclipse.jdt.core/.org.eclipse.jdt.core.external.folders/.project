@@ -10,14 +10,9 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>.link1</name>
+			<name>.link0</name>
 			<type>2</type>
-			<location>/Users/armandbosquillondejenlis/Desktop/q9/intelligent agents/PROJETS/PROJET2/logist</location>
-		</link>
-		<link>
-			<name>.link3</name>
-			<type>2</type>
-			<location>/Users/armandbosquillondejenlis/Desktop/q9/intelligent agents/ProjectsIA/logist</location>
+			<location>/Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects/logist</location>
 		</link>
 	</linkedResources>
 </projectDescription>

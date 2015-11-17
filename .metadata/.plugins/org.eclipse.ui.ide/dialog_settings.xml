@@ -5,20 +5,11 @@
 		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
 		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
-			<item value="/Users/armandbosquillondejenlis/Desktop/q9/intelligent agents/ProjectsIA/deliberative"/>
-			<item value="/Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects/deliberative"/>
-			<item value="/Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects/reactive"/>
+			<item value="/Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects/auction"/>
+			<item value="/Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects/centralized"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
 			<item value=""/>
 		</list>
-	</section>
-	<section name="WORKBENCH_SETTINGS">
-		<list key="ENABLED_TRANSFERS">
-		</list>
-	</section>
-	<section name="ChooseWorkspaceDialogSettings">
-		<item value="400" key="DIALOG_X_ORIGIN"/>
-		<item value="276" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>
