@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 3 elements to &apos;auction/src/astar&apos;&#x0A;- Original project: &apos;deliberative&apos;&#x0A;- Destination element: &apos;auction/src/astar&apos;&#x0A;- Original elements:&#x0A;     DeliberativeTemplate.java&#x0A;     Node.java&#x0A;     State.java" description="Copy files" destination="=auction/src&lt;astar" element1="src/template/DeliberativeTemplate.java" element2="src/template/Node.java" element3="src/template/State.java" files="3" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1447705982473" units="0" version="1.0"/>
+</session>

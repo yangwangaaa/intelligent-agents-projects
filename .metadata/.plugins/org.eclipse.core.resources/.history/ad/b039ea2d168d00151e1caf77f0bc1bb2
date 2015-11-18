@@ -1,0 +1,215 @@
+package agents;
+
+//the list of imports
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import logist.LogistSettings;
+import logist.Measures;
+import logist.agent.Agent;
+import logist.behavior.AuctionBehavior;
+import logist.config.Parsers;
+import logist.plan.Plan;
+import logist.simulation.Vehicle;
+import logist.task.Task;
+import logist.task.TaskDistribution;
+import logist.task.TaskSet;
+import logist.topology.Topology;
+import logist.topology.Topology.City;
+import sls.NodePD;
+import sls.SLS;
+import astar.Astar;
+
+/**
+ * TODO :
+ * 
+ */
+@SuppressWarnings("unused")
+public class AuctionAgent2 implements AuctionBehavior {
+
+	private Topology topology;
+	private TaskDistribution distribution;
+	private Agent agent;
+	private Random random;
+	private Vehicle vehicle;
+	private City currentCity;
+
+	private long timeout_setup;
+	private long timeout_plan;
+	private long time_start;
+	private long timeout_bid;
+
+	private List<Vehicle> vehiclesList; 
+	private Task[] tasks;
+
+	private int Nt;
+	private int Nv;
+	private int Na;
+
+	private double p = 0.5; // probability used for localChoice
+	private int numIt = 5000;
+	private int n = 5;
+	private Random rand;
+	private int firstV = 7;
+	private int lastV = 10;
+
+	private SLS sls;
+	private Astar astar;
+
+	private NodePD bestGlobal = null;
+
+	//////////////////////////////////////
+	//              MAIN                //
+	//////////////////////////////////////
+
+	@Override
+	public void setup(Topology topology, TaskDistribution distribution,
+			Agent agent) {
+
+		this.topology = topology;
+		this.distribution = distribution;
+		this.agent = agent;
+		this.vehicle = agent.vehicles().get(0);
+		this.currentCity = vehicle.homeCity();
+
+		long seed = -9019554669489983951L * currentCity.hashCode() * agent.id();
+		this.random = new Random(seed);
+
+		// this code is used to get the timeouts
+		LogistSettings ls = null;
+		try {
+			ls = Parsers.parseSettings("config/settings_default.xml");
+		}
+		catch (Exception exc) {
+			System.out.println("There was a problem loading the configuration file.");
+		}
+
+		// the setup method cannot last more than timeout_setup milliseconds
+		timeout_setup = ls.get(LogistSettings.TimeoutKey.SETUP);
+		// the plan method cannot execute more than timeout_plan milliseconds
+		timeout_plan = ls.get(LogistSettings.TimeoutKey.PLAN);
+		
+		timeout_bid = ls.get(LogistSettings.TimeoutKey.BID);
+		
+		int numA = ls.get(LogistSettings.SizeKey.NUMBER_OF_AGENTS);
+		int numT = ls.get(LogistSettings.SizeKey.NUMBER_OF_TASKS);
+		
+		print("number of tasks = " + numT + " and number of agents = " + numA);
+
+		rand = new Random();
+
+		sls = new SLS(topology, distribution, agent);
+		astar = new Astar(topology, distribution, agent);
+	}
+
+	//////////////////////////////////////
+	//             BIDING              //
+	//////////////////////////////////////
+
+	@Override
+	public void auctionResult(Task previous, int winner, Long[] bids) {
+		if (winner == agent.id()) {
+			currentCity = previous.deliveryCity;
+		}
+	}
+
+	@Override
+	public Long askPrice(Task task) {
+
+		if (vehicle.capacity() < task.weight)
+			return null;
+
+		long distanceTask = task.pickupCity.distanceUnitsTo(task.deliveryCity);
+		long distanceSum = distanceTask
+				+ currentCity.distanceUnitsTo(task.pickupCity);
+		double marginalCost = Measures.unitsToKM(distanceSum
+				* vehicle.costPerKm());
+
+		double ratio = 1.0 + (random.nextDouble() * 0.05 * task.id);
+		double bid = ratio * marginalCost;
+
+		if(agent.vehicles().size() == 1) {
+			return (long) Math.round(bid);
+		}
+		else {
+			return (long) 100000000;
+		}
+	}
+
+	//////////////////////////////////////
+	//             PLANNING             //
+	//////////////////////////////////////
+
+	@Override
+	public List<Plan> plan(List<Vehicle> vehicles, TaskSet tasks) {
+
+		if(vehicles.size()==0) {
+			List<Plan> plans = new ArrayList<Plan>();
+			return plans;
+		}
+
+		time_start = System.currentTimeMillis();
+		this.vehiclesList = vehicles;
+		this.tasks = tasks.toArray(new Task[tasks.size()]);
+		this.Nt = this.tasks.length;
+		this.Nv = vehiclesList.size();
+		this.Na = 2*Nt;
+		List<Plan> plans;
+
+		if(tasks.size() == 0) {
+			print("TASKS SIZE == 0");
+
+			plans = new ArrayList<Plan>();
+
+			for(int v = 0 ; v<Nv ; v++){ // for each vehicle
+				City current = vehiclesList.get(v).getCurrentCity();
+				Plan plan = new Plan(current);
+
+				plans.add(plan);
+			}
+			return plans;
+		}
+
+		if(tasks.size()<20 && vehicles.size()==1) {
+			print("ASTAR for " + tasks.size() +  " tasks");
+			plans = new ArrayList<Plan>();
+			Plan plan = astar.runAStar(vehicle, tasks, timeout_plan);
+			plans.add(plan);
+		}
+		else {
+			print("SLS for " + tasks.size() +  " tasks");
+			//		System.out.println("Agent " + agent.id() + " has tasks " + tasks);
+			NodePD bestSolution = sls.RunSLS(vehicles, tasks, timeout_plan);
+			if(bestSolution != null) {
+				//System.out.println("FINAL SOLUTION:");
+				//bestSolution.print();
+			}
+			plans = sls.computeFinalPlan(bestSolution);
+		}
+
+
+		long time_end = System.currentTimeMillis();
+		long duration = time_end - time_start;
+		System.out.println("The plan was generated in "+duration+" milliseconds.");
+
+		int totalCost = 0;
+		int v = 0;
+		for (Plan plan : plans) {
+			totalCost+=plan.totalDistance()*vehicles.get(v).costPerKm();
+			v++;
+		}
+
+		print("FINAL COST = " + totalCost);
+		return plans;
+	}
+
+
+	//////////////////////////////////////
+	//              UTILS               //
+	//////////////////////////////////////
+
+	public void print(String s){
+		System.out.println(s);
+	}
+}
