@@ -14,5 +14,10 @@
 			<type>2</type>
 			<location>/Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects/logist</location>
 		</link>
+		<link>
+			<name>.link1</name>
+			<type>2</type>
+			<location>/Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects/auction/logist</location>
+		</link>
 	</linkedResources>
 </projectDescription>
