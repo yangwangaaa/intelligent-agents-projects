@@ -50,3 +50,5 @@ local.properties
 *.snap
 
 centralized/.classpath
+
+.metadata/.plugins/org.eclipse.core.resources/.history/22/402cb6f9d78800151accf04e1f524b0f

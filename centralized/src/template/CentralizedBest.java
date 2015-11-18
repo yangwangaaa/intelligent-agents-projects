@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Random;
 
+import template.NodePD;
 import logist.LogistSettings;
 import logist.agent.Agent;
 import logist.behavior.CentralizedBehavior;
@@ -25,15 +26,6 @@ import logist.topology.Topology.City;
  *
  */
 
-/**
- * TODO :
- * 3local 
- * chaque vehicle avec bcp iterations
- * chaque vehicle avec bcp d'iterations
- * 
- * benchmark
- * report
- */
 @SuppressWarnings("unused")
 public class CentralizedBest implements CentralizedBehavior {
 
@@ -52,10 +44,10 @@ public class CentralizedBest implements CentralizedBehavior {
 	private int Na;
 
 	private double p = 0.5; // probability used for localChoice
-	private int numIt = 10000;
-	private Random random;
+	private int numIt = 5000;
+	private Random rand;
 	private int n = 5;
-	private int firstV = 5;
+	private int firstV = 7;
 	private int lastV = 10;
 
 	private NodePD bestGlobal = null;
@@ -87,11 +79,17 @@ public class CentralizedBest implements CentralizedBehavior {
 		this.agent = agent;
 
 
-		random = new Random();
+		rand = new Random();
 	}
+	
+
+	//////////////////////////////////////
+	//             PLANNING             //
+	//////////////////////////////////////
 
 	@Override
 	public List<Plan> plan(List<Vehicle> vehicles, TaskSet tasks) {
+
 		for(Task t : tasks) {
 			print("" + t);
 		}
@@ -101,12 +99,17 @@ public class CentralizedBest implements CentralizedBehavior {
 		this.Nt = this.tasks.length;
 		this.Nv = vehiclesList.size();
 		this.Na = 2*Nt;
+		
+		if(tasks.size() == 0) {
+			return computeFinalPlan(null);
+		}
 
 		//		System.out.println("Agent " + agent.id() + " has tasks " + tasks);
-		NodePD bestSolution = SLS();
-		System.out.println("FINAL SOLUTION:");
-		bestSolution.print();
-
+		NodePD bestSolution = RunSLS();
+		if(bestSolution != null) {
+			System.out.println("FINAL SOLUTION:");
+			bestSolution.print();
+		}
 		List<Plan> plans = computeFinalPlan(bestSolution);
 
 
@@ -131,13 +134,13 @@ public class CentralizedBest implements CentralizedBehavior {
 	//               SLS                //
 	//////////////////////////////////////
 
-	private NodePD SLS() {
+	private NodePD RunSLS() {
 		for(int v = firstV; v<lastV; v++) {
 			print("SLS for #" + v);
 			NodePD A = selectInitialSolution(v);
 			if(bestGlobal==null) bestGlobal = A;
-			A.getOValue(tasks, vehiclesList);
-			A.print();
+			//A.getOValue(tasks, vehiclesList);
+			//A.print();
 
 			NodePD localBest = A;
 			int i = 0;
@@ -149,11 +152,12 @@ public class CentralizedBest implements CentralizedBehavior {
 				}
 				NodePD Aold = A;
 				ArrayList<NodePD> N = chooseNeighbours(A);
+				if(N==null) return null;
 				A = localChoice4(N, Aold); 
 				if(i%100==0) { 
 					print("SLS while #" + i + " ; DURATION = " + duration/1000 + "s");
-					print("BEST CHOOSEN AT IT " + i);
-					A.print();
+					//print("BEST CHOOSEN AT IT " + i);
+					//A.print();
 				}
 				if(A.getOValue(tasks, vehiclesList) < localBest.getOValue(tasks, vehiclesList)) localBest = A;
 				i++;
@@ -165,7 +169,7 @@ public class CentralizedBest implements CentralizedBehavior {
 		}
 		return bestGlobal;
 	}
-	
+
 
 	private NodePD localChoice4(ArrayList<NodePD> N, NodePD Aold) {
 		if(N.size()==0){
@@ -181,11 +185,11 @@ public class CentralizedBest implements CentralizedBehavior {
 				return bestNodePD;
 			}
 			else {
-				return N.get(random.nextInt(N.size()));
+				return N.get(rand.nextInt(N.size()));
 			}
 		}	
 	}
-	
+
 	// mouche
 	private NodePD localChoice3(PriorityQueue<NodePD> N, NodePD Aold) {
 		if(N.size()==0){
@@ -225,7 +229,7 @@ public class CentralizedBest implements CentralizedBehavior {
 		}else{
 
 			NodePD bestNodePD = N.poll();
-			int r = random.nextInt(N.size());
+			int r = rand.nextInt(N.size());
 			int k = 0;
 			while(k<r) {
 				bestNodePD = N.poll();
@@ -280,6 +284,7 @@ public class CentralizedBest implements CentralizedBehavior {
 		ArrayList<NodePD> N = new ArrayList<NodePD>();
 		PriorityQueue<NodePD> Pr = new PriorityQueue<NodePD>();
 		int vi = random(Aold);
+		if(vi<0) return null;
 
 		// compute the number of tasks of the vehicle
 		int length = 0;
@@ -420,7 +425,7 @@ public class CentralizedBest implements CentralizedBehavior {
 			else {
 				A1.nextAction(last2, d);
 				A1.previousAction(d, last2);
-				
+
 				A1.nextAction(d, -1);
 			}
 		}
@@ -430,7 +435,7 @@ public class CentralizedBest implements CentralizedBehavior {
 
 			A1.nextAction(p, d);
 			A1.previousAction(d, p);
-			
+
 			A1.nextAction(d, -1);
 		}
 
@@ -466,7 +471,7 @@ public class CentralizedBest implements CentralizedBehavior {
 			if(loadB+loadA > vehiclesList.get(v2).capacity()) {
 				return null;
 			}
-			
+
 			A1.setLoad(a, loadB+loadA);
 
 			b = a;
@@ -660,7 +665,7 @@ public class CentralizedBest implements CentralizedBehavior {
 			}
 
 			int v = index;
-			if(index>=vehiclesList.size()) v = random.nextInt(vehiclesList.size()); 
+			if(index>=vehiclesList.size()) v = rand.nextInt(vehiclesList.size()); 
 			if(this.tasks[i].weight>vehiclesList.get(v).capacity()) v = biggestI;
 
 			if(lastAction[v]==-1) {
@@ -702,24 +707,25 @@ public class CentralizedBest implements CentralizedBehavior {
 		for(int v = 0 ; v<Nv ; v++){ // for each vehicle
 			City current = vehiclesList.get(v).getCurrentCity();
 			Plan plan = new Plan(current);
+			if(n!=null) {
+				for(int t = Na + v; n.nextAction(t) != -1 ; t = n.nextAction(t)){ // for each task of the vehicle //TODO 2*Nt
+					Task task = tasks[n.nextAction(t) % Nt];				
 
-			for(int t = Na + v; n.nextAction(t) != -1 ; t = n.nextAction(t)){ // for each task of the vehicle //TODO 2*Nt
-				Task task = tasks[n.nextAction(t) % Nt];				
-
-				if(n.nextAction(t) < Nt){ // action is Pickup
-					// move: current city => pickup location
-					for (City city : current.pathTo(task.pickupCity)) {
-						plan.appendMove(city);
+					if(n.nextAction(t) < Nt){ // action is Pickup
+						// move: current city => pickup location
+						for (City city : current.pathTo(task.pickupCity)) {
+							plan.appendMove(city);
+						}
+						plan.appendPickup(task);
+						current = task.pickupCity;
+					}else{ // action is Delivery
+						// move: current city => delivery location
+						for (City city : current.pathTo(task.deliveryCity)) {
+							plan.appendMove(city);
+						}
+						plan.appendDelivery(task);
+						current = task.deliveryCity;
 					}
-					plan.appendPickup(task);
-					current = task.pickupCity;
-				}else{ // action is Delivery
-					// move: current city => delivery location
-					for (City city : current.pathTo(task.deliveryCity)) {
-						plan.appendMove(city);
-					}
-					plan.appendDelivery(task);
-					current = task.deliveryCity;
 				}
 			}
 			plans.add(plan);
@@ -747,7 +753,8 @@ public class CentralizedBest implements CentralizedBehavior {
 		for(int v=0; v<Nv; v++) {
 			if(Aold.nextAction(v+Na) != -1) vehicles.add(v);
 		}
-		int v = random.nextInt(vehicles.size());
+		if(vehicles.size()<1) return -1;
+		int v = rand.nextInt(vehicles.size());
 		return vehicles.get(v);
 	}
 

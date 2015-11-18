@@ -1,0 +1,175 @@
+04:09:35.309 FINE | Run command: java -Xmx1024m -classpath /Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects/logist/logist.jar logist.LogistPlatform -o tournament/MyEvent/config-YourName-YourName2.xml -a tournament/MyEvent/agents.xml tournament/MyEvent/config.xml YourName YourName2
+04:09:35.442 CONFIG | Reading tournament/MyEvent/config.xml
+04:09:35.507 CONFIG | Reading config/settings_auction.xml
+04:09:35.725 CONFIG | Reading config/topology/england.xml
+04:09:35.756 CONFIG | Reading tournament/MyEvent/agents.xml
+04:09:35.788 CONFIG | Reading config/settings_default.xml
+04:09:35.799 CONFIG | Reading config/settings_default.xml
+04:09:35.827 CONFIG | AGENT 2 : BIDDING TASK 0, Bid = 2751
+04:09:35.919 CONFIG | AGENT 2 : BIDDING TASK 0, Bid = 2766
+04:09:35.921 CONFIG | AGENT 2 : BIDDING TASK 1, Bid = 2411
+04:09:35.973 CONFIG | AGENT 2 : BIDDING TASK 1, Bid = 3293
+04:09:35.974 CONFIG | AGENT 2 : BIDDING TASK 2, Bid = 2967
+04:09:36.014 CONFIG | AGENT 2 : BIDDING TASK 2, Bid = 2913
+04:09:36.015 CONFIG | AGENT 2 : BIDDING TASK 3, Bid = 3281
+04:09:36.067 CONFIG | AGENT 2 : BIDDING TASK 3, Bid = 2164
+04:09:36.068 CONFIG | AGENT 2 : BIDDING TASK 4, Bid = 4059
+04:09:36.129 CONFIG | AGENT 2 : BIDDING TASK 4, Bid = 1014
+04:09:36.130 CONFIG | AGENT 2 : BIDDING TASK 5, Bid = 623
+04:09:36.280 CONFIG | AGENT 2 : BIDDING TASK 5, Bid = 0
+04:09:36.281 CONFIG | AGENT 2 : BIDDING TASK 6, Bid = 3241
+04:09:36.569 CONFIG | AGENT 2 : BIDDING TASK 6, Bid = 0
+04:09:36.570 CONFIG | AGENT 2 : BIDDING TASK 7, Bid = 2205
+04:09:37.054 CONFIG | AGENT 2 : BIDDING TASK 7, Bid = 0
+04:09:37.054 CONFIG | AGENT 2 : BIDDING TASK 8, Bid = 4884
+04:09:37.979 CONFIG | AGENT 2 : BIDDING TASK 8, Bid = 985
+04:09:37.979 CONFIG | AGENT 2 : BIDDING TASK 9, Bid = 2561
+04:09:38.884 CONFIG | AGENT 2 : BIDDING TASK 9, Bid = 994
+04:12:38.349 CONFIG | SLS Agent1 for 2 tasks
+04:12:38.514 CONFIG | The plan was generated in 165 milliseconds.
+04:12:38.515 CONFIG | MEAN BID = 14488
+04:12:38.515 CONFIG | Bids : 
+04:12:38.515 CONFIG | Task 0, 2751, 2766
+04:12:38.515 CONFIG | Task 1, 2411, 3293
+04:12:38.515 CONFIG | Task 2, 2967, 2913
+04:12:38.515 CONFIG | Task 3, 3281, 2164
+04:12:38.515 CONFIG | Task 4, 4059, 1014
+04:12:38.515 CONFIG | Task 5, 623, 0
+04:12:38.516 CONFIG | Task 6, 3241, 0
+04:12:38.516 CONFIG | Task 7, 2205, 0
+04:12:38.516 CONFIG | Task 8, 4884, 985
+04:12:38.516 CONFIG | Task 9, 2561, 994
+04:12:38.516 CONFIG | FINAL COST = 4573
+04:12:38.516 CONFIG | FINAL COST2 = 4573.0
+04:12:38.516 CONFIG | FINAL REWARD = 5162
+04:12:38.516 CONFIG | FINAL REWARD2 = 5162
+04:12:38.516 CONFIG | FINAL PROFIT = 589
+04:12:38.521 CONFIG | SLS Agent2 for 8 tasks
+04:12:39.368 CONFIG | The plan was generated in 848 milliseconds.
+04:12:39.368 CONFIG | MEAN BID = 7062
+04:12:39.368 CONFIG | Bids : 
+04:12:39.368 CONFIG | Task 0, 2751, 2766
+04:12:39.368 CONFIG | Task 1, 2411, 3293
+04:12:39.368 CONFIG | Task 2, 2967, 2913
+04:12:39.368 CONFIG | Task 3, 3281, 2164
+04:12:39.369 CONFIG | Task 4, 4059, 1014
+04:12:39.369 CONFIG | Task 5, 623, 0
+04:12:39.369 CONFIG | Task 6, 3241, 0
+04:12:39.369 CONFIG | Task 7, 2205, 0
+04:12:39.369 CONFIG | Task 8, 4884, 985
+04:12:39.369 CONFIG | Task 9, 2561, 994
+04:12:39.369 CONFIG | FINAL COST = 7596
+04:12:39.369 CONFIG | FINAL COST2 = 7596.0
+04:12:39.369 CONFIG | FINAL REWARD = 8070
+04:12:39.369 CONFIG | FINAL REWARD2 = 8070
+04:12:39.369 CONFIG | FINAL PROFIT = 474
+04:12:52.447 CONFIG | Wrote tournament/MyEvent/config-YourName-YourName2.xml
+04:12:52.912 INFO | LogistPlatform finished successfully!
+04:12:52.924 FINE | Run command: java -Xmx1024m -classpath /Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects/logist/logist.jar logist.LogistPlatform -o tournament/MyEvent/config-YourName-YourName3.xml -a tournament/MyEvent/agents.xml tournament/MyEvent/config.xml YourName YourName3
+04:12:53.138 CONFIG | Reading tournament/MyEvent/config.xml
+04:12:53.210 CONFIG | Reading config/settings_auction.xml
+04:12:53.421 CONFIG | Reading config/topology/england.xml
+04:12:53.440 CONFIG | Reading tournament/MyEvent/agents.xml
+04:12:53.471 CONFIG | Reading config/settings_default.xml
+04:12:53.503 CONFIG | AGENT 2 : BIDDING TASK 0, Bid = 2751
+04:12:53.504 CONFIG | AGENT random : BIDDING TASK 0, Bid = 3415
+04:12:53.504 CONFIG | AGENT 2 : BIDDING TASK 1, Bid = 2411
+04:12:53.505 CONFIG | AGENT random : BIDDING TASK 1, Bid = 3962
+04:12:53.505 CONFIG | AGENT 2 : BIDDING TASK 2, Bid = 2967
+04:12:53.505 CONFIG | AGENT random : BIDDING TASK 2, Bid = 3575
+04:12:53.506 CONFIG | AGENT 2 : BIDDING TASK 3, Bid = 2336
+04:12:53.506 CONFIG | AGENT random : BIDDING TASK 3, Bid = 3800
+04:12:53.507 CONFIG | AGENT 2 : BIDDING TASK 4, Bid = 3834
+04:12:53.508 CONFIG | AGENT random : BIDDING TASK 4, Bid = 4302
+04:12:53.508 CONFIG | AGENT 2 : BIDDING TASK 5, Bid = 623
+04:12:53.508 CONFIG | AGENT random : BIDDING TASK 5, Bid = 2658
+04:12:53.509 CONFIG | AGENT 2 : BIDDING TASK 6, Bid = 2599
+04:12:53.509 CONFIG | AGENT random : BIDDING TASK 6, Bid = 4009
+04:12:53.510 CONFIG | AGENT 2 : BIDDING TASK 7, Bid = 1431
+04:12:53.511 CONFIG | AGENT random : BIDDING TASK 7, Bid = 2467
+04:12:53.512 CONFIG | AGENT 2 : BIDDING TASK 8, Bid = 5545
+04:12:53.512 CONFIG | AGENT random : BIDDING TASK 8, Bid = 2287
+04:12:53.513 CONFIG | AGENT 2 : BIDDING TASK 9, Bid = 3258
+04:12:53.514 CONFIG | AGENT random : BIDDING TASK 9, Bid = 1955
+04:13:29.095 INFO | LogistPlatform finished successfully!
+04:13:29.098 FINE | Run command: java -Xmx1024m -classpath /Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects/logist/logist.jar logist.LogistPlatform -o tournament/MyEvent/config-YourName2-YourName.xml -a tournament/MyEvent/agents.xml tournament/MyEvent/config.xml YourName2 YourName
+04:13:29.603 CONFIG | Reading tournament/MyEvent/config.xml
+04:13:30.274 CONFIG | Reading config/settings_auction.xml
+04:13:30.913 CONFIG | Reading config/topology/england.xml
+04:13:30.996 CONFIG | Reading tournament/MyEvent/agents.xml
+04:13:31.130 CONFIG | Reading config/settings_default.xml
+04:13:31.160 CONFIG | Reading config/settings_default.xml
+04:13:31.753 CONFIG | AGENT 2 : BIDDING TASK 0, Bid = 2191
+04:13:31.755 CONFIG | AGENT 2 : BIDDING TASK 0, Bid = 3415
+04:13:32.378 CONFIG | AGENT 2 : BIDDING TASK 1, Bid = 2411
+04:13:32.382 CONFIG | AGENT 2 : BIDDING TASK 1, Bid = 3962
+04:13:32.763 CONFIG | AGENT 2 : BIDDING TASK 2, Bid = 0
+04:13:32.771 CONFIG | AGENT 2 : BIDDING TASK 2, Bid = 3575
+04:13:33.105 CONFIG | AGENT 2 : BIDDING TASK 3, Bid = 810
+04:13:33.105 CONFIG | AGENT 2 : BIDDING TASK 3, Bid = 3800
+04:13:33.518 CONFIG | AGENT 2 : BIDDING TASK 4, Bid = 0
+04:13:33.519 CONFIG | AGENT 2 : BIDDING TASK 4, Bid = 4302
+04:13:34.119 CONFIG | AGENT 2 : BIDDING TASK 5, Bid = 218
+04:13:34.119 CONFIG | AGENT 2 : BIDDING TASK 5, Bid = 2658
+04:13:34.764 CONFIG | AGENT 2 : BIDDING TASK 6, Bid = 0
+04:13:34.764 CONFIG | AGENT 2 : BIDDING TASK 6, Bid = 4009
+04:13:35.513 CONFIG | AGENT 2 : BIDDING TASK 7, Bid = 0
+04:13:35.514 CONFIG | AGENT 2 : BIDDING TASK 7, Bid = 2467
+04:13:36.418 CONFIG | AGENT 2 : BIDDING TASK 8, Bid = 3309
+04:13:36.419 CONFIG | AGENT 2 : BIDDING TASK 8, Bid = 2287
+04:13:37.378 CONFIG | AGENT 2 : BIDDING TASK 9, Bid = 1210
+04:13:37.378 CONFIG | AGENT 2 : BIDDING TASK 9, Bid = 1955
+04:13:40.819 CONFIG | SLS Agent2 for 9 tasks
+04:13:41.906 CONFIG | The plan was generated in 1088 milliseconds.
+04:13:41.906 CONFIG | MEAN BID = 5072
+04:13:41.906 CONFIG | Bids : 
+04:13:41.906 CONFIG | Task 0, 2191, 3415
+04:13:41.906 CONFIG | Task 1, 2411, 3962
+04:13:41.907 CONFIG | Task 2, 0, 3575
+04:13:41.907 CONFIG | Task 3, 810, 3800
+04:13:41.907 CONFIG | Task 4, 0, 4302
+04:13:41.907 CONFIG | Task 5, 218, 2658
+04:13:41.907 CONFIG | Task 6, 0, 4009
+04:13:41.907 CONFIG | Task 7, 0, 2467
+04:13:41.907 CONFIG | Task 8, 3309, 2287
+04:13:41.907 CONFIG | Task 9, 1210, 1955
+04:13:41.907 CONFIG | FINAL COST = 6372
+04:13:41.907 CONFIG | FINAL COST2 = 6372.0
+04:13:41.907 CONFIG | FINAL REWARD = 6840
+04:13:41.907 CONFIG | FINAL REWARD2 = 6840
+04:13:41.907 CONFIG | FINAL PROFIT = 468
+04:13:41.911 CONFIG | SLS Agent1 for 1 tasks
+04:13:41.991 CONFIG | The plan was generated in 78 milliseconds.
+04:13:41.991 CONFIG | MEAN BID = 16213
+04:13:41.991 CONFIG | Bids : 
+04:13:41.991 CONFIG | Task 0, 2191, 3415
+04:13:41.991 CONFIG | Task 1, 2411, 3962
+04:13:41.991 CONFIG | Task 2, 0, 3575
+04:13:41.991 CONFIG | Task 3, 810, 3800
+04:13:41.991 CONFIG | Task 4, 0, 4302
+04:13:41.991 CONFIG | Task 5, 218, 2658
+04:13:41.992 CONFIG | Task 6, 0, 4009
+04:13:41.992 CONFIG | Task 7, 0, 2467
+04:13:41.992 CONFIG | Task 8, 3309, 2287
+04:13:41.992 CONFIG | Task 9, 1210, 1955
+04:13:41.992 CONFIG | FINAL COST = 1814
+04:13:41.992 CONFIG | FINAL COST2 = 1814.0
+04:13:41.992 CONFIG | FINAL REWARD = 2287
+04:13:41.992 CONFIG | FINAL REWARD2 = 2287
+04:13:41.992 CONFIG | FINAL PROFIT = 473
+04:13:48.813 CONFIG | Wrote tournament/MyEvent/config-YourName2-YourName.xml
+04:13:49.255 INFO | LogistPlatform finished successfully!
+04:13:49.257 FINE | Run command: java -Xmx1024m -classpath /Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects/logist/logist.jar logist.LogistPlatform -o tournament/MyEvent/config-YourName2-YourName3.xml -a tournament/MyEvent/agents.xml tournament/MyEvent/config.xml YourName2 YourName3
+04:13:49.547 CONFIG | Reading tournament/MyEvent/config.xml
+04:13:49.703 CONFIG | Reading config/settings_auction.xml
+04:13:50.040 CONFIG | Reading config/topology/england.xml
+04:13:50.067 CONFIG | Reading tournament/MyEvent/agents.xml
+04:13:50.108 CONFIG | Reading config/settings_default.xml
+04:13:50.280 CONFIG | AGENT 2 : BIDDING TASK 0, Bid = 2191
+04:13:50.280 CONFIG | AGENT random : BIDDING TASK 0, Bid = 3415
+04:13:50.508 CONFIG | AGENT 2 : BIDDING TASK 1, Bid = 2411
+04:13:50.509 CONFIG | AGENT random : BIDDING TASK 1, Bid = 3962
+04:13:50.622 CONFIG | AGENT 2 : BIDDING TASK 2, Bid = 0
+04:13:50.623 CONFIG | AGENT random : BIDDING TASK 2, Bid = 3575
+04:13:50.777 CONFIG | AGENT 2 : BIDDING TASK 3, Bid = 810
+04:13:50.777 CONFIG | AGENT random : BIDDING TASK 3, Bid = 3800

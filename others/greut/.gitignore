@@ -1,0 +1,15 @@
+bin
+build
+tournament
+history.xml
+*.dot
+*.csv
+
+# vim
+.*.sw[op]
+
+# latex
+*.aux
+*.log
+*.out
+**/doc/*.pdf
