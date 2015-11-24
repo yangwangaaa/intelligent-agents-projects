@@ -1,0 +1,24 @@
+package AgentMouche;
+
+public class Strategie {
+	private double factor;
+	private double a;
+	private double uf;
+	private double uuf;
+	private double ufl;
+	private double uufl;
+	
+	public Strategie(double factor, double a, double uf, double uuf,
+			double ufl, double uufl) {
+		super();
+		this.factor = factor;
+		this.a = a;
+		this.uf = uf;
+		this.uuf = uuf;
+		this.ufl = ufl;
+		this.uufl = uufl;
+	}
+
+
+
+}

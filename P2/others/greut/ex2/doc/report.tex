@@ -1,0 +1,237 @@
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+\documentclass[11pt,a4paper]{article}
+
+%\usepackage[left=70pt,top=50pt,bottom=70pt,right=40pt]{geometry}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fixltx2e}
+\usepackage{cmap}
+\usepackage{enumerate}
+\usepackage{ifthen}
+\usepackage{listings}
+\usepackage{url}
+\usepackage[T1]{fontenc}
+%\usepackage{fontspec}
+%\usepackage{xunicode}
+%\usepackage{xltxtra}
+%\setmainfont[Mapping=tex-text,Ligatures={Common,Rare,Discretionary}]{Linux Libertine O}
+\usepackage{pdflscape}
+\usepackage{alltt}
+%\usepackage{algpseudocode}
+%\usepackage{wrapfig}
+%\usepackage{graphicx}
+
+\ifthenelse{\isundefined{\hypersetup}}{
+    \usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue]{hyperref}
+    \urlstyle{same}
+}{}
+
+\hypersetup{
+    pdftitle={Intelligent Agents - EX2 - Yoan Blanc, Tiziano Signo}
+}
+\title{\phantomsection%
+    A Deliberative Agent for the Pickup and Delivery Problem
+}
+\author{
+    \textbf{Group 16}\\
+    Yoan Blanc \texttt{<yoan.blanc@epfl.ch>}, 213552\\
+    Tiziano Signo \texttt{<tiziano.signo@epfl.ch>}, 226511
+}
+\date{\today}
+
+
+\begin{document}
+\maketitle
+
+\noindent
+\begin{quote}{\it
+
+    In this exercise, you will learn to use a deliberative agent to solve the
+    Pickup and Delivery Problem. A deliberative agent does not simply react to
+    percepts coming from the environment. It can build a plan that specifies
+    the sequence of actions to be taken in order to reach a certain goal. A
+    deliberative agent has goals (e.g. to deliver all tasks) and is fully aware
+    of the world it is acting in.
+
+    Unlike the reactive agent, the deliberative agent knows the list of tasks
+    that must be delivered. The deliberative agent can therefore construct a
+    plan (a certain path through the network) that guarantees the optimal
+    delivery of tasks.
+
+    \begin{enumerate}
+        \item Choose a representation for the states, transitions and goals
+            (final states) to be used in a state-based search algorithm that
+            finds the optimal plan for delivering a set of tasks.
+
+        \item Implement the state-based \emph{breadth-first search} and
+            \emph{A* heuristic search} algorithms.  Choose one heuristic and
+            explain why. Discuss the optimality of your new algorithm in
+            relation to your heuristic.
+
+        \item Implement a deliberative agent which can use the above planning
+            algorithms.
+
+        \item Compare the performances of the \emph{breadth-first search} and
+            the \emph{A* search} algorithms for different problem sizes.
+
+        \item Run the simulation with $1$, $2$ and $3$ deliberative agents and
+            report the differences of the joint performance of the agents.
+
+    \end{enumerate}
+
+}\end{quote}
+
+\newpage
+\subsection*{State representation}
+
+The objects of the system are the tasks, cities.
+
+$$ objects = \{T_1, \cdots, T_n\} \cup \{city_1, \cdots, city_m\} $$
+
+Six predicates are used to define where the agent is, how it is doing and in
+which state are the tasks.
+
+\begin{align*}
+predicates = &city(c)                            & c \text{ is a city} \\
+             &task(t)                            & t \text{ is a task} \\
+             &position(c)                        & \text{position of the agent}      \\
+             &capacity(n)                        & \text{capacity of the agent}      \\
+             &ready(t, from, to, weight, reward) & \text{task ready to be picked-up} \\
+             &loaded(t, to, weight, reward)      & \text{task currently in transit}  \\
+             &balance(n)                         & \text{rewards - costs}
+\end{align*}
+
+Actions are given by the system:
+
+\begin{align*}
+actions = \{&pickup(t),   & \text{if } ready(t, from) \wedge currentPosition(from) \\
+            &move(c),     & \text{if } \lnot currentPosition(c)                    \\
+            &deliver(t)\} & \text{if } loaded(t, to) \wedge currentPosition(to)
+\end{align*}
+
+The initial state has a given position and a set of tasks ready to be loaded,
+an initial position (\texttt{City}), a loading capacity and the money made so
+far (which is $0$ at the beginning)
+
+\begin{align*}
+    initial = &position(c)                            & c \text{ is the starting city of the agent} \\
+              &capacity(n) \; | \; n \in \mathbb{N} \wedge n > 0   & \text{positive capacity} \\
+              &ready(t) \; \forall t \in tasks                   & tasks \text{ is the initial \texttt{TaskSet}} \\
+              &balance(0) & \text{initial balance is zero}
+\end{align*}
+
+The final state only cares that there are no more tasks ready neither loaded.
+
+\begin{align*}
+    goal = &position(c) & c \text{ any city} \\
+           &capacity(n) & n \text{ the initial capacity} \\
+           &\nexists \: ready(t) \; \forall t \in tasks & \text{no more ready tasks} \\
+           &\nexists \: loaded(t) \; \forall t \in tasks & \text{no tasks are still loaded} \\
+\end{align*}
+
+The system starts with an initial state and then goes down the tree. A
+\texttt{State} knows how to generate its subtree. For optimization reasons we
+decided to take some priorities in the generated subtree. If there is tasks to
+be delivered, this will be done first (meaning that no other options will be
+explored). Likewise, if there is some tasks to be delivered, these options will
+be considered next (no moves). And if none of the previous conditions hold,
+moves to neighbor cities are considered with the condition that we don't
+directly go back to the previous state (which is known to be a loop).
+
+
+\subsection*{Heuristics}
+
+We've been experimenting with various heuristics. A* search algorithm heuristic
+$f$() is usually defined in two parts $g()$ (the past-path cost function) and $h()$ 
+the future path-cost function).
+
+\begin{description}
+    \item[Balance] This heuristic gives out the total amount of money
+        collected and only makes sense \emph{Breadth First Search} as it do not
+        need any informations about the future.
+
+    \item[Distance] This heuristic is basically $g()$ where $h() \rightarrow
+        0$. It is always optimal as $h()$ never overestimates the remaining
+        cost to reach the goal and is monotone.
+
+        $$g(n) \rightarrow total \; distance \; from \; start \; up \; to \; n$$
+
+    \item[Upper bound] $g()$ is \emph{Distance} and $h()$ computes the
+        upper-bound of all the remaining paths to explore. It is not optimal as
+        it overestimates the remaining cost (e.g., two same paths will be
+        counted twice).
+
+        \[
+        length(t) = \left\{
+            \begin{array}{l l}
+                distance(position, t.from) + distance(t.from, t.to)& \text{if } ready(t) \\
+                distance(position, t.to) & \text{if } loaded(t)
+            \end{array}
+        \right.
+        \]
+        $$h(n) \rightarrow \sum_{t \: \in \: all \; tasks} length(t)$$
+
+    \item[Lower bound] $g()$ is \emph{Distance} and $h()$ computes the maximum
+        of all the remaining paths to explore.
+
+        $$h(n) \rightarrow \arg\max_{t \: \in \: all \; tasks} length(t)$$
+
+\end{description}
+
+Both \emph{Distance} and \emph{Lower bound} are optimal. The later is much
+better at predicting the future and will be used for the performance measures.
+
+
+\subsection*{Performance}
+
+The following tests where made on a X1 Carbon laptop using the \emph{Lower
+bound} heuristic.
+
+% with the lower-bound heuristic
+% tests made on a Lenovo X1 Carbon, i7
+\medskip
+\begin{tabular}{ | r | c c | c c | }
+    \hline
+    ~ & \multicolumn{2}{c |}{Breadth First Search} & \multicolumn{2}{c |}{A* ~Search} \\
+    \cline{2-5}
+    \# tasks & \# states & time [s] & \# states & time [s] \\
+    \hline
+    $6$        & $5e^5$       & $0.9$      & $4e^3$       & $0.1$ \\
+    $7$        & $9e^6$       & $17.4$     & $5e^4$       & $0.2$ \\
+    $8$        & GC overhead & --     & $3e^5$       & $1.1$ \\
+    $9$        & "         & --       & $4e^5$       & $1.4$ \\
+    $10$       & "         & --       & $4e^6$       & $38$ \\
+    $11$       & "         & --       & timeout   & -- \\
+    \hline
+\end{tabular}
+
+\medskip
+\noindent
+We can safely say that we can deliver up to $10$ tasks under a minute.
+
+
+\subsection*{Multi-agents simulation}
+
+Running the simulation with more than one agent clearly shows the limitation of
+the taken approach. Each agent is doing a big initial computation which very
+quickly become obsolete as soon as it reaches a city where the task is no longer
+present. The next computations if lighter, can be totally useless and the agent
+has no way to discover it. Usually, in a multi-agents simulation, the total
+amount of money one agent gets at the end of the simulation is not the maximum
+it had during its run. Meaning it could have stopped way earlier and end up
+being in a better situation. Note that depending of the plan we could avoid
+having one but logist doesn't allow that behaviour.
+
+
+\subsection*{Conclusion}
+
+After trying some crazy ideas and wanted to pre compute more stuff than
+necessary, we managed to get something that is both efficient and optimal.
+This exercise puts into light the fact that agents have to have some kind of
+cooperation/collaboration in order to achieve a optimal result for the whole
+system.
+
+\end{document}
+

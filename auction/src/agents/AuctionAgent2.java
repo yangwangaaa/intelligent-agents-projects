@@ -44,6 +44,7 @@ public class AuctionAgent2 implements AuctionBehavior {
 	private Random random;
 	private MyVehicle biggestVehicle;
 
+	//TIME
 	private long timeout_setup;
 	private long timeout_plan;
 	private long time_start;
@@ -384,6 +385,12 @@ public class AuctionAgent2 implements AuctionBehavior {
 	//////////////////////////////////////
 
 	public void print(String s){
+		System.out.println(s);
+	}
+	public void print(int s){
+		System.out.println(s);
+	}
+	public void print(double s){
 		System.out.println(s);
 	}
 }

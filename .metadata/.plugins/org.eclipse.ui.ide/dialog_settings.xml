@@ -5,11 +5,24 @@
 		<item value="false" key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID"/>
 		<item value="false" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
-			<item value="/Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects/auction"/>
-			<item value="/Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects/centralized"/>
+			<item value="/Users/armandbosquillondejenlis/Desktop/q9/intelligent agents/ProjectsIA/auctionn"/>
+			<item value="/Users/armandbosquillondejenlis/Desktop/q9/intelligent agents/ProjectsIA/auction"/>
+			<item value="/Users/armandbosquillondejenlis/Desktop/q9/intelligent agents/ProjectsIA/auction/auction"/>
+			<item value="/Users/armandbosquillondejenlis/Desktop/q9/intelligent agents/ProjectsIA/centralized"/>
+			<item value="/Users/armandbosquillondejenlis/Desktop/q9/intelligent agents/centralized"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
 			<item value=""/>
 		</list>
+	</section>
+	<section name="WORKBENCH_SETTINGS">
+		<list key="ENABLED_TRANSFERS">
+		</list>
+	</section>
+	<section name="NewWizardAction">
+	</section>
+	<section name="ChooseWorkspaceDialogSettings">
+		<item value="400" key="DIALOG_X_ORIGIN"/>
+		<item value="276" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

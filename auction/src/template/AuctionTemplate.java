@@ -63,7 +63,11 @@ public class AuctionTemplate implements AuctionBehavior {
 				+ currentCity.distanceUnitsTo(task.pickupCity);
 		double marginalCost = Measures.unitsToKM(distanceSum
 				* vehicle.costPerKm());
-
+		System.out.println("margicost");
+		System.out.println(marginalCost);
+		System.out.println(distanceSum
+				* vehicle.costPerKm());
+		
 		double ratio = 1.0 + (random.nextDouble() * 0.05 * task.id);
 		double bid = ratio * marginalCost;
 		System.out.println("AGENT random : BIDDING TASK " + task.id + ", Bid = " + Math.round(bid));

@@ -1,0 +1,11 @@
+package AgentMouche;
+
+public class Configuration {
+
+	int id ;
+
+	public Configuration(int id) {
+		super();
+		this.id = id;
+	}
+}

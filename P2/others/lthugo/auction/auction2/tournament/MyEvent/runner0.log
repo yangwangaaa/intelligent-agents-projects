@@ -1,0 +1,187 @@
+12:41:09.697 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament\MyEvent\auction-dummy-MyAgent.xml -a tournament\MyEvent\agents.xml C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml dummy MyAgent
+12:41:09.775 CONFIG | Reading C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml
+12:41:09.822 CONFIG | Reading config\settings_auction.xml
+12:41:09.837 CONFIG | Reading config\topology\england.xml
+12:41:09.853 CONFIG | Reading tournament\MyEvent\agents.xml
+12:43:13.904 CONFIG | Done in 10000 iterations; final solution cost = 18139.5
+12:43:13.904 CONFIG | total cost: 0.0
+12:43:18.054 CONFIG | Wrote tournament\MyEvent\auction-dummy-MyAgent.xml
+12:43:18.289 INFO | LogistPlatform finished successfully!
+12:43:18.305 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament\MyEvent\auction-dummy-Naive.xml -a tournament\MyEvent\agents.xml C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml dummy Naive
+12:43:18.384 CONFIG | Reading C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml
+12:43:18.446 CONFIG | Reading config\settings_auction.xml
+12:43:18.462 CONFIG | Reading config\topology\england.xml
+12:43:18.477 CONFIG | Reading tournament\MyEvent\agents.xml
+12:43:24.284 CONFIG | Done in 10000 iterations; final solution cost = 16824.0
+12:43:29.973 CONFIG | Wrote tournament\MyEvent\auction-dummy-Naive.xml
+12:43:30.176 INFO | LogistPlatform finished successfully!
+12:43:30.176 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament\MyEvent\auction-dummy-Opponent.xml -a tournament\MyEvent\agents.xml C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml dummy Opponent
+12:43:30.255 CONFIG | Reading C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml
+12:43:30.317 CONFIG | Reading config\settings_auction.xml
+12:43:30.333 CONFIG | Reading config\topology\england.xml
+12:43:30.333 CONFIG | Reading tournament\MyEvent\agents.xml
+12:43:31.128 CONFIG | lowest = -1.3482698511467367E308,  estimate * beta = 0.0 * 0.85
+12:45:53.078 CONFIG | Done in 10000 iterations; final solution cost = 18436.5
+12:45:53.094 CONFIG | total cost: 0.0
+12:46:03.672 CONFIG | Wrote tournament\MyEvent\auction-dummy-Opponent.xml
+12:46:03.890 INFO | LogistPlatform finished successfully!
+12:46:03.890 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament\MyEvent\auction-dummy-Random.xml -a tournament\MyEvent\agents.xml C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml dummy Random
+12:46:03.969 CONFIG | Reading C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml
+12:46:04.031 CONFIG | Reading config\settings_auction.xml
+12:46:04.047 CONFIG | Reading config\topology\england.xml
+12:46:04.078 CONFIG | Reading tournament\MyEvent\agents.xml
+12:46:09.633 CONFIG | Done in 10000 iterations; final solution cost = 17256.5
+12:46:13.161 CONFIG | Wrote tournament\MyEvent\auction-dummy-Random.xml
+12:46:13.379 INFO | LogistPlatform finished successfully!
+12:46:13.379 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament\MyEvent\auction-MyAgent-dummy.xml -a tournament\MyEvent\agents.xml C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml MyAgent dummy
+12:46:13.458 CONFIG | Reading C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml
+12:46:13.521 CONFIG | Reading config\settings_auction.xml
+12:46:13.521 CONFIG | Reading config\topology\england.xml
+12:46:13.536 CONFIG | Reading tournament\MyEvent\agents.xml
+12:49:00.833 CONFIG | total cost: 0.0
+12:49:02.488 CONFIG | Done in 10000 iterations; final solution cost = 16636.0
+12:49:08.695 CONFIG | Wrote tournament\MyEvent\auction-MyAgent-dummy.xml
+12:49:08.913 INFO | LogistPlatform finished successfully!
+12:49:08.913 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament\MyEvent\auction-MyAgent-Naive.xml -a tournament\MyEvent\agents.xml C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml MyAgent Naive
+12:49:09.039 CONFIG | Reading C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml
+12:49:09.117 CONFIG | Reading config\settings_auction.xml
+12:49:09.117 CONFIG | Reading config\topology\england.xml
+12:49:09.133 CONFIG | Reading tournament\MyEvent\agents.xml
+12:49:18.044 CONFIG | lowest = 0.0,  estimate * beta = -548.6098878570829 * 0.85
+12:49:19.526 CONFIG | lowest = 0.0,  estimate * beta = -43.612748154004294 * 0.85
+12:49:32.256 CONFIG | total cost: 10937.0
+12:49:38.198 CONFIG | Wrote tournament\MyEvent\auction-MyAgent-Naive.xml
+12:49:38.416 INFO | LogistPlatform finished successfully!
+12:49:38.416 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament\MyEvent\auction-MyAgent-Opponent.xml -a tournament\MyEvent\agents.xml C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml MyAgent Opponent
+12:49:38.495 CONFIG | Reading C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml
+12:49:38.558 CONFIG | Reading config\settings_auction.xml
+12:49:38.573 CONFIG | Reading config\topology\england.xml
+12:49:38.573 CONFIG | Reading tournament\MyEvent\agents.xml
+12:49:48.715 CONFIG | lowest = 0.0,  estimate * beta = -3527.6515065932062 * 0.85
+12:49:54.160 CONFIG | lowest = 0.0,  estimate * beta = -5536.998350222465 * 0.85
+12:50:41.572 CONFIG | total cost: 8561.5
+12:50:41.572 CONFIG | total cost: 9985.0
+12:50:44.978 CONFIG | Wrote tournament\MyEvent\auction-MyAgent-Opponent.xml
+12:50:45.197 INFO | LogistPlatform finished successfully!
+12:50:45.197 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament\MyEvent\auction-MyAgent-Random.xml -a tournament\MyEvent\agents.xml C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml MyAgent Random
+12:50:45.276 CONFIG | Reading C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml
+12:50:45.338 CONFIG | Reading config\settings_auction.xml
+12:50:45.338 CONFIG | Reading config\topology\england.xml
+12:50:45.354 CONFIG | Reading tournament\MyEvent\agents.xml
+12:51:16.123 CONFIG | total cost: 9872.0
+12:51:16.669 CONFIG | Done in 35000 iterations; final solution cost = 11034.5
+12:51:25.090 CONFIG | Wrote tournament\MyEvent\auction-MyAgent-Random.xml
+12:51:25.355 INFO | LogistPlatform finished successfully!
+12:51:25.355 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament\MyEvent\auction-Naive-dummy.xml -a tournament\MyEvent\agents.xml C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml Naive dummy
+12:51:25.449 CONFIG | Reading C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml
+12:51:25.512 CONFIG | Reading config\settings_auction.xml
+12:51:25.527 CONFIG | Reading config\topology\england.xml
+12:51:25.527 CONFIG | Reading tournament\MyEvent\agents.xml
+12:51:31.129 CONFIG | Done in 10000 iterations; final solution cost = 16290.0
+12:51:35.669 CONFIG | Wrote tournament\MyEvent\auction-Naive-dummy.xml
+12:51:35.949 INFO | LogistPlatform finished successfully!
+12:51:35.949 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament\MyEvent\auction-Naive-MyAgent.xml -a tournament\MyEvent\agents.xml C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml Naive MyAgent
+12:51:36.028 CONFIG | Reading C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml
+12:51:36.075 CONFIG | Reading config\settings_auction.xml
+12:51:36.091 CONFIG | Reading config\topology\england.xml
+12:51:36.106 CONFIG | Reading tournament\MyEvent\agents.xml
+12:52:02.430 CONFIG | total cost: 10157.0
+12:53:04.848 CONFIG | Wrote tournament\MyEvent\auction-Naive-MyAgent.xml
+12:53:05.067 INFO | LogistPlatform finished successfully!
+12:53:05.067 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament\MyEvent\auction-Naive-Opponent.xml -a tournament\MyEvent\agents.xml C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml Naive Opponent
+12:53:05.146 CONFIG | Reading C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml
+12:53:05.208 CONFIG | Reading config\settings_auction.xml
+12:53:05.224 CONFIG | Reading config\topology\england.xml
+12:53:05.239 CONFIG | Reading tournament\MyEvent\agents.xml
+12:53:09.280 CONFIG | lowest = 0.0,  estimate * beta = -7014.406154462756 * 0.85
+12:53:11.105 CONFIG | lowest = 0.0,  estimate * beta = -9377.106050776278 * 0.85
+12:53:17.907 CONFIG | lowest = 0.0,  estimate * beta = -13371.483709904098 * 0.85
+12:53:35.966 CONFIG | total cost: 9395.0
+12:53:43.563 CONFIG | Wrote tournament\MyEvent\auction-Naive-Opponent.xml
+12:53:43.798 INFO | LogistPlatform finished successfully!
+12:53:43.798 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament\MyEvent\auction-Naive-Random.xml -a tournament\MyEvent\agents.xml C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml Naive Random
+12:53:43.893 CONFIG | Reading C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml
+12:53:43.955 CONFIG | Reading config\settings_auction.xml
+12:53:43.955 CONFIG | Reading config\topology\england.xml
+12:53:43.971 CONFIG | Reading tournament\MyEvent\agents.xml
+12:53:48.995 CONFIG | Done in 35000 iterations; final solution cost = 11192.0
+12:53:55.302 CONFIG | Wrote tournament\MyEvent\auction-Naive-Random.xml
+12:53:55.521 INFO | LogistPlatform finished successfully!
+12:53:55.521 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament\MyEvent\auction-Opponent-dummy.xml -a tournament\MyEvent\agents.xml C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml Opponent dummy
+12:53:55.600 CONFIG | Reading C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml
+12:53:55.647 CONFIG | Reading config\settings_auction.xml
+12:53:55.662 CONFIG | Reading config\topology\england.xml
+12:53:55.678 CONFIG | Reading tournament\MyEvent\agents.xml
+12:53:56.598 CONFIG | lowest = -1.3482698511467367E308,  estimate * beta = 0.0 * 0.85
+12:54:22.681 CONFIG | total cost: 11821.0
+12:54:22.870 CONFIG | Done in 10000 iterations; final solution cost = 2766.0
+12:54:31.139 CONFIG | Wrote tournament\MyEvent\auction-Opponent-dummy.xml
+12:54:31.358 INFO | LogistPlatform finished successfully!
+12:54:31.358 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament\MyEvent\auction-Opponent-MyAgent.xml -a tournament\MyEvent\agents.xml C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml Opponent MyAgent
+12:54:31.453 CONFIG | Reading C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml
+12:54:31.515 CONFIG | Reading config\settings_auction.xml
+12:54:31.531 CONFIG | Reading config\topology\england.xml
+12:54:31.546 CONFIG | Reading tournament\MyEvent\agents.xml
+12:54:40.768 CONFIG | lowest = 0.0,  estimate * beta = -2139.355768723668 * 0.85
+12:54:45.261 CONFIG | lowest = 0.0,  estimate * beta = -3022.4895390478023 * 0.85
+12:55:31.493 CONFIG | total cost: 8374.0
+12:55:31.493 CONFIG | total cost: 9329.0
+12:55:34.053 CONFIG | Wrote tournament\MyEvent\auction-Opponent-MyAgent.xml
+12:55:34.255 INFO | LogistPlatform finished successfully!
+12:55:34.255 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament\MyEvent\auction-Opponent-Naive.xml -a tournament\MyEvent\agents.xml C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml Opponent Naive
+12:55:34.350 CONFIG | Reading C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml
+12:55:34.397 CONFIG | Reading config\settings_auction.xml
+12:55:34.412 CONFIG | Reading config\topology\england.xml
+12:55:34.428 CONFIG | Reading tournament\MyEvent\agents.xml
+12:55:46.241 CONFIG | lowest = 0.0,  estimate * beta = -2090.154209243423 * 0.85
+12:55:56.959 CONFIG | total cost: 9911.0
+12:56:04.472 CONFIG | Wrote tournament\MyEvent\auction-Opponent-Naive.xml
+12:56:04.706 INFO | LogistPlatform finished successfully!
+12:56:04.721 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament\MyEvent\auction-Opponent-Random.xml -a tournament\MyEvent\agents.xml C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml Opponent Random
+12:56:04.816 CONFIG | Reading C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml
+12:56:04.909 CONFIG | Reading config\settings_auction.xml
+12:56:04.925 CONFIG | Reading config\topology\england.xml
+12:56:04.941 CONFIG | Reading tournament\MyEvent\agents.xml
+12:56:09.057 CONFIG | lowest = 0.0,  estimate * beta = -5757.879818327741 * 0.85
+12:56:10.869 CONFIG | lowest = 0.0,  estimate * beta = -8217.030107554292 * 0.85
+12:56:49.875 CONFIG | total cost: 9351.0
+12:56:50.829 CONFIG | Done in 35000 iterations; final solution cost = 12579.0
+12:57:04.452 CONFIG | Wrote tournament\MyEvent\auction-Opponent-Random.xml
+12:57:04.686 INFO | LogistPlatform finished successfully!
+12:57:04.686 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament\MyEvent\auction-Random-dummy.xml -a tournament\MyEvent\agents.xml C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml Random dummy
+12:57:04.765 CONFIG | Reading C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml
+12:57:04.843 CONFIG | Reading config\settings_auction.xml
+12:57:04.859 CONFIG | Reading config\topology\england.xml
+12:57:04.874 CONFIG | Reading tournament\MyEvent\agents.xml
+12:57:08.760 CONFIG | Done in 35000 iterations; final solution cost = 2114.0
+12:57:10.320 CONFIG | Done in 10000 iterations; final solution cost = 14565.5
+12:57:17.358 CONFIG | Wrote tournament\MyEvent\auction-Random-dummy.xml
+12:57:17.577 INFO | LogistPlatform finished successfully!
+12:57:17.577 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament\MyEvent\auction-Random-MyAgent.xml -a tournament\MyEvent\agents.xml C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml Random MyAgent
+12:57:17.656 CONFIG | Reading C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml
+12:57:17.719 CONFIG | Reading config\settings_auction.xml
+12:57:17.719 CONFIG | Reading config\topology\england.xml
+12:57:17.734 CONFIG | Reading tournament\MyEvent\agents.xml
+12:57:49.250 CONFIG | Done in 35000 iterations; final solution cost = 10850.0
+12:57:49.250 CONFIG | total cost: 7537.0
+12:58:01.640 CONFIG | Wrote tournament\MyEvent\auction-Random-MyAgent.xml
+12:58:02.265 INFO | LogistPlatform finished successfully!
+12:58:02.265 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament\MyEvent\auction-Random-Naive.xml -a tournament\MyEvent\agents.xml C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml Random Naive
+12:58:02.359 CONFIG | Reading C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml
+12:58:02.422 CONFIG | Reading config\settings_auction.xml
+12:58:02.437 CONFIG | Reading config\topology\england.xml
+12:58:02.437 CONFIG | Reading tournament\MyEvent\agents.xml
+12:58:09.131 CONFIG | Done in 35000 iterations; final solution cost = 13480.5
+12:58:26.799 CONFIG | Wrote tournament\MyEvent\auction-Random-Naive.xml
+12:58:27.034 INFO | LogistPlatform finished successfully!
+12:58:27.034 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament\MyEvent\auction-Random-Opponent.xml -a tournament\MyEvent\agents.xml C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml Random Opponent
+12:58:27.145 CONFIG | Reading C:\Users\Sun\workspace\CourseIntelligentAgents\auction\auction\config\auction.xml
+12:58:27.223 CONFIG | Reading config\settings_auction.xml
+12:58:27.223 CONFIG | Reading config\topology\england.xml
+12:58:27.238 CONFIG | Reading tournament\MyEvent\agents.xml
+12:58:48.507 CONFIG | lowest = 0.0,  estimate * beta = -13465.756058681229 * 0.85
+12:58:59.895 CONFIG | lowest = 0.0,  estimate * beta = -16529.44296192358 * 0.85
+12:59:19.247 CONFIG | Done in 35000 iterations; final solution cost = 12590.0
+12:59:19.263 CONFIG | total cost: 7596.0
+12:59:23.893 CONFIG | Wrote tournament\MyEvent\auction-Random-Opponent.xml
+12:59:24.112 INFO | LogistPlatform finished successfully!
