@@ -5840,3 +5840,6 @@ Binding(COMMAND+O,
 		,,true),null),
 	org.eclipse.ui.defaultAcceleratorConfiguration,
 	org.eclipse.wst.sse.ui.structuredTextEditorScope,,,system)
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2015-11-24 15:36:22.680
+!MESSAGE Can't handle class org.eclipse.jdt.internal.compiler.ast.ForStatement as parent of completion location.

@@ -1,0 +1,13 @@
+package AgentMouche;
+
+public class Strategie {
+	private double factor;
+	private double a;
+	private double uf;
+	private double uuf;
+	private double ufl;
+	private double uufl;
+
+
+
+}

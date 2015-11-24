@@ -75,18 +75,18 @@ public class AgentMouche implements AuctionBehavior {
 	private int Nst;      //number of strategies
 	private int Nconf;    //number of configurations
 
-	private LinkedList<Long> mc1 =   new LinkedList<Long>();;
-	private ArrayList<LinkedList<Long>> mc2 = null ;
+	private LinkedList<Double> mc1 =   new LinkedList<Double>();;
+	private ArrayList<LinkedList<Double>> mc2 = null ;
 
 	private LinkedList<Task> proposedTasks = new LinkedList<Task>() ;
-	private  LinkedList<Boolean> listWinner = new LinkedList<Boolean>() ;
+	private  LinkedList<Boolean> winner = new LinkedList<Boolean>() ;
 
-	private LinkedList<Long> bid1= new LinkedList<Long>() ;
-	private LinkedList<Long> bid2= new LinkedList<Long>() ;
+	private LinkedList<Double> bid1= new LinkedList<Double>() ;
+	private LinkedList<Double> bid2= new LinkedList<Double>() ;
 
 
-	private ArrayList<ArrayList<LinkedList<Long>>> ratio;
-	private ArrayList<ArrayList<LinkedList<Long>>> allBid1;
+	private ArrayList<ArrayList<LinkedList<Double>>> ratio;
+	private ArrayList<ArrayList<LinkedList<Double>>> allBid1;
 
 	private ArrayList<ArrayList<Strategy>> strategies;	
 	private ArrayList<Configuration> configurations;
@@ -147,12 +147,12 @@ public class AgentMouche implements AuctionBehavior {
 		proposed = -1;
 		Nconf = 0;
 
-
-		mc2 = new ArrayList<LinkedList<Long>>(Nconf);
+		
+		mc2 = new ArrayList<LinkedList<Double>>(Nconf);
 		configurations = new ArrayList<Configuration>(Nconf);
 
-		ratio = new ArrayList<ArrayList<LinkedList<Long>>>(Nconf);
-		allBid1 = new ArrayList<ArrayList<LinkedList<Long>>>(Nconf);
+		ratio = new ArrayList<ArrayList<LinkedList<Double>>>(Nconf);
+		allBid1 = new ArrayList<ArrayList<LinkedList<Double>>>(Nconf);
 
 		strategies = new ArrayList<ArrayList<Strategy>>(Nconf);
 
@@ -173,8 +173,8 @@ public class AgentMouche implements AuctionBehavior {
 		}
 
 		for(int i=0 ; i<Nconf ; i++){
-			ratio.set(i,  new ArrayList<LinkedList<Long>>(Nst));
-			allBid1.set(i, new ArrayList<LinkedList<Long>>(Nst));
+			ratio.set(i,  new ArrayList<LinkedList<Double>>(Nst));
+			allBid1.set(i, new ArrayList<LinkedList<Double>>(Nst));
 		}		
 	}
 
@@ -191,20 +191,6 @@ public class AgentMouche implements AuctionBehavior {
 			tasksWon.add(previous);
 			bestSolution = lastSolution;
 		}
-
-		////////////////////////
-		proposedTasks.add(previous);
-		bid1.add(bids[agent.id()]);
-		bid2.add(bids[ennemy.id()]);
-
-		if (winner == agent.id()) {
-			listWinner.add(true);
-		}else{
-			listWinner.add(false);
-		}
-		updateStrategies();
-
-
 	}
 
 	@Override
@@ -235,17 +221,14 @@ public class AgentMouche implements AuctionBehavior {
 
 		///////////////////////////////
 		proposed +=1;
-		int bestConfiguration = findBestConfiguration();
+		Configuration bestConfiguration = findBestConfiguration();
 		updateMc2(task);
-		double bestMc2 = mc2.get(bestConfiguration).get(proposed);
-		int[] bestStrategy = findBestStrategy(bestConfiguration);
+		double bestMc2 = mc2.get(bestConfiguration.getId()).get(proposed);
+		int bestStrategy = findBestStrategy(bestConfiguration);
+		
+		
 
-		updateAllBid1();
-		return allBid1.get(bestStrategy[0]).get(bestStrategy[1]).get(proposed);
-
-
-
-		//return (long) Math.round(bid);
+		return (long) Math.round(bid);
 
 
 
@@ -332,18 +315,16 @@ public class AgentMouche implements AuctionBehavior {
 	//		AUXILIARY METHODS			//
 	//////////////////////////////////////
 
-	public int findBestConfiguration(){
-		return configurations.get(1).getId();
+	public Configuration findBestConfiguration(){
+		return configurations.get(1);
 	}
 
 	public void updateMc2(Task task){
 
 	}
 
-	public int[] findBestStrategy(int bestConf){
-		int configuration = 0;
-		int strategy = 0;
-		return new int[] {configuration, strategy};
+	public int findBestStrategy(Configuration bestConf){
+		return 0;
 	}
 
 	public void updateAllBid1(){
