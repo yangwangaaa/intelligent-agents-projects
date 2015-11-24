@@ -7,23 +7,20 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Random;
 
-import sls.NodePD;
-import logist.LogistSettings;
 import logist.agent.Agent;
-import logist.behavior.CentralizedBehavior;
-import logist.config.Parsers;
 import logist.plan.Plan;
 import logist.simulation.Vehicle;
 import logist.task.Task;
 import logist.task.TaskDistribution;
-import logist.task.TaskSet;
 import logist.topology.Topology;
 import logist.topology.Topology.City;
+import other.MyVehicle;
 
 /**
- * A very simple auction agent that assigns all tasks to its first vehicle and
- * handles them sequentially.
- *
+ * TODO :
+ * init sol = bestSolution
+ * Repartir le temps équitablement entre les boucles?
+ * nombre d'iterations prop aux nombre de tasks : faire des tests
  */
 
 @SuppressWarnings("unused")
@@ -35,7 +32,7 @@ public class SLS {
 	private long timeout_plan;
 	private long time_start;
 
-	private List<Vehicle> vehiclesList; 
+	private List<MyVehicle> vehiclesList; 
 	private Task[] tasks;
 
 	private int Nt;
@@ -46,7 +43,7 @@ public class SLS {
 	private int numIt = 5000;
 	private Random random;
 	private int n = 5;
-	private int firstV = 7;
+	private int firstV = 0;
 	private int lastV = 10;
 
 	private NodePD bestGlobal = null;
@@ -69,8 +66,8 @@ public class SLS {
 	//////////////////////////////////////
 	//               SLS                //
 	//////////////////////////////////////
-
-	public NodePD RunSLS(List<Vehicle> vehicles, Task[] tasksSet, long timeout_plan) {
+	
+	public NodePD RunSLS(List<MyVehicle> vehicles, Task[] tasksSet, long timeout_plan, NodePD bestSolution) {
 		
 		// TODO handle bestSolutions
 		this.time_start = System.currentTimeMillis();
@@ -83,55 +80,7 @@ public class SLS {
 		this.Na = 2*Nt;
 		bestGlobal = null;
 		
-		for(int v = firstV; v<lastV; v++) {
-			//print("SLS for #" + v);
-			NodePD A = selectInitialSolution(v);
-			if(bestGlobal==null) bestGlobal = A;
-			//A.getOValue(tasks, vehiclesList);
-			//A.print();
-
-			NodePD localBest = A;
-			int i = 0;
-			while(i < numIt) {
-				long duration = System.currentTimeMillis() - time_start;
-				if(duration>0.95*timeout_plan) {
-					//print("!!!!!!!!!!!!! TIMEOUT, WE SHOULD RETURN FINAL RESULT !!!!!!!!!!!!");
-					return bestGlobal;
-				}
-				NodePD Aold = A;
-				ArrayList<NodePD> N = chooseNeighbours(A);
-				A = localChoice4(N, Aold); 
-				if(i%100==0) { 
-					//print("SLS while #" + i + " ; DURATION = " + duration/1000 + "s");
-					//print("BEST CHOOSEN AT IT " + i);
-					//A.print();
-				}
-				if(A.getOValue(tasks, vehiclesList) < localBest.getOValue(tasks, vehiclesList)) localBest = A;
-				i++;
-			}
-
-			//print("BEST CHOOSEN AT V = " + v);
-			//localBest.print();
-			if(localBest.getOValue(tasks, vehiclesList) < bestGlobal.getOValue(tasks, vehiclesList)) bestGlobal = localBest;
-		}
-		return bestGlobal;
-	}
-	
-	
-	public NodePD RunSLS(List<Vehicle> vehicles, Task[] tasksSet, long timeout_plan, NodePD bestSolution) {
-		
-		// TODO handle bestSolutions
-		this.time_start = System.currentTimeMillis();
-		this.timeout_plan = timeout_plan;
-		
-		this.vehiclesList = vehicles;
-		this.tasks = tasksSet;
-		this.Nt = this.tasks.length;
-		this.Nv = vehiclesList.size();
-		this.Na = 2*Nt;
-		bestGlobal = null;
-		
-		for(int v = firstV; v<lastV; v++) {
+		for(int v = 0; v<Nv+1; v++) {
 			//print("SLS for #" + v);
 			NodePD A = selectInitialSolution(v);
 			if(bestGlobal==null) bestGlobal = A;
@@ -642,8 +591,8 @@ public class SLS {
 		NodePD initial = new NodePD(vehiclesList, tasks);
 
 
-		Vehicle biggestV = vehiclesList.get(0);
-		for (Vehicle v : vehiclesList) {
+		MyVehicle biggestV = vehiclesList.get(0);
+		for (MyVehicle v : vehiclesList) {
 			if(biggestV.capacity()<v.capacity()) biggestV = v;
 		}
 

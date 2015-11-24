@@ -1,3 +1,5 @@
+
+
 package agents;
 
 //the list of imports
@@ -17,6 +19,7 @@ import logist.task.TaskDistribution;
 import logist.task.TaskSet;
 import logist.topology.Topology;
 import logist.topology.Topology.City;
+import other.MyVehicle;
 import sls.NodePD;
 import sls.SLS;
 import astar.Astar;
@@ -143,6 +146,9 @@ public class AuctionAgent1 implements AuctionBehavior {
 	@Override
 	public List<Plan> plan(List<Vehicle> vehicles, TaskSet tasks) {
 
+		print("SLS Agent1 for " + tasks.size() +  " tasks");
+		System.out.println("Agent " + agent.id() + " has tasks " + tasks);
+		
 		if(vehicles.size()==0) {
 			List<Plan> plans = new ArrayList<Plan>();
 			return plans;
@@ -173,9 +179,7 @@ public class AuctionAgent1 implements AuctionBehavior {
 		NodePD bestSolution;
 
 
-		print("SLS Agent1 for " + tasks.size() +  " tasks");
-		//		System.out.println("Agent " + agent.id() + " has tasks " + tasks);
-		bestSolution = sls.RunSLS(vehicles, this.tasks, timeout_plan);
+		bestSolution = sls.RunSLS(MyVehicle.transform(vehicles), this.tasks, timeout_plan, null);
 		if(bestSolution != null) {
 			//System.out.println("FINAL SOLUTION:");
 			//bestSolution.print();
