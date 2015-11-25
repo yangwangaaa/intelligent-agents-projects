@@ -90,6 +90,7 @@ public class AgentMouche implements AuctionBehavior {
 
 	private ArrayList<ArrayList<Strategy>> strategies;	
 	private ArrayList<Configuration> configurations;
+	
 	//////////////////////////////////////
 	//              MAIN                //
 	//////////////////////////////////////
@@ -195,7 +196,7 @@ public class AgentMouche implements AuctionBehavior {
 		////////////////////////
 		proposedTasks.add(previous);
 		bid1.add(bids[agent.id()]);
-		bid2.add(bids[ennemy.id()]);
+		//bid2.add(bids[ennemy.id()]);
 
 		if (winner == agent.id()) {
 			listWinner.add(true);
@@ -217,7 +218,7 @@ public class AgentMouche implements AuctionBehavior {
 
 		ArrayList<Task> newTasks = (ArrayList<Task>) tasksWon.clone();
 		newTasks.add(task);
-		lastSolution = sls.RunSLS(vehiclesList, newTasks.toArray(new Task[newTasks.size()]), timeout_bid, bestSolution);
+		//lastSolution = sls.RunSLS(vehiclesList, newTasks.toArray(new Task[newTasks.size()]), timeout_bid, bestSolution);
 		if(lastSolution == null) {
 			print("ERROR : LASTSOLUTION == NULL");
 			return null;
@@ -288,7 +289,7 @@ public class AgentMouche implements AuctionBehavior {
 		print("SLS Agent2 for " + tasksSet.size() +  " tasks");
 		//		System.out.println("Agent " + agent.id() + " has tasks " + tasks);
 
-		bestSolution = sls.RunSLS(vehicles, tasks, timeout_plan, bestSolution);
+		//bestSolution = sls.RunSLS(vehicles, tasks, timeout_plan, bestSolution);
 
 		plans = sls.computeFinalPlan(bestSolution);
 
