@@ -1,0 +1,250 @@
+package agents;
+
+//the list of imports
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import logist.LogistSettings;
+import logist.Measures;
+import logist.agent.Agent;
+import logist.behavior.AuctionBehavior;
+import logist.config.Parsers;
+import logist.plan.Plan;
+import logist.simulation.Vehicle;
+import logist.task.Task;
+import logist.task.TaskDistribution;
+import logist.task.TaskSet;
+import logist.topology.Topology;
+import logist.topology.Topology.City;
+import sls.NodePD;
+import sls.SLS;
+import astar.Astar;
+
+/**
+ * TODO :
+ * peut utiliser agent size et task size?
+ * need test agents
+ */
+@SuppressWarnings("unused")
+public class AuctionAgent2 implements AuctionBehavior {
+
+	private Topology topology;
+	private TaskDistribution distribution;
+	private Agent agent;
+	private Random random;
+	private Vehicle biggestVehicle;
+	private ArrayList<Task> tasksWon;
+
+	private long timeout_setup;
+	private long timeout_plan;
+	private long time_start;
+	private long timeout_bid;
+
+	private List<Vehicle> vehiclesList; 
+	private Task[] tasks;
+
+	private int Nt;
+	private int Nv;
+	private int Na;
+
+	private double p = 0.5; // probability used for localChoice
+	private int numIt = 5000;
+	private int n = 5;
+	private Random rand;
+	private int firstV = 7;
+	private int lastV = 10;
+	private long totalReward = 0;
+	private int meanBid = 0;
+	
+	private int numA = -1;
+	private ArrayList<Long[]> allBids = null;
+	private NodePD[] lastSolutions = null;
+	private NodePD[] bestSolutions = null;
+	private Task[] listTasks = null;
+	
+	private SLS sls;
+	private Astar astar;
+
+	NodePD lastSolution = null;
+	NodePD bestSolution = null;
+
+	//////////////////////////////////////
+	//              MAIN                //
+	//////////////////////////////////////
+
+	@Override
+	public void setup(Topology topology, TaskDistribution distribution,
+			Agent agent) {
+
+		this.topology = topology;
+		this.distribution = distribution;
+		this.agent = agent;
+		this.vehiclesList = agent.vehicles();
+		this.biggestVehicle = agent.vehicles().get(0);
+		for (Vehicle v : agent.vehicles()) {
+			if(v.capacity() > biggestVehicle.capacity()) biggestVehicle = v;
+		}
+
+
+		long seed = -9019554669489983951L * biggestVehicle.hashCode() * agent.id();
+		this.random = new Random(seed);
+
+		// this code is used to get the timeouts
+		LogistSettings ls = null;
+		try {
+			ls = Parsers.parseSettings("config/settings_default.xml");
+		}
+		catch (Exception exc) {
+			System.out.println("There was a problem loading the configuration file.");
+		}
+
+		// the setup method cannot last more than timeout_setup milliseconds
+		timeout_setup = ls.get(LogistSettings.TimeoutKey.SETUP);
+		// the plan method cannot execute more than timeout_plan milliseconds
+		timeout_plan = ls.get(LogistSettings.TimeoutKey.PLAN);
+
+		timeout_bid = ls.get(LogistSettings.TimeoutKey.BID);
+
+		// int numA = ls.get(LogistSettings.SizeKey.NUMBER_OF_AGENTS);
+		// int numT = ls.get(LogistSettings.SizeKey.NUMBER_OF_TASKS);
+		//print("number of tasks = " + numT + " and number of agents = " + numA);
+
+		rand = new Random();
+
+		sls = new SLS(topology, distribution, agent);
+		astar = new Astar(topology, distribution, agent);
+
+		tasksWon = new ArrayList<Task>();
+		allBids = new ArrayList<Long[]>();
+	}
+
+	//////////////////////////////////////
+	//             BIDING              //
+	//////////////////////////////////////
+
+	@Override
+	public void auctionResult(Task previous, int winner, Long[] bids) {
+		allBids.add(bids);
+		
+		if (winner == agent.id()) {
+			totalReward += bids[winner];
+			tasksWon.add(previous);
+			bestSolution = lastSolution;
+		}
+	}
+
+	@Override
+	public Long askPrice(Task task) {
+		
+		// parfois bids négatifs
+		if (biggestVehicle.capacity() < task.weight) {
+			return null;
+		}
+
+		ArrayList<Task> newTasks = (ArrayList<Task>) tasksWon.clone();
+		newTasks.add(task);
+		lastSolution = sls.RunSLS(vehiclesList, newTasks.toArray(new Task[newTasks.size()]), timeout_bid, bestSolution);
+		if(lastSolution == null) {
+			print("ERROR : LASTSOLUTION == NULL");
+			return null;
+		}
+
+
+		double marginalCost = lastSolution.getOValue();
+		if(bestSolution!=null) marginalCost -= bestSolution.getOValue();
+
+		double ratio = 1.0 + (random.nextDouble() * 0.05 * task.id);
+		double bid = ratio * marginalCost;
+
+		meanBid += bid;
+		print("AGENT 2 : BIDDING TASK " + task.id + ", Bid = " + Math.round(bid));
+		return (long) Math.round(bid);
+	}
+
+	//////////////////////////////////////
+	//             PLANNING             //
+	//////////////////////////////////////
+
+	@Override
+	public List<Plan> plan(List<Vehicle> vehicles, TaskSet tasksSet) {
+
+		if(vehicles.size()==0) {
+			List<Plan> plans = new ArrayList<Plan>();
+			return plans;
+		}
+
+		time_start = System.currentTimeMillis();
+		this.vehiclesList = vehicles;
+		this.tasks = tasksSet.toArray(new Task[tasksSet.size()]);
+		this.Nt = this.tasks.length;
+		this.Nv = vehiclesList.size();
+		this.Na = 2*Nt;
+		List<Plan> plans;
+
+		if(tasksSet.size() == 0) {
+			print("TASKS SIZE == 0");
+
+			plans = new ArrayList<Plan>();
+
+			for(int v = 0 ; v<Nv ; v++){ // for each vehicle
+				City current = vehiclesList.get(v).getCurrentCity();
+				Plan plan = new Plan(current);
+
+				plans.add(plan);
+			}
+			return plans;
+		}
+
+		print("SLS Agent2 for " + tasksSet.size() +  " tasks");
+		//		System.out.println("Agent " + agent.id() + " has tasks " + tasks);
+
+		bestSolution = sls.RunSLS(vehicles, tasks, timeout_plan, bestSolution);
+
+		plans = sls.computeFinalPlan(bestSolution);
+
+
+		long time_end = System.currentTimeMillis();
+		long duration = time_end - time_start;
+		System.out.println("The plan was generated in "+duration+" milliseconds.");
+
+		int totalCost = 0;
+		int totalDist = 0;
+		int v = 0;
+		for (Plan plan : plans) {
+			totalDist+=plan.totalDistance();
+			totalCost+=plan.totalDistance()*vehicles.get(v).costPerKm();
+			v++;
+		}
+
+		print("MEAN BID = " + meanBid/allBids.size());
+		print("Bids : ");
+		int c = 0;
+		for(Long[] bids : allBids) {
+			System.out.print("Task " + c);
+			for(Long bid : bids) {
+				System.out.print(", " + bid);
+			}
+			System.out.println("");
+			c++;
+		}
+		
+		print("FINAL DISTANCE = " + totalDist);
+		print("FINAL COST = " + totalCost);
+		print("FINAL COST2 = " + bestSolution.getOValue());
+		print("FINAL REWARD = " + tasksSet.rewardSum());
+		print("FINAL REWARD2 = " + totalReward);
+		print("FINAL PROFIT = " + (tasksSet.rewardSum()-totalCost));
+		
+		return plans;
+	}
+
+
+	//////////////////////////////////////
+	//              UTILS               //
+	//////////////////////////////////////
+
+	public void print(String s){
+		System.out.println(s);
+	}
+}

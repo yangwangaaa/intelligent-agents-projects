@@ -7,6 +7,7 @@ import java.util.List;
 import logist.simulation.Vehicle;
 import logist.task.Task;
 import logist.topology.Topology.City;
+import other.MyVehicle;
 
 public class NodePD implements Comparator<NodePD>, Comparable<NodePD>{
 	private int[] nextAction;
@@ -15,7 +16,7 @@ public class NodePD implements Comparator<NodePD>, Comparable<NodePD>{
 	private int[] vehicles;
 	private int[] load;
 	private double OValue;
-	private List<Vehicle> vehiclesList;
+	private List<MyVehicle> vehiclesList;
 	private Task[] tasks;
 
 	private int Nt;
@@ -26,7 +27,7 @@ public class NodePD implements Comparator<NodePD>, Comparable<NodePD>{
 	//        CONSTRUCTORS       //
 	///////////////////////////////
 
-	public NodePD(List<Vehicle> vehiclesList, Task[] tasks) {
+	public NodePD(List<MyVehicle> vehiclesList, Task[] tasks) {
 		this.tasks = tasks;
 		this.vehiclesList = vehiclesList;
 		this.Nt = tasks.length;
@@ -42,7 +43,7 @@ public class NodePD implements Comparator<NodePD>, Comparable<NodePD>{
 	}
 
 
-	public NodePD(int[] nextTask, int[] previousTask, int[] times, int[] vehicles, int[] load, int Nt, int Nv, List<Vehicle> vehiclesList, Task[] tasks) {
+	public NodePD(int[] nextTask, int[] previousTask, int[] times, int[] vehicles, int[] load, int Nt, int Nv, List<MyVehicle> vehiclesList, Task[] tasks) {
 		this.tasks = tasks;
 		this.vehiclesList = vehiclesList;
 		this.nextAction = nextTask;
@@ -56,7 +57,7 @@ public class NodePD implements Comparator<NodePD>, Comparable<NodePD>{
 		this.OValue = -1;
 	}
 
-	private NodePD(int[] nextTask, int[] previousTask, int[] times, int[] vehicles, int[] load, int Nt, int Nv, List<Vehicle> vehiclesList, Task[] tasks, double v) {
+	private NodePD(int[] nextTask, int[] previousTask, int[] times, int[] vehicles, int[] load, int Nt, int Nv, List<MyVehicle> vehiclesList, Task[] tasks, double v) {
 		this.tasks = tasks;
 		this.vehiclesList = vehiclesList;
 		this.nextAction = nextTask;
@@ -93,7 +94,7 @@ public class NodePD implements Comparator<NodePD>, Comparable<NodePD>{
 	}
 
 
-	public double getOValue(Task[] tasks, List<Vehicle> vehicles) {
+	public double getOValue(Task[] tasks, List<MyVehicle> vehicles) {
 		if (OValue == -1) return this.computeOValue(tasks, vehicles);
 		else return OValue;
 	}
@@ -104,7 +105,7 @@ public class NodePD implements Comparator<NodePD>, Comparable<NodePD>{
 	}
 
 	// vladman
-	private double computeOValue(Task[] tasks, List<Vehicle> vehicles) {
+	private double computeOValue(Task[] tasks, List<MyVehicle> vehicles) {
 
 		// objective function
 		double C = 0;
@@ -113,7 +114,7 @@ public class NodePD implements Comparator<NodePD>, Comparable<NodePD>{
 			if (this.nextAction(t)!=-1) {
 				Task t1 = tasks[t%Nt];
 				Task t2 = tasks[this.nextAction(t)%Nt];
-				Vehicle vehicle = vehicles.get(this.getVehicle(t));
+				MyVehicle vehicle = vehicles.get(this.getVehicle(t));
 				City c1 = t1.pickupCity;
 				if(t>=Nt) c1 = t1.deliveryCity;
 				City c2 = t2.pickupCity;
@@ -126,7 +127,7 @@ public class NodePD implements Comparator<NodePD>, Comparable<NodePD>{
 		for (int v = 0; v<Nv; v++) {
 			if (this.nextAction(v+Na)!=-1) {
 				Task firstTask = tasks[this.nextAction(v+Na)];
-				Vehicle vehicle = vehicles.get(v);
+				MyVehicle vehicle = vehicles.get(v);
 				City vCity = vehicle.getCurrentCity();
 				City pickUp = firstTask.pickupCity;
 				C += vCity.distanceTo(pickUp)*vehicle.costPerKm();
