@@ -399,7 +399,7 @@ public class AgentMerge implements AuctionBehavior {
 	private void updateWeightConf(){
 		if(proposed!=0){
 			int bestConf =0;
-			double bestVar = Double.MAX_VALUE;
+			double bestVar = 0;
 			//compute mean
 			double[] mean = new double[Nconf] ;
 			for(int conf = 0; conf<Nconf ; conf++){
@@ -429,7 +429,7 @@ public class AgentMerge implements AuctionBehavior {
 			for(int conf = 0; conf<Nconf ; conf++){
 				var[conf] =  (double) (var[conf]/(ratio[conf].size()-1.0));
 				//find best variance
-				if(var[conf]<=bestVar){
+				if(var[conf]>=bestVar){
 					bestVar = var[conf];
 					bestConf = conf;
 				}
@@ -450,7 +450,7 @@ public class AgentMerge implements AuctionBehavior {
 					//print("not best conf");
 					//print(conf);
 					//print(weightConf[conf]);
-					weightConf[conf] -= ((double)Nconf/2.0)/(((double)Nconf-1.0));
+					weightConf[conf] -= ((double)Nconf)/(((double)Nconf)-1.0);
 					//print( (((double)Nconf)/2.0)/(((double)Nconf)-1.0) );
 				}
 				if(weightConf[conf]<=0){

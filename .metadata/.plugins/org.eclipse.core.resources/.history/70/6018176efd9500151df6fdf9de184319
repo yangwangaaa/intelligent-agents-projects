@@ -162,7 +162,7 @@ public class AgentMerge implements AuctionBehavior {
 		}
 		//print("setup");
 		for(int i=0 ; i<Nconf ; i++){
-			weightConf[i]=(double) Nconf/2;
+			weightConf[i]=(double) Nconf/4;
 			ratio[i] = new ArrayList<Double>();
 			mc2[i] = new ArrayList<Double>();
 			for(int j=0 ; j<Nst ; j++){				
@@ -269,19 +269,20 @@ public class AgentMerge implements AuctionBehavior {
 		updateMc2(task);
 		//print("after updateMc2");
 		printMc2();
-
+		
 		//STRATE1
 		//updateAllBids();
 		//findBestStrategy();
 		//updateBestBid1general();
-
+		
 		//STRATE2
-		//print("before updateBestMarginalCost2");	
+		//print("before updateBestMarginalCost");
+		
 		updateBestMc2();
 		printWeightConf();
+		print(bestMc2);
+		//print("after updateBestMarginalCost");
 		print("best Mc2 =" + ((Double)bestMc2).toString());
-		//print("after updateBestMarginalCost2");
-
 		//print("before updateBestBid1");
 		updateBestBid1();
 		//print("after updateBestBid1");
@@ -294,7 +295,7 @@ public class AgentMerge implements AuctionBehavior {
 		print("AGENTMERGE : BIDDING TASK " + task.id + ", Bid = " + Math.round(b) + ", in " + duration + " sec");
 		print("");
 		return (long) bestBid1;
-
+		
 	}
 
 
@@ -397,68 +398,67 @@ public class AgentMerge implements AuctionBehavior {
 
 
 	private void updateWeightConf(){
-		if(proposed!=0){
-			int bestConf =0;
-			double bestVar = Double.MAX_VALUE;
-			//compute mean
-			double[] mean = new double[Nconf] ;
-			for(int conf = 0; conf<Nconf ; conf++){
-				mean[conf]=0;
-			}
-			for(int conf = 0; conf<Nconf ; conf++){
-				for(int prop =0; prop<ratio[conf].size() ;prop++){
-					mean[conf] += ratio[conf].get(prop);
-				}
-			}
-			for(int conf = 0; conf<Nconf ; conf++){
-				mean[conf] = mean[conf]/ratio[conf].size();
-			}
-			//print("mean ratio conf 1");
-			//print(mean[0]);
-			//compute variance
-			double[] var = new double[Nconf] ;
-			for(int conf = 0; conf<Nconf ; conf++){
-				var[conf]=0;
-			}
-			for(int conf = 0; conf<Nconf ; conf++){
-				for(int prop =0; prop<ratio[conf].size() ;prop++){
-					double square = (double) Math.pow( (ratio[conf].get(prop) - mean[conf]), 2);
-					var[conf] += square;
-				}
-			}
-			for(int conf = 0; conf<Nconf ; conf++){
-				var[conf] =  (double) (var[conf]/(ratio[conf].size()-1.0));
-				//find best variance
-				if(var[conf]<=bestVar){
-					bestVar = var[conf];
-					bestConf = conf;
-				}
-			}
-			//print("----");
-			printRatio();
-			print("----");
-			print("variances = "+Arrays.toString(var));
 
-			//update weights
-			for(int conf = 0; conf<Nconf ; conf++){
-
-				if(conf == bestConf){
-					//print("best conf");
-					//print(conf);
-					weightConf[conf] += ((double)Nconf)/2.0 + 1.0;//éviter d'augmenter que de 0
-				}else{
-					//print("not best conf");
-					//print(conf);
-					//print(weightConf[conf]);
-					weightConf[conf] -= ((double)Nconf/2.0)/(((double)Nconf-1.0));
-					//print( (((double)Nconf)/2.0)/(((double)Nconf)-1.0) );
-				}
-				if(weightConf[conf]<=0){
-					weightConf[conf] = 0;
-				}
-			}
-			print("weights for the conf = "+Arrays.toString(weightConf));
+		int bestConf =0;
+		double bestVar = 0;
+		//compute mean
+		double[] mean = new double[Nconf] ;
+		for(int conf = 0; conf<Nconf ; conf++){
+			mean[conf]=0;
 		}
+		for(int conf = 0; conf<Nconf ; conf++){
+			for(int prop =0; prop<ratio[conf].size() ;prop++){
+				mean[conf] += ratio[conf].get(prop);
+			}
+		}
+		for(int conf = 0; conf<Nconf ; conf++){
+			mean[conf] = mean[conf]/ratio[conf].size();
+		}
+		//print("mean ratio conf 1");
+		//print(mean[0]);
+		//compute variance
+		double[] var = new double[Nconf] ;
+		for(int conf = 0; conf<Nconf ; conf++){
+			var[conf]=0;
+		}
+		for(int conf = 0; conf<Nconf ; conf++){
+			for(int prop =0; prop<ratio[conf].size() ;prop++){
+				double square = (double) Math.pow( (ratio[conf].get(prop) - mean[conf]), 2);
+				var[conf] += square;
+			}
+		}
+		for(int conf = 0; conf<Nconf ; conf++){
+			var[conf] =  (double) (var[conf]/(ratio[conf].size()-1.0));
+			//find best variance
+			if(var[conf]>=bestVar){
+				bestVar = var[conf];
+				bestConf = conf;
+			}
+		}
+		//print("----");
+		printRatio();
+		print("----");
+		print("variances = "+Arrays.toString(var));
+		
+		//update weights
+		for(int conf = 0; conf<Nconf ; conf++){
+			 
+			if(conf == bestConf){
+				//print("best conf");
+				//print(conf);
+				weightConf[conf] += ((double)Nconf)/2.0 + 1.0;//éviter d'augmenter que de 0
+			}else{
+				//print("not best conf");
+				//print(conf);
+				//print(weightConf[conf]);
+				weightConf[conf] -= ((double)Nconf)/(((double)Nconf)-1.0);
+				//print( (((double)Nconf)/2.0)/(((double)Nconf)-1.0) );
+			}
+			if(weightConf[conf]<=0){
+				weightConf[conf] = 0;
+			}
+		}
+		print("weights for the conf = "+Arrays.toString(weightConf));
 
 	}
 
@@ -542,7 +542,7 @@ public class AgentMerge implements AuctionBehavior {
 		}
 	}
 	public void printMc1(){
-		System.out.println("table mc1 = "+mc1.toString());
+		System.out.println(mc1.toString());
 	}
 	public void printRatio(){
 		print("TABLE RATIO");
@@ -555,7 +555,7 @@ public class AgentMerge implements AuctionBehavior {
 	public void printWeightConf(){
 		System.out.println("weightConf = "+Arrays.toString(weightConf));
 	}
-
+	
 }
 
 /*
