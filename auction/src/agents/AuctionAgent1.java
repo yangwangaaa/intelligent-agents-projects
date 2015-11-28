@@ -85,7 +85,7 @@ public class AuctionAgent1 implements AuctionBehavior {
 		// this code is used to get the timeouts
 		LogistSettings ls = null;
 		try {
-			ls = Parsers.parseSettings("config/settings_default.xml");
+			ls = Parsers.parseSettings("config/settings_auction.xml");
 		}
 		catch (Exception exc) {
 			System.out.println("There was a problem loading the configuration file.");
@@ -137,7 +137,7 @@ public class AuctionAgent1 implements AuctionBehavior {
 		
 		
 		bid = (long) 800;
-		print("AGENT 2 : BIDDING TASK " + task.id + ", Bid = " + Math.round(bid));
+		print("AGENT 1 : BIDDING TASK " + task.id + ", Bid = " + Math.round(bid));
 
 		meanBid += bid;
 		return (long) Math.round(bid);
@@ -193,8 +193,9 @@ public class AuctionAgent1 implements AuctionBehavior {
 
 		long time_end = System.currentTimeMillis();
 		long duration = time_end - time_start;
-		System.out.println("The plan was generated in "+duration+" milliseconds.");
-
+		System.out.println("The plan SLS was generated in "+duration+" milliseconds.");
+		
+		
 		int totalCost = 0;
 		int totalDist = 0;
 		int v = 0;

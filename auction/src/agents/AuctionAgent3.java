@@ -118,7 +118,7 @@ public class AuctionAgent3 implements AuctionBehavior {
 		timeout_plan = ls.get(LogistSettings.TimeoutKey.PLAN);
 
 		timeout_bid = ls.get(LogistSettings.TimeoutKey.BID);
-		timeout_bid*=0.95*timeout_bid;
+		//timeout_bid*=0.95*timeout_bid;
 		// int numA = ls.get(LogistSettings.SizeKey.NUMBER_OF_AGENTS);
 		// int numT = ls.get(LogistSettings.SizeKey.NUMBER_OF_TASKS);
 		//print("number of tasks = " + numT + " and number of agents = " + numA);
@@ -185,6 +185,8 @@ public class AuctionAgent3 implements AuctionBehavior {
 	}
 
 	private void computeMarginalCost(Task task) {
+		long actualTime = System.currentTimeMillis();
+		long duration;
 		int num = 3;
 		for(int i=0; i<numA; i++) {
 			if(i!=id) {
@@ -197,6 +199,8 @@ public class AuctionAgent3 implements AuctionBehavior {
 					List<MyVehicle> vl = generateRandomVehicles(cities, capacities);
 					NodePD lastSolution = sls.RunSLS(vl, tasks.toArray(new Task[tasks.size()]), timeout_bid/numA/num, null);
 					mg += lastSolution.getOValue();
+					duration = System.currentTimeMillis() - actualTime;
+					print("numA=" + i + ", num=" + j + ", duration=" + duration);
 				}
 				lastSolutionsValue[i].add((mg/num));
 				marginalCosts[i].add(lastSolutionsValue[i].get(lastTask) - bestSolutionsValue[i].get(lastTask));
@@ -209,6 +213,8 @@ public class AuctionAgent3 implements AuctionBehavior {
 				NodePD lastSolution = sls.RunSLS(vehiclesList, newTasks.toArray(new Task[newTasks.size()]), timeout_bid/numA, null);
 				lastSolutionsValue[i].add(lastSolution.getOValue());
 				marginalCosts[i].add(lastSolutionsValue[id].get(lastTask) - bestSolutionsValue[id].get(lastTask));
+				duration = System.currentTimeMillis() - actualTime;
+				print("numA=" + i + ", duration=" + duration);
 			}
 		}
 	}

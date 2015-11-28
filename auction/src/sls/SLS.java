@@ -31,6 +31,7 @@ public class SLS {
 	private Agent agent;
 	private double timeout_plan;
 	private double time_start;
+	private double finalTime = 0;
 
 	private List<MyVehicle> vehiclesList; 
 	private Task[] tasks;
@@ -40,7 +41,7 @@ public class SLS {
 	private int Na;
 
 	private double p = 0.5; // probability used for localChoice
-	private int numIt = 20000;
+	private int numIt = 50000;
 	private Random random;
 	private int n = 5;
 	private int firstV = 0;
@@ -96,6 +97,7 @@ public class SLS {
 				double duration = System.currentTimeMillis() - time_start;
 				if(duration>0.95*timeout_plan) {
 					//print("!!!!!!!!!!!!! TIMEOUT, WE SHOULD RETURN FINAL RESULT !!!!!!!!!!!!");
+					print("FINAL SOLUTION="+bestGlobal.getOValue() + ", in " + finalTime + "/" + duration + "sec, (max="+ timeout_plan + "), for " + tasksSet.length + " tasks");
 					return bestGlobal;
 				}
 				NodePD Aold = A;
@@ -112,8 +114,14 @@ public class SLS {
 
 			//print("BEST CHOOSEN AT V = " + v);
 			//localBest.print();
-			if(localBest.getOValue(tasks, vehiclesList) < bestGlobal.getOValue(tasks, vehiclesList)) bestGlobal = localBest;
+			if(localBest.getOValue(tasks, vehiclesList) < bestGlobal.getOValue(tasks, vehiclesList)) {
+				bestGlobal = localBest;
+				double duration = System.currentTimeMillis() - time_start;
+				finalTime = duration;
+			}
 		}
+		double duration = System.currentTimeMillis() - time_start;
+		print("FINAL SOLUTION="+bestGlobal.getOValue() + ", in " + finalTime + "/" + duration + "sec, (max="+ timeout_plan + "), for " + tasksSet.length + " tasks");
 		return bestGlobal;
 	}
 
@@ -257,7 +265,11 @@ public class SLS {
 							if(tasks[a].weight <= vehiclesList.get(vi).capacity()) { // no vehicle change if first task too heavy for all other vehicles
 								NodePD A = changingVehicle(Aold, vi, vj, p1, tIdx1, tIdx2);
 								if(A!=null) {
-									if(A.getOValue(tasks, vehiclesList) < bestGlobal.getOValue(tasks, vehiclesList)) bestGlobal = A;
+									if(A.getOValue(tasks, vehiclesList) < bestGlobal.getOValue(tasks, vehiclesList)) {
+										bestGlobal = A;
+										double duration = System.currentTimeMillis() - time_start;
+										finalTime = duration;
+									}
 									//add(Pr, A);
 									N.add(A);
 									//A.print();
@@ -276,7 +288,11 @@ public class SLS {
 				for (int tIdx2=tIdx1+1; tIdx2<length; tIdx2++) {
 					NodePD A = changingTaskOrder(Aold, vi, tIdx1, tIdx2);
 					if(A!=null) {
-						if(A.getOValue(tasks, vehiclesList) < bestGlobal.getOValue(tasks, vehiclesList)) bestGlobal = A;
+						if(A.getOValue(tasks, vehiclesList) < bestGlobal.getOValue(tasks, vehiclesList)) {
+							bestGlobal = A;
+							double duration = System.currentTimeMillis() - time_start;
+							finalTime = duration;
+						}
 						//add(Pr, A);
 						N.add(A);
 						//A.print();
