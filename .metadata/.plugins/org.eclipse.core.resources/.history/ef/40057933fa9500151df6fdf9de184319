@@ -316,7 +316,7 @@ public class AgentMerge implements AuctionBehavior {
 					mc2[conf].add(500.0);
 
 				}else{
-					mc2[conf].add( 1500.0);
+					mc2[conf].add( 500.0);
 				}
 			}
 		}
@@ -375,7 +375,7 @@ public class AgentMerge implements AuctionBehavior {
 				bid1.add((double)bids[agent.id()]); //TODO cast en double problème?
 				//print("Array bid1 = "+bid1.toString());
 			}else{
-				print("ennemy's bid = "+((Long)bids[i]).toString());
+				print("ennemy's bid"+((Long)bids[i]).toString());
 				ennemy = i;
 				bid2.add((double)bids[i]);
 			}
@@ -411,8 +411,8 @@ public class AgentMerge implements AuctionBehavior {
 		for(int conf = 0; conf<Nconf ; conf++){
 			mean[conf] = mean[conf]/ratio[conf].size();
 		}
-		//print("mean ratio conf 1");
-		//print(mean[0]);
+		print("mean ratio conf 1");
+		print(mean[0]);
 		//compute variance
 		double[] var = new double[Nconf] ;
 		for(int conf = 0; conf<Nconf ; conf++){
@@ -432,11 +432,10 @@ public class AgentMerge implements AuctionBehavior {
 				bestConf = conf;
 			}
 		}
-		//print("----");
-		printRatio();
 		print("----");
+		printRatio();
 		print("variances = "+Arrays.toString(var));
-		
+		print("----");
 		//update weights
 		for(int conf = 0; conf<Nconf ; conf++){
 			 
