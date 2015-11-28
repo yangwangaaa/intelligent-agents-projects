@@ -1,0 +1,13 @@
+package other;
+
+import logist.topology.Topology.City;
+
+
+public class MyTask {
+	private City deliveryCity;
+	private int id;
+	private City pickupCity;
+	private long reward;
+	private int weight;
+	private double proba;
+}

@@ -29,8 +29,8 @@ public class SLS {
 	private Topology topology;
 	private TaskDistribution distribution;
 	private Agent agent;
-	private long timeout_plan;
-	private long time_start;
+	private double timeout_plan;
+	private double time_start;
 
 	private List<MyVehicle> vehiclesList; 
 	private Task[] tasks;
@@ -40,7 +40,7 @@ public class SLS {
 	private int Na;
 
 	private double p = 0.5; // probability used for localChoice
-	private int numIt = 5000;
+	private int numIt = 20000;
 	private Random random;
 	private int n = 5;
 	private int firstV = 0;
@@ -67,7 +67,9 @@ public class SLS {
 	//               SLS                //
 	//////////////////////////////////////
 	
-	public NodePD RunSLS(List<MyVehicle> vehicles, Task[] tasksSet, long timeout_plan, NodePD bestSolution) {
+	public NodePD RunSLS(List<MyVehicle> vehicles, Task[] tasksSet, double timeout_plan, NodePD bestSolution) {
+		
+		if(tasksSet.length==0) return null;
 		
 		// TODO handle bestSolutions
 		this.time_start = System.currentTimeMillis();
@@ -83,6 +85,7 @@ public class SLS {
 		for(int v = 0; v<Nv+1; v++) {
 			//print("SLS for #" + v);
 			NodePD A = selectInitialSolution(v);
+			if(A == null) return null;
 			if(bestGlobal==null) bestGlobal = A;
 			//A.getOValue(tasks, vehiclesList);
 			//A.print();
@@ -90,7 +93,7 @@ public class SLS {
 			NodePD localBest = A;
 			int i = 0;
 			while(i < numIt) {
-				long duration = System.currentTimeMillis() - time_start;
+				double duration = System.currentTimeMillis() - time_start;
 				if(duration>0.95*timeout_plan) {
 					//print("!!!!!!!!!!!!! TIMEOUT, WE SHOULD RETURN FINAL RESULT !!!!!!!!!!!!");
 					return bestGlobal;

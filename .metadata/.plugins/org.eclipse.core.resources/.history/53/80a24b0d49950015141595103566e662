@@ -1,0 +1,29 @@
+package other;
+
+import logist.task.Task;
+
+
+public class MyTask {
+	private Task t;
+	private double proba;
+	
+	public MyTask(Task t, double proba) {
+		super();
+		this.t = t;
+		this.proba = proba;
+	}
+	public Task getT() {
+		return t;
+	}
+	public void setT(Task t) {
+		this.t = t;
+	}
+	public double getProba() {
+		return proba;
+	}
+	public void setProba(double proba) {
+		this.proba = proba;
+	}
+	
+	
+}
