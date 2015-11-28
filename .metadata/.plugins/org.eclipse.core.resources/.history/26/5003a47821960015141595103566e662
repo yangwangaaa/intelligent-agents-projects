@@ -97,7 +97,7 @@ public class SLS {
 				double duration = System.currentTimeMillis() - time_start;
 				if(duration>0.95*timeout_plan) {
 					//print("!!!!!!!!!!!!! TIMEOUT, WE SHOULD RETURN FINAL RESULT !!!!!!!!!!!!");
-					//print("FINAL SOLUTION="+bestGlobal.getOValue() + ", in " + finalTime + "/" + duration + "sec, (max="+ timeout_plan + "), for " + tasksSet.length + " tasks");
+					print("FINAL SOLUTION="+bestGlobal.getOValue() + ", in " + finalTime + "/" + duration + "sec, (max="+ timeout_plan + "), for " + tasksSet.length + " tasks");
 					return bestGlobal;
 				}
 				NodePD Aold = A;
@@ -121,7 +121,7 @@ public class SLS {
 			}
 		}
 		double duration = System.currentTimeMillis() - time_start;
-		//print("FINAL SOLUTION="+bestGlobal.getOValue() + ", in " + finalTime + "/" + duration + "sec, (max="+ timeout_plan + "), for " + tasksSet.length + " tasks");
+		print("FINAL SOLUTION="+bestGlobal.getOValue() + ", in " + finalTime + "/" + duration + "sec, (max="+ timeout_plan + "), for " + tasksSet.length + " tasks");
 		return bestGlobal;
 	}
 

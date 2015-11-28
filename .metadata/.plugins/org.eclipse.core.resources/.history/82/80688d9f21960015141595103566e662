@@ -443,7 +443,7 @@ public class AgentMerge implements AuctionBehavior {
 			for(City c2 : topology.cities()) {
 				if(!c1.equals(c2)) {
 					double proba = distribution.probability(c1, c2);
-					//print("C1=" + c1.name + " to C2=" + c2.name + " have proba : " + proba);
+					print("C1=" + c1.name + " to C2=" + c2.name + " have proba : " + proba);
 					MyTask t = new MyTask(i, c1, c2, distribution.reward(c1, c2), distribution.weight(c1, c2), proba);
 					allPossibleTasks.add(t);
 					i++;
@@ -458,13 +458,13 @@ public class AgentMerge implements AuctionBehavior {
 		int i = 0;
 		if(n<1) return tasks;
 		else {
-			//print("SUPP=");
+			print("SUPP=");
 			int count = 0;
 			while(count!=n) {
 				MyTask t = allPossibleTasks.get(i);
 				if(t.notIn(proposedTasks)) {
 					Task tk = t.generateTask(proposed+1+count);
-					//print(tk + " proba=" + t.getProba());
+					print(tk + " proba=" + t.getProba());
 					tasks.add(tk);
 					count++;
 				}

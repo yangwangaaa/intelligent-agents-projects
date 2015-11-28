@@ -158,86 +158,6 @@ public class AuctionAgent4 implements AuctionBehavior {
 
 		createMostProbableTasks();
 	}
-	
-	//////////////////////////////////////
-	//             PLANNING             //
-	//////////////////////////////////////
-
-	@Override
-	public List<Plan> plan(List<Vehicle> vcls, TaskSet tasksSet) {
-
-		if(vcls.size()==0) {
-			List<Plan> plans = new ArrayList<Plan>();
-			return plans;
-		}
-
-		List<MyVehicle> vehicles = MyVehicle.transform(vcls);
-
-
-		time_start = System.currentTimeMillis();
-		this.vehiclesList = vehicles;
-		this.tasks = tasksSet.toArray(new Task[tasksSet.size()]);
-		this.Nv = vehiclesList.size();
-		List<Plan> plans;
-
-		if(tasksSet.size() == 0) {
-			print("TASKS SIZE == 0");
-
-			plans = new ArrayList<Plan>();
-
-			for(int v = 0 ; v<Nv ; v++){ // for each vehicle
-				City current = vehiclesList.get(v).getCurrentCity();
-				Plan plan = new Plan(current);
-
-				plans.add(plan);
-			}
-			return plans;
-		}
-
-
-		NodePD bestSolution = sls.RunSLS(vehicles, tasks, timeout_plan, null);
-
-		plans = sls.computeFinalPlan(bestSolution);
-
-
-		double time_end = System.currentTimeMillis();
-		double duration = time_end - time_start;
-		System.out.println("The plan was generated in "+duration+" milliseconds.");
-
-		int totalCost = 0;
-		int totalDist = 0;
-		int v = 0;
-		for (Plan plan : plans) {
-			totalDist+=plan.totalDistance();
-			totalCost+=plan.totalDistance()*vehicles.get(v).costPerKm();
-			v++;
-		}
-
-		//print("MEAN BID = " + meanBid[id]/allBids[id].size());
-		print("Bids : ");
-		int c = 0;
-		for(ArrayList<Long> bids : allBids) {
-			System.out.print("Agent " + c + ":");
-			for(Long bid : bids) {
-				System.out.print("  " + bid);
-			}
-			System.out.println("");
-			c++;
-		}
-		print("");
-		print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		print("AGENT4 : number of tasks = " + tasksSet.size());
-		print("FINAL DISTANCE = " + totalDist);
-		print("FINAL COST2 = " + bestSolution.getOValue());
-		print("FINAL REWARD = " + tasksSet.rewardSum());
-		print("FINAL PROFIT = " + (tasksSet.rewardSum()-totalCost));
-
-		for(int a=0; a<numA; a++) {
-			printInfoAgent(a);
-		}
-		print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		return plans;
-	}
 
 	//////////////////////////////////////
 	//             BIDING              //
@@ -381,6 +301,85 @@ public class AuctionAgent4 implements AuctionBehavior {
 		return vl;
 	}
 
+	//////////////////////////////////////
+	//             PLANNING             //
+	//////////////////////////////////////
+
+	@Override
+	public List<Plan> plan(List<Vehicle> vcls, TaskSet tasksSet) {
+
+		if(vcls.size()==0) {
+			List<Plan> plans = new ArrayList<Plan>();
+			return plans;
+		}
+
+		List<MyVehicle> vehicles = MyVehicle.transform(vcls);
+
+
+		time_start = System.currentTimeMillis();
+		this.vehiclesList = vehicles;
+		this.tasks = tasksSet.toArray(new Task[tasksSet.size()]);
+		this.Nv = vehiclesList.size();
+		List<Plan> plans;
+
+		if(tasksSet.size() == 0) {
+			print("TASKS SIZE == 0");
+
+			plans = new ArrayList<Plan>();
+
+			for(int v = 0 ; v<Nv ; v++){ // for each vehicle
+				City current = vehiclesList.get(v).getCurrentCity();
+				Plan plan = new Plan(current);
+
+				plans.add(plan);
+			}
+			return plans;
+		}
+
+
+		NodePD bestSolution = sls.RunSLS(vehicles, tasks, timeout_plan, null);
+
+		plans = sls.computeFinalPlan(bestSolution);
+
+
+		double time_end = System.currentTimeMillis();
+		double duration = time_end - time_start;
+		System.out.println("The plan was generated in "+duration+" milliseconds.");
+
+		int totalCost = 0;
+		int totalDist = 0;
+		int v = 0;
+		for (Plan plan : plans) {
+			totalDist+=plan.totalDistance();
+			totalCost+=plan.totalDistance()*vehicles.get(v).costPerKm();
+			v++;
+		}
+
+		//print("MEAN BID = " + meanBid[id]/allBids[id].size());
+		print("Bids : ");
+		int c = 0;
+		for(ArrayList<Long> bids : allBids) {
+			System.out.print("Agent " + c + ":");
+			for(Long bid : bids) {
+				System.out.print("  " + bid);
+			}
+			System.out.println("");
+			c++;
+		}
+		print("");
+		print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		print("AGENT4 : number of tasks = " + tasksSet.size());
+		print("FINAL DISTANCE = " + totalDist);
+		print("FINAL COST2 = " + bestSolution.getOValue());
+		print("FINAL REWARD = " + tasksSet.rewardSum());
+		print("FINAL PROFIT = " + (tasksSet.rewardSum()-totalCost));
+
+		for(int a=0; a<numA; a++) {
+			printInfoAgent(a);
+		}
+		print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		return plans;
+	}
 
 	//////////////////////////////////////
 	//              OTHERS              //
@@ -411,7 +410,7 @@ public class AuctionAgent4 implements AuctionBehavior {
 			for(City c2 : topology.cities()) {
 				if(!c1.equals(c2)) {
 					double proba = distribution.probability(c1, c2);
-					//print("C1=" + c1.name + " to C2=" + c2.name + " have proba : " + proba);
+					print("C1=" + c1.name + " to C2=" + c2.name + " have proba : " + proba);
 					MyTask t = new MyTask(i, c1, c2, distribution.reward(c1, c2), distribution.weight(c1, c2), proba);
 					P.add(t);
 					i++;
@@ -426,13 +425,13 @@ public class AuctionAgent4 implements AuctionBehavior {
 		int i = 0;
 		if(n<1) return tasks;
 		else {
-			//print("SUPP=");
+			print("SUPP=");
 			int count = 0;
 			while(count!=n) {
 				MyTask t = P.get(i);
 				if(t.notIn(allTasks)) {
 					Task tk = t.generateTask(lastTask+1+count);
-					//print(tk + " proba=" + t.getProba());
+					print(tk + " proba=" + t.getProba());
 					tasks.add(tk);
 					count++;
 				}

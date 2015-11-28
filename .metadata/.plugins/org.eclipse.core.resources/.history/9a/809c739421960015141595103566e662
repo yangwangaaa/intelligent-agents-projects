@@ -426,13 +426,13 @@ public class AuctionAgent4 implements AuctionBehavior {
 		int i = 0;
 		if(n<1) return tasks;
 		else {
-			//print("SUPP=");
+			print("SUPP=");
 			int count = 0;
 			while(count!=n) {
 				MyTask t = P.get(i);
 				if(t.notIn(allTasks)) {
 					Task tk = t.generateTask(lastTask+1+count);
-					//print(tk + " proba=" + t.getProba());
+					print(tk + " proba=" + t.getProba());
 					tasks.add(tk);
 					count++;
 				}

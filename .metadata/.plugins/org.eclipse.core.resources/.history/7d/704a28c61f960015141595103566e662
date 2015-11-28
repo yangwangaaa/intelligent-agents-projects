@@ -386,13 +386,13 @@ public class AgentMerge implements AuctionBehavior {
 				tasks2Clone.add(task);	
 				NodePD lastSolution2 = sls.RunSLS(vl, tasks2Clone.toArray(new Task[tasks2Clone.size()]), timeout_opponent/2, null);
 				best2[j].set(proposed, bestSolution2.getOValue());
-				last2[j].add(lastSolution2.getOValue());
+				last2[j].set(proposed, lastSolution2.getOValue());
 				mc2[j].add(last2[j].get(proposed) - best2[j].get(proposed));
 			}
 			else {
 				tasks2Clone.add(task);	
 				NodePD lastSolution2 = sls.RunSLS(vl, tasks2Clone.toArray(new Task[tasks2Clone.size()]), timeout_opponent, null);
-				last2[j].add(lastSolution2.getOValue());
+				last2[j].set(proposed, lastSolution2.getOValue());
 				mc2[j].add(last2[j].get(proposed) - best2[j].get(proposed));
 			}
 		}
@@ -443,7 +443,7 @@ public class AgentMerge implements AuctionBehavior {
 			for(City c2 : topology.cities()) {
 				if(!c1.equals(c2)) {
 					double proba = distribution.probability(c1, c2);
-					//print("C1=" + c1.name + " to C2=" + c2.name + " have proba : " + proba);
+					print("C1=" + c1.name + " to C2=" + c2.name + " have proba : " + proba);
 					MyTask t = new MyTask(i, c1, c2, distribution.reward(c1, c2), distribution.weight(c1, c2), proba);
 					allPossibleTasks.add(t);
 					i++;
@@ -458,13 +458,13 @@ public class AgentMerge implements AuctionBehavior {
 		int i = 0;
 		if(n<1) return tasks;
 		else {
-			//print("SUPP=");
+			print("SUPP=");
 			int count = 0;
 			while(count!=n) {
 				MyTask t = allPossibleTasks.get(i);
 				if(t.notIn(proposedTasks)) {
 					Task tk = t.generateTask(proposed+1+count);
-					//print(tk + " proba=" + t.getProba());
+					print(tk + " proba=" + t.getProba());
 					tasks.add(tk);
 					count++;
 				}
@@ -544,6 +544,26 @@ public class AgentMerge implements AuctionBehavior {
 	//////////////////////////////////////
 	//             UPDATES              //
 	//////////////////////////////////////
+
+	private void updateStuctures(Task previous, int winner, Long[] bids) {
+
+		for(int i=0; i<numA; i++) {
+			if(i==winner) bestSolutionsValue[winner].add(lastSolutionsValue[winner].get(lastTask));
+			else bestSolutionsValue[i].add(bestSolutionsValue[i].get(lastTask));
+		}
+
+
+		for(int i=0; i<numA; i++) {
+			allBids[i].add(bids[i]);
+			if(i==winner) tasksResult[i].add(1);
+			else tasksResult[i].add(0);
+		}
+
+
+		totalReward[winner] += bids[winner];
+		listTasks[winner].add(previous);
+	}
+	
 	
 	private void updateStuctures(Task previous, int winner, Long[] bids) {
 
@@ -564,19 +584,9 @@ public class AgentMerge implements AuctionBehavior {
 		//winner
 		if (winner == agent.id()) {
 			carriedSize1++;
-			best1.add(last1.get(proposed));
-			for(int i=0; i<Nconf; i++) {
-				best2[i].add(best2[i].get(proposed));
-			}
-			tasks1.add(previous);
 			listWinner.add(agent.id());
 		}else{
 			carriedSize2++;
-			best1.add(best1.get(proposed));
-			for(int i=0; i<Nconf; i++) {
-				best2[i].add(last2[i].get(proposed));
-			}
-			tasks2.add(previous);
 			listWinner.add(ennemy);
 		}
 		//ratio
