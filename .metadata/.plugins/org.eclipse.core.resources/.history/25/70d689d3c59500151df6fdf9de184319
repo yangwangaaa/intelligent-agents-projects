@@ -284,7 +284,7 @@ public class AgentMerge implements AuctionBehavior {
 			if(conf == 0){mc2[conf].add((double) 1000);}
 			else{ 
 				if(proposed %2 == 0){
-					mc2[conf].add(500.0);
+					mc2[conf].add(500);
 					
 				}else{
 					mc2[conf].add((double) 500.0);
@@ -324,7 +324,7 @@ public class AgentMerge implements AuctionBehavior {
 
 
 	@Override
-	public void auctionResult(Task previous, int winner, Long[] bids) {
+	public void auctionResult(Task previous, int winner, Double[] bids) {
 		updateStuctures(previous, winner, bids);
 		//updateStrategies();
 		updateWeightConf();
@@ -335,21 +335,16 @@ public class AgentMerge implements AuctionBehavior {
 	//             UPDATES              //
 	//////////////////////////////////////
 	
-	private void updateStuctures(Task previous, int winner, Long[] bids) {
+	private void updateStuctures(Task previous, int winner, Double[] bids) {
 	
 		proposedTasks.add(previous);
 		int ennemy = 0;
 		for(int i = 0; i<bids.length ; i++){
 			if(i == agent.id()){
-				print("my bid was");
-				print(bids[agent.id()]);
-				print("en double:");
-				print((double)bids[agent.id()]);
-				bid1.add((double)bids[agent.id()]); //TODO cast en double problème?
+				bid1.add(bids[agent.id()]);
 			}else{
-				print("ennemy's bid");
 				ennemy = i;
-				bid2.add((double)bids[i]);
+				bid2.add(bids[i]);
 			}
 		}
 		print("ennemy id");
@@ -491,9 +486,6 @@ public class AgentMerge implements AuctionBehavior {
 	}
 	public void print(int s){
 		System.out.println(s);
-	}
-	public void print(long d){
-		System.out.println(d);
 	}
 	public void printMc2(){
 		print("table mc2:");

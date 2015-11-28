@@ -341,15 +341,10 @@ public class AgentMerge implements AuctionBehavior {
 		int ennemy = 0;
 		for(int i = 0; i<bids.length ; i++){
 			if(i == agent.id()){
-				print("my bid was");
-				print(bids[agent.id()]);
-				print("en double:");
-				print((double)bids[agent.id()]);
-				bid1.add((double)bids[agent.id()]); //TODO cast en double problème?
+				bid1.add(bids[agent.id()]);
 			}else{
-				print("ennemy's bid");
 				ennemy = i;
-				bid2.add((double)bids[i]);
+				bid2.add(bids[i]);
 			}
 		}
 		print("ennemy id");
@@ -491,9 +486,6 @@ public class AgentMerge implements AuctionBehavior {
 	}
 	public void print(int s){
 		System.out.println(s);
-	}
-	public void print(long d){
-		System.out.println(d);
 	}
 	public void printMc2(){
 		print("table mc2:");
