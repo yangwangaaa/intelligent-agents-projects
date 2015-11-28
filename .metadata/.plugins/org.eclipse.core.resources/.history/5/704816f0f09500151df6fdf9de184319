@@ -180,7 +180,6 @@ public class AgentMerge implements AuctionBehavior {
 
 	@Override
 	public List<Plan> plan(List<Vehicle> vcls, TaskSet tasksSet) {
-		print("----------- PLAN --------- ");
 		// init
 		this.vehiclesList = MyVehicle.transform(agent.vehicles());
 		List<Plan> plans;
@@ -354,7 +353,7 @@ public class AgentMerge implements AuctionBehavior {
 
 	@Override
 	public void auctionResult(Task previous, int winner, Long[] bids) {
-		print("---------- auctionResult proposed = "+((Integer) proposed).toString()+" agent is "+((Integer)agent.id()).toString()+" ----------");
+		print("---------- auctionResult for "+((Integer)agent.id()).toString()+" ----------");
 		updateStuctures(previous, winner, bids);
 		//updateStrategies();
 		updateWeightConf();
