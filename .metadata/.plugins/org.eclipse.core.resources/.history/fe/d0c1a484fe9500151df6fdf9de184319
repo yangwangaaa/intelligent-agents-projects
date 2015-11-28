@@ -450,7 +450,7 @@ public class AgentMerge implements AuctionBehavior {
 					//print("not best conf");
 					//print(conf);
 					//print(weightConf[conf]);
-					weightConf[conf] -= ((double)Nconf/2.0)/(((double)Nconf-1.0));
+					weightConf[conf] -= ((double)Nconf)/(((double)Nconf)-1.0);
 					//print( (((double)Nconf)/2.0)/(((double)Nconf)-1.0) );
 				}
 				if(weightConf[conf]<=0){
@@ -542,7 +542,7 @@ public class AgentMerge implements AuctionBehavior {
 		}
 	}
 	public void printMc1(){
-		System.out.println("table mc1 = "+mc1.toString());
+		System.out.println(mc1.toString());
 	}
 	public void printRatio(){
 		print("TABLE RATIO");
