@@ -40,10 +40,10 @@ public class AgentMerge implements AuctionBehavior {
 	private Random random;
 	private MyVehicle biggestVehicle;
 
-	private long timeout_setup;
-	private long timeout_plan;
-	private long time_start;
-	private long timeout_bid;
+	private double timeout_setup;
+	private double timeout_plan;
+	private double time_start;
+	private double timeout_bid;
 
 	private List<MyVehicle> vehiclesList; 
 	private Task[] tasks;
@@ -59,19 +59,19 @@ public class AgentMerge implements AuctionBehavior {
 	private int Nv;
 	private int id;
 	private int proposed = -1; //number of task proposed-1
-	private int Nst = 36;      //number of strategies
+	private int Nst = 49;      //number of strategies
 	private int Nconf = 3;    //number of configurations
-	private long totalReward1 = 0;
-	private long totalReward2 = 0;
+	private double totalReward1 = 0;
+	private double totalReward2 = 0;
 
-	private ArrayList<Long> mc1 = new ArrayList<Long>(); // v
-	private ArrayList<Long>[] mc2 = (ArrayList<Long>[]) new ArrayList[Nconf]; // x
+	private ArrayList<Double> mc1 = new ArrayList<Double>(); // v
+	private ArrayList<Double>[] mc2 = (ArrayList<Double>[]) new ArrayList[Nconf]; // x
 
-	private ArrayList<Long> last1 = new ArrayList<Long>(); // v
-	private ArrayList<Long>[] last2 = (ArrayList<Long>[]) new ArrayList[Nconf]; // x
+	private ArrayList<Double> last1 = new ArrayList<Double>(); // v
+	private ArrayList<Double>[] last2 = (ArrayList<Double>[]) new ArrayList[Nconf]; // x
 
-	private ArrayList<Long> best1 = new ArrayList<Long>(); // v
-	private ArrayList<Long>[] best2 = (ArrayList<Long>[]) new ArrayList[Nconf]; // x
+	private ArrayList<Double> best1 = new ArrayList<Double>(); // v
+	private ArrayList<Double>[] best2 = (ArrayList<Double>[]) new ArrayList[Nconf]; // x
 
 	private ArrayList<Task> tasks1 = new ArrayList<Task>(); // v
 	private ArrayList<Task> tasks2 = new ArrayList<Task>(); // v
@@ -79,18 +79,21 @@ public class AgentMerge implements AuctionBehavior {
 	private ArrayList<Task> proposedTasks = new ArrayList<Task>(); // v
 	private ArrayList<Integer> listWinner = new ArrayList<Integer>(); // v
 
-	private ArrayList<Long> bid1= new ArrayList<Long>() ; // v
-	private ArrayList<Long> bid2= new ArrayList<Long>() ; // v
+	private ArrayList<Double> bid1= new ArrayList<Double>() ; // v
+	private ArrayList<Double> bid2= new ArrayList<Double>() ; // v
 
-	private ArrayList<Double>[][] ratio = (ArrayList<Double>[][]) new ArrayList[Nconf][Nst]; // v
-	private ArrayList<Long>[][] allBid1 = (ArrayList<Long>[][]) new ArrayList[Nconf][Nst]; // v
+	private ArrayList<Double>[] ratio = (ArrayList<Double>[]) new ArrayList[Nconf]; // v
+	private ArrayList<Double>[][] allBid1 = (ArrayList<Double>[][]) new ArrayList[Nconf][Nst]; // v
 
 	private Strategy[][] strategies = new Strategy[Nconf][Nst];	 // v
 	private Configuration[] configurations = new Configuration[Nconf]; // v
 
 	private double[][] weights = new double[Nconf][Nst];
-
-
+	private double[] weightConf = new double[Nconf];
+	private double bestBid1;
+	private double bestMc2;
+	
+	private int ennemy;
 	//////////////////////////////////////
 	//              MAIN                //
 	//////////////////////////////////////
@@ -98,7 +101,7 @@ public class AgentMerge implements AuctionBehavior {
 	@Override
 	public void setup(Topology topology, TaskDistribution distribution,
 			Agent agent) {
-
+		
 		// Init basic structures
 		this.topology = topology;
 		this.distribution = distribution;
@@ -120,7 +123,7 @@ public class AgentMerge implements AuctionBehavior {
 		// Init timeouts
 		LogistSettings ls = null;
 		try {
-			ls = Parsers.parseSettings("config/settings_default.xml");
+			ls = Parsers.parseSettings("config/settings_auction.xml");
 		}
 		catch (Exception exc) {
 			System.out.println("There was a problem loading the configuration file.");
@@ -130,28 +133,44 @@ public class AgentMerge implements AuctionBehavior {
 		timeout_bid = ls.get(LogistSettings.TimeoutKey.BID);
 		timeout_bid*=0.95*timeout_bid;
 
-
+		print("setup");
 		// Init strategy structures
 		for(int conf=0 ; conf<Nconf ; conf++){
-			Nst = 0; // 36?
-			for(double factor = 1; factor <= 1.5 ; factor +=0.1){ // 6
-				for(double a=0; a<= 0.5; a+=0.25){ // 3
-					for(double uf = 0,  ufl = 0; uf <= 1; uf+=0.5 , ufl+=0.5){ // 3
-						for(double uuf = 0,  uufl = 0; uuf <= 1; uuf+=0.5 , uufl+=0.5){
-							strategies[conf][Nst] = new Strategy(factor,a,uf,ufl,uuf,uufl,Nst);
-							Nst+=1;
+			Nst = 0; // 49
+			for(double factor1 = (double) 0.85; factor1 <= 1.15 ; factor1 +=0.05){ // 7
+				print("a");
+				for(double factor2 = (double) 0.85; factor2 <= 1.15 ; factor2 +=0.05){ //7
+					print("b");
+					for(double a=0; a<= 0; a+=0.25){ // 0
+						print("c");
+						for(double uf = 0,  ufl = 0; uf <= 0; uf+=0.5 , ufl+=0.5){ // 0
+							print("d");
+							for(double uuf = 0,  uufl = 0; uuf <= 0;   uufl+=0.5){
+								print("e");
+								print(uufl);
+								uuf= uuf + 0.5;
+								print(uuf);
+								print("lol");
+								print(Nst);
+								//strategies[conf][Nst] = new Strategy(factor1,factor2,a,uf,ufl,uuf,uufl,Nst);
+								Nst+=1;
+								
+							}
 						}
 					}
 				}
 			}
 		}
-
+		print("setup");
 		for(int i=0 ; i<Nconf ; i++){
-			for(int j=0 ; j<Nst ; j++){
-				ratio[i][j] = new ArrayList<Double>();
-				allBid1[i][j] = new ArrayList<Long>();
+			weightConf[i]=(double) Nconf/4;
+			ratio[i] = new ArrayList<Double>();
+			for(int j=0 ; j<Nst ; j++){				
+				allBid1[i][j] = new ArrayList<Double>(); //TODO on doit faire ca?
 			}
 		}	
+		print("setup");
+		
 	}
 
 
@@ -231,43 +250,183 @@ public class AgentMerge implements AuctionBehavior {
 
 	@Override
 	public Long askPrice(Task task) {
-		long actualTime = System.currentTimeMillis();
-		Long b = (long) 0;
+		print("askPrice for "+task.toString());
+		double actualTime = System.currentTimeMillis();
+		Double b = (double) 0;
 
 		// pipeline
 		proposed++;
 		updateMarginalCost(task);
-		updateAllBids();
-		findBestStrategy();
-		b = computeFinalBid();
+		printMc2();
+		//STRATE1
+		//updateAllBids();
+		//findBestStrategy();
+		//updateBestBid1general();
+		//STRATE2
+		updateBestMarginalCost();
+		updateBestBid1();
+
+
+		//b = computeFinalBid();
 		//
 
-		long duration = System.currentTimeMillis() - actualTime;
+		double duration = System.currentTimeMillis() - actualTime;
 		print("AGENTMERGE : BIDDING TASK " + task.id + ", Bid = " + Math.round(b) + ", in " + duration + " sec");
-		return b;
+		return (long) bestBid1;
 	}
+
+	//////////////////////////////////////
+	// 		 COMPUTE MARGINAL COST OF 2		//
+	//////////////////////////////////////
+	
+	private void updateMarginalCost(Task task) {
+		for(int conf = 0; conf< Nconf ; conf++){
+			if(conf == 0){mc2[conf].add((double) 1000);}
+			else{ 
+				if(proposed %2 == 0){
+					mc2[conf].add(500.0);
+					
+				}else{
+					mc2[conf].add((double) 500.0);
+				}
+				}
+		}
+	}
+
+
+	//////////////////////////////////////
+	// 		 COMPUTE BEST MARGINAL COST 		//
+	//////////////////////////////////////
+	
+	private void updateBestMarginalCost(){
+		bestMc2 = 0;
+		double sumWeights = 0;
+		for(int conf = 0; conf<Nconf ; conf++){
+			bestMc2 += weightConf[conf]*mc2[conf].get(proposed);
+			sumWeights += weightConf[conf];
+		}
+		bestMc2 = bestMc2/sumWeights;
+	}
+
+
+	private void updateBestBid1() {
+		double m1 = mc1.get(proposed);
+		double m2 = bestMc2;
+		double factor1 = 1;
+		double factor2 = 1;
+	
+		if(m1<=m2){
+			bestBid1 = factor1*(m1+(m2-m1)/2);
+		}else{
+			bestBid1 = factor2*(m1+(m2-m1)/2);
+		}
+	}
+
 
 	@Override
 	public void auctionResult(Task previous, int winner, Long[] bids) {
 		updateStuctures(previous, winner, bids);
-		updateStrategies();
-		
-//		////////////////////////
-//		proposedTasks.add(previous);
-//		bid1.add(bids[agent.id()]);
-//		bid2.add(bids[ennemy.id()]);
-//
-//		if (winner == agent.id()) {
-//			listWinner.add(true);
-//		}else{
-//			listWinner.add(false);
-//		}
-//		updateStrategies();
+		//updateStrategies();
+		updateWeightConf();
 
 	}
 
-	private long computeFinalBid() {
-		long bid = (long) 0;
+	//////////////////////////////////////
+	//             UPDATES              //
+	//////////////////////////////////////
+	
+	private void updateStuctures(Task previous, int winner, Long[] bids) {
+	
+		proposedTasks.add(previous);
+		int ennemy = 0;
+		for(int i = 0; i<bids.length ; i++){
+			if(i == agent.id()){
+				print("my bid was");
+				print(bids[agent.id()]);
+				print("en double:");
+				print((double)bids[agent.id()]);
+				bid1.add((double)bids[agent.id()]); //TODO cast en double problème?
+			}else{
+				print("ennemy's bid");
+				ennemy = i;
+				bid2.add((double)bids[i]);
+			}
+		}
+		print("ennemy id");
+		print(ennemy);
+
+	
+		//winner
+		if (winner == agent.id()) {
+			listWinner.add(agent.id());
+		}else{
+			listWinner.add(ennemy);
+		}
+		//ratio
+		for(int conf = 0; conf<Nconf ; conf++){
+			ratio[conf].add( bid2.get(proposed)/mc2[conf].get(proposed));
+		}
+	}
+
+
+	private void updateWeightConf(){
+	
+		int bestConf =0;
+		double bestVar = 0;
+		//compute mean
+		double[] mean = new double[Nconf] ;
+		for(int conf = 0; conf<Nconf ; conf++){
+			mean[conf]=0;
+		}
+		for(int conf = 0; conf<Nconf ; conf++){
+			for(int prop =0; prop<ratio[conf].size() ;prop++){
+				mean[conf] += ratio[conf].get(prop);
+			}
+		}
+		for(int conf = 0; conf<Nconf ; conf++){
+			mean[conf] = mean[conf]/ratio[conf].size();
+		}
+		print("mean mc conf 1");
+		print(mean[0]);
+		//compute variance
+		double[] var = new double[Nconf] ;
+		for(int conf = 0; conf<Nconf ; conf++){
+			var[conf]=0;
+		}
+		for(int conf = 0; conf<Nconf ; conf++){
+			for(int prop =0; prop<ratio[conf].size() ;prop++){
+				double square = (double) Math.pow( (ratio[conf].get(prop) - mean[conf]), 2);
+				var[conf] += square;
+			}
+		}
+		for(int conf = 0; conf<Nconf ; conf++){
+			var[conf] =  (double) (var[conf]/(ratio[conf].size()-1.0));
+			//find best variance
+			if(var[conf]>=bestVar){
+				bestVar = var[conf];
+				bestConf = conf;
+			}
+		}
+	
+		//update weights
+		for(int conf = 0; conf<Nconf ; conf++){
+			if(conf == bestConf){
+				weightConf[conf] += conf/2 + 1;//éviter d'augmenter que de 0
+			}else{
+				weightConf[conf] -= (conf/2)/(Nconf-1);
+			}
+			if(weightConf[conf]<=0){
+				weightConf[conf] = 0;
+			}
+		}
+		print("weights for the conf = ");
+		print(weightConf.toString());
+	
+	}
+
+
+	private double computeFinalBid() {
+		double bid = (double) 0;
 
 
 
@@ -280,48 +439,45 @@ public class AgentMerge implements AuctionBehavior {
 	// 		 COMPUTE MARGINAL COST 		//
 	//////////////////////////////////////
 
-	private void updateMarginalCost(Task task) {
-
-	}
-
-
-	//////////////////////////////////////
-	//			 COMPUTE BIDS	    	//
-	//////////////////////////////////////
-
 	private void updateAllBids() {
 
+		for(int conf = 0; conf <Nconf ; conf++){
+			double m2 = mc2[conf].get(proposed);
+			for(int strat = 0; strat < Nst ; strat++){
+				allBid1[conf][strat].add(strategies[conf][strat].estimate(mc1.get(proposed), m2));
+			}
+		}
 	}
 
+	
 
 	//////////////////////////////////////
 	//			   STRATEGY 			//
 	//////////////////////////////////////
 
 	public int findBestConfiguration(){
+
+
+
+
 		return configurations[1].getId();
 	}
+
 
 	public int[] findBestStrategy(){
 		int bestConf = findBestConfiguration();
 		int configuration = 0;
 		int strategy = 0;
-		return new int[] {configuration, strategy};
+		return new int[] {configuration, strategy};// au début renvois une straté inté
 	}
 
-
-	//////////////////////////////////////
-	//             UPDATES              //
-	//////////////////////////////////////
-
-	private void updateStuctures(Task previous, int winner, Long[] bids) {
-
-	}
 
 	public void updateStrategies(){
 
 	}
 
+
+	
 
 	//////////////////////////////////////
 	//              UTILS               //
@@ -330,10 +486,27 @@ public class AgentMerge implements AuctionBehavior {
 	public void print(String s){
 		System.out.println(s);
 	}
-	public void print(int s){
-		System.out.println(s);
-	}
 	public void print(double s){
 		System.out.println(s);
 	}
+	public void print(int s){
+		System.out.println(s);
+	}
+	public void print(long d){
+		System.out.println(d);
+	}
+	public void printMc2(){
+		print("table mc2:");
+		for(int conf = 0; conf <Nconf ; conf++){
+			print("configuration 1");
+			print(mc2[conf].toString());
+		}
+	}
 }
+/*
+for(int conf = 0; conf <Nconf ; conf++){
+	for(int strat = 0; strat < Nst ; strat++){
+
+	}
+}
+ */

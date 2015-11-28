@@ -1,0 +1,51 @@
+package AgentMouche;
+
+public class Strategy {
+	private long factor1;
+	private long factor2;
+	private long a; //in [0,0.5]
+	private long uf; //start smaller than one
+	private long uuf; //<=1
+	private long ufl;
+	private long uufl;
+	private int id;
+
+	public Strategy(long factor1, long factor2, long a, long uf, long uuf,
+			long ufl, long uufl,int id) {
+		super();
+		this.factor1 = factor1;
+		this.factor2 = factor2;
+		this.a = a;
+		this.uf = uf;
+		this.uuf = uuf;
+		this.ufl = ufl;
+		this.uufl = uufl;
+		this.id = id;
+		
+	}
+	public Strategy(){//basic strategy
+		factor1 = 1;
+		factor2 = 1;
+		a = 0;
+		uf = 0;
+		uuf = 0;
+		ufl = 0;
+		uufl = 0;
+		id = 0;
+	}
+	
+
+	public long estimate(long mc1, long mc2){
+		if(mc1<=mc2){
+			return factor1*(mc1+(mc2-mc1)/2);
+		}else{
+			return factor2*(mc1+(mc2-mc1)/2);
+		}
+		
+	}
+
+	public void update(boolean win, long bid1, long bid2, long mc1, long mc2, int proposed ){
+		long f = bid1/mc2;
+		
+	}
+}
