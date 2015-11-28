@@ -435,10 +435,9 @@ public class AgentMerge implements AuctionBehavior {
 				bestConf = conf;
 			}
 		}
-		print("----");
 		printRatio();
 		print("variances = "+Arrays.toString(var));
-		print("----");
+
 		//update weights
 		for(int conf = 0; conf<Nconf ; conf++){
 			 

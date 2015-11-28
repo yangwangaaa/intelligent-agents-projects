@@ -435,29 +435,20 @@ public class AgentMerge implements AuctionBehavior {
 				bestConf = conf;
 			}
 		}
-		print("----");
-		printRatio();
-		print("variances = "+Arrays.toString(var));
-		print("----");
+
 		//update weights
 		for(int conf = 0; conf<Nconf ; conf++){
-			 
 			if(conf == bestConf){
-				//print("best conf");
-				//print(conf);
-				weightConf[conf] += ((double)conf)/2.0 + 1.0;//éviter d'augmenter que de 0
+				weightConf[conf] += conf/2 + 1;//éviter d'augmenter que de 0
 			}else{
-				//print("not best conf");
-				//print(conf);
-				//print(weightConf[conf]);
-				weightConf[conf] -= (((double)Nconf)/2.0)/(((double)Nconf)-1.0);
-				//print( (((double)Nconf)/2.0)/(((double)Nconf)-1.0) );
+				weightConf[conf] -= (conf/2)/(Nconf-1);
 			}
 			if(weightConf[conf]<=0){
 				weightConf[conf] = 0;
 			}
 		}
-		print("weights for the conf = "+Arrays.toString(weightConf));
+		print("weights for the conf = ");
+		System.out.print(Arrays.toString(weightConf));
 
 	}
 
@@ -536,20 +527,12 @@ public class AgentMerge implements AuctionBehavior {
 		print("TABLE MC2:");
 		for(int conf = 0; conf <Nconf ; conf++){
 			Integer x = (Integer)conf;
-			print("configuration "+x.toString());
+			print("configuration"+x.toString());
 			print(mc2[conf].toString());
 		}
 	}
 	public void printMc1(){
 		System.out.println(mc1.toString());
-	}
-	public void printRatio(){
-		print("TABLE RATIO");
-		for(int conf = 0; conf <Nconf ; conf++){
-			Integer x = (Integer)conf;
-			print("configuration "+x.toString());
-			print(ratio[conf].toString());
-		}
 	}
 }
 

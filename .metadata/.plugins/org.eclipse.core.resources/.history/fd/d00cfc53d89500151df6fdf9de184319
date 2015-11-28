@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import cern.colt.Arrays;
 import logist.LogistSettings;
 import logist.agent.Agent;
 import logist.behavior.AuctionBehavior;
@@ -170,7 +169,7 @@ public class AgentMerge implements AuctionBehavior {
 			}
 		}	
 		//print("setup");
-		print("");
+
 	}
 
 
@@ -250,13 +249,12 @@ public class AgentMerge implements AuctionBehavior {
 
 	@Override
 	public Long askPrice(Task task) {
-		proposed++;
-		print("----------- ASK PRICE proposed = "+((Integer) proposed).toString()+" agent is "+((Integer)agent.id()).toString()+" ----------");
 		print("askPrice for "+task.toString());
 		double actualTime = System.currentTimeMillis();
 		Double b = (double) 0;
 
 		// pipeline
+		proposed++;
 		//print("before ");
 		//print("after ");
 		//print("before updateMc1");
@@ -289,9 +287,7 @@ public class AgentMerge implements AuctionBehavior {
 
 		double duration = System.currentTimeMillis() - actualTime;
 		print("AGENTMERGE : BIDDING TASK " + task.id + ", Bid = " + Math.round(b) + ", in " + duration + " sec");
-		print("");
 		return (long) bestBid1;
-		
 	}
 
 
@@ -338,7 +334,9 @@ public class AgentMerge implements AuctionBehavior {
 
 
 	private void updateBestBid1() {
+		print("ici");
 		double m1 = mc1.get(proposed);
+		print("ici");
 		double m2 = bestMc2;
 		double factor1 = 1;
 		double factor2 = 1;
@@ -353,11 +351,10 @@ public class AgentMerge implements AuctionBehavior {
 
 	@Override
 	public void auctionResult(Task previous, int winner, Long[] bids) {
-		print("---------- auctionResult for "+((Integer)agent.id()).toString()+" ----------");
 		updateStuctures(previous, winner, bids);
 		//updateStrategies();
 		updateWeightConf();
-		print("");
+
 	}
 
 	//////////////////////////////////////
@@ -370,9 +367,11 @@ public class AgentMerge implements AuctionBehavior {
 		int ennemy = 0;
 		for(int i = 0; i<bids.length ; i++){
 			if(i == agent.id()){
-				print("my bid was "+((Long)bids[agent.id()]).toString());
+				print("my bid was");
+				print(bids[agent.id()]);
+				print("en double:");
+				print((double)bids[agent.id()]);
 				bid1.add((double)bids[agent.id()]); //TODO cast en double problème?
-				print("Array bid1 = "+bid1.toString());
 			}else{
 				print("ennemy's bid");
 				ennemy = i;
@@ -381,8 +380,7 @@ public class AgentMerge implements AuctionBehavior {
 		}
 		print("ennemy id");
 		print(ennemy);
-		print("my id");
-		print(agent.id());
+
 
 		//winner
 		if (winner == agent.id()) {
@@ -414,7 +412,7 @@ public class AgentMerge implements AuctionBehavior {
 		for(int conf = 0; conf<Nconf ; conf++){
 			mean[conf] = mean[conf]/ratio[conf].size();
 		}
-		print("mean ratio conf 1");
+		print("mean mc conf 1");
 		print(mean[0]);
 		//compute variance
 		double[] var = new double[Nconf] ;
@@ -435,29 +433,20 @@ public class AgentMerge implements AuctionBehavior {
 				bestConf = conf;
 			}
 		}
-		print("----");
-		printRatio();
-		print("variances = "+Arrays.toString(var));
-		print("----");
+
 		//update weights
 		for(int conf = 0; conf<Nconf ; conf++){
-			 
 			if(conf == bestConf){
-				//print("best conf");
-				//print(conf);
-				weightConf[conf] += ((double)conf)/2.0 + 1.0;//éviter d'augmenter que de 0
+				weightConf[conf] += conf/2 + 1;//éviter d'augmenter que de 0
 			}else{
-				//print("not best conf");
-				//print(conf);
-				//print(weightConf[conf]);
-				weightConf[conf] -= (((double)Nconf)/2.0)/(((double)Nconf)-1.0);
-				//print( (((double)Nconf)/2.0)/(((double)Nconf)-1.0) );
+				weightConf[conf] -= (conf/2)/(Nconf-1);
 			}
 			if(weightConf[conf]<=0){
 				weightConf[conf] = 0;
 			}
 		}
-		print("weights for the conf = "+Arrays.toString(weightConf));
+		print("weights for the conf = ");
+		print(weightConf.toString());
 
 	}
 
@@ -533,23 +522,15 @@ public class AgentMerge implements AuctionBehavior {
 		System.out.println(d);
 	}
 	public void printMc2(){
-		print("TABLE MC2:");
+		print("table mc2:");
 		for(int conf = 0; conf <Nconf ; conf++){
 			Integer x = (Integer)conf;
-			print("configuration "+x.toString());
+			print("configuration"+x.toString());
 			print(mc2[conf].toString());
 		}
 	}
 	public void printMc1(){
 		System.out.println(mc1.toString());
-	}
-	public void printRatio(){
-		print("TABLE RATIO");
-		for(int conf = 0; conf <Nconf ; conf++){
-			Integer x = (Integer)conf;
-			print("configuration "+x.toString());
-			print(ratio[conf].toString());
-		}
 	}
 }
 

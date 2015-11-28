@@ -1,17 +1,17 @@
 package AgentMouche;
 
 public class Strategy {
-	private double factor1;
-	private double factor2;
-	private double a; //in [0,0.5]
-	private double uf; //start smaller than one
-	private double uuf; //<=1
-	private double ufl;
-	private double uufl;
+	private long factor1;
+	private long factor2;
+	private long a; //in [0,0.5]
+	private long uf; //start smaller than one
+	private long uuf; //<=1
+	private long ufl;
+	private long uufl;
 	private int id;
 
-	public Strategy(double factor1, double factor2, double a, double uf, double uuf,
-			double ufl, double uufl,int id) {
+	public Strategy(long factor1, long factor2, long a, long uf, long uuf,
+			long ufl, long uufl,int id) {
 		super();
 		this.factor1 = factor1;
 		this.factor2 = factor2;
@@ -35,8 +35,7 @@ public class Strategy {
 	}
 	
 
-
-	public double estimate(double mc1, double mc2){
+	public long estimate(long mc1, long mc2){
 		if(mc1<=mc2){
 			return factor1*(mc1+(mc2-mc1)/2);
 		}else{
@@ -45,8 +44,8 @@ public class Strategy {
 		
 	}
 
-	public void update(boolean win, double bid1, double bid2, double mc1, double mc2, int proposed ){
-		double f = bid1/mc2;
+	public void update(boolean win, long bid1, long bid2, long mc1, long mc2, int proposed ){
+		long f = bid1/mc2;
 		
 	}
 	public Double estimate(Double double1, double m2) {
