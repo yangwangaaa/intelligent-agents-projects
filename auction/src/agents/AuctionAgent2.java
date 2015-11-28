@@ -110,7 +110,7 @@ public class AuctionAgent2 implements AuctionBehavior {
 		// this code is used to get the timeouts
 		LogistSettings ls = null;
 		try {
-			ls = Parsers.parseSettings("config/settings_default.xml");
+			ls = Parsers.parseSettings("config/settings_auction.xml");
 		}
 		catch (Exception exc) {
 			System.out.println("There was a problem loading the configuration file.");
@@ -264,6 +264,7 @@ public class AuctionAgent2 implements AuctionBehavior {
 		this.Na = 2*Nt;
 		List<Plan> plans;
 
+		/*
 		if(tasksSet.size() == 0) {
 			print("TASKS SIZE == 0");
 
@@ -278,7 +279,8 @@ public class AuctionAgent2 implements AuctionBehavior {
 			return plans;
 		}
 
-
+*/
+		
 		bestSolutions[id] = sls.RunSLS(vehicles, tasks, timeout_plan, bestSolutions[id]);
 
 		plans = sls.computeFinalPlan(bestSolutions[id]);
@@ -298,20 +300,23 @@ public class AuctionAgent2 implements AuctionBehavior {
 		}
 
 		//print("MEAN BID = " + meanBid[id]/allBids[id].size());
-		print("Bids : ");
-		int c = 0;
-		for(ArrayList<Long> bids : allBids) {
-			System.out.print("Agent " + c + ":");
-			for(Long bid : bids) {
-				System.out.print("  " + bid);
-			}
-			System.out.println("");
-			c++;
-		}
+//		print("Bids : ");
+//		int c = 0;
+//		for(ArrayList<Long> bids : allBids) {
+//			System.out.print("Agent " + c + ":");
+//			for(Long bid : bids) {
+//				System.out.print("  " + bid);
+//			}
+//			System.out.println("");
+//			c++;
+//		}
+		
+		print("");
 		print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 		print("AGENT2 : number of tasks = " + tasksSet.size());
 		print("FINAL DISTANCE = " + totalDist);
-		print("FINAL COST2 = " + bestSolutions[id].getOValue());
+		if(tasksSet.size() == 0) print("FINAL COST2 = 0");
+		else print("FINAL COST2 = " + bestSolutions[id].getOValue());
 		print("FINAL REWARD = " + tasksSet.rewardSum());
 		print("FINAL PROFIT = " + (tasksSet.rewardSum()-totalCost));
 		
@@ -345,6 +350,7 @@ public class AuctionAgent2 implements AuctionBehavior {
 		}
 		print("");
 		print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		print("");
 		return plans;
 	}
 	

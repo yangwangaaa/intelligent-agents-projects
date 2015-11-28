@@ -120,7 +120,7 @@ public class AgentMerge implements AuctionBehavior {
 		// Init timeouts
 		LogistSettings ls = null;
 		try {
-			ls = Parsers.parseSettings("config/settings_default.xml");
+			ls = Parsers.parseSettings("config/settings_auction.xml");
 		}
 		catch (Exception exc) {
 			System.out.println("There was a problem loading the configuration file.");

@@ -132,7 +132,11 @@ public class AuctionAgent1 implements AuctionBehavior {
 
 		double ratio = 1.0 + (random.nextDouble() * 0.05 * task.id);
 		double bid = ratio * marginalCost;
-
+		
+		
+		
+		
+		bid = (long) 800;
 		print("AGENT 2 : BIDDING TASK " + task.id + ", Bid = " + Math.round(bid));
 
 		meanBid += bid;

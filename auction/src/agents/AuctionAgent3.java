@@ -68,7 +68,7 @@ public class AuctionAgent3 implements AuctionBehavior {
 	private int lastTask = -1;
 	private long[] totalReward;
 	private int[] meanBid;
-	private int numA = -1;
+	private int numA = 2;
 	private NodePD firstSolution;
 	private ArrayList<Long>[] allBids = null;
 	private ArrayList<Double>[] lastSolutionsValue = null;
@@ -106,7 +106,7 @@ public class AuctionAgent3 implements AuctionBehavior {
 		// this code is used to get the timeouts
 		LogistSettings ls = null;
 		try {
-			ls = Parsers.parseSettings("config/settings_default.xml");
+			ls = Parsers.parseSettings("config/settings_auction.xml");
 		}
 		catch (Exception exc) {
 			System.out.println("There was a problem loading the configuration file.");
@@ -129,6 +129,23 @@ public class AuctionAgent3 implements AuctionBehavior {
 
 		sls = new SLS(topology, distribution, agent);
 		astar = new Astar(topology, distribution, agent);
+
+		tasksResult = (ArrayList<Integer>[]) new ArrayList[numA];
+		marginalCosts = (ArrayList<Double>[]) new ArrayList[numA];
+		lastSolutionsValue = (ArrayList<Double>[]) new ArrayList[numA];
+		bestSolutionsValue = (ArrayList<Double>[]) new ArrayList[numA];
+		totalReward = new long[numA];
+		listTasks = (ArrayList<Task>[]) new ArrayList[numA];
+		allBids = (ArrayList<Long>[]) new ArrayList[numA];
+		for(int i=0; i<numA; i++) {
+			tasksResult[i] = new ArrayList<Integer>();
+			marginalCosts[i] = new ArrayList<Double>();
+			lastSolutionsValue[i] = new ArrayList<Double>();
+			bestSolutionsValue[i] = new ArrayList<Double>();
+			bestSolutionsValue[i].add(0.0);
+			listTasks[i] = new ArrayList<Task>();
+			allBids[i] = new ArrayList<Long>();
+		}
 	}
 
 	//////////////////////////////////////
@@ -138,58 +155,25 @@ public class AuctionAgent3 implements AuctionBehavior {
 	@Override
 	public void auctionResult(Task previous, int winner, Long[] bids) {
 		updateStuctures(previous, winner, bids);
-		lastTask++;
 	}
 
 	@Override
 	public Long askPrice(Task task) {
+		lastTask++;
 		long actualTime = System.currentTimeMillis();
-		
+
 		Long b;
-		if(numA==-1) {
-			ArrayList<Task> newTasks = new ArrayList<Task>();
-			newTasks.add(task);
-			if (biggestVehicle.capacity() < task.weight) {
-				return null;
-			}
-			
-			firstSolution = sls.RunSLS(vehiclesList, newTasks.toArray(new Task[newTasks.size()]), timeout_bid, null);
 
-
-			double marginalCost = firstSolution.getOValue();
-
-			double ratio = 1.0 + (random.nextDouble() * 0.05 * task.id);
-			double bid = ratio * marginalCost;
-
-			b = (long) Math.round(bid);
+		computeMarginalCost(task);
+		if (biggestVehicle.capacity() < task.weight) { // TODO HANDLE CASE SLS RETURN NULL
+			return null;
 		}
-		else {
-			computeMarginalCost(task);
-			if (biggestVehicle.capacity() < task.weight) { // TODO HANDLE CASE SLS RETURN NULL
-				return null;
-			}
-			b = computeBiding(task);
-		}
+		b = computeBiding(task);
+
 		long duration = System.currentTimeMillis() - actualTime;
-		
+
 		print("AGENT 3 : BIDDING TASK " + task.id + ", Bid = " + Math.round(b) + ", id = " + id + ", in " + duration + " sec");
-		/*
-		if(lastSolutionsValue!=null) {
-			System.out.print("lastSolutionsValue");
-			for(double a : lastSolutionsValue[id]) {
-				System.out.print(", " + (int) a);
-			}
-			print("");
-			
-			System.out.print("marginalCosts");
-			for(double a : marginalCosts[id]) {
-				System.out.print(", " + (int) a);
-			}
-			print("");
-			print("_________________________________________________________________________");
-		}
-		*/
-		
+
 		return b;
 	}
 
@@ -199,7 +183,7 @@ public class AuctionAgent3 implements AuctionBehavior {
 
 		return (long) Math.round(bid);
 	}
-	
+
 	private void computeMarginalCost(Task task) {
 		int num = 3;
 		for(int i=0; i<numA; i++) {
@@ -299,6 +283,7 @@ public class AuctionAgent3 implements AuctionBehavior {
 		this.Nv = vehiclesList.size();
 		List<Plan> plans;
 
+		/*
 		if(tasksSet.size() == 0) {
 			print("TASKS SIZE == 0");
 
@@ -312,7 +297,7 @@ public class AuctionAgent3 implements AuctionBehavior {
 			}
 			return plans;
 		}
-
+*/
 
 		NodePD bestSolution = sls.RunSLS(vehicles, tasks, timeout_plan, null);
 
@@ -343,13 +328,16 @@ public class AuctionAgent3 implements AuctionBehavior {
 			System.out.println("");
 			c++;
 		}
+		
+		print("");
 		print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 		print("AGENT3 : number of tasks = " + tasksSet.size());
 		print("FINAL DISTANCE = " + totalDist);
-		print("FINAL COST2 = " + bestSolution.getOValue());
+		if(tasksSet.size() == 0) print("FINAL COST2 = 0");
+		else print("FINAL COST2 = " + bestSolution.getOValue());
 		print("FINAL REWARD = " + tasksSet.rewardSum());
 		print("FINAL PROFIT = " + (tasksSet.rewardSum()-totalCost));
-		
+
 		for(int a=0; a<numA; a++) {
 			printInfoAgent(a);
 		}
@@ -362,34 +350,12 @@ public class AuctionAgent3 implements AuctionBehavior {
 	//////////////////////////////////////
 
 	private void updateStuctures(Task previous, int winner, Long[] bids) {
-		if (numA==-1) {
-			numA = bids.length;
-			tasksResult = (ArrayList<Integer>[]) new ArrayList[numA];
-			marginalCosts = (ArrayList<Double>[]) new ArrayList[numA];
-			lastSolutionsValue = (ArrayList<Double>[]) new ArrayList[numA];
-			bestSolutionsValue = (ArrayList<Double>[]) new ArrayList[numA];
-			totalReward = new long[numA];
-			listTasks = (ArrayList<Task>[]) new ArrayList[numA];
-			allBids = (ArrayList<Long>[]) new ArrayList[numA];
-			for(int i=0; i<numA; i++) {
-				tasksResult[i] = new ArrayList<Integer>();
-				marginalCosts[i] = new ArrayList<Double>();
-				lastSolutionsValue[i] = new ArrayList<Double>();
-				if(i==id) lastSolutionsValue[i].add(firstSolution.getOValue());
-				else lastSolutionsValue[i].add(0.0);
-				bestSolutionsValue[i] = new ArrayList<Double>();
-				if(i==winner) bestSolutionsValue[i].add(firstSolution.getOValue());
-				else bestSolutionsValue[i].add(0.0);
-				listTasks[i] = new ArrayList<Task>();
-				allBids[i] = new ArrayList<Long>();
-			}
+
+		for(int i=0; i<numA; i++) {
+			if(i==winner) bestSolutionsValue[winner].add(lastSolutionsValue[winner].get(lastTask));
+			else bestSolutionsValue[i].add(bestSolutionsValue[i].get(lastTask));
 		}
-		else {
-			for(int i=0; i<numA; i++) {
-				if(i==winner) bestSolutionsValue[winner].add(lastSolutionsValue[winner].get(lastTask));
-				else bestSolutionsValue[i].add(bestSolutionsValue[i].get(lastTask));
-			}
-		}
+
 
 		for(int i=0; i<numA; i++) {
 			allBids[i].add(bids[i]);
@@ -409,7 +375,7 @@ public class AuctionAgent3 implements AuctionBehavior {
 	public void print(String s){
 		System.out.println(s);
 	}
-	
+
 	public void printInfoAgent(int ag) {
 		print("------------------------------------------------------------------------------");
 		print("AGENT " + ag + " INFORMATIONS :");
@@ -418,25 +384,25 @@ public class AuctionAgent3 implements AuctionBehavior {
 			System.out.print(", T" + a + ":" + (int) tasksResult[ag].get(a));
 		}
 		print("");
-		
+
 		System.out.print("lastSolutionsValue");
 		for(int a=0; a<lastSolutionsValue[ag].size(); a++) {
 			System.out.print(", T" + a + ":" + lastSolutionsValue[ag].get(a).intValue());
 		}
 		print("");
-		
+
 		System.out.print("BestSolutionValue");
 		for(int a=0; a<bestSolutionsValue[ag].size(); a++) {
 			System.out.print(", T" + a + ":" + bestSolutionsValue[ag].get(a).intValue());
 		}
 		print("");
-		
+
 		System.out.print("MarginalCost");
 		for(int a=0; a<marginalCosts[ag].size(); a++) {
 			System.out.print(", T" + a + ":" + marginalCosts[ag].get(a).intValue());
 		}
 		print("");
-		
+
 		System.out.print("Bid");
 		for(int a=0; a<allBids[ag].size(); a++) {
 			System.out.print(", T" + a + ":" + allBids[ag].get(a));
