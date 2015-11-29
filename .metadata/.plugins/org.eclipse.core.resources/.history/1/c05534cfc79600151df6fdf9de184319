@@ -297,10 +297,10 @@ public class AgentMerge implements AuctionBehavior {
 		
 		updateBestBid1();
 		//print("bestBid1 ="+bestBid1);
-		//printTableBestBid();
+		printTableBestBid();
 
 		double duration = System.currentTimeMillis() - actualTime;
-		//print("AGENTMERGE : BIDDING TASK " + task.id + ", Bid = " + Math.round(b) + ", in " + duration + " sec");
+		print("AGENTMERGE : BIDDING TASK " + task.id + ", Bid = " + Math.round(b) + ", in " + duration + " sec");
 		print("");
 
 
@@ -487,7 +487,7 @@ public class AgentMerge implements AuctionBehavior {
 
 	@Override
 	public void auctionResult(Task previous, int winner, Long[] bids) {
-		//print("----- AuctionResult: T"+ proposed +", agent is "+agent.id()+" -----");
+		print("----- AuctionResult: T"+ proposed +", agent is "+agent.id()+" -----");
 		updateStuctures(previous, winner, bids);
 		updateWeightConf();
 		print("");
@@ -582,9 +582,9 @@ public class AgentMerge implements AuctionBehavior {
 				}
 			}
 			//print("----");
-			//printRatio();
-			//print("----");
-			//print("variances = "+Arrays.toString(var));
+			printRatio();
+			print("----");
+			print("variances = "+Arrays.toString(var));
 
 			//update weights
 			for(int conf = 0; conf<Nconf ; conf++){
@@ -606,7 +606,7 @@ public class AgentMerge implements AuctionBehavior {
 				}
 			}
 			updateTableWeightConf();
-			//print("weights for the conf = "+Arrays.toString(weightConf));
+			print("weights for the conf = "+Arrays.toString(weightConf));
 		}
 
 	}
@@ -670,7 +670,7 @@ public class AgentMerge implements AuctionBehavior {
 	
 	public void printTableBestMc2(){
 		print("");
-		print("TABLE TableBestMc2:");
+		print("TABLE TableBestBid:");
 		print(tableBestMc2.toString());
 	}
 	
