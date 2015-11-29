@@ -42,7 +42,9 @@ public class MyVehicle {
 		return l;
 	}
 
-
+	public String toString() {
+		return "V" + id + ": capa=" + capacity + ", currentCity=" + currentCity;
+	}
 
 	public int capacity() {
 		return capacity;

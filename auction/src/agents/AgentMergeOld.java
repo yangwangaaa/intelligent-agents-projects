@@ -93,16 +93,17 @@ public class AgentMergeOld implements AuctionBehavior {
 	private Configuration[] configurations = new Configuration[Nconf]; // v
 
 	ArrayList<MyTask> allPossibleTasks = new ArrayList<MyTask>(); // v
-	
+
 	List<MyVehicle>[] configs = (List<MyVehicle>[]) new List[Nconf];
 
 
 	private double[][] weights = new double[Nconf][Nst];
 	private double[] weightConf = new double[Nconf];
+	private ArrayList<Double>[] tableWeightConf = (ArrayList<Double>[]) new ArrayList[Nconf];
 	private double bestBid1;
 	private double bestMc2;
-
-
+	private ArrayList<Double> tableBestBid = new ArrayList<Double>();
+	private ArrayList<Double> tableBestMc2 = new ArrayList<Double>();
 
 	//////////////////////////////////////
 	//              MAIN                //
@@ -170,35 +171,33 @@ public class AgentMergeOld implements AuctionBehavior {
 				}
 			}
 		}
-		
+		setupStructures();	
+		createMostProbableTasks();
+		print("");
+	}
+
+	public void setupStructures(){
 		//print("setup");
+		best1.add(0.0);
 		for(int i=0 ; i<Nconf ; i++){
 			weightConf[i]=(double) Nconf/2;
 			ratio[i] = new ArrayList<Double>();
+			tableWeightConf[i] = new ArrayList<Double>();
 			mc2[i] = new ArrayList<Double>();
+
+			last2[i] = new ArrayList<Double>();
+			best2[i] = new ArrayList<Double>();
+			best2[i].add(0.0);
+
+			ArrayList<City> cities = generateCities();
+			ArrayList<Integer> capacities = generateCapacities(i, Nconf);
+			configs[i] = generateRandomVehicles(cities, capacities);
+
 			for(int j=0 ; j<Nst ; j++){				
 				allBid1[i][j] = new ArrayList<Double>(); //TODO on doit faire ca?
 			}
 		}	
-		//print("setup");
-		print("");
-		
-		
-		// Init marginal cost estimation
-		best1.add(0.0);
-		for(int i=0; i<Nconf; i++) {
-			last2[i] = new ArrayList<Double>();
-			best2[i] = new ArrayList<Double>();
-			best2[i].add(0.0);
-		}
-
-		for(int j=0; j<Nconf; j++) {
-			ArrayList<City> cities = generateCities();
-			ArrayList<Integer> capacities = generateCapacities(j, Nconf);
-			configs[j] = generateRandomVehicles(cities, capacities);
-		}
-		
-		createMostProbableTasks();
+		updateTableWeightConf();
 	}
 
 
@@ -268,8 +267,8 @@ public class AgentMergeOld implements AuctionBehavior {
 		}
 		System.out.println("");
 		print("");
-		
-		
+
+
 		return plans;
 	}
 
@@ -281,25 +280,30 @@ public class AgentMergeOld implements AuctionBehavior {
 	@Override
 	public Long askPrice(Task task) {
 		proposed++;
-		print("AGENT MERGE ASK PRICE: T"+ proposed+ "=" + task);
-		print("askPrice for "+task.toString());
+		print("----- AGENT MERGE ASK PRICE: T"+ proposed+ "=" + task +" id = "+agent.id()+" -----");
+		//print("askPrice for "+task.toString());
 		double actualTime = System.currentTimeMillis();
 		Double b = (double) 0;
 
 		computeMarginalCost(task);
-	
+		//print("mc1 =" +mc1.get(proposed));
+		printMc1();
+		printMc2();
+		
 		updateBestMc2();
-		printWeightConf();
-		print("best Mc2 =" + bestMc2);
+		printTableWeightConf();
+		//print("best Mc2 =" + bestMc2);
+		printTableBestMc2();
 		
 		updateBestBid1();
-		print("bestBid1 ="+bestBid1);
+		//print("bestBid1 ="+bestBid1);
+		printTableBestBid();
 
 		double duration = System.currentTimeMillis() - actualTime;
 		print("AGENTMERGE : BIDDING TASK " + task.id + ", Bid = " + Math.round(b) + ", in " + duration + " sec");
 		print("");
-		
-		
+
+
 		return computeFinalBid();
 	}
 
@@ -312,8 +316,8 @@ public class AgentMergeOld implements AuctionBehavior {
 		double timeout_agent = timeout_bid/nA;
 		double timeout_opponent = timeout_bid/nA/Nconf;
 		ArrayList<Task> supp = createSuppTasks(minCarried);
-		
-		
+
+
 		// Agent
 		ArrayList<Task> tasks1Clone = (ArrayList<Task>) tasks1.clone();
 		NodePD bestSolution1;
@@ -330,8 +334,8 @@ public class AgentMergeOld implements AuctionBehavior {
 		NodePD lastSolution1 = sls.RunSLS(vehiclesList, tasks1Clone.toArray(new Task[tasks1Clone.size()]), timeout_agent, null);
 		last1.add(lastSolution1.getOValue());
 		mc1.add(last1.get(proposed) - best1.get(proposed));
-		
-		
+
+
 		// Opponent		
 		for(int j=0; j<Nconf; j++) {
 			List<MyVehicle> vl = configs[j];
@@ -454,7 +458,8 @@ public class AgentMergeOld implements AuctionBehavior {
 			bestMc2 += weightConf[conf]*mc2[conf].get(proposed);
 			sumWeights += weightConf[conf];
 		}
-		bestMc2 = bestMc2/sumWeights;
+		bestMc2 = bestMc2/sumWeights;		
+		tableBestMc2.add(bestMc2);
 	}
 
 
@@ -465,24 +470,33 @@ public class AgentMergeOld implements AuctionBehavior {
 		double factor2 = 0.3;
 
 		if(m1<=m2){
-			bestBid1 = (m1+factor1*(m2-m1)/2);
+			bestBid1 = (m1+factor1*(m2-m1));
 		}else{
-			bestBid1 = (m1+factor2*(m2-m1)/2);
+			bestBid1 = (m1+factor2*(m2-m1));
 		}
+		tableBestBid.add(bestBid1);
+	}
+
+
+	private long computeFinalBid() {
+		long bid = (long) 0;
+		bid = (long) bestBid1;
+		return bid;
 	}
 
 
 	@Override
 	public void auctionResult(Task previous, int winner, Long[] bids) {
-		// print("AuctionResult: T"+ proposed +", agent is "+agent.id());
+		print("----- AuctionResult: T"+ proposed +", agent is "+agent.id()+" -----");
 		updateStuctures(previous, winner, bids);
 		updateWeightConf();
+		print("");
 	}
 
 	//////////////////////////////////////
 	//             UPDATES              //
 	//////////////////////////////////////
-	
+
 	private void updateStuctures(Task previous, int winner, Long[] bids) {
 
 		proposedTasks.add(previous);
@@ -514,11 +528,17 @@ public class AgentMergeOld implements AuctionBehavior {
 			tasks2.add(previous);
 			listWinner.add(ennemy);
 		}
-		
+
 		// TODO what is MC 0
 		//ratio
 		for(int conf = 0; conf<Nconf ; conf++){
-			ratio[conf].add( bid2.get(proposed)/mc2[conf].get(proposed));
+			double div = mc2[conf].get(proposed);
+			if(div<1){
+				div = 1;
+				ratio[conf].add( bid2.get(proposed)/div);
+			}else{
+				ratio[conf].add( bid2.get(proposed)/div);
+			}
 		}
 	}
 
@@ -573,6 +593,7 @@ public class AgentMergeOld implements AuctionBehavior {
 					//print("best conf");
 					//print(conf);
 					weightConf[conf] += ((double)Nconf)/2.0 + 1.0;//éviter d'augmenter que de 0
+					
 				}else{
 					//print("not best conf");
 					//print(conf);
@@ -584,17 +605,18 @@ public class AgentMergeOld implements AuctionBehavior {
 					weightConf[conf] = 0;
 				}
 			}
+			updateTableWeightConf();
 			print("weights for the conf = "+Arrays.toString(weightConf));
 		}
 
 	}
 
-
-	private long computeFinalBid() {
-		long bid = (long) 0;
-		bid = (long) bestBid1;
-		return bid;
+	public void updateTableWeightConf(){
+		for(int conf = 0; conf <Nconf ; conf++){
+			tableWeightConf[conf].add(weightConf[conf]);
+		}
 	}
+
 
 
 	//////////////////////////////////////
@@ -614,6 +636,7 @@ public class AgentMergeOld implements AuctionBehavior {
 		System.out.println(d);
 	}
 	public void printMc2(){
+		print("");
 		print("TABLE MC2:");
 		for(int conf = 0; conf <Nconf ; conf++){
 			Integer x = (Integer)conf;
@@ -622,9 +645,11 @@ public class AgentMergeOld implements AuctionBehavior {
 		}
 	}
 	public void printMc1(){
+		print("");
 		System.out.println("table mc1 = "+mc1.toString());
 	}
 	public void printRatio(){
+		print("");
 		print("TABLE RATIO");
 		for(int conf = 0; conf <Nconf ; conf++){
 			Integer x = (Integer)conf;
@@ -633,7 +658,34 @@ public class AgentMergeOld implements AuctionBehavior {
 		}
 	}
 	public void printWeightConf(){
+		print("");
 		System.out.println("weightConf = "+Arrays.toString(weightConf));
 	}
-
+	
+	public void printTableBestBid(){
+		print("");
+		print("TABLE TableBestBid:");
+		print(tableBestBid.toString());
+	}
+	
+	public void printTableBestMc2(){
+		print("");
+		print("TABLE TableBestBid:");
+		print(tableBestMc2.toString());
+	}
+	
+	public void printTableWeightConf(){
+		print("");
+		print("TABLE WeightConf:");
+		for(int conf = 0; conf <Nconf ; conf++){
+			Integer x = (Integer)conf;
+			print("configuration "+x.toString());
+			print(tableWeightConf[conf].toString());
+		}
+	}
 }
+/*
+for(int conf = 0; conf <Nconf ; conf++){
+	
+}
+*/
