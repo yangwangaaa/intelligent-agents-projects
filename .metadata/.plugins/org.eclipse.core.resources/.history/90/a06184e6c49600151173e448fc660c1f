@@ -164,7 +164,7 @@ public class AgentMouche implements AuctionBehavior {
 				for(double a=0; a<= 0.5; a+=0.25){
 					for(double uf = 0,  ufl = 0; uf <= 1; uf+=0.5 , ufl+=0.5){
 						for(double uuf = 0,  uufl = 0; uuf <= 1; uuf+=0.5 , uufl+=0.5){
-							//strategies.get(conf).set(Nst, new Strategy(factor,a,uf,ufl,uuf,uufl,Nst));
+							strategies.get(conf).set(Nst, new Strategy(factor,a,uf,ufl,uuf,uufl,Nst));
 							Nst+=1;
 						}
 					}

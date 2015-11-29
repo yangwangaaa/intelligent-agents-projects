@@ -34,7 +34,7 @@ import astar.Astar;
 
 
 @SuppressWarnings("unused")
-public class AgentMerge implements AuctionBehavior {
+public class AgentMergeOld implements AuctionBehavior {
 
 	private Topology topology;
 	private TaskDistribution distribution;
