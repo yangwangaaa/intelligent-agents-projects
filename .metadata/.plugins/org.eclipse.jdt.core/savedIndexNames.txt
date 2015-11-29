@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 INDEX VERSION 1.127+/Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects/.metadata/.plugins/org.eclipse.jdt.core
 2488811503.index
 254868732.index
@@ -20,6 +21,22 @@ INDEX VERSION 1.127+/Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Project
 3725586561.index
 2406364545.index
 106030888.index
+=======
+INDEX VERSION 1.127+/Users/armandbosquillondejenlis/Desktop/q9/intelligent agents/ProjectsIA/.metadata/.plugins/org.eclipse.jdt.core
+1271342938.index
+1105609771.index
+505420999.index
+1331771473.index
+3672252084.index
+1047301645.index
+891561327.index
+2177098438.index
+2879313574.index
+1247459299.index
+1357223996.index
+3669867886.index
+363710151.index
+>>>>>>> origin/master
 2936287081.index
 1651832675.index
 3765020915.index
@@ -29,9 +46,31 @@ INDEX VERSION 1.127+/Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Project
 1986458066.index
 145010315.index
 2540607589.index
+<<<<<<< HEAD
 1271342938.index
 1247459299.index
 1880139076.index
 883634178.index
 117212542.index
 3740299137.index
+=======
+473106283.index
+2036398409.index
+1711216998.index
+1921113021.index
+1355307112.index
+4079031625.index
+117212542.index
+2547648582.index
+935953734.index
+477636451.index
+317012209.index
+3068211809.index
+4124263567.index
+3021677677.index
+2798211248.index
+2225935153.index
+3836271678.index
+241682911.index
+1880139076.index
+>>>>>>> origin/master
