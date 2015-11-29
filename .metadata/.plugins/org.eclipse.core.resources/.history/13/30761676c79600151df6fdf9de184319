@@ -645,7 +645,6 @@ public class AgentMerge implements AuctionBehavior {
 		}
 	}
 	public void printMc1(){
-		print("");
 		System.out.println("table mc1 = "+mc1.toString());
 	}
 	public void printRatio(){
