@@ -105,7 +105,6 @@ public class AgentMerge implements AuctionBehavior {
 	private ArrayList<Double> tableBestBid = new ArrayList<Double>();
 	private ArrayList<Double> tableBestMc2 = new ArrayList<Double>();
 
-	double shift = 200;
 	//////////////////////////////////////
 	//              MAIN                //
 	//////////////////////////////////////
@@ -540,25 +539,20 @@ public class AgentMerge implements AuctionBehavior {
 			tasks2.add(previous);
 			listWinner.add(ennemy);
 		}
-		updateRatio();
 
-	}
-	
-	//TODO shift
-	private void updateRatio(){
 		// TODO what is MC 0
 		//ratio
 		for(int conf = 0; conf<Nconf ; conf++){
-			
-			double div = bid2.get(proposed);
+			double div = mc2[conf].get(proposed);
 			if(div<1){
 				div = 1;
-				ratio[conf].add( (mc2[conf].get(proposed)+shift)/(div+shift));
+				ratio[conf].add( bid2.get(proposed)/div);
 			}else{
-				ratio[conf].add( (mc2[conf].get(proposed)+shift)/(div+shift));
+				ratio[conf].add( bid2.get(proposed)/div);
 			}
 		}
 	}
+
 
 	private void updateWeightConf(){
 		if(proposed!=0){
