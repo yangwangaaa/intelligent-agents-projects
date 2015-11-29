@@ -63,6 +63,7 @@ public class AuctionAgent4 implements AuctionBehavior {
 	private Random rand;
 	private int firstV = 7;
 	private int lastV = 10;
+	private int minCarried = 5;
 
 
 	private int id;
@@ -78,10 +79,9 @@ public class AuctionAgent4 implements AuctionBehavior {
 	private ArrayList<Double>[] marginalCosts = null;
 	private ArrayList<Integer>[] tasksResult = null;
 	private ArrayList<Task>[] listTasks = null;
-	private ArrayList<Task> newTasks = null;
 	private ArrayList<Task> allTasks = null;
 	ArrayList<MyTask> P = new ArrayList<MyTask>();
-	
+
 	private SLS sls;
 	private Astar astar;
 
@@ -123,9 +123,8 @@ public class AuctionAgent4 implements AuctionBehavior {
 		timeout_plan = (double) ls.get(LogistSettings.TimeoutKey.PLAN);
 
 		timeout_bid = (double) ls.get(LogistSettings.TimeoutKey.BID);
-		print("TIMEOUT_BID =" + timeout_bid);
 		timeout_bid = timeout_bid*0.98;
-		print("TIMEOUT_BID =" + timeout_bid);
+		//print("TIMEOUT_BID =" + timeout_bid);
 
 		// int numA = ls.get(LogistSettings.SizeKey.NUMBER_OF_AGENTS);
 		// int numT = ls.get(LogistSettings.SizeKey.NUMBER_OF_TASKS);
@@ -158,127 +157,7 @@ public class AuctionAgent4 implements AuctionBehavior {
 
 		createMostProbableTasks();
 	}
-
-	//////////////////////////////////////
-	//             BIDING              //
-	//////////////////////////////////////
-
-	@Override
-	public void auctionResult(Task previous, int winner, Long[] bids) {
-		updateStuctures(previous, winner, bids);
-	}
-
-	@Override
-	public Long askPrice(Task task) {
-		print("ASKPRICE for " + task);
-		lastTask++;
-		allTasks.add(task);
-		long actualTime = System.currentTimeMillis();
-
-		Long b;
-
-		computeMarginalCost(task);
-		if (biggestVehicle.capacity() < task.weight) { // TODO HANDLE CASE SLS RETURN NULL
-			return null;
-		}
-		b = computeBiding(task);
-
-		long duration = System.currentTimeMillis() - actualTime;
-
-		print("AGENT 4 : BIDDING TASK " + task.id + ", Bid = " + Math.round(b) + ", id = " + id + ", in " + duration + " sec");
-
-		return b;
-	}
-
-	private Long computeBiding(Task task) {
-		double ratio = 1.0 + (random.nextDouble() * 0.05 * task.id);
-		double bid = marginalCosts[id].get(lastTask) - 0.4*(marginalCosts[id].get(lastTask) - marginalCosts[(id-1)*-1].get(lastTask));
-		if(bid<0) bid = (long) 0;
-		return (long) Math.round(bid);
-	}
-
-	private void computeMarginalCost(Task task) {
-		int num = 3;
-		int tot = 5;
-		ArrayList<Task> supp = createSuppTasks(tot);
-		for(int i=0; i<numA; i++) {
-			if(i!=id) {
-				double mg = 0;
-				for(int j=0; j<num; j++) {
-					ArrayList<City> cities = generateCities();
-					ArrayList<Integer> capacities = generateCapacities(j, num);
-					ArrayList<Task> tasks = (ArrayList<Task>) listTasks[i].clone();
-					tasks.add(task);
-
-					List<MyVehicle> vl = generateRandomVehicles(cities, capacities);
-					NodePD lastSolution = sls.RunSLS(vl, tasks.toArray(new Task[tasks.size()]), timeout_bid/numA/num, null);
-					mg += lastSolution.getOValue();
-				}
-				lastSolutionsValue[i].add((mg/num));
-				marginalCosts[i].add(lastSolutionsValue[i].get(lastTask) - bestSolutionsValue[i].get(lastTask));
-			}
-			else {
-				ArrayList<Task> newTasks;
-				newTasks = (ArrayList<Task>) listTasks[id].clone();
-				newTasks.add(task);
-				addSuppTasks(newTasks, supp, tot-newTasks.size());
-
-				NodePD lastSolution = sls.RunSLS(vehiclesList, newTasks.toArray(new Task[newTasks.size()]), timeout_bid/numA, null);
-				lastSolutionsValue[i].add(lastSolution.getOValue());
-				marginalCosts[i].add(lastSolutionsValue[id].get(lastTask) - bestSolutionsValue[id].get(lastTask));
-			}
-		}
-	}
-
-	private ArrayList<City> generateCities() {
-		ArrayList<City> cities = new ArrayList<City>();
-		ArrayList<Integer> list = new ArrayList<Integer>();
-		List<City> cl = topology.cities();
-
-		for (int i=0; i<cl.size(); i++) {
-			list.add(new Integer(i));
-		}
-		Collections.shuffle(list);
-
-		for(int i=0; i<Nv; i++) {
-			City c = cl.get(list.get(i));
-			cities.add(c);
-		}
-		return cities;
-	}
-
-	private ArrayList<Integer> generateCapacities(int j, int num) {
-		ArrayList<Integer> capacities = new ArrayList<Integer>();
-		double delta;
-		double maxDiff = 0.6;
-		if(num>1) delta = maxDiff*j/(num-1);
-		else delta = 0;
-		for(int i=0; i<Nv; i++) {
-			double capa = meanCapa + meanCapa*(delta*(2*i/(Nv-1)-1));
-			capacities.add((int)capa);
-		}
-		return capacities;
-	}
-
-	private List<MyVehicle> generateRandomVehicles(ArrayList<City> cities, ArrayList<Integer> capacities) {
-		/** parameters to handle :
-		 * - number of vehicles = same
-		 * - costPerKm = same
-		 * - home city = random
-		 * - capacity = same total capacity
-		 * - tasks : already acquired tasks + new task
-		 * - 
-		 */
-
-		List<MyVehicle> vl = new ArrayList<MyVehicle>();
-
-		for(int i=0; i<Nv; i++) {
-			MyVehicle randV = new MyVehicle(capacities.get(i), biggestVehicle.costPerKm(), cities.get(i), i);
-			vl.add(randV);
-		}
-		return vl;
-	}
-
+	
 	//////////////////////////////////////
 	//             PLANNING             //
 	//////////////////////////////////////
@@ -286,6 +165,9 @@ public class AuctionAgent4 implements AuctionBehavior {
 	@Override
 	public List<Plan> plan(List<Vehicle> vcls, TaskSet tasksSet) {
 
+		print("");
+		print("====================== AGENT 4 FINAL PLAN ======================================================================");
+		
 		if(vcls.size()==0) {
 			List<Plan> plans = new ArrayList<Plan>();
 			return plans;
@@ -356,8 +238,158 @@ public class AuctionAgent4 implements AuctionBehavior {
 			printInfoAgent(a);
 		}
 		print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		print("");
 		return plans;
 	}
+
+	//////////////////////////////////////
+	//             BIDING              //
+	//////////////////////////////////////
+
+	@Override
+	public void auctionResult(Task previous, int winner, Long[] bids) {
+		updateStuctures(previous, winner, bids);
+	}
+
+	@Override
+	public Long askPrice(Task task) {
+		print("");
+		print("ASKPRICE for " + task);
+		lastTask++;
+		allTasks.add(task);
+		long actualTime = System.currentTimeMillis();
+
+		Long b;
+
+		computeMarginalCost(task);
+		if (biggestVehicle.capacity() < task.weight) { // TODO HANDLE CASE SLS RETURN NULL
+			return null;
+		}
+		b = computeBiding(task);
+
+		long duration = System.currentTimeMillis() - actualTime;
+
+		print("AGENT 4 : BIDDING TASK " + task.id + ", Bid = " + Math.round(b) + ", id = " + id + ", in " + duration + " sec");
+		print("");
+		return b;
+	}
+
+	private Long computeBiding(Task task) {
+		double ratio = 1.0 + (random.nextDouble() * 0.05 * task.id);
+		double bid = marginalCosts[id].get(lastTask) - 0.4*(marginalCosts[id].get(lastTask) - marginalCosts[(id-1)*-1].get(lastTask));
+		if(bid<0) bid = (long) 0;
+		return (long) Math.round(bid);
+	}
+
+	private void computeMarginalCost(Task task) {
+		int num = 3;
+		double timeout_agent = timeout_bid/numA;
+		double timeout_opponent = timeout_bid/numA/num;
+		ArrayList<Task> supp = createSuppTasks(minCarried);
+		for(int i=0; i<numA; i++) {
+			int carriedSize = listTasks[i].size();			
+			if(i!=id) {
+				double meanBestSol = 0;
+				double meanLastSol = 0;
+				for(int j=0; j<num; j++) {
+					ArrayList<City> cities = generateCities();
+					ArrayList<Integer> capacities = generateCapacities(j, num);
+					List<MyVehicle> vl = generateRandomVehicles(cities, capacities);
+
+					ArrayList<Task> tasks = (ArrayList<Task>) listTasks[i].clone();
+					// tasks.add(task);	
+					if(carriedSize+1 <= minCarried) {
+						addSuppTasks(tasks, supp, minCarried-tasks.size()-1);
+						NodePD bestSolution = sls.RunSLS(vl, tasks.toArray(new Task[tasks.size()]), timeout_opponent/2, null);
+						tasks.add(task);	
+						NodePD lastSolution = sls.RunSLS(vl, tasks.toArray(new Task[tasks.size()]), timeout_opponent/2, null);
+						
+						double bestValue = 0.0;
+						if(bestSolution!=null) bestValue = bestSolution.getOValue();
+						meanLastSol += lastSolution.getOValue();
+						meanBestSol += bestValue;
+					}
+					else {
+						tasks.add(task);	
+						NodePD lastSolution = sls.RunSLS(vl, tasks.toArray(new Task[tasks.size()]), timeout_opponent, null);
+						meanLastSol += lastSolution.getOValue();
+					}
+				}
+				if(carriedSize+1 <= minCarried) {
+					bestSolutionsValue[i].set(lastTask, (meanBestSol/num));
+				}
+				lastSolutionsValue[i].add((meanLastSol/num));
+				marginalCosts[i].add(lastSolutionsValue[i].get(lastTask) - bestSolutionsValue[i].get(lastTask));
+			}
+			else {
+				ArrayList<Task> tasks = (ArrayList<Task>) listTasks[id].clone();
+				NodePD bestSolution;
+				if(carriedSize+1 <= minCarried) {
+					timeout_agent = timeout_agent/2;
+					addSuppTasks(tasks, supp, minCarried-tasks.size()-1);
+					bestSolution = sls.RunSLS(vehiclesList, tasks.toArray(new Task[tasks.size()]), timeout_agent, null);
+					double bestValue = 0.0;
+					if(bestSolution!=null) bestValue = bestSolution.getOValue();
+					bestSolutionsValue[i].set(lastTask, bestValue);
+				}
+
+				tasks.add(task);
+				NodePD lastSolution = sls.RunSLS(vehiclesList, tasks.toArray(new Task[tasks.size()]), timeout_agent, null);
+				lastSolutionsValue[i].add(lastSolution.getOValue());
+				marginalCosts[i].add(lastSolutionsValue[id].get(lastTask) - bestSolutionsValue[id].get(lastTask));
+			}
+		}
+	}
+
+	private ArrayList<City> generateCities() {
+		ArrayList<City> cities = new ArrayList<City>();
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		List<City> cl = topology.cities();
+
+		for (int i=0; i<cl.size(); i++) {
+			list.add(new Integer(i));
+		}
+		Collections.shuffle(list);
+
+		for(int i=0; i<Nv; i++) {
+			City c = cl.get(list.get(i));
+			cities.add(c);
+		}
+		return cities;
+	}
+
+	private ArrayList<Integer> generateCapacities(int j, int num) {
+		ArrayList<Integer> capacities = new ArrayList<Integer>();
+		double delta;
+		double maxDiff = 0.6;
+		if(num>1) delta = maxDiff*j/(num-1);
+		else delta = 0;
+		for(int i=0; i<Nv; i++) {
+			double capa = meanCapa + meanCapa*(delta*(2*i/(Nv-1)-1));
+			capacities.add((int)capa);
+		}
+		return capacities;
+	}
+
+	private List<MyVehicle> generateRandomVehicles(ArrayList<City> cities, ArrayList<Integer> capacities) {
+		/** parameters to handle :
+		 * - number of vehicles = same
+		 * - costPerKm = same
+		 * - home city = random
+		 * - capacity = same total capacity
+		 * - tasks : already acquired tasks + new task
+		 * - 
+		 */
+
+		List<MyVehicle> vl = new ArrayList<MyVehicle>();
+
+		for(int i=0; i<Nv; i++) {
+			MyVehicle randV = new MyVehicle(capacities.get(i), biggestVehicle.costPerKm(), cities.get(i), i);
+			vl.add(randV);
+		}
+		return vl;
+	}
+
 
 	//////////////////////////////////////
 	//              OTHERS              //
@@ -388,7 +420,7 @@ public class AuctionAgent4 implements AuctionBehavior {
 			for(City c2 : topology.cities()) {
 				if(!c1.equals(c2)) {
 					double proba = distribution.probability(c1, c2);
-					print("C1=" + c1.name + " to C2=" + c2.name + " have proba : " + proba);
+					//print("C1=" + c1.name + " to C2=" + c2.name + " have proba : " + proba);
 					MyTask t = new MyTask(i, c1, c2, distribution.reward(c1, c2), distribution.weight(c1, c2), proba);
 					P.add(t);
 					i++;
@@ -403,13 +435,13 @@ public class AuctionAgent4 implements AuctionBehavior {
 		int i = 0;
 		if(n<1) return tasks;
 		else {
-			print("SUPP=");
+			//print("SUPP=");
 			int count = 0;
 			while(count!=n) {
 				MyTask t = P.get(i);
 				if(t.notIn(allTasks)) {
 					Task tk = t.generateTask(lastTask+1+count);
-					print(tk + " proba=" + t.getProba());
+					//print(tk + " proba=" + t.getProba());
 					tasks.add(tk);
 					count++;
 				}
@@ -427,6 +459,7 @@ public class AuctionAgent4 implements AuctionBehavior {
 			i++;
 		}
 	}
+
 
 	//////////////////////////////////////
 	//              UTILS               //
