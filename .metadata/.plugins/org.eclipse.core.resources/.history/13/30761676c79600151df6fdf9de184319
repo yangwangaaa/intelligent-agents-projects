@@ -342,7 +342,7 @@ public class AgentMerge implements AuctionBehavior {
 
 			ArrayList<Task> tasks2Clone = (ArrayList<Task>) tasks2.clone();
 			// tasks.add(task);	
-			if(carriedSize2 +1 <= minCarried) {
+			if(carriedSize2+1 <= minCarried) {
 				addSuppTasks(tasks2Clone, supp, minCarried-carriedSize2-1);
 				NodePD bestSolution2 = sls.RunSLS(vl, tasks2Clone.toArray(new Task[tasks2Clone.size()]), timeout_opponent/2, null);
 				tasks2Clone.add(task);	
@@ -645,7 +645,6 @@ public class AgentMerge implements AuctionBehavior {
 		}
 	}
 	public void printMc1(){
-		print("");
 		System.out.println("table mc1 = "+mc1.toString());
 	}
 	public void printRatio(){
