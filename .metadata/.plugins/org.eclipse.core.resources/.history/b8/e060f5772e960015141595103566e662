@@ -93,8 +93,6 @@ public class AgentMerge implements AuctionBehavior {
 	private Configuration[] configurations = new Configuration[Nconf]; // v
 
 	ArrayList<MyTask> allPossibleTasks = new ArrayList<MyTask>(); // v
-	
-	List<MyVehicle>[] configs = (List<MyVehicle>[]) new List[Nconf];
 
 
 	private double[][] weights = new double[Nconf][Nst];
@@ -192,12 +190,6 @@ public class AgentMerge implements AuctionBehavior {
 			best2[i].add(0.0);
 		}
 
-		for(int j=0; j<Nconf; j++) {
-			ArrayList<City> cities = generateCities();
-			ArrayList<Integer> capacities = generateCapacities(j, Nconf);
-			configs[j] = generateRandomVehicles(cities, capacities);
-		}
-		
 		createMostProbableTasks();
 	}
 
@@ -334,7 +326,7 @@ public class AgentMerge implements AuctionBehavior {
 		
 		// Opponent		
 		for(int j=0; j<Nconf; j++) {
-			List<MyVehicle> vl = configs[j];
+			
 
 			ArrayList<Task> tasks2Clone = (ArrayList<Task>) tasks2.clone();
 			// tasks.add(task);	

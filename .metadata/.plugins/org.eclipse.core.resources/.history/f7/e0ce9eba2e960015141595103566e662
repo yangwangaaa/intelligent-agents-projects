@@ -334,7 +334,9 @@ public class AgentMerge implements AuctionBehavior {
 		
 		// Opponent		
 		for(int j=0; j<Nconf; j++) {
-			List<MyVehicle> vl = configs[j];
+			ArrayList<City> cities = generateCities();
+			ArrayList<Integer> capacities = generateCapacities(j, Nconf);
+			List<MyVehicle> vl = generateRandomVehicles(cities, capacities);
 
 			ArrayList<Task> tasks2Clone = (ArrayList<Task>) tasks2.clone();
 			// tasks.add(task);	

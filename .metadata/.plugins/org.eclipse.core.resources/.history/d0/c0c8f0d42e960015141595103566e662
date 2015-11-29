@@ -63,7 +63,7 @@ public class AuctionAgent4 implements AuctionBehavior {
 	private Random rand;
 	private int firstV = 7;
 	private int lastV = 10;
-	private int minCarried = 5;
+	private int minCarried = 4;
 
 
 	private int id;
