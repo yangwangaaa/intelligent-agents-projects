@@ -63,7 +63,7 @@ public class AuctionAgent4 implements AuctionBehavior {
 	private Random rand;
 	private int firstV = 7;
 	private int lastV = 10;
-	private int minCarried = 4;
+	private int minCarried = 5;
 
 
 	private int id;
@@ -166,7 +166,7 @@ public class AuctionAgent4 implements AuctionBehavior {
 	public List<Plan> plan(List<Vehicle> vcls, TaskSet tasksSet) {
 
 		print("");
-		print("====================== AGENT 4 FINAL PLAN ======================================================================");
+		print("====================== AGENT MERGE FINAL PLAN ======================================================================");
 		
 		if(vcls.size()==0) {
 			List<Plan> plans = new ArrayList<Plan>();
@@ -253,7 +253,6 @@ public class AuctionAgent4 implements AuctionBehavior {
 
 	@Override
 	public Long askPrice(Task task) {
-		print("");
 		print("ASKPRICE for " + task);
 		lastTask++;
 		allTasks.add(task);
@@ -270,7 +269,7 @@ public class AuctionAgent4 implements AuctionBehavior {
 		long duration = System.currentTimeMillis() - actualTime;
 
 		print("AGENT 4 : BIDDING TASK " + task.id + ", Bid = " + Math.round(b) + ", id = " + id + ", in " + duration + " sec");
-		print("");
+
 		return b;
 	}
 
@@ -303,11 +302,8 @@ public class AuctionAgent4 implements AuctionBehavior {
 						NodePD bestSolution = sls.RunSLS(vl, tasks.toArray(new Task[tasks.size()]), timeout_opponent/2, null);
 						tasks.add(task);	
 						NodePD lastSolution = sls.RunSLS(vl, tasks.toArray(new Task[tasks.size()]), timeout_opponent/2, null);
-						
-						double bestValue = 0.0;
-						if(bestSolution!=null) bestValue = bestSolution.getOValue();
 						meanLastSol += lastSolution.getOValue();
-						meanBestSol += bestValue;
+						meanBestSol += bestSolution.getOValue();
 					}
 					else {
 						tasks.add(task);	
@@ -328,9 +324,7 @@ public class AuctionAgent4 implements AuctionBehavior {
 					timeout_agent = timeout_agent/2;
 					addSuppTasks(tasks, supp, minCarried-tasks.size()-1);
 					bestSolution = sls.RunSLS(vehiclesList, tasks.toArray(new Task[tasks.size()]), timeout_agent, null);
-					double bestValue = 0.0;
-					if(bestSolution!=null) bestValue = bestSolution.getOValue();
-					bestSolutionsValue[i].set(lastTask, bestValue);
+					bestSolutionsValue[i].set(lastTask, bestSolution.getOValue());
 				}
 
 				tasks.add(task);

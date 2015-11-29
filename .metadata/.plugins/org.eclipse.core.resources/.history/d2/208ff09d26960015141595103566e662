@@ -168,7 +168,6 @@ public class AgentMerge implements AuctionBehavior {
 				}
 			}
 		}
-		
 		//print("setup");
 		for(int i=0 ; i<Nconf ; i++){
 			weightConf[i]=(double) Nconf/2;
@@ -290,9 +289,8 @@ public class AgentMerge implements AuctionBehavior {
 		double duration = System.currentTimeMillis() - actualTime;
 		print("AGENTMERGE : BIDDING TASK " + task.id + ", Bid = " + Math.round(b) + ", in " + duration + " sec");
 		print("");
-		
-		
-		return computeFinalBid();
+		return (long) bestBid1;
+
 	}
 
 
@@ -313,9 +311,7 @@ public class AgentMerge implements AuctionBehavior {
 			timeout_agent = timeout_agent/2;
 			addSuppTasks(tasks1Clone, supp, minCarried-carriedSize1-1);
 			bestSolution1 = sls.RunSLS(vehiclesList, tasks1Clone.toArray(new Task[tasks1Clone.size()]), timeout_agent, null);
-			double bestValue = 0;
-			if(bestSolution1!=null) bestValue = bestSolution1.getOValue();
-			best1.set(proposed, bestValue);
+			best1.set(proposed, bestSolution1.getOValue());
 		}
 
 		tasks1Clone.add(task);
@@ -337,9 +333,7 @@ public class AgentMerge implements AuctionBehavior {
 				NodePD bestSolution2 = sls.RunSLS(vl, tasks2Clone.toArray(new Task[tasks2Clone.size()]), timeout_opponent/2, null);
 				tasks2Clone.add(task);	
 				NodePD lastSolution2 = sls.RunSLS(vl, tasks2Clone.toArray(new Task[tasks2Clone.size()]), timeout_opponent/2, null);
-				double bestValue = 0;
-				if(bestSolution2!=null) bestValue = bestSolution2.getOValue();
-				best2[j].set(proposed, bestValue);
+				best2[j].set(proposed, bestSolution2.getOValue());
 				last2[j].add(lastSolution2.getOValue());
 				mc2[j].add(last2[j].get(proposed) - best2[j].get(proposed));
 			}
@@ -484,7 +478,9 @@ public class AgentMerge implements AuctionBehavior {
 		for(int i = 0; i<bids.length ; i++){
 			if(i == agent.id()){
 				bid1.add((double)bids[agent.id()]); //TODO cast en double problème?
+				//print("Array bid1 = "+bid1.toString());
 			}else{
+				print("ennemy's bid = "+((Long)bids[i]).toString());
 				ennemy = i;
 				bid2.add((double)bids[i]);
 			}
@@ -508,8 +504,6 @@ public class AgentMerge implements AuctionBehavior {
 			tasks2.add(previous);
 			listWinner.add(ennemy);
 		}
-		
-		// TODO what is MC 0
 		//ratio
 		for(int conf = 0; conf<Nconf ; conf++){
 			ratio[conf].add( bid2.get(proposed)/mc2[conf].get(proposed));
@@ -527,7 +521,7 @@ public class AgentMerge implements AuctionBehavior {
 				mean[conf]=0;
 			}
 			for(int conf = 0; conf<Nconf ; conf++){
-				for(int prop=0; prop<ratio[conf].size() ;prop++){
+				for(int prop =0; prop<ratio[conf].size() ;prop++){
 					mean[conf] += ratio[conf].get(prop);
 				}
 			}
@@ -584,11 +578,51 @@ public class AgentMerge implements AuctionBehavior {
 	}
 
 
-	private long computeFinalBid() {
-		long bid = (long) 0;
-		bid = (long) bestBid1;
+	private double computeFinalBid() {
+		double bid = (double) 0;
+
 		return bid;
 	}
+
+
+	//////////////////////////////////////
+	// 		 COMPUTE MARGINAL COST 		//
+	//////////////////////////////////////
+
+	private void updateAllBids() {
+
+		for(int conf = 0; conf <Nconf ; conf++){
+			double m2 = mc2[conf].get(proposed);
+			for(int strat = 0; strat < Nst ; strat++){
+				allBid1[conf][strat].add(strategies[conf][strat].estimate(mc1.get(proposed), m2));
+			}
+		}
+	}
+
+
+
+	//////////////////////////////////////
+	//			   STRATEGY 			//
+	//////////////////////////////////////
+
+	public int findBestConfiguration(){
+		return configurations[1].getId();
+	}
+
+
+	public int[] findBestStrategy(){
+		int bestConf = findBestConfiguration();
+		int configuration = 0;
+		int strategy = 0;
+		return new int[] {configuration, strategy};// au début renvoie une straté inté
+	}
+
+
+	public void updateStrategies(){
+
+	}
+
+
 
 
 	//////////////////////////////////////
@@ -631,3 +665,11 @@ public class AgentMerge implements AuctionBehavior {
 	}
 
 }
+
+/*
+for(int conf = 0; conf <Nconf ; conf++){
+	for(int strat = 0; strat < Nst ; strat++){
+
+	}
+}
+ */

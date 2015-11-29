@@ -64,7 +64,7 @@ public class AgentMerge implements AuctionBehavior {
 	private int Nconf = 3;    //number of configurations
 	private double totalReward1 = 0;
 	private double totalReward2 = 0;
-	private int minCarried = 5;
+	private int minCarried = 1;
 	private int carriedSize1 = 0;
 	private int carriedSize2 = 0;
 

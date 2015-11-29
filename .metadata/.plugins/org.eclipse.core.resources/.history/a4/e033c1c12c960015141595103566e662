@@ -337,9 +337,7 @@ public class AgentMerge implements AuctionBehavior {
 				NodePD bestSolution2 = sls.RunSLS(vl, tasks2Clone.toArray(new Task[tasks2Clone.size()]), timeout_opponent/2, null);
 				tasks2Clone.add(task);	
 				NodePD lastSolution2 = sls.RunSLS(vl, tasks2Clone.toArray(new Task[tasks2Clone.size()]), timeout_opponent/2, null);
-				double bestValue = 0;
-				if(bestSolution2!=null) bestValue = bestSolution2.getOValue();
-				best2[j].set(proposed, bestValue);
+				best2[j].set(proposed, bestSolution2.getOValue());
 				last2[j].add(lastSolution2.getOValue());
 				mc2[j].add(last2[j].get(proposed) - best2[j].get(proposed));
 			}

@@ -313,9 +313,7 @@ public class AgentMerge implements AuctionBehavior {
 			timeout_agent = timeout_agent/2;
 			addSuppTasks(tasks1Clone, supp, minCarried-carriedSize1-1);
 			bestSolution1 = sls.RunSLS(vehiclesList, tasks1Clone.toArray(new Task[tasks1Clone.size()]), timeout_agent, null);
-			double bestValue = 0;
-			if(bestSolution1!=null) bestValue = bestSolution1.getOValue();
-			best1.set(proposed, bestValue);
+			best1.set(proposed, bestSolution1.getOValue());
 		}
 
 		tasks1Clone.add(task);
@@ -337,9 +335,7 @@ public class AgentMerge implements AuctionBehavior {
 				NodePD bestSolution2 = sls.RunSLS(vl, tasks2Clone.toArray(new Task[tasks2Clone.size()]), timeout_opponent/2, null);
 				tasks2Clone.add(task);	
 				NodePD lastSolution2 = sls.RunSLS(vl, tasks2Clone.toArray(new Task[tasks2Clone.size()]), timeout_opponent/2, null);
-				double bestValue = 0;
-				if(bestSolution2!=null) bestValue = bestSolution2.getOValue();
-				best2[j].set(proposed, bestValue);
+				best2[j].set(proposed, bestSolution2.getOValue());
 				last2[j].add(lastSolution2.getOValue());
 				mc2[j].add(last2[j].get(proposed) - best2[j].get(proposed));
 			}

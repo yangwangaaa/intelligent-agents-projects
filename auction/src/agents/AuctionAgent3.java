@@ -118,7 +118,7 @@ public class AuctionAgent3 implements AuctionBehavior {
 		timeout_plan = ls.get(LogistSettings.TimeoutKey.PLAN);
 
 		timeout_bid = ls.get(LogistSettings.TimeoutKey.BID);
-		//timeout_bid*=0.95*timeout_bid;
+		//timeout_bid=0.95*timeout_bid;
 		// int numA = ls.get(LogistSettings.SizeKey.NUMBER_OF_AGENTS);
 		// int numT = ls.get(LogistSettings.SizeKey.NUMBER_OF_TASKS);
 		//print("number of tasks = " + numT + " and number of agents = " + numA);
