@@ -1,0 +1,166 @@
+04:33:03.311 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament/MyEvent/config-Lthugo2MyAgent-templatenew.xml -a tournament/MyEvent/agents.xml tournament/MyEvent/config.xml Lthugo2MyAgent templatenew
+04:33:03.456 CONFIG | Reading tournament/MyEvent/config.xml
+04:33:03.528 CONFIG | Reading config/settings_auction.xml
+04:33:03.810 CONFIG | Reading config/topology/england.xml
+04:33:03.835 CONFIG | Reading tournament/MyEvent/agents.xml
+04:33:21.722 INFO | LogistPlatform finished successfully!
+04:33:21.730 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament/MyEvent/config-Lthugo2MyAgent-auctionAgent4.xml -a tournament/MyEvent/agents.xml tournament/MyEvent/config.xml Lthugo2MyAgent auctionAgent4
+04:33:21.941 CONFIG | Reading tournament/MyEvent/config.xml
+04:33:22.045 CONFIG | Reading config/settings_auction.xml
+04:33:22.268 CONFIG | Reading config/topology/england.xml
+04:33:22.290 CONFIG | Reading tournament/MyEvent/agents.xml
+04:33:22.331 CONFIG | Reading config/settings_auction.xml
+04:33:22.847 CONFIG | 
+04:33:22.847 CONFIG | ASKPRICE for (Task 0, 3 kg, 69479 CHF, Cardiff -> Sheffield)
+04:33:37.548 CONFIG | AGENT 4 : BIDDING TASK 0, Bid = 1312, id = 1, in 14701 sec
+04:33:37.549 CONFIG | 
+04:33:37.753 CONFIG | 
+04:33:37.753 CONFIG | ASKPRICE for (Task 1, 3 kg, 47516 CHF, Manchester -> Norwich)
+04:33:52.846 CONFIG | AGENT 4 : BIDDING TASK 1, Bid = 1261, id = 1, in 15093 sec
+04:33:52.848 CONFIG | 
+04:33:53.572 CONFIG | 
+04:33:53.573 CONFIG | ASKPRICE for (Task 2, 3 kg, 68638 CHF, Cardiff -> Manchester)
+04:34:11.936 CONFIG | AGENT 4 : BIDDING TASK 2, Bid = 786, id = 1, in 18363 sec
+04:34:11.937 CONFIG | 
+04:34:12.518 CONFIG | 
+04:34:12.520 CONFIG | ASKPRICE for (Task 3, 3 kg, 55553 CHF, Sheffield -> Portsmouth)
+04:34:29.869 CONFIG | AGENT 4 : BIDDING TASK 3, Bid = 691, id = 1, in 17351 sec
+04:34:29.870 CONFIG | 
+04:34:30.955 CONFIG | 
+04:34:30.955 CONFIG | ASKPRICE for (Task 4, 3 kg, 41305 CHF, Liverpool -> Norwich)
+04:34:49.314 CONFIG | AGENT 4 : BIDDING TASK 4, Bid = 316, id = 1, in 18359 sec
+04:34:49.315 CONFIG | 
+04:34:50.934 CONFIG | 
+04:34:50.935 CONFIG | ASKPRICE for (Task 5, 3 kg, 85625 CHF, Norwich -> London)
+04:35:11.938 CONFIG | AGENT 4 : BIDDING TASK 5, Bid = 756, id = 1, in 21004 sec
+04:35:11.938 CONFIG | 
+04:35:13.980 CONFIG | 
+04:35:13.980 CONFIG | ASKPRICE for (Task 6, 3 kg, 64503 CHF, Cardiff -> London)
+04:35:26.907 CONFIG | AGENT 4 : BIDDING TASK 6, Bid = 416, id = 1, in 12928 sec
+04:35:26.907 CONFIG | 
+04:35:28.831 CONFIG | 
+04:35:28.831 CONFIG | ASKPRICE for (Task 7, 3 kg, 68101 CHF, London -> Manchester)
+04:35:41.771 CONFIG | AGENT 4 : BIDDING TASK 7, Bid = 353, id = 1, in 12938 sec
+04:35:41.772 CONFIG | 
+04:35:44.571 CONFIG | 
+04:35:44.571 CONFIG | ASKPRICE for (Task 8, 3 kg, 41269 CHF, Plymouth -> Birmingham)
+04:35:59.706 CONFIG | AGENT 4 : BIDDING TASK 8, Bid = 1384, id = 1, in 15135 sec
+04:35:59.706 CONFIG | 
+04:36:03.524 CONFIG | 
+04:36:03.524 CONFIG | ASKPRICE for (Task 9, 3 kg, 75780 CHF, Portsmouth -> Plymouth)
+04:36:24.952 CONFIG | AGENT 4 : BIDDING TASK 9, Bid = 1252, id = 1, in 21428 sec
+04:36:24.952 CONFIG | 
+04:37:35.354 CONFIG | total cost: 5016.0
+04:37:35.356 CONFIG | 
+04:37:35.356 CONFIG | ====================== AGENT 4 FINAL PLAN ======================================================================
+04:37:42.469 CONFIG | The plan was generated in 7112.0 milliseconds.
+04:37:42.470 CONFIG | Bids : 
+04:37:42.470 CONFIG | Agent 0:  1169  1897  1882  1964  1476  804  1424  638  1995  1132
+04:37:42.470 CONFIG | Agent 1:  1312  1261  786  691  316  756  416  353  1384  1252
+04:37:42.470 CONFIG | 
+04:37:42.470 CONFIG | ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+04:37:42.470 CONFIG | AGENT4 : number of tasks = 8
+04:37:42.470 CONFIG | FINAL DISTANCE = 1349
+04:37:42.470 CONFIG | FINAL COST2 = 6746.0
+04:37:42.470 CONFIG | FINAL REWARD = 5963
+04:37:42.471 CONFIG | FINAL PROFIT = -783
+04:37:42.471 CONFIG | ------------------------------------------------------------------------------
+04:37:42.471 CONFIG | AGENT 0 INFORMATIONS :
+04:37:42.471 CONFIG | Tasks, T0:1, T1:0, T2:0, T3:0, T4:0, T5:0, T6:0, T7:0, T8:0, T9:1
+04:37:42.471 CONFIG | lastSolutionsValue, T0:5313, T1:4531, T2:4113, T3:5234, T4:5050, T5:4814, T6:4879, T7:4501, T8:6073, T9:5127
+04:37:42.471 CONFIG | BestSolutionValue, T0:3757, T1:4099, T2:3873, T3:4629, T4:4259, T5:2924, T6:3838, T7:3619, T8:3889, T9:3273, T10:5127
+04:37:42.471 CONFIG | MarginalCost, T0:1555, T1:432, T2:239, T3:605, T4:791, T5:1890, T6:1041, T7:881, T8:2183, T9:1853
+04:37:42.471 CONFIG | Bid, T0:1169, T1:1897, T2:1882, T3:1964, T4:1476, T5:804, T6:1424, T7:638, T8:1995, T9:1132
+04:37:42.471 CONFIG | ------------------------------------------------------------------------------
+04:37:42.471 CONFIG | ------------------------------------------------------------------------------
+04:37:42.472 CONFIG | AGENT 1 INFORMATIONS :
+04:37:42.472 CONFIG | Tasks, T0:0, T1:1, T2:1, T3:1, T4:1, T5:1, T6:1, T7:1, T8:1, T9:0
+04:37:42.472 CONFIG | lastSolutionsValue, T0:4733, T1:5396, T2:5561, T3:5896, T4:5896, T5:5896, T6:5896, T7:5896, T8:6746, T9:7596
+04:37:42.472 CONFIG | BestSolutionValue, T0:3583, T1:3583, T2:4411, T3:5148, T4:5896, T5:5896, T6:5896, T7:5896, T8:5896, T9:6746, T10:6746
+04:37:42.472 CONFIG | MarginalCost, T0:1150, T1:1813, T2:1150, T3:748, T4:0, T5:0, T6:0, T7:0, T8:850, T9:850
+04:37:42.473 CONFIG | Bid, T0:1312, T1:1261, T2:786, T3:691, T4:316, T5:756, T6:416, T7:353, T8:1384, T9:1252
+04:37:42.473 CONFIG | ------------------------------------------------------------------------------
+04:37:42.473 CONFIG | ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+04:37:42.473 CONFIG | 
+04:38:07.878 CONFIG | Wrote tournament/MyEvent/config-Lthugo2MyAgent-auctionAgent4.xml
+04:38:08.271 INFO | LogistPlatform finished successfully!
+04:38:08.273 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament/MyEvent/config-auctionAgent4-Lthugo2MyAgent.xml -a tournament/MyEvent/agents.xml tournament/MyEvent/config.xml auctionAgent4 Lthugo2MyAgent
+04:38:08.470 CONFIG | Reading tournament/MyEvent/config.xml
+04:38:08.622 CONFIG | Reading config/settings_auction.xml
+04:38:08.935 CONFIG | Reading config/topology/england.xml
+04:38:08.969 CONFIG | Reading tournament/MyEvent/agents.xml
+04:38:09.013 CONFIG | Reading config/settings_auction.xml
+04:38:09.076 CONFIG | 
+04:38:09.077 CONFIG | ASKPRICE for (Task 0, 3 kg, 69479 CHF, Cardiff -> Sheffield)
+04:38:24.456 CONFIG | AGENT 4 : BIDDING TASK 0, Bid = 1721, id = 0, in 15380 sec
+04:38:24.457 CONFIG | 
+04:38:25.196 CONFIG | 
+04:38:25.197 CONFIG | ASKPRICE for (Task 1, 3 kg, 47516 CHF, Manchester -> Norwich)
+04:38:46.708 CONFIG | AGENT 4 : BIDDING TASK 1, Bid = 799, id = 0, in 21512 sec
+04:38:46.709 CONFIG | 
+04:38:47.771 CONFIG | 
+04:38:47.771 CONFIG | ASKPRICE for (Task 2, 3 kg, 68638 CHF, Cardiff -> Manchester)
+04:39:08.780 CONFIG | AGENT 4 : BIDDING TASK 2, Bid = 527, id = 0, in 21009 sec
+04:39:08.781 CONFIG | 
+04:39:09.582 CONFIG | 
+04:39:09.583 CONFIG | ASKPRICE for (Task 3, 3 kg, 55553 CHF, Sheffield -> Portsmouth)
+04:39:29.218 CONFIG | AGENT 4 : BIDDING TASK 3, Bid = 754, id = 0, in 19635 sec
+04:39:29.219 CONFIG | 
+04:39:29.985 CONFIG | 
+04:39:29.985 CONFIG | ASKPRICE for (Task 4, 3 kg, 41305 CHF, Liverpool -> Norwich)
+04:39:47.965 CONFIG | AGENT 4 : BIDDING TASK 4, Bid = 89, id = 0, in 17980 sec
+04:39:47.966 CONFIG | 
+04:39:48.333 CONFIG | 
+04:39:48.333 CONFIG | ASKPRICE for (Task 5, 3 kg, 85625 CHF, Norwich -> London)
+04:39:59.593 CONFIG | AGENT 4 : BIDDING TASK 5, Bid = 880, id = 0, in 11260 sec
+04:39:59.593 CONFIG | 
+04:40:00.165 CONFIG | 
+04:40:00.165 CONFIG | ASKPRICE for (Task 6, 3 kg, 64503 CHF, Cardiff -> London)
+04:40:11.151 CONFIG | AGENT 4 : BIDDING TASK 6, Bid = 284, id = 0, in 10986 sec
+04:40:11.152 CONFIG | 
+04:40:11.751 CONFIG | 
+04:40:11.752 CONFIG | ASKPRICE for (Task 7, 3 kg, 68101 CHF, London -> Manchester)
+04:40:23.995 CONFIG | AGENT 4 : BIDDING TASK 7, Bid = 141, id = 0, in 12244 sec
+04:40:23.995 CONFIG | 
+04:40:24.940 CONFIG | 
+04:40:24.940 CONFIG | ASKPRICE for (Task 8, 3 kg, 41269 CHF, Plymouth -> Birmingham)
+04:40:39.318 CONFIG | AGENT 4 : BIDDING TASK 8, Bid = 2414, id = 0, in 14378 sec
+04:40:39.319 CONFIG | 
+04:40:40.742 CONFIG | 
+04:40:40.742 CONFIG | ASKPRICE for (Task 9, 3 kg, 75780 CHF, Portsmouth -> Plymouth)
+04:40:55.704 CONFIG | AGENT 4 : BIDDING TASK 9, Bid = 631, id = 0, in 14962 sec
+04:40:55.704 CONFIG | 
+04:41:06.367 CONFIG | 
+04:41:06.368 CONFIG | ====================== AGENT 4 FINAL PLAN ======================================================================
+04:41:11.483 CONFIG | The plan was generated in 5116.0 milliseconds.
+04:41:11.485 CONFIG | Bids : 
+04:41:11.485 CONFIG | Agent 0:  1721  799  527  754  89  880  284  141  2414  631
+04:41:11.485 CONFIG | Agent 1:  1879  1973  94  2424  2719  402  851  251  1597  979
+04:41:11.485 CONFIG | 
+04:41:11.485 CONFIG | ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+04:41:11.486 CONFIG | AGENT4 : number of tasks = 7
+04:41:11.486 CONFIG | FINAL DISTANCE = 1274
+04:41:11.486 CONFIG | FINAL COST2 = 6372.0
+04:41:11.486 CONFIG | FINAL REWARD = 4419
+04:41:11.486 CONFIG | FINAL PROFIT = -1953
+04:41:11.486 CONFIG | ------------------------------------------------------------------------------
+04:41:11.486 CONFIG | AGENT 0 INFORMATIONS :
+04:41:11.486 CONFIG | Tasks, T0:1, T1:1, T2:0, T3:1, T4:1, T5:0, T6:1, T7:1, T8:0, T9:1
+04:41:11.486 CONFIG | lastSolutionsValue, T0:4254, T1:5295, T2:5148, T3:5522, T4:5321, T5:5522, T6:5321, T7:5321, T8:7769, T9:6372
+04:41:11.486 CONFIG | BestSolutionValue, T0:2418, T1:4254, T2:5148, T3:5148, T4:5321, T5:5321, T6:5321, T7:5321, T8:5321, T9:5321, T10:6372
+04:41:11.486 CONFIG | MarginalCost, T0:1836, T1:1041, T2:0, T3:374, T4:0, T5:201, T6:0, T7:0, T8:2448, T9:1051
+04:41:11.486 CONFIG | Bid, T0:1721, T1:799, T2:527, T3:754, T4:89, T5:880, T6:284, T7:141, T8:2414, T9:631
+04:41:11.486 CONFIG | ------------------------------------------------------------------------------
+04:41:11.486 CONFIG | ------------------------------------------------------------------------------
+04:41:11.486 CONFIG | AGENT 1 INFORMATIONS :
+04:41:11.487 CONFIG | Tasks, T0:0, T1:0, T2:1, T3:0, T4:0, T5:1, T6:0, T7:0, T8:1, T9:0
+04:41:11.487 CONFIG | lastSolutionsValue, T0:5450, T1:3995, T2:5029, T3:5034, T4:4886, T5:5183, T6:5423, T7:4113, T8:6458, T9:5730
+04:41:11.488 CONFIG | BestSolutionValue, T0:3903, T1:3558, T2:3711, T3:3710, T4:4663, T5:3285, T6:4713, T7:3760, T8:4095, T9:5730, T10:5730
+04:41:11.488 CONFIG | MarginalCost, T0:1547, T1:437, T2:1317, T3:1323, T4:222, T5:1898, T6:709, T7:352, T8:2362, T9:0
+04:41:11.489 CONFIG | Bid, T0:1879, T1:1973, T2:94, T3:2424, T4:2719, T5:402, T6:851, T7:251, T8:1597, T9:979
+04:41:11.489 CONFIG | ------------------------------------------------------------------------------
+04:41:11.489 CONFIG | ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+04:41:11.489 CONFIG | 
+04:41:11.494 CONFIG | total cost: 4013.5
+04:42:09.309 CONFIG | Wrote tournament/MyEvent/config-auctionAgent4-Lthugo2MyAgent.xml
+04:42:09.739 INFO | LogistPlatform finished successfully!

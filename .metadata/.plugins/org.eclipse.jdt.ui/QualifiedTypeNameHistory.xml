@@ -8,4 +8,5 @@
 <fullyQualifiedTypeName name="java.util.Arrays"/>
 <fullyQualifiedTypeName name="java.util.Random"/>
 <fullyQualifiedTypeName name="other.MyVehicle"/>
+<fullyQualifiedTypeName name="java.lang.Double"/>
 </qualifiedTypeNameHistroy>
