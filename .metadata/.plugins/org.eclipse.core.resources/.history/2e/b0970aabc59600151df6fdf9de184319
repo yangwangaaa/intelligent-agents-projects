@@ -103,7 +103,7 @@ public class AgentMerge implements AuctionBehavior {
 	private double bestBid1;
 	private double bestMc2;
 	private ArrayList<Double> tableBestBid = new ArrayList<Double>();
-	private ArrayList<Double> tableBestMc2 = new ArrayList<Double>();
+
 
 	//////////////////////////////////////
 	//              MAIN                //
@@ -293,11 +293,11 @@ public class AgentMerge implements AuctionBehavior {
 		updateBestMc2();
 		printTableWeightConf();
 		//print("best Mc2 =" + bestMc2);
-		printTableBestMc2();
+		//printBestMc2();
 		
 		updateBestBid1();
 		//print("bestBid1 ="+bestBid1);
-		printTableBestBid();
+		//printTableBestBid();
 
 		double duration = System.currentTimeMillis() - actualTime;
 		print("AGENTMERGE : BIDDING TASK " + task.id + ", Bid = " + Math.round(b) + ", in " + duration + " sec");
@@ -459,7 +459,6 @@ public class AgentMerge implements AuctionBehavior {
 			sumWeights += weightConf[conf];
 		}
 		bestMc2 = bestMc2/sumWeights;		
-		tableBestMc2.add(bestMc2);
 	}
 
 
@@ -656,16 +655,6 @@ public class AgentMerge implements AuctionBehavior {
 	}
 	public void printWeightConf(){
 		System.out.println("weightConf = "+Arrays.toString(weightConf));
-	}
-	
-	public void printTableBestBid(){
-		print("TABLE TableBestBid:");
-		print(tableBestBid.toString());
-	}
-	
-	public void printTableBestMc2(){
-		print("TABLE TableBestBid:");
-		print(tableBestMc2.toString());
 	}
 	
 	public void printTableWeightConf(){
