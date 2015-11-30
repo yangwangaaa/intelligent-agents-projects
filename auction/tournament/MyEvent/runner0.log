@@ -1,3 +1,170 @@
+<<<<<<< HEAD
+11:48:55.393 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament/MyEvent/config-AgentMerge1-Lthugo2Opponent.xml -a tournament/MyEvent/agents.xml tournament/MyEvent/config.xml AgentMerge1 Lthugo2Opponent
+11:48:55.534 CONFIG | Reading tournament/MyEvent/config.xml
+11:48:55.592 CONFIG | Reading config/settings_auction.xml
+11:48:55.957 CONFIG | Reading config/topology/england.xml
+11:48:55.977 CONFIG | Reading tournament/MyEvent/agents.xml
+11:48:56.015 CONFIG | Reading config/settings_auction.xml
+11:48:56.019 CONFIG | TIMEOUT_BID =303000
+11:48:56.019 CONFIG | CONFIG 0
+11:48:56.019 CONFIG | V0: capa=30, currentCity=Plymouth
+11:48:56.019 CONFIG | V1: capa=30, currentCity=Portsmouth
+11:48:56.019 CONFIG | CONFIG 1
+11:48:56.019 CONFIG | V0: capa=21, currentCity=Leeds
+11:48:56.019 CONFIG | V1: capa=39, currentCity=Sheffield
+11:48:56.019 CONFIG | CONFIG 2
+11:48:56.020 CONFIG | V0: capa=12, currentCity=Cardiff
+11:48:56.020 CONFIG | V1: capa=48, currentCity=Newcastle
+11:48:56.020 CONFIG | SAME CONFIG: 
+11:48:56.020 CONFIG | V0: capa=30, currentCity=Newcastle
+11:48:56.020 CONFIG | V1: capa=30, currentCity=London
+11:48:56.020 CONFIG | SAME CONFIG END
+11:48:56.022 CONFIG | 
+11:48:56.052 CONFIG | ----- AGENT MERGE ASK PRICE: T0=(Task 0, 3 kg, 69479 CHF, Cardiff -> Sheffield) id = 0 -----
+11:49:10.091 CONFIG | 
+11:49:10.092 CONFIG | table mc1 = [1836.0]
+11:49:10.092 CONFIG | 
+11:49:10.092 CONFIG | TABLE MC2:
+11:49:10.092 CONFIG | configuration 0
+11:49:10.092 CONFIG | [1836.0]
+11:49:10.092 CONFIG | configuration 1
+11:49:10.092 CONFIG | [1836.0]
+11:49:10.092 CONFIG | configuration 2
+11:49:10.092 CONFIG | [902.0]
+11:49:10.093 CONFIG | 
+11:49:10.093 CONFIG | TABLE WeightConf:
+11:49:10.093 CONFIG | configuration 0
+11:49:10.093 CONFIG | [1.5]
+11:49:10.093 CONFIG | configuration 1
+11:49:10.093 CONFIG | [1.5]
+11:49:10.093 CONFIG | configuration 2
+11:49:10.093 CONFIG | [1.5]
+11:49:10.093 CONFIG | 
+11:49:10.093 CONFIG | TABLE TableBestMc2:
+11:49:10.093 CONFIG | [1524.6666666666667]
+11:49:10.093 CONFIG | AGENTMERGE : BIDDING TASK 0, Bid = 0, in 14042 sec
+11:49:10.093 CONFIG | 
+11:49:10.292 CONFIG | 
+11:49:10.293 CONFIG | ----- AGENT MERGE ASK PRICE: T1=(Task 1, 3 kg, 47516 CHF, Manchester -> Norwich) id = 0 -----
+11:49:23.478 CONFIG | 
+11:49:23.479 CONFIG | table mc1 = [1836.0, 1041.0]
+11:49:23.479 CONFIG | 
+11:49:23.479 CONFIG | TABLE MC2:
+11:49:23.479 CONFIG | configuration 0
+11:49:23.479 CONFIG | [1836.0, 1238.0]
+11:49:23.479 CONFIG | configuration 1
+11:49:23.479 CONFIG | [1836.0, 197.0]
+11:49:23.479 CONFIG | configuration 2
+11:49:23.479 CONFIG | [902.0, 73.0]
+11:49:23.479 CONFIG | 
+11:49:23.480 CONFIG | TABLE WeightConf:
+11:49:23.480 CONFIG | configuration 0
+11:49:23.480 CONFIG | [1.5]
+11:49:23.480 CONFIG | configuration 1
+11:49:23.480 CONFIG | [1.5]
+11:49:23.480 CONFIG | configuration 2
+11:49:23.480 CONFIG | [1.5]
+11:49:23.480 CONFIG | 
+11:49:23.480 CONFIG | TABLE TableBestMc2:
+11:49:23.480 CONFIG | [1524.6666666666667, 502.6666666666667]
+11:49:23.480 CONFIG | AGENTMERGE : BIDDING TASK 1, Bid = 0, in 13186 sec
+11:49:23.480 CONFIG | 
+11:49:38.121 CONFIG | 
+11:49:38.121 CONFIG | 
+11:49:38.122 CONFIG | ====================== AGENT MERGE FINAL PLAN ======================================================================
+11:49:38.310 CONFIG | ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+11:49:38.310 CONFIG | AGENT MERGE : number of tasks = 2
+11:49:38.310 CONFIG | FINAL DISTANCE = 914
+11:49:38.310 CONFIG | FINAL COST = 4573.0
+11:49:38.310 CONFIG | FINAL REWARD = 2621
+11:49:38.311 CONFIG | FINAL PROFIT = -1952
+11:49:38.311 CONFIG | ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+11:49:38.311 CONFIG | ------------------------------------------------------------------------------
+11:49:38.311 CONFIG | AGENTMERGE 0 INFORMATIONS :
+11:49:38.311 CONFIG | Tasks, T0:0, T1:0
+11:49:38.311 CONFIG | last1, T0:4254, T1:5295
+11:49:38.311 CONFIG | best1, T0:2418, T1:4254, T2:5295
+11:49:38.311 CONFIG | mc1, T0:1836, T1:1041
+11:49:38.311 CONFIG | bid1, T0:1742.0, T1:879.0
+11:49:38.312 CONFIG | ------------------------------------------------------------------------------
+11:49:38.312 CONFIG | ------------------------------------------------------------------------------
+11:49:38.312 CONFIG | OTHER AGENT 1 INFORMATIONS :
+11:49:38.312 CONFIG | Tasks, T0:0, T1:0
+11:49:38.312 CONFIG | last2:
+11:49:38.313 CONFIG | 0: , T0:4254, T1:3656
+11:49:38.313 CONFIG | 1: , T0:5787, T1:4148
+11:49:38.313 CONFIG | 2: , T0:4485, T1:3656
+11:49:38.313 CONFIG | 
+11:49:38.313 CONFIG | best2:
+11:49:38.313 CONFIG | 0: , T0:2418, T1:2418, T2:2418
+11:49:38.313 CONFIG | 1: , T0:3951, T1:3951, T2:3951
+11:49:38.313 CONFIG | 2: , T0:3583, T1:3583, T2:3583
+11:49:38.313 CONFIG | 
+11:49:38.313 CONFIG | mc2:
+11:49:38.313 CONFIG | 0: , T0:1836, T1:1238
+11:49:38.313 CONFIG | 1: , T0:1836, T1:197
+11:49:38.313 CONFIG | 2: , T0:902, T1:73
+11:49:38.313 CONFIG | 
+11:49:38.313 CONFIG | bid2:
+11:49:38.313 CONFIG | , T0:1846.0, T1:1217.0
+11:49:38.313 CONFIG | ------------------------------------------------------------------------------
+11:49:38.314 CONFIG | 
+11:49:38.314 CONFIG | FINAL BIDS AGENT MERGE: 
+11:49:38.314 CONFIG |  T0:1742.0 T1:879.0
+11:49:38.314 CONFIG |  T0:1846.0 T1:1217.0
+11:49:38.314 CONFIG | 
+11:49:38.316 CONFIG | total cost: 0.0
+05:33:55.371 CONFIG | Wrote tournament/MyEvent/config-AgentMerge1-Lthugo2Opponent.xml
+05:33:55.819 INFO | LogistPlatform finished successfully!
+05:33:55.861 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament/MyEvent/config-Lthugo2Opponent-AgentMerge1.xml -a tournament/MyEvent/agents.xml tournament/MyEvent/config.xml Lthugo2Opponent AgentMerge1
+05:33:56.027 CONFIG | Reading tournament/MyEvent/config.xml
+05:33:56.141 CONFIG | Reading config/settings_auction.xml
+05:33:56.362 CONFIG | Reading config/topology/england.xml
+05:33:56.390 CONFIG | Reading tournament/MyEvent/agents.xml
+05:33:56.449 CONFIG | Reading config/settings_auction.xml
+05:33:56.453 CONFIG | TIMEOUT_BID =303000
+05:33:56.455 CONFIG | CONFIG 0
+05:33:56.455 CONFIG | V0: capa=30, currentCity=Plymouth
+05:33:56.456 CONFIG | V1: capa=30, currentCity=Cardiff
+05:33:56.456 CONFIG | CONFIG 1
+05:33:56.456 CONFIG | V0: capa=21, currentCity=Leeds
+05:33:56.457 CONFIG | V1: capa=39, currentCity=Sheffield
+05:33:56.462 CONFIG | CONFIG 2
+05:33:56.462 CONFIG | V0: capa=12, currentCity=Birmingham
+05:33:56.462 CONFIG | V1: capa=48, currentCity=London
+05:33:56.462 CONFIG | SAME CONFIG: 
+05:33:56.463 CONFIG | V0: capa=30, currentCity=Plymouth
+05:33:56.463 CONFIG | V1: capa=30, currentCity=Norwich
+05:33:56.463 CONFIG | SAME CONFIG END
+05:33:56.465 CONFIG | 
+05:33:57.028 CONFIG | ----- AGENT MERGE ASK PRICE: T0=(Task 0, 3 kg, 69479 CHF, Cardiff -> Sheffield) id = 1 -----
+05:34:11.922 CONFIG | 
+05:34:11.924 CONFIG | table mc1 = [1150.0]
+05:34:11.924 CONFIG | 
+05:34:11.924 CONFIG | TABLE MC2:
+05:34:11.925 CONFIG | configuration 0
+05:34:11.925 CONFIG | [1150.0]
+05:34:11.925 CONFIG | configuration 1
+05:34:11.925 CONFIG | [1836.0]
+05:34:11.925 CONFIG | configuration 2
+05:34:11.925 CONFIG | [1150.0]
+05:34:11.925 CONFIG | 
+05:34:11.925 CONFIG | TABLE WeightConf:
+05:34:11.925 CONFIG | configuration 0
+05:34:11.925 CONFIG | [1.5]
+05:34:11.925 CONFIG | configuration 1
+05:34:11.925 CONFIG | [1.5]
+05:34:11.925 CONFIG | configuration 2
+05:34:11.926 CONFIG | [1.5]
+05:34:11.926 CONFIG | 
+05:34:11.926 CONFIG | TABLE TableBestMc2:
+05:34:11.926 CONFIG | [1378.6666666666667]
+05:34:11.926 CONFIG | AGENTMERGE : BIDDING TASK 0, Bid = 0, in 14897 sec
+05:34:11.926 CONFIG | 
+05:34:12.128 CONFIG | 
+05:34:12.128 CONFIG | ----- AGENT MERGE ASK PRICE: T1=(Task 1, 3 kg, 47516 CHF, Manchester -> Norwich) id = 1 -----
+05:34:22.785 INFO | LogistPlatform finished successfully!
+=======
 12:15:41.615 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament/MyEvent/config-Lthugo2MyAgent-templatenew.xml -a tournament/MyEvent/agents.xml tournament/MyEvent/config.xml Lthugo2MyAgent templatenew
 12:15:41.805 CONFIG | Reading tournament/MyEvent/config.xml
 12:15:41.907 CONFIG | Reading config/settings_auction.xml
@@ -2128,3 +2295,4 @@
 12:33:53.377 CONFIG | 
 12:34:24.109 CONFIG | Wrote tournament/MyEvent/config-AgentMerge-templatenew.xml
 12:34:24.589 INFO | LogistPlatform finished successfully!
+>>>>>>> origin/master

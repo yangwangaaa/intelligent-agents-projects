@@ -1,3 +1,166 @@
+<<<<<<< HEAD
+05:33:14.701 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament/MyEvent/config-AgentMerge1-grava.xml -a tournament/MyEvent/agents.xml tournament/MyEvent/config.xml AgentMerge1 grava
+05:33:15.052 CONFIG | Reading tournament/MyEvent/config.xml
+05:33:15.313 CONFIG | Reading config/settings_auction.xml
+05:33:16.350 CONFIG | Reading config/topology/england.xml
+05:33:16.401 CONFIG | Reading tournament/MyEvent/agents.xml
+05:33:16.492 CONFIG | Reading config/settings_auction.xml
+05:33:16.498 CONFIG | TIMEOUT_BID =303000
+05:33:16.498 CONFIG | CONFIG 0
+05:33:16.498 CONFIG | V0: capa=30, currentCity=London
+05:33:16.498 CONFIG | V1: capa=30, currentCity=Newcastle
+05:33:16.498 CONFIG | CONFIG 1
+05:33:16.498 CONFIG | V0: capa=21, currentCity=Sheffield
+05:33:16.498 CONFIG | V1: capa=39, currentCity=Cardiff
+05:33:16.498 CONFIG | CONFIG 2
+05:33:16.498 CONFIG | V0: capa=12, currentCity=Norwich
+05:33:16.499 CONFIG | V1: capa=48, currentCity=Plymouth
+05:33:16.499 CONFIG | SAME CONFIG: 
+05:33:16.499 CONFIG | V0: capa=30, currentCity=Newcastle
+05:33:16.499 CONFIG | V1: capa=30, currentCity=London
+05:33:16.499 CONFIG | SAME CONFIG END
+05:33:16.503 CONFIG | 
+05:33:16.603 CONFIG | ----- AGENT MERGE ASK PRICE: T0=(Task 0, 3 kg, 69479 CHF, Cardiff -> Sheffield) id = 0 -----
+05:33:39.227 CONFIG | 
+05:33:39.231 CONFIG | table mc1 = [1836.0]
+05:33:39.232 CONFIG | 
+05:33:39.232 CONFIG | TABLE MC2:
+05:33:39.233 CONFIG | configuration 0
+05:33:39.233 CONFIG | [1836.0]
+05:33:39.234 CONFIG | configuration 1
+05:33:39.234 CONFIG | [902.0]
+05:33:39.234 CONFIG | configuration 2
+05:33:39.234 CONFIG | [1150.0]
+05:33:39.234 CONFIG | 
+05:33:39.235 CONFIG | TABLE WeightConf:
+05:33:39.235 CONFIG | configuration 0
+05:33:39.235 CONFIG | [1.5]
+05:33:39.235 CONFIG | configuration 1
+05:33:39.235 CONFIG | [1.5]
+05:33:39.236 CONFIG | configuration 2
+05:33:39.236 CONFIG | [1.5]
+05:33:39.236 CONFIG | 
+05:33:39.236 CONFIG | TABLE TableBestMc2:
+05:33:39.236 CONFIG | [1296.0]
+05:33:39.237 CONFIG | AGENTMERGE : BIDDING TASK 0, Bid = 0, in 22630 sec
+05:33:39.237 CONFIG | 
+05:33:39.528 CONFIG | Done in 35000 iterations; final solution cost = 2766.0
+05:33:39.742 CONFIG | Done in 35000 iterations; final solution cost = 2191.0
+05:33:39.847 CONFIG | Done in 35000 iterations; final solution cost = 2191.0
+05:33:39.967 CONFIG | Done in 35000 iterations; final solution cost = 2191.0
+05:33:39.968 CONFIG | AGENT 1: for round 0 canAllow is 0.45 and ratio 1.0
+05:33:39.968 CONFIG | AGENT 1: for round 0 cost is 2766.0 and for opponent 2191.0
+05:33:39.968 CONFIG | AGENT 1: bid is 1862.35
+05:33:39.973 CONFIG | 
+05:33:39.976 CONFIG | ----- AGENT MERGE ASK PRICE: T1=(Task 1, 3 kg, 47516 CHF, Manchester -> Norwich) id = 0 -----
+05:34:01.208 CONFIG | 
+05:34:01.208 CONFIG | table mc1 = [1836.0, 1041.0]
+05:34:01.208 CONFIG | 
+05:34:01.208 CONFIG | TABLE MC2:
+05:34:01.208 CONFIG | configuration 0
+05:34:01.208 CONFIG | [1836.0, 1238.0]
+05:34:01.208 CONFIG | configuration 1
+05:34:01.208 CONFIG | [902.0, 73.0]
+05:34:01.208 CONFIG | configuration 2
+05:34:01.208 CONFIG | [1150.0, 1813.0]
+05:34:01.209 CONFIG | 
+05:34:01.209 CONFIG | TABLE WeightConf:
+05:34:01.209 CONFIG | configuration 0
+05:34:01.209 CONFIG | [1.5]
+05:34:01.209 CONFIG | configuration 1
+05:34:01.209 CONFIG | [1.5]
+05:34:01.209 CONFIG | configuration 2
+05:34:01.209 CONFIG | [1.5]
+05:34:01.209 CONFIG | 
+05:34:01.209 CONFIG | TABLE TableBestMc2:
+05:34:01.209 CONFIG | [1296.0, 1041.3333333333333]
+05:34:01.209 CONFIG | AGENTMERGE : BIDDING TASK 1, Bid = 0, in 21231 sec
+05:34:01.209 CONFIG | 
+05:34:01.209 CONFIG | My bid 1863 vs 1674
+05:34:01.251 CONFIG | Done in 35000 iterations; final solution cost = 3279.0
+05:34:01.514 CONFIG | Done in 35000 iterations; final solution cost = 4573.0
+05:34:01.676 CONFIG | Done in 35000 iterations; final solution cost = 4573.0
+05:34:01.809 CONFIG | Done in 35000 iterations; final solution cost = 4573.0
+05:34:01.810 CONFIG | AGENT 1: for round 1 canAllow is 0.45 and ratio 0.8820173436786856
+05:34:01.810 CONFIG | AGENT 1: for round 1 cost is 3279.0 and for opponent 2359.465312642629
+05:34:01.810 CONFIG | AGENT 1: bid is 2005.5455157462347
+05:34:07.289 CONFIG | 
+05:34:07.289 CONFIG | 
+05:34:07.289 CONFIG | ====================== AGENT MERGE FINAL PLAN ======================================================================
+05:34:07.499 CONFIG | ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+05:34:07.499 CONFIG | AGENT MERGE : number of tasks = 2
+05:34:07.499 CONFIG | FINAL DISTANCE = 914
+05:34:07.499 CONFIG | FINAL COST = 4573.0
+05:34:07.499 CONFIG | FINAL REWARD = 2715
+05:34:07.499 CONFIG | FINAL PROFIT = -1858
+05:34:07.499 CONFIG | ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+05:34:07.500 CONFIG | ------------------------------------------------------------------------------
+05:34:07.500 CONFIG | AGENTMERGE 0 INFORMATIONS :
+05:34:07.500 CONFIG | Tasks, T0:0, T1:0
+05:34:07.500 CONFIG | last1, T0:4254, T1:5295
+05:34:07.500 CONFIG | best1, T0:2418, T1:4254, T2:5295
+05:34:07.500 CONFIG | mc1, T0:1836, T1:1041
+05:34:07.500 CONFIG | bid1, T0:1674.0, T1:1041.0
+05:34:07.500 CONFIG | ------------------------------------------------------------------------------
+05:34:07.500 CONFIG | ------------------------------------------------------------------------------
+05:34:07.500 CONFIG | OTHER AGENT 1 INFORMATIONS :
+05:34:07.500 CONFIG | Tasks, T0:0, T1:0
+05:34:07.500 CONFIG | last2:
+05:34:07.500 CONFIG | 0: , T0:4254, T1:3656
+05:34:07.500 CONFIG | 1: , T0:5184, T1:4355
+05:34:07.500 CONFIG | 2: , T0:4733, T1:5396
+05:34:07.500 CONFIG | 
+05:34:07.500 CONFIG | best2:
+05:34:07.500 CONFIG | 0: , T0:2418, T1:2418, T2:2418
+05:34:07.500 CONFIG | 1: , T0:4282, T1:4282, T2:4282
+05:34:07.501 CONFIG | 2: , T0:3583, T1:3583, T2:3583
+05:34:07.501 CONFIG | 
+05:34:07.501 CONFIG | mc2:
+05:34:07.501 CONFIG | 0: , T0:1836, T1:1238
+05:34:07.501 CONFIG | 1: , T0:902, T1:73
+05:34:07.501 CONFIG | 2: , T0:1150, T1:1813
+05:34:07.501 CONFIG | 
+05:34:07.501 CONFIG | bid2:
+05:34:07.501 CONFIG | , T0:1863.0, T1:2006.0
+05:34:07.501 CONFIG | ------------------------------------------------------------------------------
+05:34:07.501 CONFIG | 
+05:34:07.501 CONFIG | FINAL BIDS AGENT MERGE: 
+05:34:07.501 CONFIG |  T0:1674.0 T1:1041.0
+05:34:07.501 CONFIG |  T0:1863.0 T1:2006.0
+05:34:07.502 CONFIG | 
+05:34:07.511 CONFIG | My bid 2006 vs 1041
+05:34:11.805 CONFIG | Wrote tournament/MyEvent/config-AgentMerge1-grava.xml
+05:34:12.242 INFO | LogistPlatform finished successfully!
+05:34:12.249 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament/MyEvent/config-grava-AgentMerge1.xml -a tournament/MyEvent/agents.xml tournament/MyEvent/config.xml grava AgentMerge1
+05:34:12.414 CONFIG | Reading tournament/MyEvent/config.xml
+05:34:12.526 CONFIG | Reading config/settings_auction.xml
+05:34:12.727 CONFIG | Reading config/topology/england.xml
+05:34:12.755 CONFIG | Reading tournament/MyEvent/agents.xml
+05:34:12.828 CONFIG | Reading config/settings_auction.xml
+05:34:12.833 CONFIG | TIMEOUT_BID =303000
+05:34:12.834 CONFIG | CONFIG 0
+05:34:12.834 CONFIG | V0: capa=30, currentCity=Birmingham
+05:34:12.835 CONFIG | V1: capa=30, currentCity=Plymouth
+05:34:12.835 CONFIG | CONFIG 1
+05:34:12.835 CONFIG | V0: capa=21, currentCity=Manchester
+05:34:12.835 CONFIG | V1: capa=39, currentCity=Cardiff
+05:34:12.835 CONFIG | CONFIG 2
+05:34:12.835 CONFIG | V0: capa=12, currentCity=Norwich
+05:34:12.835 CONFIG | V1: capa=48, currentCity=Leeds
+05:34:12.835 CONFIG | SAME CONFIG: 
+05:34:12.835 CONFIG | V0: capa=30, currentCity=Plymouth
+05:34:12.835 CONFIG | V1: capa=30, currentCity=Norwich
+05:34:12.835 CONFIG | SAME CONFIG END
+05:34:12.836 CONFIG | 
+05:34:13.128 CONFIG | Done in 35000 iterations; final solution cost = 2191.0
+05:34:13.271 CONFIG | Done in 35000 iterations; final solution cost = 2191.0
+05:34:13.337 CONFIG | Done in 35000 iterations; final solution cost = 2191.0
+05:34:13.417 CONFIG | Done in 35000 iterations; final solution cost = 2191.0
+05:34:13.418 CONFIG | AGENT 0: for round 0 canAllow is 0.45 and ratio 1.0
+05:34:13.418 CONFIG | AGENT 0: for round 0 cost is 2191.0 and for opponent 2191.0
+05:34:13.418 CONFIG | AGENT 0: bid is 1862.35
+05:34:13.418 CONFIG | ----- AGENT MERGE ASK PRICE: T0=(Task 0, 3 kg, 69479 CHF, Cardiff -> Sheffield) id = 1 -----
+=======
 12:11:45.693 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament/MyEvent/config-Lthugo2MyAgent-templatenew.xml -a tournament/MyEvent/agents.xml tournament/MyEvent/config.xml Lthugo2MyAgent templatenew
 12:11:45.831 CONFIG | Reading tournament/MyEvent/config.xml
 12:11:45.910 CONFIG | Reading config/settings_auction.xml
@@ -110,3 +273,4 @@
 12:15:17.997 CONFIG | weights for the conf = [4.0, 0.75, 0.75]
 12:15:17.997 CONFIG | 
 12:15:17.997 CONFIG | ----- AGENT MERGE ASK PRICE: T2=(Task 2, 3 kg, 68638 CHF, Cardiff -> Manchester) id = 1 -----
+>>>>>>> origin/master
