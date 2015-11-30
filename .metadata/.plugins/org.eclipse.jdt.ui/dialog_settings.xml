@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
+	<item value="false" key="TypeHierarchyViewPart.qualifiednames"/>
+	<item value="3" key="TypeHierarchyViewPart.orientation"/>
+	<item value="false" key="TypeHierarchyViewPart.linkeditors"/>
 	<item value="/Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects/auction/logist/lib" key="org.eclipse.jdt.ui.lastextjar"/>
+	<item value="2" key="TypeHierarchyViewPart.hierarchyview"/>
 	<section name="GenerateConstructorUsingFieldsSelectionDialog">
 		<item value="false" key="OmitCallToSuper"/>
 	</section>
