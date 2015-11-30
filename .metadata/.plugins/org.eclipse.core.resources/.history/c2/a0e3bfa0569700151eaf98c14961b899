@@ -303,11 +303,16 @@ public class AgentMerge implements AuctionBehavior {
 
 		updateBestBid1();
 		//print("bestBid1 ="+bestBid1);
+<<<<<<< HEAD
 		printTableBestBid();
 		printbid1();
 		printbid2();
 		
+=======
+		//printTableBestBid();
 
+
+>>>>>>> origin/master
 		long duration = System.currentTimeMillis() - actualTime;
 		print("----- AGENTMERGE : BIDDING TASK " + task.id + ", Bid = " + Math.round(b) + ", in " + duration + " sec");
 		print("");
