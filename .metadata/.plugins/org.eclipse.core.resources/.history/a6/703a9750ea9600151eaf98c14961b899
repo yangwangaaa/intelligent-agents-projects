@@ -152,9 +152,8 @@ public class AgentMerge implements AuctionBehavior {
 		
 		// first simulation
 		ArrayList<Task> randTasks = createSuppTasks(expectedNumberOfTasks);
-		NodePD estimate = sls.RunSLS(vehiclesList, randTasks.toArray(new Task[randTasks.size()]), timeout_setup, null);
-		meanCostPerTask = estimate.getOValue()/randTasks.size();
-		print("***MEAN COST PER TASK = " + meanCostPerTask);
+		NodePD estimate = sls.RunSLS(vehiclesList, randTasks.toArray(new Task[randTasks.size()]), timeout_agent, null);
+		meanCostPerTask
 	}
 
 	public void setupStructures(){
@@ -313,15 +312,7 @@ public class AgentMerge implements AuctionBehavior {
 
 		return computeFinalBid();
 	}
-	
-	private long computeFinalBid() {
-		long bid = (long) 0;
-		bid = (long) bestBid1;
-		if(proposed<7) {
-			bid = (long) Math.max(meanCostPerTask, bestBid1);
-		}
-		return bid;
-	}
+
 
 	//////////////////////////////////////
 	// 	    COMPUTE MARGINAL COST       // 
@@ -504,6 +495,14 @@ public class AgentMerge implements AuctionBehavior {
 		}
 		tableBestBid.add(bestBid1);
 	}
+
+
+	private long computeFinalBid() {
+		long bid = (long) 0;
+		bid = (long) bestBid1;
+		return bid;
+	}
+
 
 	@Override
 	public void auctionResult(Task previous, int winner, Long[] bids) {

@@ -318,7 +318,7 @@ public class AgentMerge implements AuctionBehavior {
 		long bid = (long) 0;
 		bid = (long) bestBid1;
 		if(proposed<7) {
-			bid = (long) Math.max(meanCostPerTask, bestBid1);
+			bid = Math.max(meanCostPerTask, bestBid1);
 		}
 		return bid;
 	}
