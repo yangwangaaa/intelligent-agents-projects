@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<agents>
+	<!-- An auto-generated list of agents and their behavior classes -->
+	<!--  - jar directory : agents/ -->
+	<!--  - generated on  : Sun Nov 29 23:16:58 CET 2015 -->
+	<agent name="AgentMerge1">
+		<set class-path="agents/AgentMerge1.jar"/>
+		<set class-name="agents.AgentMerge"/>
+	</agent>
+	<agent name="AgentMerge2">
+		<set class-path="agents/AgentMerge2.jar"/>
+		<set class-name="agents.AgentMerge"/>
+	</agent>
+</agents>
