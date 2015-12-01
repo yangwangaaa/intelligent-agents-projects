@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<agents>
+	<!-- A list of agents and their behavior classes -->
+
+	<!-- #### AUCTION AGENTS ### -->
+	<agent name="auction-random">
+		<set class-path="bin/" />
+		<set class-name="template.AuctionTemplate" />
+	</agent>
+	<agent name="auctionAgent1">
+		<set class-path="bin/" />
+		<set class-name="agents.AuctionAgent1" />
+	</agent>
+	<agent name="auctionAgent2">
+		<set class-path="bin/" />
+		<set class-name="agents.AuctionAgent2" />
+	</agent>
+	<agent name="agentMouche">
+		<set class-path="bin/" />
+		<set class-name="agents.AgentMouche" />
+	</agent>
+	<agent name="agentMerge">
+		<set class-path="bin/" />
+		<set class-name="agents.AgentMerge" />
+	</agent>
+	<agent name="auctionAgent4">
+		<set class-path="bin/" />
+		<set class-name="agents.AuctionAgent4" />
+	</agent>
+	<agent name="auctionAgent5">
+		<set class-path="bin/" />
+		<set class-name="agents.AuctionAgent5" />
+	</agent>
+	<agent name="auctionAgent6">
+		<set class-path="bin/" />
+		<set class-name="agents.AuctionAgent6" />
+	</agent>
+	<agent name="agentMean">
+		<set class-path="bin/" />
+		<set class-name="agents.agentMean" />
+	</agent>
+
+</agents>

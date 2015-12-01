@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 10:41:22.902 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament/MyEvent/config-AuctionAgent5-AuctionAgent.xml -a tournament/MyEvent/agents.xml tournament/MyEvent/config.xml AuctionAgent5 AuctionAgent
 10:41:23.095 CONFIG | Reading tournament/MyEvent/config.xml
 10:41:23.184 CONFIG | Reading config/settings_auction.xml
@@ -432,3 +433,465 @@
 10:57:43.300 CONFIG | 
 10:57:58.612 CONFIG | Wrote tournament/MyEvent/config-AuctionAgent-AuctionAgent5.xml
 10:57:59.121 INFO | LogistPlatform finished successfully!
+=======
+<<<<<<< HEAD
+06:36:18.962 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament/MyEvent/config-AgentMerge1-pathe.xml -a tournament/MyEvent/agents.xml tournament/MyEvent/config.xml AgentMerge1 pathe
+06:36:19.086 CONFIG | Reading tournament/MyEvent/config.xml
+06:36:19.159 CONFIG | Reading config/settings_auction.xml
+06:36:19.405 CONFIG | Reading config/topology/england.xml
+06:36:19.424 CONFIG | Reading tournament/MyEvent/agents.xml
+06:36:19.466 CONFIG | Reading config/settings_auction.xml
+06:36:19.470 CONFIG | TIMEOUT_BID =303000
+06:36:19.471 CONFIG | CONFIG 0
+06:36:19.471 CONFIG | V0: capa=30, currentCity=Norwich
+06:36:19.471 CONFIG | V1: capa=30, currentCity=Cardiff
+06:36:19.471 CONFIG | CONFIG 1
+06:36:19.471 CONFIG | V0: capa=21, currentCity=Birmingham
+06:36:19.472 CONFIG | V1: capa=39, currentCity=Portsmouth
+06:36:19.472 CONFIG | CONFIG 2
+06:36:19.472 CONFIG | V0: capa=12, currentCity=Sheffield
+06:36:19.472 CONFIG | V1: capa=48, currentCity=London
+06:36:19.472 CONFIG | SAME CONFIG: 
+06:36:19.472 CONFIG | V0: capa=30, currentCity=Newcastle
+06:36:19.472 CONFIG | V1: capa=30, currentCity=London
+06:36:19.472 CONFIG | SAME CONFIG END
+06:36:19.474 CONFIG | 
+06:36:19.478 CONFIG | Reading config/settings_auction.xml
+06:36:19.482 CONFIG | TIMEOUT_BID =303000
+06:36:19.482 CONFIG | CONFIG 0
+06:36:19.482 CONFIG | V0: capa=30, currentCity=Liverpool
+06:36:19.482 CONFIG | V1: capa=30, currentCity=Birmingham
+06:36:19.482 CONFIG | CONFIG 1
+06:36:19.482 CONFIG | V0: capa=21, currentCity=Cardiff
+06:36:19.482 CONFIG | V1: capa=39, currentCity=Portsmouth
+06:36:19.482 CONFIG | CONFIG 2
+06:36:19.482 CONFIG | V0: capa=12, currentCity=Leeds
+06:36:19.482 CONFIG | V1: capa=48, currentCity=Norwich
+06:36:19.482 CONFIG | SAME CONFIG: 
+06:36:19.483 CONFIG | V0: capa=30, currentCity=Plymouth
+06:36:19.483 CONFIG | V1: capa=30, currentCity=Norwich
+06:36:19.483 CONFIG | SAME CONFIG END
+06:36:19.484 CONFIG | 
+06:36:30.027 CONFIG | ***MEAN COST PER TASK = 685.2
+06:36:30.050 CONFIG | ----- AGENT MERGE ASK PRICE: T0=(Task 0, 3 kg, 69479 CHF, Cardiff -> Sheffield) id = 0 -----
+06:36:43.075 CONFIG | 
+06:36:43.076 CONFIG | table mc1 = [1836.0]
+06:36:43.076 CONFIG | 
+06:36:43.076 CONFIG | TABLE MC2:
+06:36:43.076 CONFIG | configuration 0
+06:36:43.076 CONFIG | [1836.0]
+06:36:43.076 CONFIG | configuration 1
+06:36:43.076 CONFIG | [1150.0]
+06:36:43.076 CONFIG | configuration 2
+06:36:43.076 CONFIG | [1836.0]
+06:36:43.076 CONFIG | 
+06:36:43.076 CONFIG | TABLE WeightConf:
+06:36:43.076 CONFIG | configuration 0
+06:36:43.076 CONFIG | [1.5]
+06:36:43.076 CONFIG | configuration 1
+06:36:43.077 CONFIG | [1.5]
+06:36:43.077 CONFIG | configuration 2
+06:36:43.077 CONFIG | [1.5]
+06:36:43.077 CONFIG | 
+06:36:43.077 CONFIG | TABLE TableBestMc2:
+06:36:43.077 CONFIG | [1607.3333333333333]
+06:36:43.077 CONFIG | AGENTMERGE : BIDDING TASK 0, Bid = 0, in 13026 sec
+06:36:43.077 CONFIG | 
+06:36:43.077 CONFIG | ----- AGENT MERGE ASK PRICE: T0=(Task 0, 3 kg, 69479 CHF, Cardiff -> Sheffield) id = 1 -----
+06:36:54.719 CONFIG | 
+06:36:54.719 CONFIG | table mc1 = [1150.0]
+06:36:54.719 CONFIG | 
+06:36:54.719 CONFIG | TABLE MC2:
+06:36:54.719 CONFIG | configuration 0
+06:36:54.719 CONFIG | [1150.0]
+06:36:54.719 CONFIG | configuration 1
+06:36:54.720 CONFIG | [0.0]
+06:36:54.720 CONFIG | configuration 2
+06:36:54.720 CONFIG | [1836.0]
+06:36:54.720 CONFIG | 
+06:36:54.720 CONFIG | TABLE WeightConf:
+06:36:54.720 CONFIG | configuration 0
+06:36:54.720 CONFIG | [1.5]
+06:36:54.720 CONFIG | configuration 1
+06:36:54.720 CONFIG | [1.5]
+06:36:54.720 CONFIG | configuration 2
+06:36:54.720 CONFIG | [1.5]
+06:36:54.720 CONFIG | 
+06:36:54.720 CONFIG | TABLE TableBestMc2:
+06:36:54.720 CONFIG | [995.3333333333334]
+06:36:54.720 CONFIG | 
+06:36:54.720 CONFIG | TABLE TableBestBid:
+06:36:54.721 CONFIG | [1103.6]
+06:36:54.721 CONFIG | 
+06:36:54.721 CONFIG | TABLE BID1:
+06:36:54.721 CONFIG | []
+06:36:54.721 CONFIG | 
+06:36:54.721 CONFIG | TABLE BID2:
+06:36:54.721 CONFIG | []
+06:36:54.721 CONFIG | ----- AGENTMERGE : BIDDING TASK 0, Bid = 0, in 11644 sec
+06:36:54.721 CONFIG | 
+06:36:54.721 CONFIG | 
+06:36:54.721 CONFIG | ----- AGENT MERGE ASK PRICE: T1=(Task 1, 3 kg, 47516 CHF, Manchester -> Norwich) id = 0 -----
+06:37:11.587 CONFIG | 
+06:37:11.588 CONFIG | table mc1 = [1836.0, 1238.0]
+06:37:11.588 CONFIG | 
+06:37:11.588 CONFIG | TABLE MC2:
+06:37:11.588 CONFIG | configuration 0
+06:37:11.588 CONFIG | [1836.0, 1041.0]
+06:37:11.588 CONFIG | configuration 1
+06:37:11.588 CONFIG | [1150.0, 864.0]
+06:37:11.588 CONFIG | configuration 2
+06:37:11.588 CONFIG | [1836.0, 1041.0]
+06:37:11.588 CONFIG | 
+06:37:11.588 CONFIG | TABLE WeightConf:
+06:37:11.588 CONFIG | configuration 0
+06:37:11.588 CONFIG | [1.5]
+06:37:11.588 CONFIG | configuration 1
+06:37:11.588 CONFIG | [1.5]
+06:37:11.588 CONFIG | configuration 2
+06:37:11.588 CONFIG | [1.5]
+06:37:11.588 CONFIG | 
+06:37:11.588 CONFIG | TABLE TableBestMc2:
+06:37:11.588 CONFIG | [1607.3333333333333, 982.0]
+06:37:11.589 CONFIG | AGENTMERGE : BIDDING TASK 1, Bid = 0, in 16867 sec
+06:37:11.589 CONFIG | 
+06:37:11.589 CONFIG | 
+06:37:11.589 CONFIG | ----- AGENT MERGE ASK PRICE: T1=(Task 1, 3 kg, 47516 CHF, Manchester -> Norwich) id = 1 -----
+06:37:23.795 CONFIG | 
+06:37:23.796 CONFIG | table mc1 = [1150.0, 1813.0]
+06:37:23.796 CONFIG | 
+06:37:23.796 CONFIG | TABLE MC2:
+06:37:23.796 CONFIG | configuration 0
+06:37:23.796 CONFIG | [1150.0, 1813.0]
+06:37:23.796 CONFIG | configuration 1
+06:37:23.796 CONFIG | [0.0, 864.0]
+06:37:23.796 CONFIG | configuration 2
+06:37:23.796 CONFIG | [1836.0, 1813.0]
+06:37:23.796 CONFIG | 
+06:37:23.796 CONFIG | TABLE WeightConf:
+06:37:23.796 CONFIG | configuration 0
+06:37:23.796 CONFIG | [1.5]
+06:37:23.796 CONFIG | configuration 1
+06:37:23.797 CONFIG | [1.5]
+06:37:23.797 CONFIG | configuration 2
+06:37:23.797 CONFIG | [1.5]
+06:37:23.797 CONFIG | 
+06:37:23.797 CONFIG | TABLE TableBestMc2:
+06:37:23.797 CONFIG | [995.3333333333334, 1496.6666666666667]
+06:37:23.797 CONFIG | 
+06:37:23.797 CONFIG | TABLE TableBestBid:
+06:37:23.797 CONFIG | [1103.6, 1718.1]
+06:37:23.797 CONFIG | 
+06:37:23.797 CONFIG | TABLE BID1:
+06:37:23.797 CONFIG | [1103.0]
+06:37:23.797 CONFIG | 
+06:37:23.797 CONFIG | TABLE BID2:
+06:37:23.797 CONFIG | [1767.0]
+06:37:23.797 CONFIG | ----- AGENTMERGE : BIDDING TASK 1, Bid = 0, in 12209 sec
+06:37:23.797 CONFIG | 
+12:12:34.048 INFO | LogistPlatform finished successfully!
+12:12:34.064 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament/MyEvent/config-pathe-AgentMerge1.xml -a tournament/MyEvent/agents.xml tournament/MyEvent/config.xml pathe AgentMerge1
+12:12:34.236 CONFIG | Reading tournament/MyEvent/config.xml
+12:12:34.306 CONFIG | Reading config/settings_auction.xml
+12:12:34.699 CONFIG | Reading config/topology/england.xml
+12:12:34.720 CONFIG | Reading tournament/MyEvent/agents.xml
+12:12:34.748 CONFIG | Reading config/settings_auction.xml
+12:12:34.751 CONFIG | TIMEOUT_BID =303000
+12:12:34.752 CONFIG | CONFIG 0
+12:12:34.752 CONFIG | V0: capa=30, currentCity=Birmingham
+12:12:34.753 CONFIG | V1: capa=30, currentCity=Liverpool
+12:12:34.753 CONFIG | CONFIG 1
+12:12:34.753 CONFIG | V0: capa=21, currentCity=Sheffield
+12:12:34.753 CONFIG | V1: capa=39, currentCity=Portsmouth
+12:12:34.753 CONFIG | CONFIG 2
+12:12:34.753 CONFIG | V0: capa=12, currentCity=Norwich
+12:12:34.753 CONFIG | V1: capa=48, currentCity=Leeds
+12:12:34.753 CONFIG | SAME CONFIG: 
+12:12:34.753 CONFIG | V0: capa=30, currentCity=Newcastle
+12:12:34.753 CONFIG | V1: capa=30, currentCity=London
+12:12:34.753 CONFIG | SAME CONFIG END
+12:12:34.754 CONFIG | 
+12:12:44.741 CONFIG | ***MEAN COST PER TASK = 654.6
+12:12:44.745 CONFIG | Reading config/settings_auction.xml
+12:12:44.748 CONFIG | TIMEOUT_BID =303000
+12:12:44.751 CONFIG | CONFIG 0
+12:12:44.751 CONFIG | V0: capa=30, currentCity=Sheffield
+12:12:44.751 CONFIG | V1: capa=30, currentCity=Portsmouth
+12:12:44.751 CONFIG | CONFIG 1
+12:12:44.751 CONFIG | V0: capa=21, currentCity=Newcastle
+12:12:44.751 CONFIG | V1: capa=39, currentCity=Plymouth
+12:12:44.751 CONFIG | CONFIG 2
+12:12:44.751 CONFIG | V0: capa=12, currentCity=Norwich
+12:12:44.751 CONFIG | V1: capa=48, currentCity=Leeds
+12:12:44.751 CONFIG | SAME CONFIG: 
+12:12:44.751 CONFIG | V0: capa=30, currentCity=Plymouth
+12:12:44.751 CONFIG | V1: capa=30, currentCity=Norwich
+12:12:44.751 CONFIG | SAME CONFIG END
+12:12:44.751 CONFIG | 
+12:12:44.766 CONFIG | ----- AGENT MERGE ASK PRICE: T0=(Task 0, 3 kg, 69479 CHF, Cardiff -> Sheffield) id = 0 -----
+12:12:57.392 CONFIG | 
+12:12:57.392 CONFIG | table mc1 = [1836.0]
+12:12:57.392 CONFIG | 
+12:12:57.392 CONFIG | TABLE MC2:
+12:12:57.392 CONFIG | configuration 0
+12:12:57.392 CONFIG | [1836.0]
+12:12:57.392 CONFIG | configuration 1
+12:12:57.392 CONFIG | [1836.0]
+12:12:57.392 CONFIG | configuration 2
+12:12:57.393 CONFIG | [1836.0]
+12:12:57.393 CONFIG | 
+12:12:57.393 CONFIG | TABLE WeightConf:
+12:12:57.393 CONFIG | configuration 0
+12:12:57.393 CONFIG | [1.5]
+12:12:57.393 CONFIG | configuration 1
+12:12:57.393 CONFIG | [1.5]
+12:12:57.393 CONFIG | configuration 2
+12:12:57.393 CONFIG | [1.5]
+12:12:57.393 CONFIG | 
+12:12:57.393 CONFIG | TABLE TableBestMc2:
+12:12:57.393 CONFIG | [1836.0]
+12:12:57.394 CONFIG | 
+12:12:57.394 CONFIG | TABLE TableBestBid:
+12:12:57.394 CONFIG | [1836.0]
+12:12:57.394 CONFIG | 
+12:12:57.394 CONFIG | TABLE BID1:
+12:12:57.394 CONFIG | []
+12:12:57.394 CONFIG | 
+12:12:57.394 CONFIG | TABLE BID2:
+12:12:57.394 CONFIG | []
+12:12:57.394 CONFIG | ----- AGENTMERGE : BIDDING TASK 0, Bid = 0, in 12628 sec
+12:12:57.394 CONFIG | 
+12:12:57.394 CONFIG | ----- AGENT MERGE ASK PRICE: T0=(Task 0, 3 kg, 69479 CHF, Cardiff -> Sheffield) id = 1 -----
+12:13:08.348 CONFIG | 
+12:13:08.348 CONFIG | table mc1 = [1150.0]
+12:13:08.348 CONFIG | 
+12:13:08.348 CONFIG | TABLE MC2:
+12:13:08.348 CONFIG | configuration 0
+12:13:08.348 CONFIG | [1150.0]
+12:13:08.349 CONFIG | configuration 1
+12:13:08.349 CONFIG | [1680.0]
+12:13:08.349 CONFIG | configuration 2
+12:13:08.349 CONFIG | [1836.0]
+12:13:08.349 CONFIG | 
+12:13:08.349 CONFIG | TABLE WeightConf:
+12:13:08.349 CONFIG | configuration 0
+12:13:08.349 CONFIG | [1.5]
+12:13:08.349 CONFIG | configuration 1
+12:13:08.349 CONFIG | [1.5]
+12:13:08.349 CONFIG | configuration 2
+12:13:08.349 CONFIG | [1.5]
+12:13:08.349 CONFIG | 
+12:13:08.349 CONFIG | TABLE TableBestMc2:
+12:13:08.349 CONFIG | [1555.3333333333333]
+12:13:08.349 CONFIG | AGENTMERGE : BIDDING TASK 0, Bid = 0, in 10955 sec
+12:13:08.349 CONFIG | 
+12:13:08.350 CONFIG | 
+12:13:08.350 CONFIG | ----- AGENT MERGE ASK PRICE: T1=(Task 1, 3 kg, 47516 CHF, Manchester -> Norwich) id = 0 -----
+12:13:24.878 CONFIG | 
+12:13:24.879 CONFIG | table mc1 = [1836.0, 1238.0]
+12:13:24.879 CONFIG | 
+12:13:24.879 CONFIG | TABLE MC2:
+12:13:24.879 CONFIG | configuration 0
+12:13:24.879 CONFIG | [1836.0, 1041.0]
+12:13:24.879 CONFIG | configuration 1
+12:13:24.879 CONFIG | [1836.0, 667.0]
+12:13:24.879 CONFIG | configuration 2
+12:13:24.879 CONFIG | [1836.0, 1616.0]
+12:13:24.879 CONFIG | 
+12:13:24.879 CONFIG | TABLE WeightConf:
+12:13:24.879 CONFIG | configuration 0
+12:13:24.879 CONFIG | [1.5]
+12:13:24.880 CONFIG | configuration 1
+12:13:24.880 CONFIG | [1.5]
+12:13:24.880 CONFIG | configuration 2
+12:13:24.880 CONFIG | [1.5]
+12:13:24.880 CONFIG | 
+12:13:24.880 CONFIG | TABLE TableBestMc2:
+12:13:24.880 CONFIG | [1836.0, 1108.0]
+12:13:24.880 CONFIG | 
+12:13:24.880 CONFIG | TABLE TableBestBid:
+12:13:24.880 CONFIG | [1836.0, 1199.0]
+12:13:24.880 CONFIG | 
+12:13:24.880 CONFIG | TABLE BID1:
+12:13:24.880 CONFIG | [1836.0]
+12:13:24.880 CONFIG | 
+12:13:24.880 CONFIG | TABLE BID2:
+12:13:24.880 CONFIG | [1352.0]
+12:13:24.880 CONFIG | ----- AGENTMERGE : BIDDING TASK 1, Bid = 0, in 16530 sec
+12:13:24.880 CONFIG | 
+12:13:24.880 CONFIG | 
+12:13:24.880 CONFIG | ----- AGENT MERGE ASK PRICE: T1=(Task 1, 3 kg, 47516 CHF, Manchester -> Norwich) id = 1 -----
+12:13:37.412 CONFIG | 
+12:13:37.412 CONFIG | table mc1 = [1150.0, 1813.0]
+12:13:37.412 CONFIG | 
+12:13:37.412 CONFIG | TABLE MC2:
+12:13:37.412 CONFIG | configuration 0
+12:13:37.412 CONFIG | [1150.0, 1813.0]
+12:13:37.412 CONFIG | configuration 1
+12:13:37.412 CONFIG | [1680.0, 41.0]
+12:13:37.412 CONFIG | configuration 2
+12:13:37.412 CONFIG | [1836.0, 1813.0]
+12:13:37.412 CONFIG | 
+12:13:37.412 CONFIG | TABLE WeightConf:
+12:13:37.412 CONFIG | configuration 0
+12:13:37.412 CONFIG | [1.5]
+12:13:37.412 CONFIG | configuration 1
+12:13:37.412 CONFIG | [1.5]
+12:13:37.412 CONFIG | configuration 2
+12:13:37.412 CONFIG | [1.5]
+12:13:37.412 CONFIG | 
+12:13:37.412 CONFIG | TABLE TableBestMc2:
+12:13:37.413 CONFIG | [1555.3333333333333, 1222.3333333333333]
+12:13:37.413 CONFIG | AGENTMERGE : BIDDING TASK 1, Bid = 0, in 12533 sec
+12:13:37.413 CONFIG | 
+12:53:10.269 INFO | LogistPlatform finished successfully!
+=======
+09:42:14.766 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament/MyEvent/config-AuctionAgent-AuctionAgent5.xml -a tournament/MyEvent/agents.xml tournament/MyEvent/config.xml AuctionAgent AuctionAgent5
+09:42:14.921 CONFIG | Reading tournament/MyEvent/config.xml
+09:42:14.996 CONFIG | Reading config/settings_auction.xml
+09:42:15.231 CONFIG | Reading config/topology/england.xml
+09:42:15.247 CONFIG | Reading tournament/MyEvent/agents.xml
+09:42:15.274 CONFIG | TIMEOUT_BID: 27270
+09:42:15.274 CONFIG | TIMEOUT_PLAN: 27270
+09:42:15.283 CONFIG | Reading config/settings_auction.xml
+09:42:15.286 CONFIG | TIMEOUT_BID =30300
+09:42:15.287 CONFIG | CONFIG 0
+09:42:15.287 CONFIG | V0: capa=30, currentCity=Liverpool
+09:42:15.287 CONFIG | V1: capa=30, currentCity=Newcastle
+09:42:15.287 CONFIG | CONFIG 1
+09:42:15.287 CONFIG | V0: capa=21, currentCity=Sheffield
+09:42:15.287 CONFIG | V1: capa=39, currentCity=Norwich
+09:42:15.287 CONFIG | CONFIG 2
+09:42:15.287 CONFIG | V0: capa=12, currentCity=Plymouth
+09:42:15.287 CONFIG | V1: capa=48, currentCity=Leeds
+09:42:15.288 CONFIG | SAME CONFIG: 
+09:42:15.288 CONFIG | V0: capa=30, currentCity=Plymouth
+09:42:15.288 CONFIG | V1: capa=30, currentCity=Norwich
+09:42:15.288 CONFIG | SAME CONFIG END
+09:42:15.289 CONFIG | Maximal Marginal Cost = London to Newcastle with distance = 348.0
+09:42:15.291 CONFIG | 
+09:42:27.287 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
+09:42:45.490 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T0=(Task 0, 3 kg, 69479 CHF, Cardiff -> Sheffield) id = 1 -----
+09:42:45.717 CONFIG | MC1=2766.0, MC2=2358.8333333333335, M1=1444.323109654334, M2=1288.8562824058558, bid=1366.589696030095, bidFactor=1.0
+09:42:45.717 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 0, Bid = 1367, in 227 sec
+09:42:45.717 CONFIG | 
+09:42:45.717 CONFIG | ***********************************
+09:42:45.718 CONFIG | Task 0   Winner:1 for 1366
+09:42:45.718 CONFIG | estimatedBid: 0
+09:42:45.718 CONFIG | estimatedBid (without bias): 0
+09:42:45.718 CONFIG | Actual bid: 1366
+09:42:45.718 CONFIG | *Difference: -1366
+09:43:12.988 CONFIG | ----- AuctionResult: T0, agent is 1 -----
+09:43:12.988 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
+09:43:12.988 CONFIG | 
+09:43:12.988 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T1=(Task 1, 3 kg, 47516 CHF, Manchester -> Norwich) id = 1 -----
+09:43:13.332 CONFIG | MC1=2382.0, MC2=2612.1666666666665, M1=1297.3663004774057, M2=1384.137482238838, bid=1340.7518913581218, bidFactor=1.0
+09:43:13.332 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 1, Bid = 1341, in 344 sec
+09:43:13.332 CONFIG | 
+09:43:13.332 CONFIG | ***********************************
+09:43:13.333 CONFIG | Task 1   Winner:1 for 1340
+09:43:13.333 CONFIG | estimatedBid: 3065
+09:43:13.333 CONFIG | estimatedBid (without bias): 2382
+09:43:13.333 CONFIG | Actual bid: 1340
+09:43:13.333 CONFIG | *Difference: 1725
+09:43:40.603 CONFIG | ----- AuctionResult: T1, agent is 1 -----
+09:43:40.603 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
+09:43:40.603 CONFIG | 
+09:43:40.603 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T2=(Task 2, 3 kg, 68638 CHF, Cardiff -> Manchester) id = 1 -----
+09:43:41.572 CONFIG | MC1=0.0, MC2=2622.931818181818, M1=712.6080000000002, M2=1388.2929748939748, bid=1050.4504874469876, bidFactor=1.0
+09:43:41.572 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 2, Bid = 1050, in 969 sec
+09:43:41.572 CONFIG | 
+09:43:41.573 CONFIG | ***********************************
+09:43:41.573 CONFIG | Task 2   Winner:1 for 1050
+09:43:41.574 CONFIG | estimatedBid: 0
+09:43:41.574 CONFIG | estimatedBid (without bias): 120
+09:43:41.574 CONFIG | Actual bid: 1050
+09:43:41.574 CONFIG | *Difference: -1050
+09:44:08.844 CONFIG | ----- AuctionResult: T2, agent is 1 -----
+09:44:08.845 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
+09:44:08.845 CONFIG | 
+09:44:08.845 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T3=(Task 3, 3 kg, 55553 CHF, Sheffield -> Portsmouth) id = 1 -----
+09:44:09.952 CONFIG | MC1=748.0, MC2=3031.0, M1=815.5081851716859, M2=1551.957167554423, bid=1183.7326763630545, bidFactor=1.0
+09:44:09.952 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 3, Bid = 1184, in 1108 sec
+09:44:09.952 CONFIG | 
+09:44:09.953 CONFIG | ***********************************
+09:44:09.953 CONFIG | Task 3   Winner:1 for 1183
+09:44:09.953 CONFIG | estimatedBid: 921
+09:44:09.953 CONFIG | estimatedBid (without bias): 748
+09:44:09.953 CONFIG | Actual bid: 1183
+09:44:09.953 CONFIG | *Difference: -262
+09:44:37.227 CONFIG | ----- AuctionResult: T3, agent is 1 -----
+09:44:37.228 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
+09:44:37.228 CONFIG | 
+09:44:37.228 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T4=(Task 4, 3 kg, 41305 CHF, Liverpool -> Norwich) id = 1 -----
+09:44:41.905 CONFIG | MC1=0.0, MC2=3626.0, M1=712.6080000000002, M2=1810.8687404141456, bid=1261.7383702070729, bidFactor=1.0
+09:44:41.906 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 4, Bid = 1262, in 4680 sec
+09:44:41.907 CONFIG | 
+09:44:41.908 CONFIG | ***********************************
+09:44:41.909 CONFIG | Task 4   Winner:1 for 1261
+09:44:41.909 CONFIG | estimatedBid: 191
+09:44:41.909 CONFIG | estimatedBid (without bias): 0
+09:44:41.909 CONFIG | Actual bid: 1261
+09:44:41.909 CONFIG | *Difference: -1070
+09:45:09.188 CONFIG | ----- AuctionResult: T4, agent is 1 -----
+09:45:09.189 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
+09:45:09.190 CONFIG | 
+09:45:09.195 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T5=(Task 5, 3 kg, 85625 CHF, Norwich -> London) id = 1 -----
+09:45:16.801 CONFIG | MC1=0.0, MC2=575.0, M1=712.6080000000002, M2=781.9610438273617, bid=747.2845219136809, bidFactor=1.0
+09:45:16.802 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 5, Bid = 747, in 7602 sec
+09:45:16.803 CONFIG | 
+09:45:16.805 CONFIG | ***********************************
+09:45:16.805 CONFIG | Task 5   Winner:1 for 747
+09:45:16.806 CONFIG | estimatedBid: 538
+09:45:16.807 CONFIG | estimatedBid (without bias): 201
+09:45:16.808 CONFIG | Actual bid: 747
+09:45:16.808 CONFIG | *Difference: -209
+09:45:44.082 CONFIG | ----- AuctionResult: T5, agent is 1 -----
+09:45:44.084 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
+09:45:44.085 CONFIG | 
+09:45:44.085 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T6=(Task 6, 3 kg, 64503 CHF, Cardiff -> London) id = 1 -----
+09:45:52.266 CONFIG | MC1=0.0, MC2=2809.245283018868, M1=712.6080000000002, M2=1461.5501101069235, bid=1087.0790550534618, bidFactor=1.0
+09:45:52.267 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 6, Bid = 1087, in 8182 sec
+09:45:52.268 CONFIG | 
+09:45:52.269 CONFIG | ***********************************
+09:45:52.269 CONFIG | Task 6   Winner:1 for 1087
+09:45:52.270 CONFIG | estimatedBid: 319
+09:45:52.271 CONFIG | estimatedBid (without bias): 0
+09:45:52.271 CONFIG | Actual bid: 1087
+09:45:52.271 CONFIG | *Difference: -768
+09:46:19.543 CONFIG | ----- AuctionResult: T6, agent is 1 -----
+09:46:19.543 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
+09:46:19.544 CONFIG | 
+09:46:19.546 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T7=(Task 7, 3 kg, 68101 CHF, London -> Manchester) id = 1 -----
+09:46:27.145 CONFIG | MC1=0.0, MC2=1855.8333333333333, M1=712.6080000000002, M2=1114.7433168675998, bid=913.6756584338, bidFactor=1.0
+09:46:27.146 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 7, Bid = 914, in 7602 sec
+09:46:27.149 CONFIG | 
+09:46:27.150 CONFIG | ***********************************
+09:46:27.150 CONFIG | Task 7   Winner:0 for 710
+09:46:27.150 CONFIG | estimatedBid: 375
+09:46:27.150 CONFIG | estimatedBid (without bias): 0
+09:46:27.151 CONFIG | Actual bid: 913
+09:46:27.152 CONFIG | *Difference: -538
+09:46:54.424 CONFIG | ----- AuctionResult: T7, agent is 1 -----
+09:46:54.425 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
+09:46:54.425 CONFIG | 
+09:46:54.425 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T8=(Task 8, 3 kg, 41269 CHF, Plymouth -> Birmingham) id = 1 -----
+09:47:03.509 CONFIG | MC1=850.0, MC2=358.4029850746269, M1=837.2579613166387, M2=746.7368132326337, bid=791.9973872746361, bidFactor=1.0
+09:47:03.510 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 8, Bid = 792, in 9085 sec
+09:47:03.510 CONFIG | 
+09:47:03.510 CONFIG | ***********************************
+09:47:03.510 CONFIG | Task 8   Winner:1 for 791
+09:47:03.511 CONFIG | estimatedBid: 3617
+09:47:03.511 CONFIG | estimatedBid (without bias): 3224
+09:47:03.511 CONFIG | Actual bid: 791
+09:47:03.511 CONFIG | *Difference: 2826
+09:47:30.788 CONFIG | ----- AuctionResult: T8, agent is 1 -----
+09:47:30.792 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
+09:47:30.794 CONFIG | 
+09:47:30.801 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T9=(Task 9, 3 kg, 75780 CHF, Portsmouth -> Plymouth) id = 1 -----
+09:47:40.892 CONFIG | MC1=850.0, MC2=1779.5774647887324, M1=837.2579613166387, M2=1090.214190726599, bid=963.7360760216188, bidFactor=1.0153186274509804
+09:47:40.892 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 9, Bid = 978, in 10091 sec
+09:47:40.893 CONFIG | 
+09:50:25.150 INFO | LogistPlatform finished successfully!
+>>>>>>> origin/master
+>>>>>>> origin/master

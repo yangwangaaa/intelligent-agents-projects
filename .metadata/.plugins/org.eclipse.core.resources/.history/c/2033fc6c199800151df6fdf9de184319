@@ -1,0 +1,82 @@
+package agents;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import java.util.ArrayList;
+
+import logist.task.Task;
+import sls.NodePD;
+
+public class pathe {
+
+
+	// Agent
+	ArrayList<Task> tasks1Clonea = (ArrayList<Task>) tasks1.clone();
+	ArrayList<Task> tasks1Cloneb = (ArrayList<Task>) tasks1.clone();
+	ArrayList<Task> tasks1Clonec = (ArrayList<Task>) tasks1.clone();
+	NodePD bestSolution1;
+	int totalTasks = proposed+1;
+	int NtoAdd = 3*(expectedNumberOfTasks-totalTasks)/4;  //TODO
+	if(NtoAdd>=1) {
+		timeout_agent = timeout_agent/2;
+
+		//list a
+		addSuppTasks(tasks1Clonea, supp, NtoAdd);
+		bestSolution1 = sls.RunSLS(vehiclesList, tasks1Clonea.toArray(new Task[tasks1Clonea.size()]), timeout_agent, null);
+		if(bestSolution1!=null) cost1 = bestSolution1.getOValue();
+		best1.set(proposed, cost1);
+		//mean1.add(bestValue/tasks1Clonea.size());
+
+		// list b
+		tasks1Cloneb.add(task);
+		addSuppTasks(tasks1Cloneb, supp, NtoAdd-1);
+		NodePD lastSolution1 = sls.RunSLS(vehiclesList, tasks1Cloneb.toArray(new Task[tasks1Cloneb.size()]), timeout_agent, null);
+		if(lastSolution1!=null) cost2 = lastSolution1.getOValue();
+		last1.add(cost2);
+
+		//real cost
+		double realCost1 = Math.max(cost2/tasks1Cloneb.size() + (cost2*(tasks1.size()/tasks1Cloneb.size()) - cost1*(tasks1.size()/tasks1Clonea.size())), 0);
+		mc1.add(realCost1);
+	}else{ //compute just marginal cost
+		// list b
+		tasks1Clonec.add(task);
+		NodePD lastSolution1 = sls.RunSLS(vehiclesList, tasks1Clonec.toArray(new Task[tasks1Clonec.size()]), timeout_agent, null);
+		if(lastSolution1!=null) cost2 = lastSolution1.getOValue();
+		last1.add(cost2);
+		double realCost1 = Math.max(last1.get(proposed) - best1.get(proposed), 0);;
+		mc1.add(realCost1);
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
