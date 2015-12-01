@@ -36,10 +36,6 @@ import astar.Astar;
 @SuppressWarnings("unused")
 public class AgentMeanOptimistic implements AuctionBehavior {
 
-	
-	private int expectedNumberOfTasks = 15;
-	private double augment = 1.0;
-	private double diminish = 1.0;
 	private Topology topology;
 	private TaskDistribution distribution;
 	private Agent agent;
@@ -68,6 +64,7 @@ public class AgentMeanOptimistic implements AuctionBehavior {
 	private int Nconf = 3;    //number of configurations
 	private double totalReward1 = 0;
 	private double totalReward2 = 0;
+	private int expectedNumberOfTasks = 10;
 	private int carriedSize1 = 0;
 	private int carriedSize2 = 0;
 	private double meanCostPerTask;
@@ -317,19 +314,19 @@ public class AgentMeanOptimistic implements AuctionBehavior {
 		//print("askPrice for "+task.toString());
 		long actualTime = System.currentTimeMillis();
 		Double b = (double) 0;
-
+		
 		//COMPUTE COST
 		computeRealCost(realc1,realc2,task);
 		//print("mc1 =" +mc1.get(proposed));
 		printRealc1();
 		printRealc2();
-
+		
 		//COMPUTE BEST ENNEMY'S COST
 		updateBestMc2(realc2);
 		printTableWeightConf();
 		//print("best Mc2 =" + bestMc2);
 		printTableBestMc2();
-
+		
 		//COMPUTE OUR BID
 		updateBestBid1(realc1,realc2);
 		//print("bestBid1 ="+bestBid1);
@@ -375,7 +372,7 @@ public class AgentMeanOptimistic implements AuctionBehavior {
 		NodePD bestSolution1;
 		int totalTasks = proposed+1;
 		int NtoAdd = (expectedNumberOfTasks-totalTasks);  //TODO
-
+		
 		print("");
 		if(NtoAdd>=1) {
 			timeout_agent = timeout_agent/2;
@@ -387,7 +384,7 @@ public class AgentMeanOptimistic implements AuctionBehavior {
 			best1.set(proposed, cost1);
 			//mean1.add(bestValue/tasks1Clonea.size());
 			print("ancien best cost avec "+tasks1Clonea.size()+" task au total = "+cost1);
-
+			
 			// list b
 			tasks1Cloneb.add(task);
 			addSuppTasks(tasks1Cloneb, supp, NtoAdd-1);
@@ -395,19 +392,12 @@ public class AgentMeanOptimistic implements AuctionBehavior {
 			if(lastSolution1!=null) cost2 = lastSolution1.getOValue();
 			last1.add(cost2);
 			print("nouveau best cost avec "+tasks1Cloneb.size()+" task au total = "+cost2);
-
+		
 			//real cost
-			double realCost1;
-			double diff = (cost2*(tasks1.size()/(double)tasks1Cloneb.size()) - cost1*(tasks1.size()/(double)tasks1Clonea.size()));
-			if(diff>0){
-				realCost1 = Math.max(cost2/(double)tasks1Cloneb.size() + augment*diff, 0);
-			}else{
-				realCost1 = Math.max(cost2/(double)tasks1Cloneb.size() + diminish*diff, 0);
-			}			
+			double realCost1 = Math.max(cost2/(double)tasks1Cloneb.size() + (cost2*(tasks1.size()/(double)tasks1Cloneb.size()) - cost1*(tasks1.size()/(double)tasks1Clonea.size())), 0);
 			mc1.add(realCost1);
 			print("mean new cost = "+cost2/(double)tasks1Cloneb.size()+" money to pay more = "+(cost2*(tasks1.size()/(double)tasks1Cloneb.size()) - cost1*(tasks1.size()/(double)tasks1Clonea.size())));
 			print("real cost = "+realCost1);
-
 		}else{ //compute just marginal cost
 			// list b
 			print("compute marginal cost");
@@ -420,7 +410,6 @@ public class AgentMeanOptimistic implements AuctionBehavior {
 			print("new cost = "+last1.get(proposed) + " old cost = "+best1.get(proposed)+" marginal cost = "+ realCost1 );
 		}
 
-		
 		// Opponent		
 		for(int j=0; j<Nconf; j++) {
 			List<MyVehicle> vl = configs[j];
@@ -436,32 +425,26 @@ public class AgentMeanOptimistic implements AuctionBehavior {
 				//liste a
 				addSuppTasks(tasks2Clonea, supp, NtoAdd);
 				NodePD bestSolution2 = sls.RunSLS(vl, tasks2Clonea.toArray(new Task[tasks2Clonea.size()]), timeout_opponent/2, null);
-
+				
 				//liste b
 				tasks2Cloneb.add(task);
 				addSuppTasks(tasks2Cloneb, supp, NtoAdd-1);				
 				NodePD lastSolution2 = sls.RunSLS(vl, tasks2Cloneb.toArray(new Task[tasks2Cloneb.size()]), timeout_opponent/2, null);
-
+				
 				//new cost
 				if(bestSolution2!=null) cost1 = bestSolution2.getOValue();
 				best2[j].set(proposed, cost1);
 				print("ancien best cost avec "+tasks2Clonea.size()+" task au total = "+cost1);
-
+				
 				//old cost
 				if(lastSolution2!=null) cost2 = lastSolution2.getOValue();
 				last2[j].add(cost2);
 				print("nouveau best cost avec "+tasks2Cloneb.size()+" task au total = "+cost2);
 
-				//real cost
-				double realCost2;
-				double diff = (cost2*(tasks2.size()/(double)tasks2Cloneb.size()) - cost1*(tasks2.size()/(double)tasks2Clonea.size()));
-				if(diff>0){
-					realCost2 = Math.max(cost2/(double)tasks2Cloneb.size() + augment*diff, 0);
-				}else{
-					realCost2 = Math.max(cost2/(double)tasks2Cloneb.size() + diminish*diff, 0);
-				}
+				
+				double realCost2 = Math.max(cost2/(double)tasks2Cloneb.size() + (cost2*(tasks1.size()/(double)tasks2Cloneb.size()) - cost1*(tasks1.size()/(double)tasks2Clonea.size())), 0);
 				mc2[j].add(realCost2);
-				print("mean new cost = "+cost2/(double)tasks2Cloneb.size()+" money to pay more = "+(cost2*(tasks2.size()/(double)tasks2Cloneb.size()) - cost1*(tasks2.size()/(double)tasks2Clonea.size())));
+				print("mean new cost = "+cost2/(double)tasks2Cloneb.size()+" money to pay more = "+(cost2*(tasks1.size()/(double)tasks2Cloneb.size()) - cost1*(tasks1.size()/(double)tasks2Clonea.size())));
 				print("real cost = "+realCost2);
 			}
 			else {//compute marginal cost
@@ -475,9 +458,6 @@ public class AgentMeanOptimistic implements AuctionBehavior {
 				mc2[j].add(realCost2);
 				print("new cost = "+last2[j].get(proposed) + " old cost = "+best2[j].get(proposed)+" marginal cost = "+ realCost2);
 			}
-			print("proposed = "+proposed+" expected Number of task = "+ expectedNumberOfTasks +"size tasks1 = "+tasks1.size()+" size tasks2 = "+tasks2.size());
-			print("size task clone 1 = "+ tasks1Clonea.size());
-			print("size task clone 2 = "+ tasks2Clonea.size());
 		}
 	}
 
@@ -751,8 +731,8 @@ public class AgentMeanOptimistic implements AuctionBehavior {
 		print("");
 		System.out.println("table mc1 = "+mc1.toString());
 	}
-
-
+	
+	
 	public void printRealc2(){
 		print("");
 		print("TABLE REALC2:");
@@ -766,7 +746,7 @@ public class AgentMeanOptimistic implements AuctionBehavior {
 		print("");
 		System.out.println("table realc1 = "+realc1.toString());
 	}
-
+	
 	public void printRatio(){
 		print("");
 		print("TABLE RATIO");

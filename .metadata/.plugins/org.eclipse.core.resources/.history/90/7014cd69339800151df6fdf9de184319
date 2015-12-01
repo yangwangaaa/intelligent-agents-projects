@@ -475,9 +475,6 @@ public class AgentMeanOptimistic implements AuctionBehavior {
 				mc2[j].add(realCost2);
 				print("new cost = "+last2[j].get(proposed) + " old cost = "+best2[j].get(proposed)+" marginal cost = "+ realCost2);
 			}
-			print("proposed = "+proposed+" expected Number of task = "+ expectedNumberOfTasks +"size tasks1 = "+tasks1.size()+" size tasks2 = "+tasks2.size());
-			print("size task clone 1 = "+ tasks1Clonea.size());
-			print("size task clone 2 = "+ tasks2Clonea.size());
 		}
 	}
 
