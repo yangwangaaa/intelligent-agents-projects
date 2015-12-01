@@ -78,7 +78,7 @@ public class AuctionAgent5 implements AuctionBehavior {
 	private double MMC = 0;
 	private double ratioLowerBound = 0.8; // 0.7?
 	private double ratioUpperBound = 0.33;
-	private double ratioMeanCost = 1.2;
+	private double ratioMeanCost = 1.3;
 	private double a = 0.5;
 	private double b = 0.5;
 	private double bidFactor = 1.0;
@@ -174,8 +174,6 @@ public class AuctionAgent5 implements AuctionBehavior {
 		
 		MCPT = computeMCPT(vehiclesList, null, expectedNumberOfTasks, timeout_setup);
 		updateIntervalBiding();
-		//totalReward1.add(0.0);
-		totalReward2.add(0.0);
 		
 		bidFactorTable.add(bidFactor);
 	}

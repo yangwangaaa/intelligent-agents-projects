@@ -1,147 +1,434 @@
-09:42:14.766 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament/MyEvent/config-AuctionAgent-AuctionAgent5.xml -a tournament/MyEvent/agents.xml tournament/MyEvent/config.xml AuctionAgent AuctionAgent5
-09:42:14.921 CONFIG | Reading tournament/MyEvent/config.xml
-09:42:14.996 CONFIG | Reading config/settings_auction.xml
-09:42:15.231 CONFIG | Reading config/topology/england.xml
-09:42:15.247 CONFIG | Reading tournament/MyEvent/agents.xml
-09:42:15.274 CONFIG | TIMEOUT_BID: 27270
-09:42:15.274 CONFIG | TIMEOUT_PLAN: 27270
-09:42:15.283 CONFIG | Reading config/settings_auction.xml
-09:42:15.286 CONFIG | TIMEOUT_BID =30300
-09:42:15.287 CONFIG | CONFIG 0
-09:42:15.287 CONFIG | V0: capa=30, currentCity=Liverpool
-09:42:15.287 CONFIG | V1: capa=30, currentCity=Newcastle
-09:42:15.287 CONFIG | CONFIG 1
-09:42:15.287 CONFIG | V0: capa=21, currentCity=Sheffield
-09:42:15.287 CONFIG | V1: capa=39, currentCity=Norwich
-09:42:15.287 CONFIG | CONFIG 2
-09:42:15.287 CONFIG | V0: capa=12, currentCity=Plymouth
-09:42:15.287 CONFIG | V1: capa=48, currentCity=Leeds
-09:42:15.288 CONFIG | SAME CONFIG: 
-09:42:15.288 CONFIG | V0: capa=30, currentCity=Plymouth
-09:42:15.288 CONFIG | V1: capa=30, currentCity=Norwich
-09:42:15.288 CONFIG | SAME CONFIG END
-09:42:15.289 CONFIG | Maximal Marginal Cost = London to Newcastle with distance = 348.0
-09:42:15.291 CONFIG | 
-09:42:27.287 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
-09:42:45.490 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T0=(Task 0, 3 kg, 69479 CHF, Cardiff -> Sheffield) id = 1 -----
-09:42:45.717 CONFIG | MC1=2766.0, MC2=2358.8333333333335, M1=1444.323109654334, M2=1288.8562824058558, bid=1366.589696030095, bidFactor=1.0
-09:42:45.717 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 0, Bid = 1367, in 227 sec
-09:42:45.717 CONFIG | 
-09:42:45.717 CONFIG | ***********************************
-09:42:45.718 CONFIG | Task 0   Winner:1 for 1366
-09:42:45.718 CONFIG | estimatedBid: 0
-09:42:45.718 CONFIG | estimatedBid (without bias): 0
-09:42:45.718 CONFIG | Actual bid: 1366
-09:42:45.718 CONFIG | *Difference: -1366
-09:43:12.988 CONFIG | ----- AuctionResult: T0, agent is 1 -----
-09:43:12.988 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
-09:43:12.988 CONFIG | 
-09:43:12.988 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T1=(Task 1, 3 kg, 47516 CHF, Manchester -> Norwich) id = 1 -----
-09:43:13.332 CONFIG | MC1=2382.0, MC2=2612.1666666666665, M1=1297.3663004774057, M2=1384.137482238838, bid=1340.7518913581218, bidFactor=1.0
-09:43:13.332 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 1, Bid = 1341, in 344 sec
-09:43:13.332 CONFIG | 
-09:43:13.332 CONFIG | ***********************************
-09:43:13.333 CONFIG | Task 1   Winner:1 for 1340
-09:43:13.333 CONFIG | estimatedBid: 3065
-09:43:13.333 CONFIG | estimatedBid (without bias): 2382
-09:43:13.333 CONFIG | Actual bid: 1340
-09:43:13.333 CONFIG | *Difference: 1725
-09:43:40.603 CONFIG | ----- AuctionResult: T1, agent is 1 -----
-09:43:40.603 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
-09:43:40.603 CONFIG | 
-09:43:40.603 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T2=(Task 2, 3 kg, 68638 CHF, Cardiff -> Manchester) id = 1 -----
-09:43:41.572 CONFIG | MC1=0.0, MC2=2622.931818181818, M1=712.6080000000002, M2=1388.2929748939748, bid=1050.4504874469876, bidFactor=1.0
-09:43:41.572 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 2, Bid = 1050, in 969 sec
-09:43:41.572 CONFIG | 
-09:43:41.573 CONFIG | ***********************************
-09:43:41.573 CONFIG | Task 2   Winner:1 for 1050
-09:43:41.574 CONFIG | estimatedBid: 0
-09:43:41.574 CONFIG | estimatedBid (without bias): 120
-09:43:41.574 CONFIG | Actual bid: 1050
-09:43:41.574 CONFIG | *Difference: -1050
-09:44:08.844 CONFIG | ----- AuctionResult: T2, agent is 1 -----
-09:44:08.845 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
-09:44:08.845 CONFIG | 
-09:44:08.845 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T3=(Task 3, 3 kg, 55553 CHF, Sheffield -> Portsmouth) id = 1 -----
-09:44:09.952 CONFIG | MC1=748.0, MC2=3031.0, M1=815.5081851716859, M2=1551.957167554423, bid=1183.7326763630545, bidFactor=1.0
-09:44:09.952 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 3, Bid = 1184, in 1108 sec
-09:44:09.952 CONFIG | 
-09:44:09.953 CONFIG | ***********************************
-09:44:09.953 CONFIG | Task 3   Winner:1 for 1183
-09:44:09.953 CONFIG | estimatedBid: 921
-09:44:09.953 CONFIG | estimatedBid (without bias): 748
-09:44:09.953 CONFIG | Actual bid: 1183
-09:44:09.953 CONFIG | *Difference: -262
-09:44:37.227 CONFIG | ----- AuctionResult: T3, agent is 1 -----
-09:44:37.228 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
-09:44:37.228 CONFIG | 
-09:44:37.228 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T4=(Task 4, 3 kg, 41305 CHF, Liverpool -> Norwich) id = 1 -----
-09:44:41.905 CONFIG | MC1=0.0, MC2=3626.0, M1=712.6080000000002, M2=1810.8687404141456, bid=1261.7383702070729, bidFactor=1.0
-09:44:41.906 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 4, Bid = 1262, in 4680 sec
-09:44:41.907 CONFIG | 
-09:44:41.908 CONFIG | ***********************************
-09:44:41.909 CONFIG | Task 4   Winner:1 for 1261
-09:44:41.909 CONFIG | estimatedBid: 191
-09:44:41.909 CONFIG | estimatedBid (without bias): 0
-09:44:41.909 CONFIG | Actual bid: 1261
-09:44:41.909 CONFIG | *Difference: -1070
-09:45:09.188 CONFIG | ----- AuctionResult: T4, agent is 1 -----
-09:45:09.189 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
-09:45:09.190 CONFIG | 
-09:45:09.195 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T5=(Task 5, 3 kg, 85625 CHF, Norwich -> London) id = 1 -----
-09:45:16.801 CONFIG | MC1=0.0, MC2=575.0, M1=712.6080000000002, M2=781.9610438273617, bid=747.2845219136809, bidFactor=1.0
-09:45:16.802 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 5, Bid = 747, in 7602 sec
-09:45:16.803 CONFIG | 
-09:45:16.805 CONFIG | ***********************************
-09:45:16.805 CONFIG | Task 5   Winner:1 for 747
-09:45:16.806 CONFIG | estimatedBid: 538
-09:45:16.807 CONFIG | estimatedBid (without bias): 201
-09:45:16.808 CONFIG | Actual bid: 747
-09:45:16.808 CONFIG | *Difference: -209
-09:45:44.082 CONFIG | ----- AuctionResult: T5, agent is 1 -----
-09:45:44.084 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
-09:45:44.085 CONFIG | 
-09:45:44.085 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T6=(Task 6, 3 kg, 64503 CHF, Cardiff -> London) id = 1 -----
-09:45:52.266 CONFIG | MC1=0.0, MC2=2809.245283018868, M1=712.6080000000002, M2=1461.5501101069235, bid=1087.0790550534618, bidFactor=1.0
-09:45:52.267 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 6, Bid = 1087, in 8182 sec
-09:45:52.268 CONFIG | 
-09:45:52.269 CONFIG | ***********************************
-09:45:52.269 CONFIG | Task 6   Winner:1 for 1087
-09:45:52.270 CONFIG | estimatedBid: 319
-09:45:52.271 CONFIG | estimatedBid (without bias): 0
-09:45:52.271 CONFIG | Actual bid: 1087
-09:45:52.271 CONFIG | *Difference: -768
-09:46:19.543 CONFIG | ----- AuctionResult: T6, agent is 1 -----
-09:46:19.543 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
-09:46:19.544 CONFIG | 
-09:46:19.546 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T7=(Task 7, 3 kg, 68101 CHF, London -> Manchester) id = 1 -----
-09:46:27.145 CONFIG | MC1=0.0, MC2=1855.8333333333333, M1=712.6080000000002, M2=1114.7433168675998, bid=913.6756584338, bidFactor=1.0
-09:46:27.146 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 7, Bid = 914, in 7602 sec
-09:46:27.149 CONFIG | 
-09:46:27.150 CONFIG | ***********************************
-09:46:27.150 CONFIG | Task 7   Winner:0 for 710
-09:46:27.150 CONFIG | estimatedBid: 375
-09:46:27.150 CONFIG | estimatedBid (without bias): 0
-09:46:27.151 CONFIG | Actual bid: 913
-09:46:27.152 CONFIG | *Difference: -538
-09:46:54.424 CONFIG | ----- AuctionResult: T7, agent is 1 -----
-09:46:54.425 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
-09:46:54.425 CONFIG | 
-09:46:54.425 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T8=(Task 8, 3 kg, 41269 CHF, Plymouth -> Birmingham) id = 1 -----
-09:47:03.509 CONFIG | MC1=850.0, MC2=358.4029850746269, M1=837.2579613166387, M2=746.7368132326337, bid=791.9973872746361, bidFactor=1.0
-09:47:03.510 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 8, Bid = 792, in 9085 sec
-09:47:03.510 CONFIG | 
-09:47:03.510 CONFIG | ***********************************
-09:47:03.510 CONFIG | Task 8   Winner:1 for 791
-09:47:03.511 CONFIG | estimatedBid: 3617
-09:47:03.511 CONFIG | estimatedBid (without bias): 3224
-09:47:03.511 CONFIG | Actual bid: 791
-09:47:03.511 CONFIG | *Difference: 2826
-09:47:30.788 CONFIG | ----- AuctionResult: T8, agent is 1 -----
-09:47:30.792 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
-09:47:30.794 CONFIG | 
-09:47:30.801 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T9=(Task 9, 3 kg, 75780 CHF, Portsmouth -> Plymouth) id = 1 -----
-09:47:40.892 CONFIG | MC1=850.0, MC2=1779.5774647887324, M1=837.2579613166387, M2=1090.214190726599, bid=963.7360760216188, bidFactor=1.0153186274509804
-09:47:40.892 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 9, Bid = 978, in 10091 sec
-09:47:40.893 CONFIG | 
-09:50:25.150 INFO | LogistPlatform finished successfully!
+10:41:22.902 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament/MyEvent/config-AuctionAgent5-AuctionAgent.xml -a tournament/MyEvent/agents.xml tournament/MyEvent/config.xml AuctionAgent5 AuctionAgent
+10:41:23.095 CONFIG | Reading tournament/MyEvent/config.xml
+10:41:23.184 CONFIG | Reading config/settings_auction.xml
+10:41:23.416 CONFIG | Reading config/topology/england.xml
+10:41:23.435 CONFIG | Reading tournament/MyEvent/agents.xml
+10:41:23.470 CONFIG | Reading config/settings_auction.xml
+10:41:23.474 CONFIG | TIMEOUT_BID =30300
+10:41:23.474 CONFIG | CONFIG 0
+10:41:23.474 CONFIG | V0: capa=30, currentCity=Liverpool
+10:41:23.474 CONFIG | V1: capa=30, currentCity=London
+10:41:23.475 CONFIG | CONFIG 1
+10:41:23.475 CONFIG | V0: capa=21, currentCity=Cardiff
+10:41:23.475 CONFIG | V1: capa=39, currentCity=Portsmouth
+10:41:23.475 CONFIG | CONFIG 2
+10:41:23.475 CONFIG | V0: capa=12, currentCity=Norwich
+10:41:23.475 CONFIG | V1: capa=48, currentCity=Newcastle
+10:41:23.475 CONFIG | SAME CONFIG: 
+10:41:23.475 CONFIG | V0: capa=30, currentCity=Newcastle
+10:41:23.475 CONFIG | V1: capa=30, currentCity=London
+10:41:23.475 CONFIG | SAME CONFIG END
+10:41:23.476 CONFIG | Maximal Marginal Cost = London to Newcastle with distance = 348.0
+10:41:23.478 CONFIG | 
+10:41:34.271 CONFIG | ##### MCPT=850.98, bidMin=680.7840000000001, bidMax=1718.5566, bidInterval=1037.7725999999998, MMC=3480.0
+10:41:34.272 CONFIG | TIMEOUT_BID: 27270
+10:41:34.272 CONFIG | TIMEOUT_PLAN: 27270
+10:41:34.287 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T0=(Task 0, 3 kg, 69479 CHF, Cardiff -> Sheffield) id = 0 -----
+10:41:34.511 CONFIG | MC1=2191.0, MC2=1989.3333333333333, M1=1199.2220881347653, M2=1129.3172816177737, bid=1164.2696848762694, bidFactor=1.0
+10:41:34.511 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 0, Bid = 1164, in 224 sec
+10:41:34.511 CONFIG | 
+10:41:52.691 CONFIG | ----- AuctionResult: T0, agent is 0 -----
+10:41:52.691 CONFIG | ##### MCPT=850.98, bidMin=680.7840000000001, bidMax=1718.5566, bidInterval=1037.7725999999998, MMC=3480.0
+10:41:52.691 CONFIG | 
+10:41:52.692 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T1=(Task 1, 3 kg, 47516 CHF, Manchester -> Norwich) id = 0 -----
+10:41:53.072 CONFIG | MC1=2382.0, MC2=2675.0, M1=1268.470845471435, M2=1380.173348075015, bid=1324.322096773225, bidFactor=1.0
+10:41:53.073 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 1, Bid = 1324, in 381 sec
+10:41:53.073 CONFIG | 
+10:41:53.073 CONFIG | ***********************************
+10:41:53.073 CONFIG | Task 0   Winner:0 for 1164
+10:41:53.073 CONFIG | estimatedBid: 0
+10:41:53.073 CONFIG | estimatedBid (without bias): 0
+10:41:53.073 CONFIG | Actual bid: 1164
+10:41:53.073 CONFIG | *Difference: -1164
+10:42:20.343 CONFIG | ----- AuctionResult: T1, agent is 0 -----
+10:42:20.343 CONFIG | ##### MCPT=850.98, bidMin=680.7840000000001, bidMax=1718.5566, bidInterval=1037.7725999999998, MMC=3480.0
+10:42:20.343 CONFIG | 
+10:42:20.343 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T2=(Task 2, 3 kg, 68638 CHF, Cardiff -> Manchester) id = 0 -----
+10:42:20.976 CONFIG | MC1=0.0, MC2=2132.0, M1=680.7840000000001, M2=1178.4226858889592, bid=929.6033429444797, bidFactor=1.0
+10:42:20.976 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 2, Bid = 930, in 633 sec
+10:42:20.976 CONFIG | 
+10:42:20.976 CONFIG | ***********************************
+10:42:20.976 CONFIG | Task 1   Winner:0 for 1324
+10:42:20.976 CONFIG | estimatedBid: 3613
+10:42:20.976 CONFIG | estimatedBid (without bias): 3031
+10:42:20.976 CONFIG | Actual bid: 1324
+10:42:20.976 CONFIG | *Difference: 2289
+10:42:48.246 CONFIG | ----- AuctionResult: T2, agent is 0 -----
+10:42:48.246 CONFIG | ##### MCPT=850.98, bidMin=680.7840000000001, bidMax=1718.5566, bidInterval=1037.7725999999998, MMC=3480.0
+10:42:48.246 CONFIG | 
+10:42:48.246 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T3=(Task 3, 3 kg, 55553 CHF, Sheffield -> Portsmouth) id = 0 -----
+10:42:49.354 CONFIG | MC1=748.0, MC2=2114.0, M1=784.1995225716394, M2=1172.133828157698, bid=978.1666753646687, bidFactor=1.000537634408602
+10:42:49.354 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 3, Bid = 979, in 1108 sec
+10:42:49.354 CONFIG | 
+10:42:49.354 CONFIG | ***********************************
+10:42:49.354 CONFIG | Task 2   Winner:0 for 929
+10:42:49.354 CONFIG | estimatedBid: 0
+10:42:49.354 CONFIG | estimatedBid (without bias): 375
+10:42:49.355 CONFIG | Actual bid: 929
+10:42:49.355 CONFIG | *Difference: -929
+10:43:16.624 CONFIG | ----- AuctionResult: T3, agent is 0 -----
+10:43:16.624 CONFIG | ##### MCPT=850.98, bidMin=680.7840000000001, bidMax=1718.5566, bidInterval=1037.7725999999998, MMC=3480.0
+10:43:16.624 CONFIG | 
+10:43:16.624 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T4=(Task 4, 3 kg, 41305 CHF, Liverpool -> Norwich) id = 0 -----
+10:43:18.631 CONFIG | MC1=0.0, MC2=2668.0, M1=680.7840000000001, M2=1377.4298782279564, bid=1029.1069391139781, bidFactor=1.0166274281336292
+10:43:18.631 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 4, Bid = 1046, in 2006 sec
+10:43:18.631 CONFIG | 
+10:43:18.631 CONFIG | ***********************************
+10:43:18.631 CONFIG | Task 3   Winner:0 for 978
+10:43:18.631 CONFIG | estimatedBid: 699
+10:43:18.631 CONFIG | estimatedBid (without bias): 748
+10:43:18.631 CONFIG | Actual bid: 978
+10:43:18.631 CONFIG | *Difference: -279
+10:43:45.901 CONFIG | ----- AuctionResult: T4, agent is 0 -----
+10:43:45.901 CONFIG | ##### MCPT=850.98, bidMin=680.7840000000001, bidMax=1718.5566, bidInterval=1037.7725999999998, MMC=3480.0
+10:43:45.901 CONFIG | 
+10:43:45.901 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T5=(Task 5, 3 kg, 85625 CHF, Norwich -> London) id = 0 -----
+10:43:48.760 CONFIG | MC1=201.0, MC2=1150.0, M1=695.189469595964, M2=877.9264250787536, bid=786.5579473373589, bidFactor=1.0849774310594524
+10:43:48.761 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 5, Bid = 853, in 2859 sec
+10:43:48.761 CONFIG | 
+10:43:48.761 CONFIG | ***********************************
+10:43:48.761 CONFIG | Task 4   Winner:0 for 1046
+10:43:48.761 CONFIG | estimatedBid: 0
+10:43:48.761 CONFIG | estimatedBid (without bias): -17
+10:43:48.761 CONFIG | Actual bid: 1046
+10:43:48.761 CONFIG | *Difference: -1046
+10:44:16.031 CONFIG | ----- AuctionResult: T5, agent is 0 -----
+10:44:16.031 CONFIG | ##### MCPT=850.98, bidMin=680.7840000000001, bidMax=1718.5566, bidInterval=1037.7725999999998, MMC=3480.0
+10:44:16.031 CONFIG | 
+10:44:16.032 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T6=(Task 6, 3 kg, 64503 CHF, Cardiff -> London) id = 0 -----
+10:44:19.346 CONFIG | MC1=0.0, MC2=2330.0, M1=680.7840000000001, M2=1249.3321040008975, bid=965.0580520004488, bidFactor=1.0849774310594524
+10:44:19.347 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 6, Bid = 1047, in 3315 sec
+10:44:19.347 CONFIG | 
+10:44:19.347 CONFIG | ***********************************
+10:44:19.347 CONFIG | Task 5   Winner:1 for 383
+10:44:19.347 CONFIG | estimatedBid: 188
+10:44:19.347 CONFIG | estimatedBid (without bias): 0
+10:44:19.348 CONFIG | Actual bid: 853
+10:44:19.348 CONFIG | *Difference: -665
+10:44:46.617 CONFIG | ----- AuctionResult: T6, agent is 0 -----
+10:44:46.617 CONFIG | ##### MCPT=850.98, bidMin=680.7840000000001, bidMax=1718.5566, bidInterval=1037.7725999999998, MMC=3480.0
+10:44:46.617 CONFIG | 
+10:44:46.617 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T7=(Task 7, 3 kg, 68101 CHF, London -> Manchester) id = 0 -----
+10:44:51.817 CONFIG | MC1=0.0, MC2=1064.5, M1=680.7840000000001, M2=856.3546159264956, bid=768.5693079632479, bidFactor=1.0849774310594524
+10:44:51.818 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 7, Bid = 834, in 5200 sec
+10:44:51.818 CONFIG | 
+10:44:51.818 CONFIG | ***********************************
+10:44:51.818 CONFIG | Task 6   Winner:0 for 1047
+10:44:51.818 CONFIG | estimatedBid: 256
+10:44:51.818 CONFIG | estimatedBid (without bias): 0
+10:44:51.818 CONFIG | Actual bid: 1047
+10:44:51.818 CONFIG | *Difference: -791
+10:45:19.091 CONFIG | ----- AuctionResult: T7, agent is 0 -----
+10:45:19.091 CONFIG | ##### MCPT=850.98, bidMin=680.7840000000001, bidMax=1718.5566, bidInterval=1037.7725999999998, MMC=3480.0
+10:45:19.091 CONFIG | 
+10:45:19.091 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T8=(Task 8, 3 kg, 41269 CHF, Plymouth -> Birmingham) id = 0 -----
+10:45:24.731 CONFIG | MC1=2448.0, MC2=2448.0, M1=1293.0645367572722, M2=1293.0645367572722, bid=1293.0645367572722, bidFactor=0.9147706795344672
+10:45:24.731 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 8, Bid = 1183, in 5642 sec
+10:45:24.731 CONFIG | 
+10:45:24.731 CONFIG | ***********************************
+10:45:24.732 CONFIG | Task 7   Winner:1 for 710
+10:45:24.732 CONFIG | estimatedBid: 323
+10:45:24.732 CONFIG | estimatedBid (without bias): 0
+10:45:24.732 CONFIG | Actual bid: 833
+10:45:24.732 CONFIG | *Difference: -510
+10:45:52.001 CONFIG | Task 8: marginalCost = 1224.0, estimatedBid = 993
+10:45:52.002 CONFIG | ----- AuctionResult: T8, agent is 0 -----
+10:45:52.002 CONFIG | ##### MCPT=850.98, bidMin=680.7840000000001, bidMax=1718.5566, bidInterval=1037.7725999999998, MMC=3480.0
+10:45:52.002 CONFIG | 
+10:45:52.002 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T9=(Task 9, 3 kg, 75780 CHF, Portsmouth -> Plymouth) id = 0 -----
+10:45:59.307 CONFIG | MC1=0.0, MC2=2288.5, M1=680.7840000000001, M2=1234.2101920544305, bid=957.4970960272153, bidFactor=0.9147706795344672
+10:45:59.307 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 9, Bid = 876, in 7305 sec
+10:45:59.307 CONFIG | 
+10:45:59.307 CONFIG | ***********************************
+10:45:59.307 CONFIG | Task 8   Winner:0 for 1182
+10:45:59.307 CONFIG | estimatedBid: 993
+10:45:59.307 CONFIG | estimatedBid (without bias): 649
+10:45:59.307 CONFIG | Actual bid: 1182
+10:45:59.307 CONFIG | *Difference: -189
+10:46:26.579 CONFIG | Task 9: marginalCost = 1700.0, estimatedBid = 1379
+10:51:25.335 CONFIG | ----- AuctionResult: T9, agent is 0 -----
+10:51:25.336 CONFIG | ##### MCPT=850.98, bidMin=680.7840000000001, bidMax=1718.5566, bidInterval=1037.7725999999998, MMC=3480.0
+10:51:25.336 CONFIG | 
+10:51:25.336 CONFIG | 
+10:51:25.336 CONFIG | ====================== AUCTION AGENT 5 FINAL PLAN ======================================================================
+10:51:31.530 CONFIG | ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+10:51:31.530 CONFIG | AUCTION AGENT 5 : number of tasks = 8
+10:51:31.530 CONFIG | FINAL DISTANCE = 1553
+10:51:31.530 CONFIG | FINAL COST = 7769.0
+10:51:31.530 CONFIG | FINAL REWARD = 8545
+10:51:31.531 CONFIG | FINAL PROFIT = 776
+10:51:31.531 CONFIG | ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+10:51:31.531 CONFIG | ------------------------------------------------------------------------------
+10:51:31.531 CONFIG | AUCTION AGENT 5 0 INFORMATIONS :
+10:51:31.535 CONFIG | Tasks, T0:0, T1:0, T2:0, T3:0, T4:0, T5:1, T6:0, T7:1, T8:0, T9:0
+10:51:31.537 CONFIG | last1, T0:2191, T1:4573, T2:4573, T3:5321, T4:5321, T5:5522, T6:5321, T7:5321, T8:7769, T9:7769
+10:51:31.538 CONFIG | best1, T0:0, T1:2191, T2:4573, T3:4573, T4:5321, T5:5321, T6:5321, T7:5321, T8:5321, T9:7769, T10:7769
+10:51:31.538 CONFIG | mc1, T0:2191, T1:2382, T2:0, T3:748, T4:0, T5:201, T6:0, T7:0, T8:2448, T9:0
+10:51:31.539 CONFIG | bid1, T0:1164.0, T1:1324.0, T2:929.0, T3:978.0, T4:1046.0, T5:853.0, T6:1047.0, T7:833.0, T8:1182.0, T9:875.0
+10:51:31.540 CONFIG | ##################################################################################
+10:51:31.541 CONFIG | mc1, T0:2191, T1:2382, T2:0, T3:748, T4:0, T5:201, T6:0, T7:0, T8:2448, T9:0
+10:51:31.541 CONFIG | mc2, T0:1989, T1:2675, T2:2132, T3:2114, T4:2668, T5:1150, T6:2330, T7:1064, T8:2448, T9:2288
+10:51:31.541 CONFIG | m1, T0:1199, T1:1268, T2:680, T3:784, T4:680, T5:695, T6:680, T7:680, T8:1293, T9:680
+10:51:31.541 CONFIG | m2, T0:1129, T1:1380, T2:1178, T3:1172, T4:1377, T5:877, T6:1249, T7:856, T8:1293, T9:1234
+10:51:31.545 CONFIG | bid1, T0:1164.0, T1:1324.0, T2:929.0, T3:978.0, T4:1046.0, T5:853.0, T6:1047.0, T7:833.0, T8:1182.0, T9:875.0
+10:51:31.545 CONFIG | bid2:, T0:1844.0, T1:2186.0, T2:1860.0, T3:2021.0, T4:2417.0, T5:383.0, T6:1553.0, T7:710.0, T8:1224.0, T9:1700.0
+10:51:31.545 CONFIG | ##################################################################################
+10:51:31.545 CONFIG | ------------------------------------------------------------------------------
+10:51:31.545 CONFIG | ------------------------------------------------------------------------------
+10:51:31.546 CONFIG | OTHER AGENT 1 INFORMATIONS :
+10:51:31.546 CONFIG | Tasks, T0:0, T1:0, T2:0, T3:0, T4:0, T5:1, T6:0, T7:1, T8:0, T9:0
+10:51:31.546 CONFIG | last2:
+10:51:31.546 CONFIG | 0: , T0:2191, T1:2668, T2:2214, T3:2114, T4:2668, T5:1150, T6:3480, T7:2214, T8:4662, T9:4503
+10:51:31.546 CONFIG | 1: , T0:1026, T1:2689, T2:1049, T3:2441, T4:3036, T5:1524, T6:2315, T7:2588, T8:4288, T9:4229
+10:51:31.546 CONFIG | 2: , T0:2751, T1:2668, T2:2774, T3:2114, T4:2668, T5:575, T6:2905, T7:1639, T8:4087, T9:3928
+10:51:31.546 CONFIG | 
+10:51:31.549 CONFIG | best2:
+10:51:31.549 CONFIG | 0: , T0:0, T1:0, T2:0, T3:0, T4:0, T5:0, T6:1150, T7:1150, T8:2214, T9:2214, T10:2214
+10:51:31.549 CONFIG | 1: , T0:0, T1:0, T2:0, T3:0, T4:0, T5:0, T6:1524, T7:1524, T8:2588, T9:2588, T10:2588
+10:51:31.549 CONFIG | 2: , T0:0, T1:0, T2:0, T3:0, T4:0, T5:0, T6:575, T7:575, T8:1639, T9:1639, T10:1639
+10:51:31.549 CONFIG | 
+10:51:31.549 CONFIG | mc2:
+10:51:31.549 CONFIG | 0: , T0:2191, T1:2668, T2:2214, T3:2114, T4:2668, T5:1150, T6:2330, T7:1064, T8:2448, T9:2288
+10:51:31.549 CONFIG | 1: , T0:1026, T1:2689, T2:1049, T3:2441, T4:3036, T5:1524, T6:791, T7:1064, T8:1700, T9:1641
+10:51:31.549 CONFIG | 2: , T0:2751, T1:2668, T2:2774, T3:2114, T4:2668, T5:575, T6:2330, T7:1064, T8:2448, T9:2288
+10:51:31.549 CONFIG | 
+10:51:31.549 CONFIG | bid2:, T0:1844.0, T1:2186.0, T2:1860.0, T3:2021.0, T4:2417.0, T5:383.0, T6:1553.0, T7:710.0, T8:1224.0, T9:1700.0
+10:51:31.549 CONFIG | ------------------------------------------------------------------------------
+10:51:31.549 CONFIG | 
+10:51:31.549 CONFIG | FINAL BIDS AUCTION AGENT 5: 
+10:51:31.549 CONFIG |  T0:1164.0 T1:1324.0 T2:929.0 T3:978.0 T4:1046.0 T5:853.0 T6:1047.0 T7:833.0 T8:1182.0 T9:875.0
+10:51:31.550 CONFIG |  T0:1844.0 T1:2186.0 T2:1860.0 T3:2021.0 T4:2417.0 T5:383.0 T6:1553.0 T7:710.0 T8:1224.0 T9:1700.0
+10:51:31.550 CONFIG | 
+10:51:31.550 CONFIG | ***********************************
+10:51:31.551 CONFIG | Task 9   Winner:0 for 875
+10:51:31.551 CONFIG | estimatedBid: 1379
+10:51:31.551 CONFIG | estimatedBid (without bias): 1051
+10:51:31.551 CONFIG | Actual bid: 875
+10:51:31.551 CONFIG | *Difference: 504
+10:51:54.200 WARNING | Exception in thread "Thread-2" logist.LogistException: agent AuctionAgent was interrupted: null
+10:51:54.222 WARNING | 	at logist.agent.TimeoutGuard.schedule(TimeoutGuard.java:31)
+10:51:54.231 WARNING | 	at logist.agent.AuctionAgent.nextAction(AuctionAgent.java:121)
+10:51:54.242 WARNING | 	at logist.simulation.VehicleImpl.executeNextAction(VehicleImpl.java:84)
+10:51:54.243 WARNING | 	at logist.simulation.Simulation.step(Simulation.java:109)
+10:51:54.243 WARNING | 	at logist.gui.SimulationModel$1.execute(SimulationModel.java:157)
+10:51:54.245 WARNING | 	at uchicago.src.sim.engine.ScheduleGroup.execute(Unknown Source)
+10:51:54.245 WARNING | 	at uchicago.src.sim.engine.RandomScheduleGroup.execute(Unknown Source)
+10:51:54.246 WARNING | 	at uchicago.src.sim.engine.Schedule.execute(Unknown Source)
+10:51:54.247 WARNING | 	at uchicago.src.sim.engine.BaseController$1.run(Unknown Source)
+10:51:54.248 WARNING | 	at java.lang.Thread.run(Thread.java:745)
+10:51:54.248 WARNING | Caused by: java.lang.InterruptedException
+10:51:54.249 WARNING | 	at java.util.concurrent.FutureTask.awaitDone(FutureTask.java:404)
+10:51:54.250 WARNING | 	at java.util.concurrent.FutureTask.get(FutureTask.java:204)
+10:51:54.251 WARNING | 	at logist.agent.TimeoutGuard.schedule(TimeoutGuard.java:29)
+10:51:54.252 WARNING | 	... 9 more
+10:51:54.379 INFO | LogistPlatform finished successfully!
+10:51:54.382 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament/MyEvent/config-AuctionAgent-AuctionAgent5.xml -a tournament/MyEvent/agents.xml tournament/MyEvent/config.xml AuctionAgent AuctionAgent5
+10:51:54.630 CONFIG | Reading tournament/MyEvent/config.xml
+10:51:54.704 CONFIG | Reading config/settings_auction.xml
+10:51:54.954 CONFIG | Reading config/topology/england.xml
+10:51:54.974 CONFIG | Reading tournament/MyEvent/agents.xml
+10:51:55.008 CONFIG | TIMEOUT_BID: 27270
+10:51:55.008 CONFIG | TIMEOUT_PLAN: 27270
+10:51:55.018 CONFIG | Reading config/settings_auction.xml
+10:51:55.021 CONFIG | TIMEOUT_BID =30300
+10:51:55.022 CONFIG | CONFIG 0
+10:51:55.022 CONFIG | V0: capa=30, currentCity=Plymouth
+10:51:55.022 CONFIG | V1: capa=30, currentCity=Birmingham
+10:51:55.022 CONFIG | CONFIG 1
+10:51:55.022 CONFIG | V0: capa=21, currentCity=Newcastle
+10:51:55.023 CONFIG | V1: capa=39, currentCity=Norwich
+10:51:55.023 CONFIG | CONFIG 2
+10:51:55.023 CONFIG | V0: capa=12, currentCity=Manchester
+10:51:55.023 CONFIG | V1: capa=48, currentCity=Liverpool
+10:51:55.023 CONFIG | SAME CONFIG: 
+10:51:55.023 CONFIG | V0: capa=30, currentCity=Plymouth
+10:51:55.023 CONFIG | V1: capa=30, currentCity=Norwich
+10:51:55.023 CONFIG | SAME CONFIG END
+10:51:55.027 CONFIG | Maximal Marginal Cost = London to Newcastle with distance = 348.0
+10:51:55.028 CONFIG | 
+10:52:05.961 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
+10:52:24.157 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T0=(Task 0, 3 kg, 69479 CHF, Cardiff -> Sheffield) id = 1 -----
+10:52:24.385 CONFIG | MC1=2766.0, MC2=2530.8333333333335, M1=1444.323109654334, M2=1353.0194355086205, bid=1398.6712725814773, bidFactor=1.0
+10:52:24.385 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 0, Bid = 1399, in 228 sec
+10:52:24.385 CONFIG | 
+10:52:24.385 CONFIG | ***********************************
+10:52:24.385 CONFIG | Task 0   Winner:1 for 1398
+10:52:24.386 CONFIG | estimatedBid: 0
+10:52:24.386 CONFIG | estimatedBid (without bias): 0
+10:52:24.386 CONFIG | Actual bid: 1398
+10:52:24.386 CONFIG | *Difference: -1398
+10:52:51.655 CONFIG | ----- AuctionResult: T0, agent is 1 -----
+10:52:51.655 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
+10:52:51.655 CONFIG | 
+10:52:51.655 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T1=(Task 1, 3 kg, 47516 CHF, Manchester -> Norwich) id = 1 -----
+10:52:52.011 CONFIG | MC1=2382.0, MC2=2528.8333333333335, M1=1297.3663004774057, M2=1352.2604543992497, bid=1324.8133774383277, bidFactor=1.0
+10:52:52.011 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 1, Bid = 1325, in 356 sec
+10:52:52.011 CONFIG | 
+10:52:52.011 CONFIG | ***********************************
+10:52:52.011 CONFIG | Task 1   Winner:1 for 1324
+10:52:52.011 CONFIG | estimatedBid: 3081
+10:52:52.011 CONFIG | estimatedBid (without bias): 2382
+10:52:52.011 CONFIG | Actual bid: 1324
+10:52:52.011 CONFIG | *Difference: 1757
+10:53:19.281 CONFIG | ----- AuctionResult: T1, agent is 1 -----
+10:53:19.281 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
+10:53:19.281 CONFIG | 
+10:53:19.281 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T2=(Task 2, 3 kg, 68638 CHF, Cardiff -> Manchester) id = 1 -----
+10:53:19.923 CONFIG | MC1=0.0, MC2=2693.2954545454545, M1=712.6080000000002, M2=1415.6637373563938, bid=1064.1358686781969, bidFactor=1.0
+10:53:19.924 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 2, Bid = 1064, in 642 sec
+10:53:19.924 CONFIG | 
+10:53:19.924 CONFIG | ***********************************
+10:53:19.924 CONFIG | Task 2   Winner:1 for 1064
+10:53:19.924 CONFIG | estimatedBid: 0
+10:53:19.924 CONFIG | estimatedBid (without bias): 120
+10:53:19.924 CONFIG | Actual bid: 1064
+10:53:19.924 CONFIG | *Difference: -1064
+10:53:47.194 CONFIG | ----- AuctionResult: T2, agent is 1 -----
+10:53:47.194 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
+10:53:47.194 CONFIG | 
+10:53:47.194 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T3=(Task 3, 3 kg, 55553 CHF, Sheffield -> Portsmouth) id = 1 -----
+10:53:48.299 CONFIG | MC1=748.0, MC2=3031.0, M1=815.5081851716859, M2=1551.957167554423, bid=1183.7326763630545, bidFactor=1.0
+10:53:48.299 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 3, Bid = 1184, in 1105 sec
+10:53:48.300 CONFIG | 
+10:53:48.300 CONFIG | ***********************************
+10:53:48.301 CONFIG | Task 3   Winner:1 for 1183
+10:53:48.301 CONFIG | estimatedBid: 924
+10:53:48.301 CONFIG | estimatedBid (without bias): 748
+10:53:48.301 CONFIG | Actual bid: 1183
+10:53:48.301 CONFIG | *Difference: -259
+10:54:15.570 CONFIG | ----- AuctionResult: T3, agent is 1 -----
+10:54:15.571 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
+10:54:15.571 CONFIG | 
+10:54:15.571 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T4=(Task 4, 3 kg, 41305 CHF, Liverpool -> Norwich) id = 1 -----
+10:54:17.534 CONFIG | MC1=0.0, MC2=3626.0, M1=712.6080000000002, M2=1810.8687404141456, bid=1261.7383702070729, bidFactor=1.0
+10:54:17.534 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 4, Bid = 1262, in 1963 sec
+10:54:17.534 CONFIG | 
+10:54:17.534 CONFIG | ***********************************
+10:54:17.535 CONFIG | Task 4   Winner:1 for 1261
+10:54:17.535 CONFIG | estimatedBid: 193
+10:54:17.535 CONFIG | estimatedBid (without bias): 0
+10:54:17.535 CONFIG | Actual bid: 1261
+10:54:17.535 CONFIG | *Difference: -1068
+10:54:44.805 CONFIG | ----- AuctionResult: T4, agent is 1 -----
+10:54:44.805 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
+10:54:44.805 CONFIG | 
+10:54:44.805 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T5=(Task 5, 3 kg, 85625 CHF, Norwich -> London) id = 1 -----
+10:54:47.931 CONFIG | MC1=0.0, MC2=575.0, M1=712.6080000000002, M2=781.9610438273617, bid=747.2845219136809, bidFactor=1.0
+10:54:47.932 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 5, Bid = 747, in 3126 sec
+10:54:47.932 CONFIG | 
+10:54:47.932 CONFIG | ***********************************
+10:54:47.932 CONFIG | Task 5   Winner:1 for 747
+10:54:47.932 CONFIG | estimatedBid: 540
+10:54:47.932 CONFIG | estimatedBid (without bias): 201
+10:54:47.932 CONFIG | Actual bid: 747
+10:54:47.932 CONFIG | *Difference: -207
+10:55:15.202 CONFIG | ----- AuctionResult: T5, agent is 1 -----
+10:55:15.202 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
+10:55:15.202 CONFIG | 
+10:55:15.202 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T6=(Task 6, 3 kg, 64503 CHF, Cardiff -> London) id = 1 -----
+10:55:19.418 CONFIG | MC1=0.0, MC2=2774.7169811320755, M1=712.6080000000002, M2=1447.7848067635373, bid=1080.1964033817687, bidFactor=1.0
+10:55:19.418 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 6, Bid = 1080, in 4215 sec
+10:55:19.418 CONFIG | 
+10:55:19.418 CONFIG | ***********************************
+10:55:19.418 CONFIG | Task 6   Winner:1 for 1080
+10:55:19.418 CONFIG | estimatedBid: 320
+10:55:19.418 CONFIG | estimatedBid (without bias): 0
+10:55:19.418 CONFIG | Actual bid: 1080
+10:55:19.418 CONFIG | *Difference: -760
+10:55:46.689 CONFIG | ----- AuctionResult: T6, agent is 1 -----
+10:55:46.690 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
+10:55:46.690 CONFIG | 
+10:55:46.690 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T7=(Task 7, 3 kg, 68101 CHF, London -> Manchester) id = 1 -----
+10:55:52.641 CONFIG | MC1=0.0, MC2=1802.6666666666667, M1=712.6080000000002, M2=1097.58687743949, bid=905.0974387197451, bidFactor=1.0
+10:55:52.641 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 7, Bid = 905, in 5952 sec
+10:55:52.641 CONFIG | 
+10:55:52.642 CONFIG | ***********************************
+10:55:52.642 CONFIG | Task 7   Winner:0 for 710
+10:55:52.642 CONFIG | estimatedBid: 375
+10:55:52.642 CONFIG | estimatedBid (without bias): 0
+10:55:52.642 CONFIG | Actual bid: 905
+10:55:52.642 CONFIG | *Difference: -530
+10:56:19.912 CONFIG | ----- AuctionResult: T7, agent is 1 -----
+10:56:19.912 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
+10:56:19.912 CONFIG | 
+10:56:19.912 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T8=(Task 8, 3 kg, 41269 CHF, Plymouth -> Birmingham) id = 1 -----
+10:56:26.753 CONFIG | MC1=850.0, MC2=1454.5223880597016, M1=837.2579613166387, M2=991.6338083362164, bid=914.4458848264276, bidFactor=1.0
+10:56:26.753 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 8, Bid = 914, in 6841 sec
+10:56:26.753 CONFIG | 
+10:56:26.753 CONFIG | ***********************************
+10:56:26.753 CONFIG | Task 8   Winner:1 for 914
+10:56:26.753 CONFIG | estimatedBid: 2840
+10:56:26.753 CONFIG | estimatedBid (without bias): 2448
+10:56:26.753 CONFIG | Actual bid: 914
+10:56:26.754 CONFIG | *Difference: 1926
+10:56:54.026 CONFIG | ----- AuctionResult: T8, agent is 1 -----
+10:56:54.026 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
+10:56:54.026 CONFIG | 
+10:56:54.026 CONFIG | ----- AUCTION AGENT 5 ASK PRICE: T9=(Task 9, 3 kg, 75780 CHF, Portsmouth -> Plymouth) id = 1 -----
+10:57:01.778 CONFIG | MC1=850.0, MC2=2018.1081081081081, M1=837.2579613166387, M2=1168.6243355673876, bid=1002.9411484420132, bidFactor=1.0
+10:57:01.778 CONFIG | ----- AUCTION AGENT 5 : BIDDING TASK 9, Bid = 1003, in 7752 sec
+10:57:01.778 CONFIG | 
+10:57:07.714 CONFIG | ***********************************
+10:57:07.714 CONFIG | Task 9   Winner:1 for 1002
+10:57:07.714 CONFIG | estimatedBid: 160
+10:57:07.714 CONFIG | estimatedBid (without bias): 0
+10:57:07.714 CONFIG | Actual bid: 1002
+10:57:07.714 CONFIG | *Difference: -842
+10:57:34.984 CONFIG | ************** 	Agent: -354.5
+10:57:34.986 CONFIG | Vehicle 1's cost is 0.0 (0 Tasks: [], 0.0)
+10:57:34.986 CONFIG | Vehicle 2's cost is 1064.5 (1 Tasks: [Pickup (Task 7), Move (Birmingham), Move (Manchester), Deliver (Task 7)], 212.9)
+10:57:34.988 CONFIG | ----- AuctionResult: T9, agent is 1 -----
+10:57:34.988 CONFIG | ##### MCPT=890.7600000000001, bidMin=712.6080000000002, bidMax=1745.2092000000002, bidInterval=1032.6012, MMC=3480.0
+10:57:34.988 CONFIG | 
+10:57:34.988 CONFIG | 
+10:57:34.988 CONFIG | ====================== AUCTION AGENT 5 FINAL PLAN ======================================================================
+10:57:43.295 CONFIG | ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+10:57:43.295 CONFIG | AUCTION AGENT 5 : number of tasks = 9
+10:57:43.295 CONFIG | FINAL DISTANCE = 1519
+10:57:43.295 CONFIG | FINAL COST = 7596.0
+10:57:43.295 CONFIG | FINAL REWARD = 9973
+10:57:43.295 CONFIG | FINAL PROFIT = 2377
+10:57:43.295 CONFIG | ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+10:57:43.295 CONFIG | ------------------------------------------------------------------------------
+10:57:43.295 CONFIG | AUCTION AGENT 5 1 INFORMATIONS :
+10:57:43.295 CONFIG | Tasks, T0:1, T1:1, T2:1, T3:1, T4:1, T5:1, T6:1, T7:0, T8:1, T9:1
+10:57:43.296 CONFIG | last1, T0:2766, T1:5148, T2:5148, T3:5896, T4:5896, T5:5896, T6:5896, T7:5896, T8:6746, T9:7596
+10:57:43.296 CONFIG | best1, T0:0, T1:2766, T2:5148, T3:5148, T4:5896, T5:5896, T6:5896, T7:5896, T8:5896, T9:6746, T10:7596
+10:57:43.296 CONFIG | mc1, T0:2766, T1:2382, T2:0, T3:748, T4:0, T5:0, T6:0, T7:0, T8:850, T9:850
+10:57:43.296 CONFIG | bid1, T0:1398.0, T1:1324.0, T2:1064.0, T3:1183.0, T4:1261.0, T5:747.0, T6:1080.0, T7:905.0, T8:914.0, T9:1002.0
+10:57:43.296 CONFIG | ##################################################################################
+10:57:43.296 CONFIG | mc1, T0:2766, T1:2382, T2:0, T3:748, T4:0, T5:0, T6:0, T7:0, T8:850, T9:850
+10:57:43.297 CONFIG | mc2, T0:2530, T1:2528, T2:2693, T3:3031, T4:3626, T5:575, T6:2774, T7:1802, T8:1454, T9:2018
+10:57:43.297 CONFIG | m1, T0:1444, T1:1297, T2:712, T3:815, T4:712, T5:712, T6:712, T7:712, T8:837, T9:837
+10:57:43.297 CONFIG | m2, T0:1353, T1:1352, T2:1415, T3:1551, T4:1810, T5:781, T6:1447, T7:1097, T8:991, T9:1168
+10:57:43.297 CONFIG | bid1, T0:1398.0, T1:1324.0, T2:1064.0, T3:1183.0, T4:1261.0, T5:747.0, T6:1080.0, T7:905.0, T8:914.0, T9:1002.0
+10:57:43.297 CONFIG | bid2:, T0:1461.0, T1:1779.0, T2:1476.0, T3:1409.0, T4:1779.0, T5:767.0, T6:1553.0, T7:710.0, T8:1632.0, T9:1526.0
+10:57:43.297 CONFIG | ##################################################################################
+10:57:43.297 CONFIG | ------------------------------------------------------------------------------
+10:57:43.298 CONFIG | ------------------------------------------------------------------------------
+10:57:43.298 CONFIG | OTHER AGENT 0 INFORMATIONS :
+10:57:43.298 CONFIG | Tasks, T0:1, T1:1, T2:1, T3:1, T4:1, T5:1, T6:1, T7:0, T8:1, T9:1
+10:57:43.298 CONFIG | last2:
+10:57:43.298 CONFIG | 0: , T0:2766, T1:3279, T2:2789, T3:3031, T4:3626, T5:575, T6:2905, T7:1639, T8:2288, T9:3339
+10:57:43.298 CONFIG | 1: , T0:2751, T1:2668, T2:2774, T3:2114, T4:2668, T5:575, T6:2890, T7:1639, T8:4087, T9:3928
+10:57:43.298 CONFIG | 2: , T0:2075, T1:1639, T2:2099, T3:1984, T4:1813, T5:2214, T6:2214, T7:2129, T8:4577, T9:4417
+10:57:43.298 CONFIG | 
+10:57:43.298 CONFIG | best2:
+10:57:43.298 CONFIG | 0: , T0:0, T1:0, T2:0, T3:0, T4:0, T5:0, T6:0, T7:0, T8:1639, T9:1639, T10:1639
+10:57:43.298 CONFIG | 1: , T0:0, T1:0, T2:0, T3:0, T4:0, T5:0, T6:0, T7:0, T8:1639, T9:1639, T10:1639
+10:57:43.299 CONFIG | 2: , T0:0, T1:0, T2:0, T3:0, T4:0, T5:0, T6:0, T7:0, T8:2129, T9:2129, T10:2129
+10:57:43.299 CONFIG | 
+10:57:43.299 CONFIG | mc2:
+10:57:43.299 CONFIG | 0: , T0:2766, T1:3279, T2:2789, T3:3031, T4:3626, T5:575, T6:2905, T7:1639, T8:649, T9:1700
+10:57:43.299 CONFIG | 1: , T0:2751, T1:2668, T2:2774, T3:2114, T4:2668, T5:575, T6:2890, T7:1639, T8:2448, T9:2288
+10:57:43.299 CONFIG | 2: , T0:2075, T1:1639, T2:2099, T3:1984, T4:1813, T5:2214, T6:2214, T7:2129, T8:2448, T9:2288
+10:57:43.299 CONFIG | 
+10:57:43.299 CONFIG | bid2:, T0:1461.0, T1:1779.0, T2:1476.0, T3:1409.0, T4:1779.0, T5:767.0, T6:1553.0, T7:710.0, T8:1632.0, T9:1526.0
+10:57:43.299 CONFIG | ------------------------------------------------------------------------------
+10:57:43.299 CONFIG | 
+10:57:43.299 CONFIG | FINAL BIDS AUCTION AGENT 5: 
+10:57:43.299 CONFIG |  T0:1398.0 T1:1324.0 T2:1064.0 T3:1183.0 T4:1261.0 T5:747.0 T6:1080.0 T7:905.0 T8:914.0 T9:1002.0
+10:57:43.300 CONFIG |  T0:1461.0 T1:1779.0 T2:1476.0 T3:1409.0 T4:1779.0 T5:767.0 T6:1553.0 T7:710.0 T8:1632.0 T9:1526.0
+10:57:43.300 CONFIG | 
+10:57:58.612 CONFIG | Wrote tournament/MyEvent/config-AuctionAgent-AuctionAgent5.xml
+10:57:59.121 INFO | LogistPlatform finished successfully!

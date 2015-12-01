@@ -174,7 +174,7 @@ public class AuctionAgent5 implements AuctionBehavior {
 		
 		MCPT = computeMCPT(vehiclesList, null, expectedNumberOfTasks, timeout_setup);
 		updateIntervalBiding();
-		//totalReward1.add(0.0);
+		totalReward1.add(0.0);
 		totalReward2.add(0.0);
 		
 		bidFactorTable.add(bidFactor);
