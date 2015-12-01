@@ -430,7 +430,7 @@ public class AgentMeanOptimistic implements AuctionBehavior {
 			ArrayList<Task> tasks2Cloneb = (ArrayList<Task>) tasks2.clone();
 			ArrayList<Task> tasks2Clonec = (ArrayList<Task>) tasks2.clone();
 
-			NtoAdd = (expectedNumberOfTasks-tasks2.size());
+			int NtoAdd = (expectedNumberOfTasks-tasks1.size());
 			
 			// tasks.add(task);	
 			if(NtoAdd>=1) {
