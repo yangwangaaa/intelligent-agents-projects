@@ -317,19 +317,21 @@ public class AgentMerge implements AuctionBehavior {
 
 		computeMarginalCost(mc1,mc2,task);
 		//print("mc1 =" +mc1.get(proposed));
-		printMc1();
-		printMc2();
+		//printMc1();
+		//printMc2();
+
 
 		updateBestMc2(mc2);
 		printTableWeightConf();
+
 		//print("best Mc2 =" + bestMc2);
-		printTableBestMc2();
+		//printTableBestMc2();
 
 		updateBestBid1(mc1,mc2);
 		//print("bestBid1 ="+bestBid1);
-		printTableBestBid();
-		printbid1();
-		printbid2();
+		//printTableBestBid();
+		//printbid1();
+		//printbid2();
 		
 
 		long duration = System.currentTimeMillis() - actualTime;
@@ -596,6 +598,7 @@ public class AgentMerge implements AuctionBehavior {
 		//print("----- AuctionResult: T"+ proposed +", agent is "+agent.id()+" -----");
 		updateStuctures(mc1,mc2,previous, winner, bids);
 		updateWeightConf(mc1,mc2);
+
 		print("");
 	}
 

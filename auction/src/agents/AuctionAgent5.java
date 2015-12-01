@@ -41,6 +41,7 @@ public class AuctionAgent5 implements AuctionBehavior {
 	private Agent agent;
 	private Random random;
 	private MyVehicle biggestVehicle;
+	private MyVehicle smallestVehicle;
 
 	private long timeout_setup;
 	private long timeout_plan;
@@ -65,9 +66,26 @@ public class AuctionAgent5 implements AuctionBehavior {
 	private double totalReward1 = 0;
 	private double totalReward2 = 0;
 	private int expectedNumberOfTasks = 10;
+	private int numberOfTasksToAdd = 0;
 	private int carriedSize1 = 0;
 	private int carriedSize2 = 0;
-	private double meanCostPerTask;
+
+	private double MCPT;
+	private double bidMin;
+	private double bidMax;
+	private double bidInterval;
+	private double power = 1.5;
+	private ArrayList<Double> M1 = new ArrayList<Double>();
+	private ArrayList<Double> M2 = new ArrayList<Double>();
+	private double MMC = 0;
+	private double ratioLowerBound = 0.8;
+	private double ratioUpperBound = 0.33;
+	private double ratioMeanCost = 1.3;
+	private double a = 0.5;
+	private double b = 0.5;
+	private double bidFactor = 1.0;
+	
+	private ArrayList<Double> bidFactorTable = new ArrayList<Double>();
 
 	private ArrayList<Double> mc1 = new ArrayList<Double>(); // v
 	private ArrayList<Double>[] mc2 = (ArrayList<Double>[]) new ArrayList[Nconf]; // v
@@ -122,8 +140,10 @@ public class AuctionAgent5 implements AuctionBehavior {
 		this.vehiclesList = MyVehicle.transform(agent.vehicles());
 		this.Nv = vehiclesList.size();
 		this.biggestVehicle = vehiclesList.get(0);
+		this.smallestVehicle = vehiclesList.get(0);
 		for (MyVehicle v : vehiclesList) {
 			if(v.capacity() > biggestVehicle.capacity()) biggestVehicle = v;
+			if(v.capacity() < smallestVehicle.capacity()) smallestVehicle = v;
 			meanCapa = meanCapa + v.capacity()/Nv;
 		}
 		long seed = -9019554669489983951L * biggestVehicle.hashCode() * agent.id();
@@ -147,14 +167,15 @@ public class AuctionAgent5 implements AuctionBehavior {
 
 		setupStructures();	
 		createMostProbableTasks();
-		
+
 		print("");
-		
+
 		// first simulation
-		ArrayList<Task> randTasks = createSuppTasks(expectedNumberOfTasks);
-		NodePD estimate = sls.RunSLS(vehiclesList, randTasks.toArray(new Task[randTasks.size()]), timeout_setup, null);
-		meanCostPerTask = estimate.getOValue()/randTasks.size();
-		print("***MEAN COST PER TASK = " + meanCostPerTask);
+		
+		MCPT = computeMCPT(vehiclesList, null, expectedNumberOfTasks, timeout_setup);
+		updateIntervalBiding();
+		
+		bidFactorTable.add(bidFactor);
 	}
 
 	public void setupStructures(){
@@ -210,7 +231,7 @@ public class AuctionAgent5 implements AuctionBehavior {
 	@Override
 	public List<Plan> plan(List<Vehicle> vcls, TaskSet tasksSet) {
 		print("");
-		print("====================== AGENT MERGE FINAL PLAN ======================================================================");
+		print("====================== AUCTION AGENT 5 FINAL PLAN ======================================================================");
 		// init
 		this.vehiclesList = MyVehicle.transform(agent.vehicles());
 		List<Plan> plans;
@@ -250,7 +271,7 @@ public class AuctionAgent5 implements AuctionBehavior {
 		}
 
 		print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		print("AGENT MERGE : number of tasks = " + tasksSet.size());
+		print("AUCTION AGENT 5 : number of tasks = " + tasksSet.size());
 		print("FINAL DISTANCE = " + totalDist);
 		print("FINAL COST = " + bestSolution.getOValue());
 		print("FINAL REWARD = " + tasksSet.rewardSum());
@@ -258,9 +279,9 @@ public class AuctionAgent5 implements AuctionBehavior {
 		print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 
 		printInfoAgent();
-		
+
 		print("");
-		print("FINAL BIDS AGENT MERGE: ");
+		print("FINAL BIDS AUCTION AGENT 5: ");
 		for(int b=0; b<bid1.size(); b++) {
 			System.out.print(" T"+ b + ":" + bid1.get(b));
 		}
@@ -285,42 +306,87 @@ public class AuctionAgent5 implements AuctionBehavior {
 	public Long askPrice(Task task) {
 		proposed++;
 		if(task.weight>biggestVehicle.capacity()) return null;
-		print("----- AGENT MERGE ASK PRICE: T"+ proposed+ "=" + task +" id = "+agent.id()+" -----");
-		//print("askPrice for "+task.toString());
+		print("----- AUCTION AGENT 5 ASK PRICE: T"+ proposed+ "=" + task +" id = "+agent.id()+" -----");
 		long actualTime = System.currentTimeMillis();
-		Double b = (double) 0;
+		double b = 0.0;
 
 		computeMarginalCost(task);
-		//print("mc1 =" +mc1.get(proposed));
-		printMc1();
-		printMc2();
+		// printMc1();
+		// printMc2();
 
 		updateBestMc2();
-		printTableWeightConf();
+		//printTableWeightConf();
 		//print("best Mc2 =" + bestMc2);
-		printTableBestMc2();
+		//printTableBestMc2();
 
-		updateBestBid1();
+		b = computeBiding();
+		//updateBestBid1();
 		//print("bestBid1 ="+bestBid1);
-		printTableBestBid();
-		printbid1();
-		printbid2();
-		
+		//printTableBestBid();
+		//printbid1();
+		//printbid2();
+
 		long duration = System.currentTimeMillis() - actualTime;
-		print("----- AGENTMERGE : BIDDING TASK " + task.id + ", Bid = " + Math.round(b) + ", in " + duration + " sec");
+		print("----- AUCTION AGENT 5 : BIDDING TASK " + task.id + ", Bid = " + Math.round(b) + ", in " + duration + " sec");
 		print("");
 
 
-		return computeFinalBid();
+		return (long) b;
+	}
+
+	private double computeBiding() {
+		double MC1 = mc1.get(proposed);
+		double MC2 = tableBestMc2.get(proposed);
+		M1.add(projectOnBidInterval(MC1));
+		M2.add(projectOnBidInterval(MC2));
+
+		double bid = (a*M1.get(proposed)+b*M2.get(proposed))/(a+b);
+
+		print("MC1=" + MC1 + ", MC2=" + MC2 + ", M1=" + M1.get(proposed) + ", M2=" + M2.get(proposed) + ", bid=" + bid + ", bidFactor=" + bidFactor);
+
+		return Math.max(bidFactor*bid, bidMin);
+	}
+
+	private double projectOnBidInterval(double MC) {
+		double projection;
+		projection = bidMin+Math.pow((MC/MMC), power)*bidInterval;
+		return projection;
+	}
+
+	private void updateParameters(Task previous, int winner, Long[] bids) {
+		double b1 = bids[agent.id()].doubleValue();
+		double b2 = bids[1-agent.id()].doubleValue();
+		double factor = bidFactor;
+		if(winner==agent.id()) {
+			if(b1/b2<0.5) {
+				factor = bidFactor+(0.5-b1/b2)*bidFactor;
+			}
+		}
+		else {
+			if(b2/b1>0.80) {
+				factor = b2/b1*bidFactor-0.01;
+			}
+		}
+		
+		
+		bidFactor = factor;
 	}
 	
-	private long computeFinalBid() {
-		long bid = (long) 0;
-		bid = (long) bestBid1;
-		if(proposed<7) {
-			bid = (long) Math.max(meanCostPerTask, bestBid1);
-		}
-		return bid;
+	private void updateIntervalBiding() {
+		bidMin = ratioLowerBound*MCPT;
+		bidMax = MCPT + (ratioUpperBound*(MMC-MCPT));
+		bidInterval = bidMax-bidMin;
+		print("##### MCPT=" + MCPT + ", bidMin=" + bidMin + ", bidMax=" + bidMax +", bidInterval=" + bidInterval + ", MMC=" + MMC);
+	}
+	
+	@Override
+	public void auctionResult(Task previous, int winner, Long[] bids) {
+		print("----- AuctionResult: T"+ proposed +", agent is "+agent.id()+" -----");
+		updateStuctures(previous, winner, bids);
+		updateWeightConf();
+		updateParameters(previous, winner, bids);
+		updateIntervalBiding();
+		print("");
 	}
 
 	//////////////////////////////////////
@@ -328,17 +394,17 @@ public class AuctionAgent5 implements AuctionBehavior {
 	//////////////////////////////////////
 
 	private void computeMarginalCost(Task task) {
-		long timeout_agent = timeout_bid/nA;
+		long timeout_agent = timeout_bid/nA/2;
 		long timeout_opponent = timeout_bid/nA/Nconf;
-		ArrayList<Task> supp = createSuppTasks(expectedNumberOfTasks);
+		ArrayList<Task> supp = createSuppTasks(numberOfTasksToAdd);
 
 
 		// Agent
 		ArrayList<Task> tasks1Clone = (ArrayList<Task>) tasks1.clone();
 		NodePD bestSolution1;
 		int totalTasks = proposed+1;
-		int NtoAdd = (expectedNumberOfTasks-totalTasks)/2;
-		if(totalTasks <= expectedNumberOfTasks) {
+		int NtoAdd = (numberOfTasksToAdd-totalTasks)/2;
+		if(totalTasks <= numberOfTasksToAdd) {
 			timeout_agent = timeout_agent/2;
 			addSuppTasks(tasks1Clone, supp, NtoAdd);
 			bestSolution1 = sls.RunSLS(vehiclesList, tasks1Clone.toArray(new Task[tasks1Clone.size()]), timeout_agent, null);
@@ -355,6 +421,9 @@ public class AuctionAgent5 implements AuctionBehavior {
 		double margCost1 = Math.max(last1.get(proposed) - best1.get(proposed), 0);
 		mc1.add(margCost1);
 
+		// Estime MCPT
+		//MCPT = computeMCPT(vehiclesList, tasks1Clone, expectedNumberOfTasks-totalTasks, timeout_agent);
+		//updateIntervalBiding();
 
 		// Opponent		
 		for(int j=0; j<Nconf; j++) {
@@ -362,7 +431,7 @@ public class AuctionAgent5 implements AuctionBehavior {
 
 			ArrayList<Task> tasks2Clone = (ArrayList<Task>) tasks2.clone();
 			// tasks.add(task);	
-			if(totalTasks <= expectedNumberOfTasks) {
+			if(totalTasks <= numberOfTasksToAdd) {
 				addSuppTasks(tasks2Clone, supp, NtoAdd);
 				NodePD bestSolution2 = sls.RunSLS(vl, tasks2Clone.toArray(new Task[tasks2Clone.size()]), timeout_opponent/2, null);
 				tasks2Clone.add(task);
@@ -434,6 +503,11 @@ public class AuctionAgent5 implements AuctionBehavior {
 		for(City c1 : topology.cities()) {
 			for(City c2 : topology.cities()) {
 				if(!c1.equals(c2)) {
+					double distance = c1.distanceTo(c2);
+					if(2*distance>MMC) {
+						print("Maximal Marginal Cost = " + c1 + " to " + c2 + " with distance = " + distance );
+						MMC=2*distance*smallestVehicle.costPerKm();
+					}
 					double proba = distribution.probability(c1, c2);
 					//print("C1=" + c1.name + " to C2=" + c2.name + " have proba : " + proba);
 					MyTask t = new MyTask(i, c1, c2, distribution.reward(c1, c2), distribution.weight(c1, c2), proba);
@@ -475,6 +549,21 @@ public class AuctionAgent5 implements AuctionBehavior {
 		}
 	}
 
+	public double computeMCPT(List<MyVehicle> vehicles, ArrayList<Task> tasks, int expectedRemainingTasks, long timeout) {
+		double costPerTasks = 0.0;
+		ArrayList<Task> randTasks = createSuppTasks(expectedRemainingTasks);
+		if(tasks==null) {
+			NodePD estimate = sls.RunSLS(vehicles, randTasks.toArray(new Task[randTasks.size()]), timeout, null);
+			costPerTasks = estimate.getOValue()/randTasks.size();
+		}
+		else {
+			tasks.addAll(randTasks);
+			NodePD estimate = sls.RunSLS(vehicles, tasks.toArray(new Task[randTasks.size()]), timeout, null);
+			costPerTasks = estimate.getOValue()/tasks.size();
+		}
+		return ratioMeanCost*costPerTasks;
+	}
+
 	//////////////////////////////////////
 	//    COMPUTE BEST MARGINAL COST    //
 	//////////////////////////////////////
@@ -505,13 +594,6 @@ public class AuctionAgent5 implements AuctionBehavior {
 		tableBestBid.add(bestBid1);
 	}
 
-	@Override
-	public void auctionResult(Task previous, int winner, Long[] bids) {
-		print("----- AuctionResult: T"+ proposed +", agent is "+agent.id()+" -----");
-		updateStuctures(previous, winner, bids);
-		updateWeightConf();
-		print("");
-	}
 
 	//////////////////////////////////////
 	//             UPDATES              //
@@ -602,9 +684,9 @@ public class AuctionAgent5 implements AuctionBehavior {
 				}
 			}
 			//print("----");
-			printRatio();
-			print("----");
-			print("variances = "+Arrays.toString(var));
+			//printRatio();
+			//print("----");
+			//print("variances = "+Arrays.toString(var));
 
 			//update weights
 			for(int conf = 0; conf<Nconf ; conf++){
@@ -626,7 +708,7 @@ public class AuctionAgent5 implements AuctionBehavior {
 				}
 			}
 			updateTableWeightConf();
-			print("weights for the conf = "+Arrays.toString(weightConf));
+			//print("weights for the conf = "+Arrays.toString(weightConf));
 		}
 
 	}
@@ -687,13 +769,13 @@ public class AuctionAgent5 implements AuctionBehavior {
 		print("TABLE TableBestBid:");
 		print(tableBestBid.toString());
 	}
-	
+
 	public void printbid1(){
 		print("");
 		print("TABLE BID1:");
 		print(bid1.toString());
 	}
-	
+
 	public void printbid2(){
 		print("");
 		print("TABLE BID2:");
@@ -717,7 +799,7 @@ public class AuctionAgent5 implements AuctionBehavior {
 	}
 	public void printInfoAgent() {
 		print("------------------------------------------------------------------------------");
-		print("AGENTMERGE " + agent.id() + " INFORMATIONS :");
+		print("AUCTION AGENT 5 " + agent.id() + " INFORMATIONS :");
 		System.out.print("Tasks");
 		for(int a=0; a<listWinner.size(); a++) {
 			System.out.print(", T" + a + ":" + (int) listWinner.get(a));
@@ -747,6 +829,44 @@ public class AuctionAgent5 implements AuctionBehavior {
 			System.out.print(", T" + a + ":" + bid1.get(a));
 		}
 		print("");
+
+
+		print("##################################################################################");
+		System.out.print("mc1");
+		for(int a=0; a<mc1.size(); a++) {
+			System.out.print(", T" + a + ":" + mc1.get(a).intValue());
+		}
+		print("");
+		System.out.print("mc2");
+		for(int a=0; a<tableBestMc2.size(); a++) {
+			System.out.print(", T" + a + ":" + tableBestMc2.get(a).intValue());
+		}
+		print("");
+
+		System.out.print("m1");
+		for(int a=0; a<mc1.size(); a++) {
+			System.out.print(", T" + a + ":" + M1.get(a).intValue());
+		}
+		print("");
+		System.out.print("m2");
+		for(int a=0; a<tableBestMc2.size(); a++) {
+			System.out.print(", T" + a + ":" + M2.get(a).intValue());
+		}
+		print("");
+
+		System.out.print("bid1");
+		for(int a=0; a<bid1.size(); a++) {
+			System.out.print(", T" + a + ":" + bid1.get(a));
+		}
+		print("");
+		System.out.print("bid2:");
+		for(int a=0; a<bid1.size(); a++) {
+			System.out.print(", T" + a + ":" + bid2.get(a));
+		}
+		print("");
+		print("##################################################################################");
+
+
 		print("------------------------------------------------------------------------------");
 
 		print("------------------------------------------------------------------------------");
@@ -787,7 +907,7 @@ public class AuctionAgent5 implements AuctionBehavior {
 		}
 		print("");
 
-		System.out.println("bid2:");
+		System.out.print("bid2:");
 		for(int a=0; a<bid1.size(); a++) {
 			System.out.print(", T" + a + ":" + bid2.get(a));
 		}
