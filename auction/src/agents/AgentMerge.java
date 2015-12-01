@@ -64,13 +64,17 @@ public class AgentMerge implements AuctionBehavior {
 	private int Nconf = 3;    //number of configurations
 	private double totalReward1 = 0;
 	private double totalReward2 = 0;
-	private int expectedNumberOfTasks = 10;
+	private int expectedNumberOfTasks = 7;
 	private int carriedSize1 = 0;
 	private int carriedSize2 = 0;
 	private double meanCostPerTask;
 
 	private ArrayList<Double> mc1 = new ArrayList<Double>(); // v
 	private ArrayList<Double>[] mc2 = (ArrayList<Double>[]) new ArrayList[Nconf]; // v
+	private ArrayList<Double> realc1 = new ArrayList<Double>(); // v
+	private ArrayList<Double>[] realc2 = (ArrayList<Double>[]) new ArrayList[Nconf]; // v
+	private ArrayList<Double> mean1 = new ArrayList<Double>(); // v
+	private ArrayList<Double>[] mean2 = (ArrayList<Double>[]) new ArrayList[Nconf]; // v
 
 	private ArrayList<Double> last1 = new ArrayList<Double>(); // v
 	private ArrayList<Double>[] last2 = (ArrayList<Double>[]) new ArrayList[Nconf]; // v
@@ -105,6 +109,8 @@ public class AgentMerge implements AuctionBehavior {
 	private double bestMc2;
 	private ArrayList<Double> tableBestBid = new ArrayList<Double>();
 	private ArrayList<Double> tableBestMc2 = new ArrayList<Double>();
+	
+	
 
 	double shift = 200;
 	//////////////////////////////////////
@@ -167,7 +173,9 @@ public class AgentMerge implements AuctionBehavior {
 			ratio[i] = new ArrayList<Double>();
 			tableWeightConf[i] = new ArrayList<Double>();
 			mc2[i] = new ArrayList<Double>();
-
+			realc2[i] = new ArrayList<Double>();
+			mean2[i] = new ArrayList<Double>();
+			
 			last2[i] = new ArrayList<Double>();
 			best2[i] = new ArrayList<Double>();
 			best2[i].add(0.0);
@@ -186,6 +194,22 @@ public class AgentMerge implements AuctionBehavior {
 
 
 		updateTableWeightConf();
+	}
+
+	private void createMostProbableTasks() {
+		int i = 0;
+		for(City c1 : topology.cities()) {
+			for(City c2 : topology.cities()) {
+				if(!c1.equals(c2)) {
+					double proba = distribution.probability(c1, c2);
+					//print("C1=" + c1.name + " to C2=" + c2.name + " have proba : " + proba);
+					MyTask t = new MyTask(i, c1, c2, distribution.reward(c1, c2), distribution.weight(c1, c2), proba);
+					allPossibleTasks.add(t);
+					i++;
+				}
+			}
+		}
+		Collections.sort(allPossibleTasks); //TODO de plus en plus probable?
 	}
 
 	public void setSameConfigAsOurAgent() {
@@ -291,17 +315,17 @@ public class AgentMerge implements AuctionBehavior {
 		long actualTime = System.currentTimeMillis();
 		Double b = (double) 0;
 
-		computeMarginalCost(task);
+		computeMarginalCost(mc1,mc2,task);
 		//print("mc1 =" +mc1.get(proposed));
 		printMc1();
 		printMc2();
 
-		updateBestMc2();
+		updateBestMc2(mc2);
 		printTableWeightConf();
 		//print("best Mc2 =" + bestMc2);
 		printTableBestMc2();
 
-		updateBestBid1();
+		updateBestBid1(mc1,mc2);
 		//print("bestBid1 ="+bestBid1);
 		printTableBestBid();
 		printbid1();
@@ -319,9 +343,10 @@ public class AgentMerge implements AuctionBehavior {
 	private long computeFinalBid() {
 		long bid = (long) 0;
 		bid = (long) bestBid1;
-		if(proposed<7) {
+		/*if(proposed<7) {
 			bid = (long) Math.max(meanCostPerTask, bestBid1);
 		}
+		return bid;*/
 		return bid;
 	}
 
@@ -329,7 +354,7 @@ public class AgentMerge implements AuctionBehavior {
 	// 	    COMPUTE MARGINAL COST       // 
 	//////////////////////////////////////
 
-	private void computeMarginalCost(Task task) {
+	private void computeMarginalCost(ArrayList<Double>mc1,ArrayList<Double>[]mc2,Task task) {
 		long timeout_agent = timeout_bid/nA;
 		long timeout_opponent = timeout_bid/nA/Nconf;
 		ArrayList<Task> supp = createSuppTasks(expectedNumberOfTasks);
@@ -363,6 +388,81 @@ public class AgentMerge implements AuctionBehavior {
 			List<MyVehicle> vl = configs[j];
 
 			ArrayList<Task> tasks2Clone = (ArrayList<Task>) tasks2.clone();
+			// tasks.add(task);	
+			if(totalTasks <= expectedNumberOfTasks) {
+				addSuppTasks(tasks2Clone, supp, NtoAdd);
+				NodePD bestSolution2 = sls.RunSLS(vl, tasks2Clone.toArray(new Task[tasks2Clone.size()]), timeout_opponent/2, null);
+				tasks2Clone.add(task);
+				NodePD lastSolution2 = sls.RunSLS(vl, tasks2Clone.toArray(new Task[tasks2Clone.size()]), timeout_opponent/2, null);
+				double bestValue = 0;
+				if(bestSolution2!=null) bestValue = bestSolution2.getOValue();
+				best2[j].set(proposed, bestValue);
+				double lastValue2 = 0;
+				if(lastSolution2!=null) lastValue2 = lastSolution2.getOValue();
+				last2[j].add(lastValue2);
+				double margCost2 = Math.max(last2[j].get(proposed) - best2[j].get(proposed), 0);
+				mc2[j].add(margCost2);
+			}
+			else {
+				tasks2Clone.add(task);	
+				NodePD lastSolution2 = sls.RunSLS(vl, tasks2Clone.toArray(new Task[tasks2Clone.size()]), timeout_opponent, null);
+				double lastValue2 = 0;
+				if(lastSolution2!=null) lastValue2 = lastSolution2.getOValue();
+				last2[j].add(lastValue2);
+				double margCost2 = Math.max(last2[j].get(proposed) - best2[j].get(proposed), 0);
+				mc2[j].add(margCost2);
+			}
+		}
+	}
+	
+	private void computeRealCost(ArrayList<Double>mc1,ArrayList<Double>[]mc2,Task task) {
+		long timeout_agent = timeout_bid/3;//TODO modifier les time out
+		long timeout_opponent = 2*timeout_bid/3/Nconf;
+		ArrayList<Task> supp = createSuppTasks(expectedNumberOfTasks);
+		double cost1 = 0;
+		double cost2 = 0;
+
+		// Agent
+		ArrayList<Task> tasks1Clonea = (ArrayList<Task>) tasks1.clone();
+		ArrayList<Task> tasks1Cloneb = (ArrayList<Task>) tasks1.clone();
+		NodePD bestSolution1;
+		int totalTasks = proposed+1;
+		int NtoAdd = 3*(expectedNumberOfTasks-totalTasks)/4;  //TODO
+		if(totalTasks <= expectedNumberOfTasks) {
+			timeout_agent = timeout_agent/2;
+			
+			//list a
+			addSuppTasks(tasks1Clonea, supp, NtoAdd);
+			bestSolution1 = sls.RunSLS(vehiclesList, tasks1Clonea.toArray(new Task[tasks1Clonea.size()]), timeout_agent, null);
+			if(bestSolution1!=null) cost1 = bestSolution1.getOValue();
+			best1.set(proposed, cost1);
+			//mean1.add(bestValue/tasks1Clonea.size());
+		
+			// list b
+			tasks1Cloneb.add(task);
+			addSuppTasks(tasks1Cloneb, supp, NtoAdd-1);
+			NodePD lastSolution1 = sls.RunSLS(vehiclesList, tasks1Cloneb.toArray(new Task[tasks1Cloneb.size()]), timeout_agent, null);
+			if(lastSolution1!=null) cost2 = lastSolution1.getOValue();
+			last1.add(cost2);
+			double realCost1 = Math.max(cost2/tasks1Cloneb.size() + (cost2*(tasks1.size()/tasks1Cloneb.size()) - cost1*(tasks1.size()/tasks1Clonea.size())), 0);
+			mc1.add(realCost1);
+		}
+		// list b
+		tasks1Cloneb.add(task);
+		addSuppTasks(tasks1Cloneb, supp, NtoAdd-1);
+		NodePD lastSolution1 = sls.RunSLS(vehiclesList, tasks1Cloneb.toArray(new Task[tasks1Cloneb.size()]), timeout_agent, null);
+		if(lastSolution1!=null) cost2 = lastSolution1.getOValue();
+		last1.add(cost2);
+		double realCost1 = Math.max(cost2/tasks1Cloneb.size() + (cost2*(tasks1.size()/tasks1Cloneb.size()) - cost1*(tasks1.size()/tasks1Clonea.size())), 0);
+		mc1.add(realCost1);
+
+
+		// Opponent		
+		for(int j=0; j<Nconf; j++) {
+			List<MyVehicle> vl = configs[j];
+
+			ArrayList<Task> tasks2Clone = (ArrayList<Task>) tasks2.clone();
+			
 			// tasks.add(task);	
 			if(totalTasks <= expectedNumberOfTasks) {
 				addSuppTasks(tasks2Clone, supp, NtoAdd);
@@ -431,22 +531,6 @@ public class AgentMerge implements AuctionBehavior {
 		return vl;
 	}
 
-	private void createMostProbableTasks() {
-		int i = 0;
-		for(City c1 : topology.cities()) {
-			for(City c2 : topology.cities()) {
-				if(!c1.equals(c2)) {
-					double proba = distribution.probability(c1, c2);
-					//print("C1=" + c1.name + " to C2=" + c2.name + " have proba : " + proba);
-					MyTask t = new MyTask(i, c1, c2, distribution.reward(c1, c2), distribution.weight(c1, c2), proba);
-					allPossibleTasks.add(t);
-					i++;
-				}
-			}
-		}
-		Collections.sort(allPossibleTasks);
-	} 
-
 	private ArrayList<Task> createSuppTasks(int n) {
 		ArrayList<Task> tasks = new ArrayList<Task>();
 		int i = 0;
@@ -481,7 +565,7 @@ public class AgentMerge implements AuctionBehavior {
 	//    COMPUTE BEST MARGINAL COST    //
 	//////////////////////////////////////
 
-	private void updateBestMc2(){
+	private void updateBestMc2(ArrayList<Double>[]mc2){
 		bestMc2 = 0;
 		double sumWeights = 0;
 		for(int conf = 0; conf<Nconf ; conf++){
@@ -493,7 +577,7 @@ public class AgentMerge implements AuctionBehavior {
 	}
 
 
-	private void updateBestBid1() {
+	private void updateBestBid1(ArrayList<Double>mc1,ArrayList<Double>[]mc2) {
 		double m1 = mc1.get(proposed);
 		double m2 = bestMc2;
 		double factor1 = 0.5;
@@ -510,8 +594,8 @@ public class AgentMerge implements AuctionBehavior {
 	@Override
 	public void auctionResult(Task previous, int winner, Long[] bids) {
 		//print("----- AuctionResult: T"+ proposed +", agent is "+agent.id()+" -----");
-		updateStuctures(previous, winner, bids);
-		updateWeightConf();
+		updateStuctures(mc1,mc2,previous, winner, bids);
+		updateWeightConf(mc1,mc2);
 		print("");
 	}
 
@@ -519,7 +603,7 @@ public class AgentMerge implements AuctionBehavior {
 	//             UPDATES              //
 	//////////////////////////////////////
 
-	private void updateStuctures(Task previous, int winner, Long[] bids) {
+	private void updateStuctures(ArrayList<Double>mc1,ArrayList<Double>[]mc2,Task previous, int winner, Long[] bids) {
 
 		proposedTasks.add(previous);
 		int ennemy = 0;
@@ -550,12 +634,12 @@ public class AgentMerge implements AuctionBehavior {
 			tasks2.add(previous);
 			listWinner.add(ennemy);
 		}
-		updateRatio();
+		updateRatio(mc1,mc2);
 
 	}
 	
 	//TODO shift
-	private void updateRatio(){
+	private void updateRatio(ArrayList<Double>mc1,ArrayList<Double>[]mc2){
 		// TODO what is MC 0
 		//ratio
 		for(int conf = 0; conf<Nconf ; conf++){
@@ -570,7 +654,7 @@ public class AgentMerge implements AuctionBehavior {
 		}
 	}
 
-	private void updateWeightConf(){
+	private void updateWeightConf(ArrayList<Double>mc1,ArrayList<Double>[]mc2){
 		if(proposed!=0){
 			int bestConf =0;
 			double bestVar = Double.MAX_VALUE;
