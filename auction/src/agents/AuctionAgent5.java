@@ -63,9 +63,7 @@ public class AuctionAgent5 implements AuctionBehavior {
 	private int proposed = -1; //number of task proposed-1
 	private int Nst = 36;      //number of strategies
 	private int Nconf = 3;    //number of configurations
-	private double totalReward1 = 0;
-	private double totalReward2 = 0;
-	private int expectedNumberOfTasks = 10;
+	private int expectedNumberOfTasks = 15;
 	private int numberOfTasksToAdd = 0;
 	private int carriedSize1 = 0;
 	private int carriedSize2 = 0;
@@ -78,13 +76,15 @@ public class AuctionAgent5 implements AuctionBehavior {
 	private ArrayList<Double> M1 = new ArrayList<Double>();
 	private ArrayList<Double> M2 = new ArrayList<Double>();
 	private double MMC = 0;
-	private double ratioLowerBound = 0.8;
-	private double ratioUpperBound = 0.33;
-	private double ratioMeanCost = 1.3;
+	private double ratioLowerBound = 0.50; // 0.7?
+	private double ratioUpperBound = 0.25;
+	private double ratioMeanCost = 1.0;
 	private double a = 0.5;
 	private double b = 0.5;
-	private double bidFactor = 1.0;
-	
+	private double bidFactor = 0.90;
+	private ArrayList<Double> totalReward1 = new ArrayList<Double>() ; 
+	private ArrayList<Double> totalReward2 = new ArrayList<Double>() ; 
+
 	private ArrayList<Double> bidFactorTable = new ArrayList<Double>();
 
 	private ArrayList<Double> mc1 = new ArrayList<Double>(); // v
@@ -171,10 +171,12 @@ public class AuctionAgent5 implements AuctionBehavior {
 		print("");
 
 		// first simulation
-		
+
 		MCPT = computeMCPT(vehiclesList, null, expectedNumberOfTasks, timeout_setup);
 		updateIntervalBiding();
-		
+		totalReward1.add(0.0);
+		totalReward2.add(0.0);
+
 		bidFactorTable.add(bidFactor);
 	}
 
@@ -310,6 +312,11 @@ public class AuctionAgent5 implements AuctionBehavior {
 		long actualTime = System.currentTimeMillis();
 		double b = 0.0;
 
+		if(proposed>=4) {
+			ratioLowerBound = 0.8; // 0.7?
+			ratioUpperBound = 0.33;
+		}
+
 		computeMarginalCost(task);
 		// printMc1();
 		// printMc2();
@@ -367,18 +374,18 @@ public class AuctionAgent5 implements AuctionBehavior {
 				factor = b2/b1*bidFactor-0.01;
 			}
 		}
-		
-		
+
+
 		bidFactor = factor;
 	}
-	
+
 	private void updateIntervalBiding() {
 		bidMin = ratioLowerBound*MCPT;
 		bidMax = MCPT + (ratioUpperBound*(MMC-MCPT));
 		bidInterval = bidMax-bidMin;
 		print("##### MCPT=" + MCPT + ", bidMin=" + bidMin + ", bidMax=" + bidMax +", bidInterval=" + bidInterval + ", MMC=" + MMC);
 	}
-	
+
 	@Override
 	public void auctionResult(Task previous, int winner, Long[] bids) {
 		print("----- AuctionResult: T"+ proposed +", agent is "+agent.id()+" -----");
@@ -422,8 +429,8 @@ public class AuctionAgent5 implements AuctionBehavior {
 		mc1.add(margCost1);
 
 		// Estime MCPT
-		//MCPT = computeMCPT(vehiclesList, tasks1Clone, expectedNumberOfTasks-totalTasks, timeout_agent);
-		//updateIntervalBiding();
+		MCPT = computeMCPT(vehiclesList, tasks1Clone, expectedNumberOfTasks-tasks1Clone.size(), timeout_agent);
+		updateIntervalBiding();
 
 		// Opponent		
 		for(int j=0; j<Nconf; j++) {
@@ -614,6 +621,8 @@ public class AuctionAgent5 implements AuctionBehavior {
 
 		//winner
 		if (winner == agent.id()) {
+			totalReward1.add(totalReward1.get(proposed)+bids[winner]);
+			totalReward2.add(totalReward2.get(proposed));
 			carriedSize1++;
 			best1.add(last1.get(proposed));
 			for(int i=0; i<Nconf; i++) {
@@ -622,6 +631,8 @@ public class AuctionAgent5 implements AuctionBehavior {
 			tasks1.add(previous);
 			listWinner.add(agent.id());
 		}else{
+			totalReward1.add(totalReward1.get(proposed));
+			totalReward2.add(totalReward2.get(proposed)+bids[winner]);
 			carriedSize2++;
 			best1.add(best1.get(proposed));
 			for(int i=0; i<Nconf; i++) {
@@ -830,6 +841,12 @@ public class AuctionAgent5 implements AuctionBehavior {
 		}
 		print("");
 
+		System.out.print("totalReward1");
+		for(int a=0; a<totalReward1.size(); a++) {
+			System.out.print(", T" + a + ":" + totalReward1.get(a));
+		}
+		print("");
+
 
 		print("##################################################################################");
 		System.out.print("mc1");
@@ -911,6 +928,12 @@ public class AuctionAgent5 implements AuctionBehavior {
 		for(int a=0; a<bid1.size(); a++) {
 			System.out.print(", T" + a + ":" + bid2.get(a));
 		}
+
+		System.out.print("totalReward2");
+		for(int a=0; a<totalReward2.size(); a++) {
+			System.out.print(", T" + a + ":" + totalReward2.get(a));
+		}
+		print("");
 		print("");
 		print("------------------------------------------------------------------------------");
 	}
