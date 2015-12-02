@@ -85,13 +85,11 @@ public class AuctionAgent5 implements AuctionBehavior {
 	private ArrayList<Double> ratioLowerBound = new ArrayList<Double>();
 	private ArrayList<Double> ratioUpperBound = new ArrayList<Double>();
 
-
+	
 	private double ratioMeanCost = 1.2;
 	private double a = 0.5;
 	private double b = 0.5;
 	private double bidFactor = 0.90;
-	private double minBidFactor = 0.5;
-	private double maxBidFactor = 2;
 	private ArrayList<Double> totalReward1 = new ArrayList<Double>();
 	private ArrayList<Double> totalReward2 = new ArrayList<Double>(); 
 
@@ -352,7 +350,6 @@ public class AuctionAgent5 implements AuctionBehavior {
 	private double computeBiding() {
 		double MC1 = mc1.get(proposed);
 		double MC2 = tableBestMc2.get(proposed);
-		MC2Table.add(MC2);
 		M1.add(projectOnBidInterval(MC1));
 		M2.add(projectOnBidInterval(MC2));
 
@@ -377,10 +374,6 @@ public class AuctionAgent5 implements AuctionBehavior {
 			ratioLowerBound.add(1-(proposed+1)*ratioLowerBoundSlope);
 			ratioUpperBound.add((proposed+1)*ratioUpperBoundSlope);
 		}
-		else {
-			ratioLowerBound.add(ratioLowerBound.get(ratioLowerBound.size()-1));
-			ratioUpperBound.add(ratioUpperBound.get(ratioUpperBound.size()-1));
-		}
 
 		if(winner==agent.id()) {
 			if(b1/b2<0.8) {
@@ -388,27 +381,18 @@ public class AuctionAgent5 implements AuctionBehavior {
 			}
 		}
 		else {
-			if(b2/b1>0.70) {
+			if(b2/b1>0.80) {
 				factor = b2/b1*bidFactor-0.01;
-			}
-			else{
-				if(bidFactor > 1.0) {
-					factor = b2/b1*bidFactor-0.01;
-				}
 			}
 		}
 
+
 		bidFactor = factor;
-		if(factor < minBidFactor) bidFactor=minBidFactor;
-		if(factor > maxBidFactor) bidFactor=maxBidFactor;
-
-
-		bidFactorTable.add(bidFactor);
 	}
 
 	private void updateIntervalBiding() {
-		bidMin = ratioLowerBound.get(ratioLowerBound.size()-1)*MCPT;
-		bidMax = MCPT + (ratioUpperBound.get(ratioLowerBound.size()-1)*(MMC-MCPT));
+		bidMin = ratioLowerBound.get(ratioLowerBound.size())*MCPT;
+		bidMax = MCPT + (ratioUpperBound.get(ratioLowerBound.size())*(MMC-MCPT));
 		bidInterval = bidMax-bidMin;
 		print("##### MCPT=" + MCPT + ", bidMin=" + bidMin + ", bidMax=" + bidMax +", bidInterval=" + bidInterval + ", MMC=" + MMC);
 	}
@@ -908,50 +892,18 @@ public class AuctionAgent5 implements AuctionBehavior {
 			System.out.print(", T" + a + ":" + bid2.get(a));
 		}
 		print("");
-
+		
 		System.out.print("ratioLowerBound:");
 		for(int a=0; a<ratioLowerBound.size(); a++) {
 			System.out.print(", T" + a + ":" + ratioLowerBound.get(a));
 		}
 		print("");
-
+		
 		System.out.print("ratioUpperBound:");
 		for(int a=0; a<ratioUpperBound.size(); a++) {
 			System.out.print(", T" + a + ":" + ratioUpperBound.get(a));
 		}
 		print("");
-
-		System.out.print("MC1:");
-		for(int a=0; a<mc1.size(); a++) {
-			System.out.print(", T" + a + ":" + mc1.get(a));
-		}
-		print("");
-
-		System.out.print("MC2:");
-		for(int a=0; a<MC2Table.size(); a++) {
-			System.out.print(", T" + a + ":" + MC2Table.get(a));
-		}
-		print("");
-
-		System.out.print("M1:");
-		for(int a=0; a<M1.size(); a++) {
-			System.out.print(", T" + a + ":" + M1.get(a));
-		}
-		print("");
-
-		System.out.print("M2:");
-		for(int a=0; a<M2.size(); a++) {
-			System.out.print(", T" + a + ":" + M2.get(a));
-		}
-		print("");
-
-		System.out.print("bidFactorTable:");
-		for(int a=0; a<bidFactorTable.size(); a++) {
-			System.out.print(", T" + a + ":" + bidFactorTable.get(a));
-		}
-		print("");
-
-
 		print("##################################################################################");
 
 

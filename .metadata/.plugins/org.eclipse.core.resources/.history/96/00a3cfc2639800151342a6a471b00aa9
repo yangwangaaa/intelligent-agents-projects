@@ -388,7 +388,7 @@ public class AuctionAgent5 implements AuctionBehavior {
 			}
 		}
 		else {
-			if(b2/b1>0.70) {
+			if(b2/b1>0.80) {
 				factor = b2/b1*bidFactor-0.01;
 			}
 			else{
