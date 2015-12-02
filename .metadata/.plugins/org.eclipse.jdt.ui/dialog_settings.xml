@@ -105,9 +105,11 @@
 		<item value="false" key="JarManifestWizardPage.SAVE_MANIFEST"/>
 		<item value="false" key="JarPackageWizardPage.EXPORT_OUTPUT_FOLDER"/>
 		<list key="JarPackageWizardPage.DESTINATION_NAMES_ID">
+			<item value="auction/agents/AgentVladArmand.jar"/>
+			<item value="auction/agents/AgentMerge.jar"/>
+			<item value="auction/agents/Bosquillon-Somers.jar"/>
+			<item value="/Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects/Bosquillon-Somers.jar"/>
 			<item value="/Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects/agents/ReactiveW.jar"/>
-			<item value="/Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects/agents/ReactiveRandom.jar"/>
-			<item value="/Users/Vladar/Documents/Master2/Q1/IntelligentAgents/Projects/agents/Reactive.jar"/>
 		</list>
 	</section>
 	<section name="AddGetterSetterDialog">

@@ -2,20 +2,20 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="updateBestBid1" key="selection"/>
+		<item value="minCarried" key="selection"/>
 		<item value="true" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="minCarried"/>
+			<item value="expectedNumberOfTasks"/>
 			<item value="updateBestBid1"/>
-			<item value="margicost"/>
-			<item value="tableBestMc2"/>
-			<item value="strategies"/>
-			<item value="auctionResult"/>
-			<item value="updateStrategies"/>
-			<item value="findBestStrategy"/>
-			<item value="findBestConfiguration"/>
+			<item value="5"/>
+			<item value="bidFactor"/>
+			<item value="ratioLowerBound"/>
+			<item value="MC1Table"/>
+			<item value="bidFactorTable"/>
 		</list>
 		<list key="replacehistory">
 			<item value="proposed"/>

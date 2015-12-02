@@ -136,7 +136,7 @@ public class AuctionAgent1 implements AuctionBehavior {
 		
 		
 		
-		bid = (long) 600;
+		bid = (long) 800;
 		print("AGENT 1 : BIDDING TASK " + task.id + ", Bid = " + Math.round(bid));
 
 		meanBid += bid;

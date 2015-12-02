@@ -214,12 +214,6 @@ public class AuctionAgent5 implements AuctionBehavior {
 				allBid1[i][j] = new ArrayList<Double>(); 
 			}
 		}
-
-		// à retirer
-		setSameConfigAsOurAgent();
-
-
-
 		updateTableWeightConf();
 	}
 
@@ -383,8 +377,11 @@ public class AuctionAgent5 implements AuctionBehavior {
 		}
 
 		if(winner==agent.id()) {
-			if(b1/b2<0.8) {
-				factor = bidFactor+(0.8-b1/b2)*bidFactor;
+			if(b1/b2<0.80) {
+				factor = bidFactor+(0.80-b1/b2)*bidFactor;
+			}
+			else {
+				factor = (b1/b2)*bidFactor;
 			}
 		}
 		else {

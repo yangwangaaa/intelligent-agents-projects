@@ -1,117 +1,18 @@
-03:13:46.458 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament/MyEvent/config-AgentMerge2-Bosquillon-Somers.xml -a tournament/MyEvent/agents.xml tournament/MyEvent/config.xml AgentMerge2 Bosquillon-Somers
-03:13:46.603 CONFIG | Reading tournament/MyEvent/config.xml
-03:13:46.668 CONFIG | Reading config/settings_auction.xml
-03:13:46.892 CONFIG | Reading config/topology/england.xml
-03:13:46.913 CONFIG | Reading tournament/MyEvent/agents.xml
-03:13:46.964 CONFIG | Reading config/settings_auction.xml
-03:13:46.967 CONFIG | TIMEOUT_BID =30300
-03:13:46.968 CONFIG | CONFIG 0
-03:13:46.968 CONFIG | V0: capa=30, currentCity=Plymouth
-03:13:46.968 CONFIG | V1: capa=30, currentCity=Newcastle
-03:13:46.968 CONFIG | CONFIG 1
-03:13:46.968 CONFIG | V0: capa=21, currentCity=Birmingham
-03:13:46.969 CONFIG | V1: capa=39, currentCity=Sheffield
-03:13:46.969 CONFIG | CONFIG 2
-03:13:46.969 CONFIG | V0: capa=12, currentCity=Leeds
-03:13:46.969 CONFIG | V1: capa=48, currentCity=Portsmouth
-03:13:46.969 CONFIG | SAME CONFIG: 
-03:13:46.969 CONFIG | V0: capa=30, currentCity=Newcastle
-03:13:46.969 CONFIG | V1: capa=30, currentCity=London
-03:13:46.969 CONFIG | SAME CONFIG END
-03:13:46.972 CONFIG | 
-03:14:17.385 CONFIG | ***MEAN COST PER TASK = 650.6666666666666
-03:14:17.408 CONFIG | ----- AGENT MeanOptimistic ASK PRICE: T0=(Task 0, 3 kg, 69479 CHF, Cardiff -> Sheffield) id = 0 -----
-03:14:17.409 CONFIG | 
-03:14:17.409 CONFIG | ntoAdd>=1
-03:14:22.207 CONFIG | ancien best cost avec 15 task au total = 9760.0
-03:14:27.004 CONFIG | nouveau best cost avec 15 task au total = 9760.0
-03:14:27.004 CONFIG | mean new cost = 650.6666666666666 money to pay more = 0.0
-03:14:27.004 CONFIG | real cost = 650.6666666666666
-03:14:27.004 CONFIG | 
-03:14:27.004 CONFIG | opponent 0
-03:14:27.004 CONFIG | ntoAdd>=1
-03:14:33.400 CONFIG | ancien best cost avec 15 task au total = 9760.0
-03:14:33.400 CONFIG | nouveau best cost avec 15 task au total = 9760.0
-03:14:33.400 CONFIG | mean new cost = 650.6666666666666 money to pay more = 0.0
-03:14:33.400 CONFIG | real cost = 650.6666666666666
-03:14:33.400 CONFIG | proposed = 0 expected Number of task = 15size tasks1 = 0 size tasks2 = 0
-03:14:33.401 CONFIG | size task clone 1 = 15
-03:14:33.401 CONFIG | size task clone 2 = 15
-03:14:33.401 CONFIG | 
-03:14:33.401 CONFIG | opponent 1
-03:14:33.401 CONFIG | ntoAdd>=1
-03:14:39.796 CONFIG | ancien best cost avec 15 task au total = 9323.5
-03:14:39.796 CONFIG | nouveau best cost avec 15 task au total = 9323.5
-03:14:39.796 CONFIG | mean new cost = 621.5666666666667 money to pay more = 0.0
-03:14:39.796 CONFIG | real cost = 621.5666666666667
-03:14:39.796 CONFIG | proposed = 0 expected Number of task = 15size tasks1 = 0 size tasks2 = 0
-03:14:39.796 CONFIG | size task clone 1 = 15
-03:14:39.797 CONFIG | size task clone 2 = 15
-03:14:39.797 CONFIG | 
-03:14:39.797 CONFIG | opponent 2
-03:14:39.797 CONFIG | ntoAdd>=1
-03:14:46.192 CONFIG | ancien best cost avec 15 task au total = 9836.0
-03:14:46.193 CONFIG | nouveau best cost avec 15 task au total = 10738.5
-03:14:46.193 CONFIG | mean new cost = 715.9 money to pay more = 0.0
-03:14:46.193 CONFIG | real cost = 715.9
-03:14:46.193 CONFIG | proposed = 0 expected Number of task = 15size tasks1 = 0 size tasks2 = 0
-03:14:46.193 CONFIG | size task clone 1 = 15
-03:14:46.193 CONFIG | size task clone 2 = 15
-03:14:46.193 CONFIG | 
-03:14:46.194 CONFIG | table realc1 = [650.6666666666666]
-03:14:46.194 CONFIG | 
-03:14:46.194 CONFIG | TABLE REALC2:
-03:14:46.194 CONFIG | configuration 0
-03:14:46.194 CONFIG | [650.6666666666666]
-03:14:46.194 CONFIG | configuration 1
-03:14:46.194 CONFIG | [621.5666666666667]
-03:14:46.194 CONFIG | configuration 2
-03:14:46.194 CONFIG | [715.9]
-03:14:46.194 CONFIG | 
-03:14:46.194 CONFIG | TABLE WeightConf:
-03:14:46.194 CONFIG | configuration 0
-03:14:46.194 CONFIG | [1.5]
-03:14:46.195 CONFIG | configuration 1
-03:14:46.195 CONFIG | [1.5]
-03:14:46.195 CONFIG | configuration 2
-03:14:46.195 CONFIG | [1.5]
-03:14:46.195 CONFIG | 
-03:14:46.195 CONFIG | TABLE TableBestMc2:
-03:14:46.195 CONFIG | [662.7111111111111]
-03:14:46.195 CONFIG | 
-03:14:46.195 CONFIG | TABLE TableBestBid:
-03:14:46.195 CONFIG | [656.6888888888889]
-03:14:46.195 CONFIG | 
-03:14:46.195 CONFIG | TABLE BID1:
-03:14:46.195 CONFIG | []
-03:14:46.195 CONFIG | 
-03:14:46.195 CONFIG | TABLE BID2:
-03:14:46.195 CONFIG | []
-03:14:46.195 CONFIG | ----- AGENTMeanOptimistic : BIDDING TASK 0, Bid = 0, in 28785 sec
-03:14:46.196 CONFIG | 
-03:14:46.196 CONFIG | margicost
-03:14:46.196 CONFIG | 3415.0
-03:14:46.196 CONFIG | 3415000
-03:14:46.196 CONFIG | AGENT random : BIDDING TASK 0, Bid = 3415
-03:14:46.196 CONFIG | ----- AuctionResult Agent MeanOptimistic: T0, agent is 0 -----
-03:14:46.196 CONFIG | 
-03:14:46.196 CONFIG | ----- AGENT MeanOptimistic ASK PRICE: T1=(Task 1, 3 kg, 47516 CHF, Manchester -> Norwich) id = 0 -----
-03:14:46.196 CONFIG | 
-03:14:46.196 CONFIG | ntoAdd>=1
-03:14:50.993 CONFIG | ancien best cost avec 15 task au total = 9760.0
-03:14:55.791 CONFIG | nouveau best cost avec 15 task au total = 9760.0
-03:14:55.791 CONFIG | mean new cost = 650.6666666666666 money to pay more = 0.0
-03:14:55.791 CONFIG | real cost = 650.6666666666666
-03:14:55.791 CONFIG | 
-03:14:55.791 CONFIG | opponent 0
-03:14:55.791 CONFIG | ntoAdd>=1
-03:15:02.187 CONFIG | ancien best cost avec 15 task au total = 9347.0
-03:15:02.187 CONFIG | nouveau best cost avec 15 task au total = 9347.0
-03:15:02.187 CONFIG | mean new cost = 623.1333333333333 money to pay more = 0.0
-03:15:02.187 CONFIG | real cost = 623.1333333333333
-03:15:02.187 CONFIG | proposed = 1 expected Number of task = 15size tasks1 = 1 size tasks2 = 0
-03:15:02.187 CONFIG | size task clone 1 = 15
-03:15:02.187 CONFIG | size task clone 2 = 15
-03:15:02.187 CONFIG | 
-03:15:02.187 CONFIG | opponent 1
-03:15:02.188 CONFIG | ntoAdd>=1
+12:11:33.173 FINE | Run command: java -Xmx1024m -classpath logist/logist.jar logist.LogistPlatform -o tournament/MyEvent/config-Bosquillon_Somers-AuctionTemplate.xml -a tournament/MyEvent/agents.xml tournament/MyEvent/config.xml Bosquillon_Somers AuctionTemplate
+12:11:33.361 CONFIG | Reading tournament/MyEvent/config.xml
+12:11:33.453 CONFIG | Reading config/settings_auction.xml
+12:11:33.712 CONFIG | Reading config/topology/england.xml
+12:11:33.739 CONFIG | Reading tournament/MyEvent/agents.xml
+12:11:33.792 CONFIG | Reading config/settings_auction.xml
+12:11:33.796 CONFIG | TIMEOUT_BID =30300
+12:11:33.797 CONFIG | CONFIG 0
+12:11:33.797 CONFIG | V0: capa=30, currentCity=Norwich
+12:11:33.797 CONFIG | V1: capa=30, currentCity=Manchester
+12:11:33.797 CONFIG | CONFIG 1
+12:11:33.797 CONFIG | V0: capa=21, currentCity=Birmingham
+12:11:33.797 CONFIG | V1: capa=39, currentCity=London
+12:11:33.797 CONFIG | CONFIG 2
+12:11:33.798 CONFIG | V0: capa=12, currentCity=Newcastle
+12:11:33.798 CONFIG | V1: capa=48, currentCity=Cardiff
+12:11:33.799 CONFIG | Maximal Marginal Cost = London to Newcastle with distance = 348.0
+12:11:33.802 CONFIG | 
