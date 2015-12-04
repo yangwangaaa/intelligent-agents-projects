@@ -380,6 +380,9 @@ public class AuctionAgent5 implements AuctionBehavior {
 			if(b1/b2<0.80) {
 				factor = bidFactor+(0.80-b1/b2)*bidFactor;
 			}
+			else {
+				factor = (b1/b2)*bidFactor;
+			}
 		}
 		else {
 			if(b2/b1>0.70) {

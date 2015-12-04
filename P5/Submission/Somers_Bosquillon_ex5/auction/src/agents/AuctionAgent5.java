@@ -377,7 +377,7 @@ public class AuctionAgent5 implements AuctionBehavior {
 		}
 
 		if(winner==agent.id()) {
-			if(b1/b2<0.80) {
+			if(b1/b2<0.75) {
 				factor = bidFactor+(0.80-b1/b2)*bidFactor;
 			}
 		}

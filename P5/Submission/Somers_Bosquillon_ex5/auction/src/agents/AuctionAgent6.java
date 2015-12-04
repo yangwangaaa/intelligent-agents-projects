@@ -34,7 +34,7 @@ import astar.Astar;
 
 
 @SuppressWarnings("unused")
-public class AuctionAgent5 implements AuctionBehavior {
+public class AuctionAgent6 implements AuctionBehavior {
 
 	private Topology topology;
 	private TaskDistribution distribution;
@@ -80,7 +80,8 @@ public class AuctionAgent5 implements AuctionBehavior {
 	private double MMC = 0;
 	// private double ratioLowerBound = 1.0;
 	// private double ratioUpperBound = 0.001;
-	private double ratioLowerBoundSlope = 0.04;
+	private double FirstRatioLowerBoundSlope = 0.85;
+	private double ratioLowerBoundSlope = 0.025;
 	private double ratioUpperBoundSlope = 0.05;
 	private ArrayList<Double> ratioLowerBound = new ArrayList<Double>();
 	private ArrayList<Double> ratioUpperBound = new ArrayList<Double>();
@@ -185,7 +186,7 @@ public class AuctionAgent5 implements AuctionBehavior {
 		MCPT = computeMCPT(vehiclesList, null, expectedNumberOfTasks, timeout_setup);
 		totalReward1.add(0.0);
 		totalReward2.add(0.0);
-		ratioLowerBound.add(1.0);
+		ratioLowerBound.add(FirstRatioLowerBoundSlope);
 		ratioUpperBound.add(0.0);
 		updateIntervalBiding();
 
@@ -214,6 +215,12 @@ public class AuctionAgent5 implements AuctionBehavior {
 				allBid1[i][j] = new ArrayList<Double>(); 
 			}
 		}
+
+		// à retirer
+		setSameConfigAsOurAgent();
+
+
+
 		updateTableWeightConf();
 	}
 
@@ -240,7 +247,7 @@ public class AuctionAgent5 implements AuctionBehavior {
 	@Override
 	public List<Plan> plan(List<Vehicle> vcls, TaskSet tasksSet) {
 		print("");
-		print("====================== AUCTION AGENT 5 FINAL PLAN ======================================================================");
+		print("====================== AUCTION AGENT 6 FINAL PLAN ======================================================================");
 		// init
 		this.vehiclesList = MyVehicle.transform(agent.vehicles());
 		List<Plan> plans;
@@ -280,7 +287,7 @@ public class AuctionAgent5 implements AuctionBehavior {
 		}
 
 		print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		print("AUCTION AGENT 5 : number of tasks = " + tasksSet.size());
+		print("AUCTION AGENT 6 : number of tasks = " + tasksSet.size());
 		print("FINAL DISTANCE = " + totalDist);
 		print("FINAL COST = " + bestSolution.getOValue());
 		print("FINAL REWARD = " + tasksSet.rewardSum());
@@ -290,7 +297,7 @@ public class AuctionAgent5 implements AuctionBehavior {
 		printInfoAgent();
 
 		print("");
-		print("FINAL BIDS AUCTION AGENT 5: ");
+		print("FINAL BIDS AUCTION AGENT 6: ");
 		for(int b=0; b<bid1.size(); b++) {
 			System.out.print(" T"+ b + ":" + bid1.get(b));
 		}
@@ -315,7 +322,7 @@ public class AuctionAgent5 implements AuctionBehavior {
 	public Long askPrice(Task task) {
 		proposed++;
 		if(task.weight>biggestVehicle.capacity()) return null;
-		print("----- AUCTION AGENT 5 ASK PRICE: T"+ proposed+ "=" + task +" id = "+agent.id()+" -----");
+		print("----- AUCTION AGENT 6 ASK PRICE: T"+ proposed+ "=" + task +" id = "+agent.id()+" -----");
 		long actualTime = System.currentTimeMillis();
 		double b = 0.0;
 
@@ -336,7 +343,7 @@ public class AuctionAgent5 implements AuctionBehavior {
 		//printbid2();
 
 		long duration = System.currentTimeMillis() - actualTime;
-		print("----- AUCTION AGENT 5 : BIDDING TASK " + task.id + ", Bid = " + Math.round(b) + ", in " + duration + " sec");
+		print("----- AUCTION AGENT 6 : BIDDING TASK " + task.id + ", Bid = " + Math.round(b) + ", in " + duration + " sec");
 		print("");
 
 
@@ -367,9 +374,13 @@ public class AuctionAgent5 implements AuctionBehavior {
 		double b1 = bids[agent.id()].doubleValue();
 		double b2 = bids[1-agent.id()].doubleValue();
 		double factor = bidFactor;
-		if(proposed<10) {
-			ratioLowerBound.add(1-(proposed+1)*ratioLowerBoundSlope);
-			ratioUpperBound.add((proposed+1)*ratioUpperBoundSlope);
+		if(proposed<15) {
+			double r1 = FirstRatioLowerBoundSlope-(proposed+1)*ratioLowerBoundSlope;
+			double r2 = (proposed+1)*ratioUpperBoundSlope;
+			r1 = Math.max(0.3, r1);
+			r2 = Math.min(0.7, r2);
+			ratioLowerBound.add(r1);
+			ratioUpperBound.add(r2);
 		}
 		else {
 			ratioLowerBound.add(ratioLowerBound.get(ratioLowerBound.size()-1));
@@ -377,8 +388,11 @@ public class AuctionAgent5 implements AuctionBehavior {
 		}
 
 		if(winner==agent.id()) {
-			if(b1/b2<0.80) {
-				factor = bidFactor+(0.80-b1/b2)*bidFactor;
+			if(b1/b2<0.85) {
+				factor = bidFactor+(0.85-b1/b2)*bidFactor*0.8;
+			}
+			else {
+				factor = (b1/b2)*bidFactor;
 			}
 		}
 		else {
@@ -831,7 +845,7 @@ public class AuctionAgent5 implements AuctionBehavior {
 	}
 	public void printInfoAgent() {
 		print("------------------------------------------------------------------------------");
-		print("AUCTION AGENT 5 " + agent.id() + " INFORMATIONS :");
+		print("AUCTION AGENT 6 " + agent.id() + " INFORMATIONS :");
 		System.out.print("Tasks");
 		for(int a=0; a<listWinner.size(); a++) {
 			System.out.print(", T" + a + ":" + (int) listWinner.get(a));
