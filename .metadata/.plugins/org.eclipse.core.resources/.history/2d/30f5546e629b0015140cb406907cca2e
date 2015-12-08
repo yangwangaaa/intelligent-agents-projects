@@ -36,7 +36,7 @@ import astar.Astar;
 @SuppressWarnings("unused")
 public class AgentMerge implements AuctionBehavior {
 
-	private int expectedNumberOfTasks = 7;
+	private int expectedNumberOfTasks = 10;
 	private Topology topology;
 	private TaskDistribution distribution;
 	private Agent agent;

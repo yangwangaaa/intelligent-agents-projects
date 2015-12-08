@@ -105,11 +105,11 @@
 		<item value="false" key="JarManifestWizardPage.SAVE_MANIFEST"/>
 		<item value="false" key="JarPackageWizardPage.EXPORT_OUTPUT_FOLDER"/>
 		<list key="JarPackageWizardPage.DESTINATION_NAMES_ID">
+			<item value="auction/agents/AllAgent.jar"/>
 			<item value="auction/agents/AgentTemplate.jar"/>
 			<item value="auction/agents/Agent800.jar"/>
 			<item value="auction/agents/AgentBosquillonSomers.jar"/>
 			<item value="auction/agents/AgentVladArmand.jar"/>
-			<item value="auction/agents/AgentMerge.jar"/>
 		</list>
 	</section>
 	<section name="AddGetterSetterDialog">

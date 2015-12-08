@@ -36,7 +36,7 @@ import astar.Astar;
 @SuppressWarnings("unused")
 public class AgentMerge implements AuctionBehavior {
 
-	private int expectedNumberOfTasks = 7;
+	private int expectedNumberOfTasks = 10;
 	private Topology topology;
 	private TaskDistribution distribution;
 	private Agent agent;
@@ -345,9 +345,10 @@ public class AgentMerge implements AuctionBehavior {
 	private long computeFinalBid() {
 		long bid = (long) 0;
 		bid = (long) bestBid1;
-		if(proposed<7) {
-			bid = (long) Math.max(0.4*meanCostPerTask, bestBid1);
+		/*if(proposed<7) {
+			bid = (long) Math.max(meanCostPerTask, bestBid1);
 		}
+		return bid;*/
 		return bid;
 	}
 
